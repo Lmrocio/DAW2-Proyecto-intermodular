@@ -90,13 +90,16 @@ Este workflow se encarga de automatizar la generación, conversión y despliegue
 ---
 
 ### Mensajes de commit:
-Adjunto un captura con algunos de los últimos commit realizados donde trato de indicar de forma clara y descriptiva los cambios realizados en el proyecto. No todos los commits están escritos en imperativo, pero todos detallan claramente las modificaciones realizadas para no dejar margen de equivocación.
+Adjunto una captura con algunos de los últimos commit realizados donde trato de indicar de forma clara y descriptiva los cambios realizados en el proyecto. No todos los commits están escritos en imperativo, pero todos detallan claramente las modificaciones realizadas para no dejar margen de equivocación.
 
 <img width="1649" height="670" alt="Captura de pantalla 2025-10-13 214637" src="https://github.com/user-attachments/assets/145d8b84-c52d-4434-9058-ab7dc541fe4f" />
 
 ---
 
 ### Evidencia de configuración SSH para GitHub:
+Adjunto una captura de pantalla como evidencia:
+
+<img width="722" height="94" alt="Captura de pantalla 2025-10-13 215448" src="https://github.com/user-attachments/assets/36338419-c4f2-4235-9e65-ec589e08ebb1" />
 
 ---
 
