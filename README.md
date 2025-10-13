@@ -199,6 +199,16 @@ Por último, el workflow despliega automáticamente la documentación HTML en ``
 ---
  
 ### e. Control de versiones. Muestra mensajes de commit que evidencien el nuevo workflow. ¿Son claros y descriptivos? Justifícalo. Ademas de un conjunto de mensajes de tus commits.
+Adjunto una captura, como evidencia, con algunos de los últimos commits realizados, donde trato de indicar de forma clara y descriptiva los cambios realizados en el proyecto:
+
+<img width="1649" height="670" alt="Captura de pantalla 2025-10-13 214637" src="https://github.com/user-attachments/assets/145d8b84-c52d-4434-9058-ab7dc541fe4f" />
+
+En el desarrollo del proyecto he procurado mantener mensajes de commit claros y descriptivos, ya que son esenciales para entender la evolución del repositorio y facilitar el trabajo en equipo. Aunque no todos mis commits están escritos en imperativo, he priorizado que sean precisos y comprensibles, siguiendo una estructura que facilita la lectura tanto por parte de otros colaboradores como por mí misma en futuras revisiones. Esto resulta especialmente útil en proyectos con automatizaciones, como en este caso, donde el workflow genera y actualiza documentación de forma continua; de hecho, podemos ver que he incluido un paso específico para ello: 
+
+````bash
+git commit -m "Actualización documentación [skip ci]"
+````
+Este paso permite que ``GitHub Actions`` suba los cambios generados en ``/docs`` tras crear la documentación en HTML y PDF. La etiqueta ``[skip ci]`` se usa para indicar a ``GitHub Actions`` que no vuelva a ejecutar los workflows automáticamente por ese commit, evitando así un bucle infinito de ejecuciones cada vez que se actualiza la documentación.
 
 ---
  
