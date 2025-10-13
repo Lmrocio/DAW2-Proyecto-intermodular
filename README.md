@@ -49,7 +49,7 @@
 <br>
 
 ### Ejemplos de código documentado y fragmento con las etiquetas/estructura usadas:
-Clase principal documentada: [AplicacionSaludo.java](backend/src/main/java/com/example/backend)
+Clase principal documentada: [AplicacionSaludo.java]([backend/src/main/java/com/example/backend](https://github.com/Lmrocio/DAW2-Proyecto-intermodular/blob/c62a2b2825a9846c8838bfb74056fd29630f220f/backend/src/main/java/com/example/backend/AplicacionSaludo.java#L23-L34 )
   ```java
     /**
      * Método principal que construye un saludo simple.
