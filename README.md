@@ -47,6 +47,22 @@
 ---
 
 ### Ejemplos de código documentado y fragmento con las etiquetas/estructura usadas:
+Clase principal documentada: [AplicacionSaludo.java](backend/src/main/java/com/example/backend)
+  ```java
+    /** //Bloque JavaDoc
+     * Método principal que construye un saludo simple.
+     *
+     * @param nombre nombre de la persona; si es nulo o vacío se usa "Edu" //describe los parámetros del método
+     * @return saludo en texto plano //describe la salida del método
+     */
+    public String saludar(String nombre) {
+        if (nombre == null || nombre.isBlank()) {
+            nombre = "Edu";
+        }
+        return "¡Hola, " + nombre + "!";
+    }
+  ```
+La documentación está escrita siguiendo el estilo y la sintaxis de ``JavaDoc``, el estándar en Java, que permite documentar clases y métodos con bloques ``/** ... */`` y etiquetas como ``@param``, la cual describe los parámetros de entrada del método, y ``@return``, para describir las salidas del método.
 
 ---
 
