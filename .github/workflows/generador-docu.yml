@@ -1,0 +1,91 @@
+name: Generador de Documentación en HTML y PDF
+
+permissions:
+  contents: write
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  generate-docs:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      # Clonar repo
+      - name: Clonar repo
+        uses: actions/checkout@v4
+
+      # Configuración Java 21
+      - name: Configuración Java 21
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      # Configuración para Maven
+      - name: Configuración Maven
+        uses: hb0730/maven-action@v1.0.2
+        with:
+          maven-version: 3.9.11
+
+      # Generar Javadoc HTML
+      - name: Generar Javadoc HTML
+        run: mvn clean javadoc:javadoc
+
+      # Instalar wkhtmltopdf
+      - name: Instalación wkhtmltopdf
+        run: sudo apt-get update && sudo apt-get install -y wkhtmltopdf
+
+      # Generar PDF
+      - name: Convertir HTMLs a PDFs
+        run: |
+          mkdir -p target/reports/pdf
+          for html in $(find target/reports/apidocs -type f -name "*.html"); do
+            base=$(basename "$html" .html)
+            pdf="target/reports/pdf/${base}.pdf"
+            echo "Generando $pdf..."
+            wkhtmltopdf --enable-local-file-access "file://$(pwd)/$html" "$pdf"
+          done
+
+      # PDFs como artefactos en GitHub
+      - name: Subir PDFs
+        uses: actions/upload-artifact@v4
+        with:
+          name: javadoc-pdfs
+          path: backend/target/reports/pdf/*.pdf
+
+      # HTML y PDF a /docs
+      - name: Actualizar docs
+        run: |
+          rm -rf ../docs/*
+          mkdir -p ../docs/pdf
+          cp -r target/reports/apidocs/* ../docs/
+          cp -r target/reports/pdf/* ../docs/pdf/
+        working-directory: backend
+
+      # Commit y push de Doc a Main.
+      - name: Commit and push actualización docs
+        run: |
+          cd ..
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs
+          git commit -m "Actualización documentación [skip ci]"
+          git push origin HEAD:${GITHUB_REF#refs/heads/}
+
+      # HTML a GitHub Pages
+      - name: Despliegue HTML a GitHub Pages
+        uses: Cecilapp/GitHub-Pages-deploy@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          email: lmrocio@iesrafaelalberti.es
+          build_dir: backend/target/reports/apidocs
+          branch: gh-pages
+          commit_message: "Despliegue GitHub Pages"
