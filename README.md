@@ -47,21 +47,11 @@
 ---
 
 ### Ejemplos de código documentado y fragmento con las etiquetas/estructura usadas:
-Clase principal documentada: [AplicacionSaludo.java](https://github.com/Lmrocio/DAW2-Proyecto-intermodular/blob/c62a2b2825a9846c8838bfb74056fd29630f220f/backend/src/main/java/com/example/backend/AplicacionSaludo.java#L23-L34)
-  ```java
-    /**
-     * Método principal que construye un saludo simple.
-     *
-     * @param nombre nombre de la persona; si es nulo o vacío se usa "Edu"
-     * @return saludo en texto plano
-     */
-    public String saludar(String nombre) {
-        if (nombre == null || nombre.isBlank()) {
-            nombre = "Edu";
-        }
-        return "¡Hola, " + nombre + "!";
-    }
-  ```
+Clase principal documentada: 
+
+(https://github.com/Lmrocio/DAW2-Proyecto-intermodular/blob/c62a2b2825a9846c8838bfb74056fd29630f220f/backend/src/main/java/com/example/backend/AplicacionSaludo.java#L23-L34)
+
+
 La documentación está escrita siguiendo el estilo y la sintaxis de ``JavaDoc``, el estándar en Java, que permite documentar clases y métodos con bloques ``/** ... */`` y etiquetas como ``@param``, la cual describe los parámetros de entrada del método, y ``@return``, para describir las salidas del método.
 
 ---
@@ -111,11 +101,14 @@ Para reproducir la documentación del proyecto, puedes hacerlo **de forma local*
    ```bash
    git clone https://github.com/Lmrocio/DAW2-Proyecto-intermodular.git
    cd DAW2-Proyecto-intermodular/backend
-  ```
+   ```
+
 2. Ejecuta el siguiente comando de Maven para generar la documentación HTML en ``target/reports/apidocs/``:
+
   ```bash
   mvn clean javadoc:javadoc
   ```
+
 ***Opción 2: A través de GitHub Actions***
 Cada vez que se haga push a la rama main o se ejecute manualmente el workflow (workflow_dispatch), se iniciará automáticamente el job generate-docs, que:
 - Genera la documentación HTML con Maven.
@@ -222,6 +215,9 @@ En este proyecto, el repositorio es público para garantizar un fácil acceso a 
  
 ### g. Instalación/uso documentados. Indica dónde en el README.md explicas el funcionamiento del workflow y dónde detallas las herramientas y comandos de documentación.
 
+- [Herramientas y comandas empleados](#herramientas-usadas-para-generar-documentaci%C3%B3n-y-comandos-ejecutados) y [Pregunta A](#a-identificaci%C3%B3n-de-herramientas-de-generaci%C3%B3n-de-documentaci%C3%B3n-qu%C3%A9-herramienta-o-generador-p-ej-sphinx-pdoc-javadoc-doxygen-dokka-utilizaste-en-el-workflow-para-crear-la-documentaci%C3%B3n-en-docs)
+- [Breve explicación del workflow](#explicaci%C3%B3n-breve-del-workflow)
+  
 ---
  
 ### h. Integración continua. Justifica por qué el workflow utilizado es CI. ¿Qué evento dispara automáticamente la generación/actualización de la documentación (p. ej., push, pull_request, workflow_dispatch)?
