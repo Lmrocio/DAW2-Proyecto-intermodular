@@ -105,9 +105,9 @@ Para reproducir la documentación del proyecto, puedes hacerlo **de forma local*
 
 2. Ejecuta el siguiente comando de Maven para generar la documentación HTML en ``target/reports/apidocs/``:
 
-  ```bash
-  mvn clean javadoc:javadoc
-  ```
+   ```bash
+   mvn clean javadoc:javadoc
+   ```
 
 ***Opción 2: A través de GitHub Actions***
 Cada vez que se haga push a la rama main o se ejecute manualmente el workflow (workflow_dispatch), se iniciará automáticamente el job generate-docs, que:
@@ -128,7 +128,7 @@ Con esta segunda opción evitamos instalar ``wkhtmltopdf`` localmente, por lo qu
 En este proyecto se ha utilizado ``Javadoc`` como herramienta principal de generación de documentación.
 Javadoc es el generador oficial de documentación para proyectos Java, incluido dentro del JDK, y permite transformar los comentarios estructurados del código fuente (con etiquetas como ``@param``, ``@return``, etc.) en una página web navegable en formato HTML.
 
-El workflow de GitHub Actions ejecuta el siguiente comando para generar dicha documentación en la carpeta /docs: 
+El workflow de GitHub Actions ejecuta el siguiente comando para generar dicha documentación: 
 ````bash
 mvn clean javadoc:javadoc
 ````
@@ -142,22 +142,11 @@ Posteriormente, se emplea la herramienta wkhtmltopdf para convertir esos archivo
  
 ### b. Documentación de componentes. Muestra un fragmento del código con comentarios/docstrings estructurados (p. ej., :param, :return: o etiquetas equivalentes) que haya sido procesado por la herramienta. Comenta que estilo de documentación has utlicado: (p. ej., reStructuredText, Google Style, KDoc)
 
-A continuación, muestro un fragmento del código fuente documentado con el formato JavaDoc, que ha sido procesado por la herramienta Javadoc para generar la documentación en formato HTML y PDF [enlace al código fuente](https://github.com/Lmrocio/DAW2-Proyecto-intermodular/blob/c62a2b2825a9846c8838bfb74056fd29630f220f/backend/src/main/java/com/example/backend/AplicacionSaludo.java#L23-L34)
+A continuación, muestro un fragmento del código fuente documentado con el formato JavaDoc, que ha sido procesado por la herramienta Javadoc para generar la documentación en formato HTML y PDF:
 
-````bash
-  /**
-     * Método principal que construye un saludo simple.
-     *
-     * @param nombre nombre de la persona; si es nulo o vacío se usa "Edu"
-     * @return saludo en texto plano
-     */
-    public String saludar(String nombre) {
-        if (nombre == null || nombre.isBlank()) {
-            nombre = "Edu";
-        }
-        return "¡Hola, " + nombre + "!";
-    }
-````
+
+(https://github.com/Lmrocio/DAW2-Proyecto-intermodular/blob/c62a2b2825a9846c8838bfb74056fd29630f220f/backend/src/main/java/com/example/backend/AplicacionSaludo.java#L23-L34)
+
 La documentación está escrita siguiendo el estilo ``JavaDoc``, el estándar utilizado en proyectos Java.
 Este formato emplea comentarios estructurados entre /** ... */ y etiquetas como:
 - ``@param``: describe los parámetros de entrada del método.
@@ -175,7 +164,7 @@ Además del HTML producido por Javadoc, se generó PDF como segundo formato. El 
 - ``Ubuntu (runner)``: entorno en ubuntu-latest donde se instala ``wkhtmltopdf`` mediante ``apt-get``.
 - ``GitHub Actions``: coordina todo el proceso (generación, conversión, subida y despliegue). El workflow de ``GitHub Actions`` recorre los HTML y genera PDFs en ``target/reports/pdf/`` y ``docs/pdf/``.
 - ``actions/upload-artifact``: sube los PDF como artefactos del workflow. De esta forma, los PDFs quedan disponibles de dos maneras: artefactos descargables desde el workflow y copiados dentro de ``docs/pdf/`` en el repositorio.
-- ``Script shell'': para los comandos ``find``, ``realpath``, ``mkdir``, ``wkhtmltopdf``, etc., que permiten iterar y convertir archivos.
+- ``Script shell``: para los comandos ``find``, ``realpath``, ``mkdir``, ``wkhtmltopdf``, etc., que permiten iterar y convertir archivos.
 
 ---
  
@@ -183,7 +172,7 @@ Además del HTML producido por Javadoc, se generó PDF como segundo formato. El 
 
 GitHub permite que varios colaboradores mantengan el ``README.md`` y la carpeta ``/docs`` de forma organizada y controlada. Cada cambio se puede realizar en una rama aparte y enviarse mediante ``pull request``(PR), permitiendo revisiones de otros miembros antes de fusionar con la rama ``main``.
 
-Los workflows de ^^GitHub Actions`` se ejecutan automáticamente en cada PR o ``push``, generando la documentación HTML y PDF para comprobar que se crea correctamente antes de integrarla. Esto asegura que la documentación de ``/docs`` y los PDFs se mantengan consistentes y funcionales.
+Los workflows de ``GitHub Actions`` se ejecutan automáticamente en cada PR o ``push``, generando la documentación HTML y PDF para comprobar que se crea correctamente antes de integrarla. Esto asegura que la documentación de ``/docs`` y los PDFs se mantengan consistentes y funcionales.
 
 Además, la protección de la rama ``main`` obliga a aprobar PRs y pasar los checks de ``CI`` (Continuous Integration) antes de fusionar, evitando que cambios que rompan la generación de documentación lleguen al repositorio principal. Cada actualización queda registrada en el historial de ``commits``, proporcionando trazabilidad y responsabilidad compartida.
 
@@ -221,6 +210,13 @@ En este proyecto, el repositorio es público para garantizar un fácil acceso a 
 ---
  
 ### h. Integración continua. Justifica por qué el workflow utilizado es CI. ¿Qué evento dispara automáticamente la generación/actualización de la documentación (p. ej., push, pull_request, workflow_dispatch)?
+
+El workflow utilizado se considera ``Integración Continua`` (CI) porque automatiza la generación y actualización de la documentación cada vez que hay cambios en el repositorio, verificando que el proyecto sigue funcionando correctamente sin intervención manual. Cada ejecución del workflow se dispara automáticamente por los siguientes eventos:
+
+- push a la rama main: cuando se suben cambios al repositorio principal, se genera y actualiza la documentación en HTML y PDF.
+- workflow_dispatch: permite ejecutar el workflow de forma manual desde la pestaña Actions, facilitando generar la documentación cuando se desee, sin necesidad de hacer un push.
+
+Este enfoque asegura que la documentación esté siempre actualizada y consistente con el código fuente, integrándose de forma automática en /docs y desplegándose en GitHub Pages.
 
 ---
  
