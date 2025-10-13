@@ -46,8 +46,6 @@
 - ``GitHub Actions``: Empleado para la automatización de la documentación del proyecto, integrándose en el repositorio de trabajo (es decir, nos permite tener un historial de los artefactos así como mantener una publicación automática en ``GitHub Pages``).
 ---
 
-<br>
-
 ### Ejemplos de código documentado y fragmento con las etiquetas/estructura usadas:
 Clase principal documentada: [AplicacionSaludo.java](https://github.com/Lmrocio/DAW2-Proyecto-intermodular/blob/c62a2b2825a9846c8838bfb74056fd29630f220f/backend/src/main/java/com/example/backend/AplicacionSaludo.java#L23-L34)
   ```java
@@ -68,12 +66,11 @@ La documentación está escrita siguiendo el estilo y la sintaxis de ``JavaDoc``
 
 ---
 
-<br>
-
 ### Formatos generados (HTML + PDF) y enlaces a cada uno:
 
 - [Formato HTML](docs)
 - [Formato PDF](docs/pdf)
+
 ---
 
 ### Explicación breve del workflow:
@@ -93,6 +90,9 @@ Este workflow se encarga de automatizar la generación, conversión y despliegue
 ---
 
 ### Mensajes de commit:
+Adjunto un captura con algunos de los últimos commit realizados donde trato de indicar de forma clara y descriptiva los cambios realizados en el proyecto. No todos los commits están escritos en imperativo, pero todos detallan claramente las modificaciones realizadas para no dejar margen de equivocación.
+
+<img width="1649" height="670" alt="Captura de pantalla 2025-10-13 214637" src="https://github.com/user-attachments/assets/145d8b84-c52d-4434-9058-ab7dc541fe4f" />
 
 ---
 
