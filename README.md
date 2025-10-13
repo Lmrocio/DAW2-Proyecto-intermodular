@@ -46,14 +46,16 @@
 - ``GitHub Actions``: Empleado para la automatización de la documentación del proyecto, integrándose en el repositorio de trabajo (es decir, nos permite tener un historial de los artefactos así como mantener una publicación automática en ``GitHub Pages``).
 ---
 
+<br>
+
 ### Ejemplos de código documentado y fragmento con las etiquetas/estructura usadas:
 Clase principal documentada: [AplicacionSaludo.java](backend/src/main/java/com/example/backend)
   ```java
-    /** //Bloque JavaDoc
+    /**
      * Método principal que construye un saludo simple.
      *
-     * @param nombre nombre de la persona; si es nulo o vacío se usa "Edu" //describe los parámetros del método
-     * @return saludo en texto plano //describe la salida del método
+     * @param nombre nombre de la persona; si es nulo o vacío se usa "Edu"
+     * @return saludo en texto plano
      */
     public String saludar(String nombre) {
         if (nombre == null || nombre.isBlank()) {
@@ -66,8 +68,12 @@ La documentación está escrita siguiendo el estilo y la sintaxis de ``JavaDoc``
 
 ---
 
+<br>
+
 ### Formatos generados (HTML + PDF) y enlaces a cada uno:
 
+- [Formato HTML](docs)
+- [Formato PDF](docs/pdf)
 ---
 
 ### Explicación breve del workflow:
