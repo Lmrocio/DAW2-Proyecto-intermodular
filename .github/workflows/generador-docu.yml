@@ -62,7 +62,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: javadoc-pdfs
-          path: backend/target/reports/pdf/*.pdf
+          path: backend/target/reports/pdf/**/*.pdf
 
       # HTML y PDF a /docs
       - name: Actualizar docs
