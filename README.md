@@ -49,7 +49,7 @@
 ### Ejemplos de código documentado y fragmento con las etiquetas/estructura usadas:
 Clase principal documentada: 
 
-(https://github.com/Lmrocio/DAW2-Proyecto-intermodular/blob/c62a2b2825a9846c8838bfb74056fd29630f220f/backend/src/main/java/com/example/backend/AplicacionSaludo.java#L23-L34)
+https://github.com/Lmrocio/DAW2-Proyecto-intermodular/blob/c62a2b2825a9846c8838bfb74056fd29630f220f/backend/src/main/java/com/example/backend/AplicacionSaludo.java#L23-L34
 
 
 La documentación está escrita siguiendo el estilo y la sintaxis de ``JavaDoc``, el estándar en Java, que permite documentar clases y métodos con bloques ``/** ... */`` y etiquetas como ``@param``, la cual describe los parámetros de entrada del método, y ``@return``, para describir las salidas del método.
@@ -145,7 +145,7 @@ Posteriormente, se emplea la herramienta wkhtmltopdf para convertir esos archivo
 A continuación, muestro un fragmento del código fuente documentado con el formato JavaDoc, que ha sido procesado por la herramienta Javadoc para generar la documentación en formato HTML y PDF:
 
 
-(https://github.com/Lmrocio/DAW2-Proyecto-intermodular/blob/c62a2b2825a9846c8838bfb74056fd29630f220f/backend/src/main/java/com/example/backend/AplicacionSaludo.java#L23-L34)
+https://github.com/Lmrocio/DAW2-Proyecto-intermodular/blob/c62a2b2825a9846c8838bfb74056fd29630f220f/backend/src/main/java/com/example/backend/AplicacionSaludo.java#L23-L34
 
 La documentación está escrita siguiendo el estilo ``JavaDoc``, el estándar utilizado en proyectos Java.
 Este formato emplea comentarios estructurados entre /** ... */ y etiquetas como:
@@ -216,7 +216,14 @@ El workflow utilizado se considera ``Integración Continua`` (CI) porque automat
 - push a la rama main: cuando se suben cambios al repositorio principal, se genera y actualiza la documentación en HTML y PDF.
 - workflow_dispatch: permite ejecutar el workflow de forma manual desde la pestaña Actions, facilitando generar la documentación cuando se desee, sin necesidad de hacer un push.
 
-Este enfoque asegura que la documentación esté siempre actualizada y consistente con el código fuente, integrándose de forma automática en /docs y desplegándose en GitHub Pages.
+Además, el workflow incluye un paso de despliegue automático de la documentación HTML en GitHub Pages, lo que constituye un ejemplo de Continuous Deployment (CD): cualquier cambio aprobado se publica automáticamente, garantizando que la versión pública de la documentación esté siempre actualizada.
+
+Este enfoque asegura que la documentación esté siempre actualizada y consistente con el código fuente, integrándose de forma automática en /docs y desplegándose en GitHub Pages, cumpliendo los principios de CI/CD.
 
 ---
- 
+
+<br>
+
+## Fase 3 de la práctica
+
+La fase 3 ha sido realizada como se puede comprobar con la rama [gh-pages](https://github.com/Lmrocio/DAW2-Proyecto-intermodular/tree/gh-pages) y en el [GitHub Pages](https://lmrocio.github.io/DAW2-Proyecto-intermodular/)
