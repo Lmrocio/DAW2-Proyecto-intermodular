@@ -53,8 +53,9 @@ jobs:
           echo "Generando $pdf_path..."
           wkhtmltopdf --enable-local-file-access "file://$(pwd)/$html" "$pdf_path"
           done  
+          
           echo "Archivos PDF generados:"
-          find target/reports/pdf -type f -name "*.pdf"
+          find target/reports/pdf -type f -name "*.pdf"
 
       # PDFs como artefactos en GitHub
       - name: Subir PDFs
