@@ -47,11 +47,14 @@ jobs:
         run: |
           mkdir -p target/reports/pdf
           for html in $(find target/reports/apidocs -type f -name "*.html"); do
-            base=$(basename "$html" .html)
-            pdf="target/reports/pdf/${base}.pdf"
-            echo "Generando $pdf..."
-            wkhtmltopdf --enable-local-file-access "file://$(pwd)/$html" "$pdf"
-          done
+          relative_path=$(realpath --relative-to=target/reports/apidocs "$html")
+          pdf_path="target/reports/pdf/${relative_path%.html}.pdf"
+          mkdir -p "$(dirname "$pdf_path")"
+          echo "Generando $pdf_path..."
+          wkhtmltopdf --enable-local-file-access "file://$(pwd)/$html" "$pdf_path"
+          done  
+          echo "Archivos PDF generados:"
+          find target/reports/pdf -type f -name "*.pdf"
 
       # PDFs como artefactos en GitHub
       - name: Subir PDFs
