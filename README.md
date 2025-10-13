@@ -104,3 +104,27 @@ Adjunto una captura de pantalla como evidencia:
 ---
 
 ###  Cómo clonar/usar el repositorio para reproducir la generación de documentación:
+Para reproducir la documentación del proyecto, puedes hacerlo **de forma local** o **automáticamente mediante GitHub Actions**.
+
+***Opción 1: Localmente***
+1. Clona el repositorio y entra en la carpeta del backend:
+   ```bash
+   git clone https://github.com/Lmrocio/DAW2-Proyecto-intermodular.git
+   cd DAW2-Proyecto-intermodular/backend
+  ```
+2. Ejecuta el siguiente comando de Maven para generar la documentación HTML en ``target/reports/apidocs/``:
+  ```bash
+  mvn clean javadoc:javadoc
+  ```
+***Opción 2: A través de GitHub Actions***
+Cada vez que se haga push a la rama main o se ejecute manualmente el workflow (workflow_dispatch), se iniciará automáticamente el job generate-docs, que:
+- Genera la documentación HTML con Maven.
+- Convierte todos los archivos HTML en PDF usando wkhtmltopdf.
+- Copia los resultados a las carpetas correspondientes.
+- Sube los PDF como artefactos del workflow y actualiza la documentación publicada en GitHub Pages.
+
+De este modo, no es necesario instalar ``wkhtmltopdf`` localmente, por lo que cualquier usuario puede generar y descargar los PDF directamente desde la sección ``Actions`` del repositorio.
+
+---
+
+<br>
