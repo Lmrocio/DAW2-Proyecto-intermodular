@@ -77,6 +77,18 @@ La documentación está escrita siguiendo el estilo y la sintaxis de ``JavaDoc``
 ---
 
 ### Explicación breve del workflow:
+Este workflow se encarga de automatizar la generación, conversión y despliegue de la documentación del proyecto cada vez que se hace un ``push`` a ``main`` o se ejecuta manualmente ``workflow_dispatch``. El resumen del flujo sería:
+
+1. **Ejecución en Ubuntu**(runs-on: ubuntu-latest): ``GitHub Actions`` crea un entorno virtual basado en ``Ubuntu`` donde se ejecutan todos los pasos. En este proceso, ``Ubuntu`` proporciona: un sistema Linux completo con acceso a paquetes (apt-get), compatibilidad para instalar herramientas como ``wkhtmltopdf`` y utilidades de línea de comandos (find, mkdir, etc.). Gracias a esto, el workflow es reproducible y no depende del sistema local de ningún desarrollador
+2. **Clonar el repositorio**: en este paso se obtiene el código más reciente para trabajar sobre él.
+3. **Configurar entorno ``Java`` y ``Maven``**: Java versión 21 con distribución Temurin (Java no tiene una única versión oficial gratuita, por lo que existen varias distribuciones que proporcionan la misma versión de Java empaquetada) y Maven versión 3.9.11 se instalan en ``Ubuntu`` para compilar y generar Javadoc.
+4. **Generar documentación HTML**: Ejecuta el comando ``mvn clean javadoc:javadoc`` para crear la documentación en formato HTML en el directorio ``target/reports/apidocs``.
+5. **Instalar wkhtmltopdf**: Herramienta que convierte HTML a PDF.
+6. **Convertir HTML a PDF**: Itera sobre todos los archivos HTML generados y genera PDFs correspondientes en el directorio ``target/reports/pdf`` manteniendo la estructura de las carpetas.
+7. **Subir PDFs como artefactos**: Permite descargar los PDFs generados desde la interfaz de ``GitHub Actions``.
+8. **Actualizar la carpeta ``/docs``**: Copia HTML y PDFs a ``/docs`` para tenerlos organizados dentro del repositorio.
+9. **Commit y push de los cambios en ``/docs``**: Guarda automáticamente la actualización de la documentación en la rama ``main``, empleando el bot de ``GitHub Actions``.
+10. **Despliegue en ``GitHub Pages``**: Publica la documentación HTML en la rama ``gh-pages``, haciendo que sea accesible públicamente como página web.
 
 ---
 
