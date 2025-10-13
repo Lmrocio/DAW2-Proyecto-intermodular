@@ -188,6 +188,14 @@ Además del HTML producido por Javadoc, se generó PDF como segundo formato. El 
  
 ### d. Colaboración. Explica cómo GitHub facilita mantener la documentación (actualizaciones del README.md y de /docs) cuando colaboran varias personas (PRs, reviews, checks de CI, protección de ramas).
 
+GitHub permite que varios colaboradores mantengan el ``README.md`` y la carpeta ``/docs`` de forma organizada y controlada. Cada cambio se puede realizar en una rama aparte y enviarse mediante ``pull request``(PR), permitiendo revisiones de otros miembros antes de fusionar con la rama ``main``.
+
+Los workflows de ^^GitHub Actions`` se ejecutan automáticamente en cada PR o ``push``, generando la documentación HTML y PDF para comprobar que se crea correctamente antes de integrarla. Esto asegura que la documentación de ``/docs`` y los PDFs se mantengan consistentes y funcionales.
+
+Además, la protección de la rama ``main`` obliga a aprobar PRs y pasar los checks de ``CI`` (Continuous Integration) antes de fusionar, evitando que cambios que rompan la generación de documentación lleguen al repositorio principal. Cada actualización queda registrada en el historial de ``commits``, proporcionando trazabilidad y responsabilidad compartida.
+
+Por último, el workflow despliega automáticamente la documentación HTML en ``GitHub Pages``, de modo que cualquier cambio aprobado se refleja inmediatamente, facilitando que todos los colaboradores y usuarios accedan siempre a la versión más reciente.
+
 ---
  
 ### e. Control de versiones. Muestra mensajes de commit que evidencien el nuevo workflow. ¿Son claros y descriptivos? Justifícalo. Ademas de un conjunto de mensajes de tus commits.
