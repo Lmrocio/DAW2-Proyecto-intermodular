@@ -175,6 +175,14 @@ Este estilo permite que la herramienta ``Javadoc`` procese automáticamente la i
 ---
  
 ### c. Multiformato. ¿Qué segundo formato (además de HTML) generaste? Explica la configuración o comandos del workflow y herramientas que lo producen.
+Además del HTML producido por Javadoc, se generó PDF como segundo formato. El PDF se obtiene convirtiendo los HTML generados por Javadoc usando wkhtmltopdf, manteniendo la estructura de carpetas y estilos de la documentación web. He elegido este segundo formato porque es portátil y fácil de descargar/archivar, además de que es el formato más adecuado para imprimir o entregar como documento único. Herramientas usadas son:
+
+- ``Javadoc``: genera la documentación HTML (``mvn clean javadoc:javadoc``).
+- ``wkhtmltopdf``: convierte páginas HTML locales a documentos PDF.
+- ``Ubuntu (runner)``: entorno en ubuntu-latest donde se instala ``wkhtmltopdf`` mediante ``apt-get``.
+- ``GitHub Actions``: coordina todo el proceso (generación, conversión, subida y despliegue). El workflow de ``GitHub Actions`` recorre los HTML y genera PDFs en ``target/reports/pdf/`` y ``docs/pdf/``.
+- ``actions/upload-artifact``: sube los PDF como artefactos del workflow. De esta forma, los PDFs quedan disponibles de dos maneras: artefactos descargables desde el workflow y copiados dentro de ``docs/pdf/`` en el repositorio.
+- ``Script shell'': para los comandos ``find``, ``realpath``, ``mkdir``, ``wkhtmltopdf``, etc., que permiten iterar y convertir archivos.
 
 ---
  
