@@ -149,6 +149,29 @@ Posteriormente, se emplea la herramienta wkhtmltopdf para convertir esos archivo
  
 ### b. Documentación de componentes. Muestra un fragmento del código con comentarios/docstrings estructurados (p. ej., :param, :return: o etiquetas equivalentes) que haya sido procesado por la herramienta. Comenta que estilo de documentación has utlicado: (p. ej., reStructuredText, Google Style, KDoc)
 
+A continuación, muestro un fragmento del código fuente documentado con el formato JavaDoc, que ha sido procesado por la herramienta Javadoc para generar la documentación en formato HTML y PDF [enlace al código fuente](https://github.com/Lmrocio/DAW2-Proyecto-intermodular/blob/c62a2b2825a9846c8838bfb74056fd29630f220f/backend/src/main/java/com/example/backend/AplicacionSaludo.java#L23-L34)
+
+````bash
+  /**
+     * Método principal que construye un saludo simple.
+     *
+     * @param nombre nombre de la persona; si es nulo o vacío se usa "Edu"
+     * @return saludo en texto plano
+     */
+    public String saludar(String nombre) {
+        if (nombre == null || nombre.isBlank()) {
+            nombre = "Edu";
+        }
+        return "¡Hola, " + nombre + "!";
+    }
+````
+La documentación está escrita siguiendo el estilo ``JavaDoc``, el estándar utilizado en proyectos Java.
+Este formato emplea comentarios estructurados entre /** ... */ y etiquetas como:
+- ``@param``: describe los parámetros de entrada del método.
+- ``@return``: explica el valor devuelto.
+
+Este estilo permite que la herramienta ``Javadoc`` procese automáticamente la información y genere documentación navegable en formato HTML (y posteriormente PDF mediante ``wkhtmltopdf``), manteniendo una estructura clara.
+
 ---
  
 ### c. Multiformato. ¿Qué segundo formato (además de HTML) generaste? Explica la configuración o comandos del workflow y herramientas que lo producen.
