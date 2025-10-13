@@ -5,6 +5,33 @@
 
 <br>
 
+## Índice
+
+[A. Documentación del proceso](#a-documentaci%C3%B3n-del-proceso)
+- [Herramientas usadas para generar documentación y comandos ejecutados](#herramientas-usadas-para-generar-documentaci%C3%B3n-y-comandos-ejecutados)
+- [Ejemplos de código documentado y fragmento con las etiquetas/estructura usadas](#ejemplos-de-c%C3%B3digo-documentado-y-fragmento-con-las-etiquetasestructura-usadas)
+- [Formatos generados (HTML + PDF) y enlaces a cada uno](#formatos-generados-html--pdf-y-enlaces-a-cada-uno)
+- [Explicación breve del workflow](#explicaci%C3%B3n-breve-del-workflow)
+- [Mensajes de commit](#mensajes-de-commit)
+- [Evidencia de configuración SSH para GitHub](#evidencia-de-configuraci%C3%B3n-ssh-para-github)
+- [Cómo clonar/usar el repositorio para reproducir la generación de documentación](#c%C3%B3mo-clonarusar-el-repositorio-para-reproducir-la-generaci%C3%B3n-de-documentaci%C3%B3n)
+  
+[B. Respuestas al cuestionario](#b-respuestas-al-cuestionario)
+- [Pregunta A](#a-identificaci%C3%B3n-de-herramientas-de-generaci%C3%B3n-de-documentaci%C3%B3n-qu%C3%A9-herramienta-o-generador-p-ej-sphinx-pdoc-javadoc-doxygen-dokka-utilizaste-en-el-workflow-para-crear-la-documentaci%C3%B3n-en-docs)
+- [Pregunta B](#b-documentaci%C3%B3n-de-componentes-muestra-un-fragmento-del-c%C3%B3digo-con-comentariosdocstrings-estructurados-p-ej-param-return-o-etiquetas-equivalentes-que-haya-sido-procesado-por-la-herramienta-comenta-que-estilo-de-documentaci%C3%B3n-has-utlicado-p-ej-restructuredtext-google-style-kdoc)
+- [Pregunta C](#c-multiformato-qu%C3%A9-segundo-formato-adem%C3%A1s-de-html-generaste-explica-la-configuraci%C3%B3n-o-comandos-del-workflow-y-herramientas-que-lo-producen)
+- [Pregunta D](#d-colaboraci%C3%B3n-explica-c%C3%B3mo-github-facilita-mantener-la-documentaci%C3%B3n-actualizaciones-del-readmemd-y-de-docs-cuando-colaboran-varias-personas-prs-reviews-checks-de-ci-protecci%C3%B3n-de-ramas)
+- [Pregunta E](#e-control-de-versiones-muestra-mensajes-de-commit-que-evidencien-el-nuevo-workflow-son-claros-y-descriptivos-justif%C3%ADcalo-ademas-de-un-conjunto-de-mensajes-de-tus-commits)
+- [Pregunta F](#f-accesibilidad-y-seguridad-qu%C3%A9-medidasconfiguraci%C3%B3n-del-repositorio-garantizan-que-solo-personal-autorizado-accede-al-c%C3%B3digo-y-la-documentaci%C3%B3n-p-ej-repositorio-privado-equipos-roles-clavessecretos-branch-protection)
+- [Pregunta G](#g-instalaci%C3%B3nuso-documentados-indica-d%C3%B3nde-en-el-readmemd-explicas-el-funcionamiento-del-workflow-y-d%C3%B3nde-detallas-las-herramientas-y-comandos-de-documentaci%C3%B3n)
+- [Pregunta H](#h-integraci%C3%B3n-continua-justifica-por-qu%C3%A9-el-workflow-utilizado-es-ci-qu%C3%A9-evento-dispara-autom%C3%A1ticamente-la-generaci%C3%B3nactualizaci%C3%B3n-de-la-documentaci%C3%B3n-p-ej-push-pull_request-workflow_dispatch)
+  
+[Parte 3(opcional)](#parte-3-de-la-pr%C3%A1ctica)
+
+---
+
+<br>
+
 ## A. Documentación del proceso
 
 ### Herramientas usadas para generar documentación y comandos ejecutados: 
@@ -216,7 +243,7 @@ El workflow utilizado se considera ``Integración Continua`` (CI) porque automat
 - push a la rama main: cuando se suben cambios al repositorio principal, se genera y actualiza la documentación en HTML y PDF.
 - workflow_dispatch: permite ejecutar el workflow de forma manual desde la pestaña Actions, facilitando generar la documentación cuando se desee, sin necesidad de hacer un push.
 
-Además, el workflow incluye un paso de despliegue automático de la documentación HTML en GitHub Pages, lo que constituye un ejemplo de Continuous Deployment (CD): cualquier cambio aprobado se publica automáticamente, garantizando que la versión pública de la documentación esté siempre actualizada.
+Además, el workflow incluye un paso de despliegue automático de la documentación HTML en GitHub Pages, lo que constituye un ejemplo de ``Continuous Deployment`` (CD): cualquier cambio aprobado se publica automáticamente, garantizando que la versión pública de la documentación esté siempre actualizada.
 
 Este enfoque asegura que la documentación esté siempre actualizada y consistente con el código fuente, integrándose de forma automática en /docs y desplegándose en GitHub Pages, cumpliendo los principios de CI/CD.
 
@@ -224,6 +251,6 @@ Este enfoque asegura que la documentación esté siempre actualizada y consisten
 
 <br>
 
-## Fase 3 de la práctica
+## Parte 3 de la práctica
 
-La fase 3 ha sido realizada como se puede comprobar con la rama [gh-pages](https://github.com/Lmrocio/DAW2-Proyecto-intermodular/tree/gh-pages) y en el [GitHub Pages](https://lmrocio.github.io/DAW2-Proyecto-intermodular/)
+La parte 3 ha sido realizada como se puede comprobar con la rama [gh-pages](https://github.com/Lmrocio/DAW2-Proyecto-intermodular/tree/gh-pages) y en el [GitHub Pages](https://lmrocio.github.io/DAW2-Proyecto-intermodular/)
