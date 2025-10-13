@@ -213,6 +213,10 @@ Este paso permite que ``GitHub Actions`` suba los cambios generados en ``/docs``
 ---
  
 ### f. Accesibilidad y seguridad. ¿Qué medidas/configuración del repositorio garantizan que solo personal autorizado accede al código y la documentación? (p. ej., repositorio privado, equipos, roles, claves/secretos, branch protection).
+En este proyecto, el repositorio es público para garantizar un fácil acceso a los docentes que van a calificar parte del contenido. No obstante, aunque el repositorio es público, se han tomado varias medidas de accesibilidad y seguridad:
+
+- Clave ``SSH``: asegura la autentización del usuario a travñes de una conexión cifrada entre el dispositivo de trabajo y un email (previamente enlazado con una cuenta de GitHub), evitando contraseñas inseguras.
+- Token integrado (``GITHUB_TOKEN``): los workflows de ``GitHub Actions`` utilizan el token integrado ``GITHUB_TOKEN``, gestionado de forma segura por GitHub y con permisos limitados para realizar solo las acciones necesarias, como generar la documentación y subirla a la rama correspondiente.
 
 ---
  
