@@ -1,0 +1,14 @@
+# IntelliJ IDEA / JetBrains IDEs
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
