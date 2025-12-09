@@ -1,6 +1,5 @@
-# DAW2-Proyecto-intermodular
+# DESPLIEGUE DE APLICACIONES WEB: PRÁCTICA 1.1.- Automatiza y documenta 
 
-> Por el momento, en este repositorio sólo se ha trabajado para la práctica 1.1 del módulo Despliegue de Aplicaciones Web.
 ---
 
 <br>
