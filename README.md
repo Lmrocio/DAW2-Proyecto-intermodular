@@ -5,4 +5,4 @@
 
 ## ÍNDICE CON ENLACES DE INTERÉS
 
-[Práctica 1.1 del módulo DAW](docs/DAW/README.md)
+[Práctica 1.1 del módulo DAW](DAW/README.md)
