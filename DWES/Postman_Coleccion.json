@@ -1,0 +1,1181 @@
+{
+  "info": {
+    "name": "Plataforma Educativa - API REST",
+    "description": "Colección de endpoints para la Plataforma Educativa de Tecnología para Adultos Mayores",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Autenticación",
+      "item": [
+        {
+          "name": "Registro de Usuario",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"usuario_nuevo\",\n  \"email\": \"usuario@example.com\",\n  \"password\": \"contraseña123\",\n  \"confirmPassword\": \"contraseña123\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/auth/register",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "auth", "register"]
+            },
+            "description": "Registrar un nuevo usuario en la plataforma. Retorna token JWT y datos del usuario creado."
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"usuario_nuevo\",\n  \"password\": \"contraseña123\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/auth/login",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "auth", "login"]
+            },
+            "description": "Iniciar sesión con credenciales. Retorna token JWT válido por 24 horas."
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener Usuario Autenticado",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/auth/me",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "auth", "me"]
+            },
+            "description": "Obtener datos del usuario autenticado (sin contraseña). Requiere token JWT válido."
+          },
+          "response": []
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/auth/logout",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "auth", "logout"]
+            },
+            "description": "Cerrar sesión. Invalida el token en la blacklist."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Lecciones",
+      "item": [
+        {
+          "name": "Obtener Todas las Lecciones",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/lessons?page=0&size=20&sort=createdAt&direction=desc",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "lessons"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "20"
+                },
+                {
+                  "key": "sort",
+                  "value": "createdAt"
+                },
+                {
+                  "key": "direction",
+                  "value": "desc"
+                }
+              ]
+            },
+            "description": "Obtener todas las lecciones publicadas con paginación y ordenación."
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener Lección por ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/lessons/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "lessons", "1"]
+            },
+            "description": "Obtener una lección específica por ID, incluyendo todos sus pasos."
+          },
+          "response": []
+        },
+        {
+          "name": "Buscar Lecciones",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/lessons/search?text=whatsapp&page=0&size=20",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "lessons", "search"],
+              "query": [
+                {
+                  "key": "text",
+                  "value": "whatsapp"
+                },
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "20"
+                }
+              ]
+            },
+            "description": "Buscar lecciones por palabra clave en título o descripción."
+          },
+          "response": []
+        },
+        {
+          "name": "Lecciones por Categoría",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/lessons/category/1?page=0&size=20",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "lessons", "category", "1"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "20"
+                }
+              ]
+            },
+            "description": "Obtener todas las lecciones de una categoría específica."
+          },
+          "response": []
+        },
+        {
+          "name": "Lecciones Trending",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/lessons/trending?page=0&size=10",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "lessons", "trending"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "10"
+                }
+              ]
+            },
+            "description": "Obtener las lecciones más accedidas (trending)."
+          },
+          "response": []
+        },
+        {
+          "name": "Lecciones con Simulador",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/lessons/with-simulator?page=0&size=20",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "lessons", "with-simulator"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "20"
+                }
+              ]
+            },
+            "description": "Obtener lecciones que tienen simulador asociado."
+          },
+          "response": []
+        },
+        {
+          "name": "Crear Lección (ADMIN)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Cómo enviar un mensaje de WhatsApp\",\n  \"description\": \"Tutorial paso a paso para aprender a enviar mensajes en WhatsApp\",\n  \"categoryId\": 1,\n  \"adminId\": 1\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/lessons",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "lessons"]
+            },
+            "description": "Crear una nueva lección. Solo permitido para usuarios con rol ADMIN."
+          },
+          "response": []
+        },
+        {
+          "name": "Actualizar Lección (ADMIN)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Cómo enviar un mensaje de WhatsApp - Actualizado\",\n  \"description\": \"Tutorial mejorado\",\n  \"categoryId\": 1,\n  \"adminId\": 1\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/lessons/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "lessons", "1"]
+            },
+            "description": "Actualizar una lección. Solo el ADMIN que la creó puede editarla."
+          },
+          "response": []
+        },
+        {
+          "name": "Publicar Lección (ADMIN)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/lessons/1/publish?adminId=1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "lessons", "1", "publish"],
+              "query": [
+                {
+                  "key": "adminId",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Publicar una lección. Requiere al menos 1 paso creado."
+          },
+          "response": []
+        },
+        {
+          "name": "Despublicar Lección (ADMIN)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/lessons/1/unpublish?adminId=1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "lessons", "1", "unpublish"],
+              "query": [
+                {
+                  "key": "adminId",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Despublicar una lección (ocultarla de usuarios)."
+          },
+          "response": []
+        },
+        {
+          "name": "Eliminar Lección (ADMIN)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/lessons/1?adminId=1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "lessons", "1"],
+              "query": [
+                {
+                  "key": "adminId",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Eliminar una lección y todos sus pasos asociados."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Pasos de Lecciones",
+      "item": [
+        {
+          "name": "Obtener Pasos de una Lección",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/lessons/1/steps",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "lessons", "1", "steps"]
+            },
+            "description": "Obtener todos los pasos de una lección en orden secuencial."
+          },
+          "response": []
+        },
+        {
+          "name": "Crear Paso (ADMIN)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Abre la aplicación WhatsApp\",\n  \"content\": \"Busca el icono de WhatsApp en tu teléfono y toca para abrirlo\",\n  \"stepOrder\": 1,\n  \"imageUrl\": \"https://example.com/imagen.jpg\",\n  \"adminId\": 1\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/lessons/1/steps",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "lessons", "1", "steps"]
+            },
+            "description": "Crear un nuevo paso dentro de una lección. Solo el ADMIN que creó la lección puede hacerlo."
+          },
+          "response": []
+        },
+        {
+          "name": "Actualizar Paso (ADMIN)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Abre la aplicación WhatsApp - Paso 1\",\n  \"content\": \"Localiza y toca el icono de WhatsApp\",\n  \"stepOrder\": 1,\n  \"imageUrl\": \"https://example.com/imagen.jpg\",\n  \"adminId\": 1\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/lessons/1/steps/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "lessons", "1", "steps", "1"]
+            },
+            "description": "Actualizar un paso. Solo el ADMIN que creó la lección puede editarlo."
+          },
+          "response": []
+        },
+        {
+          "name": "Eliminar Paso (ADMIN)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/lessons/1/steps/1?adminId=1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "lessons", "1", "steps", "1"],
+              "query": [
+                {
+                  "key": "adminId",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Eliminar un paso de una lección."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Categorías",
+      "item": [
+        {
+          "name": "Obtener Todas las Categorías",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/categories?page=0&size=20",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "categories"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "20"
+                }
+              ]
+            },
+            "description": "Obtener todas las categorías de lecciones."
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener Categoría por ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/categories/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "categories", "1"]
+            },
+            "description": "Obtener una categoría específica por ID."
+          },
+          "response": []
+        },
+        {
+          "name": "Crear Categoría (ADMIN)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Redes Sociales\",\n  \"description\": \"Aprende a usar las redes sociales más comunes\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/categories",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "categories"]
+            },
+            "description": "Crear una nueva categoría de lecciones."
+          },
+          "response": []
+        },
+        {
+          "name": "Actualizar Categoría (ADMIN)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Redes Sociales\",\n  \"description\": \"Aprende a usar las redes sociales más comunes - Actualizado\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/categories/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "categories", "1"]
+            },
+            "description": "Actualizar una categoría existente."
+          },
+          "response": []
+        },
+        {
+          "name": "Eliminar Categoría (ADMIN)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/categories/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "categories", "1"]
+            },
+            "description": "Eliminar una categoría (solo si no tiene lecciones)."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Simuladores",
+      "item": [
+        {
+          "name": "Obtener Todos los Simuladores",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/simulators?page=0&size=20",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "simulators"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "20"
+                }
+              ]
+            },
+            "description": "Obtener todos los simuladores disponibles."
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener Simulador por ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/simulators/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "simulators", "1"]
+            },
+            "description": "Obtener un simulador específico por ID."
+          },
+          "response": []
+        },
+        {
+          "name": "Crear Simulador (ADMIN)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Simulador de envío de WhatsApp\",\n  \"description\": \"Practica enviando mensajes en un simulador seguro\",\n  \"feedback\": \"Excelente, has enviado el mensaje correctamente\",\n  \"isActive\": true,\n  \"adminId\": 1\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/simulators",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "simulators"]
+            },
+            "description": "Crear un nuevo simulador interactivo."
+          },
+          "response": []
+        },
+        {
+          "name": "Actualizar Simulador (ADMIN)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Simulador de WhatsApp - Mejorado\",\n  \"description\": \"Practica con más opciones\",\n  \"feedback\": \"Perfecto, lo hiciste bien\",\n  \"isActive\": true,\n  \"adminId\": 1\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/simulators/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "simulators", "1"]
+            },
+            "description": "Actualizar un simulador existente."
+          },
+          "response": []
+        },
+        {
+          "name": "Eliminar Simulador (ADMIN)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/simulators/1?adminId=1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "simulators", "1"],
+              "query": [
+                {
+                  "key": "adminId",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Eliminar un simulador."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Progreso y Favoritos (Autenticado)",
+      "item": [
+        {
+          "name": "Obtener Progreso",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/progress",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "progress"]
+            },
+            "description": "Obtener estadísticas de progreso global del usuario autenticado."
+          },
+          "response": []
+        },
+        {
+          "name": "Marcar Lección como Completada",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/progress/1/mark-complete",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "progress", "1", "mark-complete"]
+            },
+            "description": "Marcar una lección como completada para el usuario autenticado."
+          },
+          "response": []
+        },
+        {
+          "name": "Guardar como Favorita",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/progress/1/favorite",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "progress", "1", "favorite"]
+            },
+            "description": "Guardar una lección como favorita."
+          },
+          "response": []
+        },
+        {
+          "name": "Eliminar de Favoritos",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/progress/1/favorite",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "progress", "1", "favorite"]
+            },
+            "description": "Eliminar una lección de favoritos."
+          },
+          "response": []
+        },
+        {
+          "name": "Progreso por Categoría",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/progress/category/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "progress", "category", "1"]
+            },
+            "description": "Obtener el progreso del usuario en una categoría específica."
+          },
+          "response": []
+        },
+        {
+          "name": "Historial de Interacciones con Simuladores",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/progress/simulator-interactions",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "progress", "simulator-interactions"]
+            },
+            "description": "Obtener el historial de interacciones del usuario con simuladores."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "FAQ",
+      "item": [
+        {
+          "name": "Obtener Todas las FAQ",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/faq?page=0&size=20",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "faq"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "20"
+                }
+              ]
+            },
+            "description": "Obtener todas las preguntas frecuentes."
+          },
+          "response": []
+        },
+        {
+          "name": "Buscar en FAQ",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/faq/search?text=contraseña&page=0&size=20",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "faq", "search"],
+              "query": [
+                {
+                  "key": "text",
+                  "value": "contraseña"
+                },
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "20"
+                }
+              ]
+            },
+            "description": "Buscar preguntas frecuentes por palabra clave."
+          },
+          "response": []
+        },
+        {
+          "name": "Crear FAQ (ADMIN)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"question\": \"¿Cómo cambio mi contraseña?\",\n  \"answer\": \"Ve a tu perfil y selecciona 'Cambiar contraseña'. Ingresa tu contraseña actual y la nueva.\",\n  \"topic\": \"Seguridad\",\n  \"adminId\": 1\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/faq",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "faq"]
+            },
+            "description": "Crear una nueva pregunta frecuente."
+          },
+          "response": []
+        },
+        {
+          "name": "Actualizar FAQ (ADMIN)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"question\": \"¿Cómo cambio mi contraseña?\",\n  \"answer\": \"Ve a tu perfil, selecciona 'Cambiar contraseña' e ingresa tu contraseña actual y la nueva.\",\n  \"topic\": \"Seguridad\",\n  \"adminId\": 1\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/faq/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "faq", "1"]
+            },
+            "description": "Actualizar una pregunta frecuente."
+          },
+          "response": []
+        },
+        {
+          "name": "Eliminar FAQ (ADMIN)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/faq/1?adminId=1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "faq", "1"],
+              "query": [
+                {
+                  "key": "adminId",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Eliminar una pregunta frecuente."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Administración",
+      "item": [
+        {
+          "name": "Listar Usuarios (ADMIN)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/admin/users?page=0&size=20",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "admin", "users"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "20"
+                }
+              ]
+            },
+            "description": "Listar todos los usuarios registrados (solo para ADMIN)."
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener Usuario (ADMIN)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/admin/users/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "admin", "users", "1"]
+            },
+            "description": "Obtener detalles de un usuario específico (solo para ADMIN)."
+          },
+          "response": []
+        },
+        {
+          "name": "Ver Logs de Auditoría (ADMIN)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/admin/audit-logs?page=0&size=20",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "admin", "audit-logs"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "20"
+                }
+              ]
+            },
+            "description": "Obtener logs de auditoría de cambios en la plataforma (solo para ADMIN)."
+          },
+          "response": []
+        },
+        {
+          "name": "Filtrar Logs por Tipo de Entidad (ADMIN)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/admin/audit-logs/entity/LESSON?page=0&size=20",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "admin", "audit-logs", "entity", "LESSON"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "20"
+                }
+              ]
+            },
+            "description": "Filtrar logs de auditoría por tipo de entidad (LESSON, SIMULATOR, FAQ, USER, CATEGORY, STEP)."
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "jwt_token",
+      "value": "tu_token_jwt_aqui",
+      "type": "string"
+    },
+    {
+      "key": "base_url",
+      "value": "http://localhost:8080",
+      "type": "string"
+    }
+  ]
+}
+
