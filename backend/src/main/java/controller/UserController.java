@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -48,13 +49,18 @@ public class UserController {
      *
      * @param page número de página (default: 0)
      * @param size tamaño de página (default: 20)
+     * @param sort campo por el cual ordenar (default: createdAt)
+     * @param direction dirección de la ordenación (asc|desc, default: desc)
      * @return Página de usuarios (200 OK)
      */
     @GetMapping
     public ResponseEntity<Page<UserResponse>> listUsers(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "20") int size) {
-        Pageable pageable = PageRequest.of(page, size);
+            @RequestParam(defaultValue = "20") int size,
+            @RequestParam(defaultValue = "createdAt") String sort,
+            @RequestParam(defaultValue = "desc") String direction) {
+        Sort sortObj = direction.equalsIgnoreCase("asc") ? Sort.by(sort).ascending() : Sort.by(sort).descending();
+        Pageable pageable = PageRequest.of(page, size, sortObj);
         Page<User> users = userService.listActiveUsers(pageable);
         Page<UserResponse> response = users.map(userService::convertToResponse);
         return ResponseEntity.ok(response);
@@ -139,4 +145,3 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 }
-

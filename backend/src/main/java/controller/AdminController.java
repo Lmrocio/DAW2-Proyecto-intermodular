@@ -5,6 +5,7 @@ import model.User;
 import service.AuditLogService;
 import service.UserService;
 import dto.response.UserResponse;
+import dto.response.AuditLogResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -207,13 +208,12 @@ public class AdminController {
      * @return Página de logs de auditoría (200 OK)
      */
     @GetMapping("/audit-logs")
-    public ResponseEntity<Page<Map<String, Object>>> listAuditLogs(
+    public ResponseEntity<Page<AuditLogResponse>> listAuditLogs(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<AuditLog> logs = auditLogService.listAllLogs(pageable);
-        Page<Map<String, Object>> response = logs.map(this::convertAuditLogToMap);
-        return ResponseEntity.ok(response);
+        Page<AuditLogResponse> logs = auditLogService.listAllLogs(pageable);
+        return ResponseEntity.ok(logs);
     }
 
     /**
@@ -227,13 +227,13 @@ public class AdminController {
      * @return Página de logs filtrados (200 OK)
      */
     @GetMapping("/audit-logs/search")
-    public ResponseEntity<Page<Map<String, Object>>> searchAuditLogs(
+    public ResponseEntity<Page<AuditLogResponse>> searchAuditLogs(
             @RequestParam String filter,
             @RequestParam String value,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<AuditLog> logs;
+        Page<AuditLogResponse> logs;
 
         switch (filter.toLowerCase()) {
             case "user":
@@ -267,8 +267,7 @@ public class AdminController {
                 logs = Page.empty(pageable);
         }
 
-        Page<Map<String, Object>> response = logs.map(this::convertAuditLogToMap);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(logs);
     }
 
     /**
@@ -281,14 +280,13 @@ public class AdminController {
      * @return Página de logs del usuario (200 OK)
      */
     @GetMapping("/audit-logs/user/{userId}")
-    public ResponseEntity<Page<Map<String, Object>>> getAuditLogsByUser(
+    public ResponseEntity<Page<AuditLogResponse>> getAuditLogsByUser(
             @PathVariable Long userId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<AuditLog> logs = auditLogService.findByUserId(userId, pageable);
-        Page<Map<String, Object>> response = logs.map(this::convertAuditLogToMap);
-        return ResponseEntity.ok(response);
+        Page<AuditLogResponse> logs = auditLogService.findByUserId(userId, pageable);
+        return ResponseEntity.ok(logs);
     }
 
     /**
@@ -301,14 +299,13 @@ public class AdminController {
      * @return Página de logs de la acción (200 OK)
      */
     @GetMapping("/audit-logs/action/{action}")
-    public ResponseEntity<Page<Map<String, Object>>> getAuditLogsByAction(
+    public ResponseEntity<Page<AuditLogResponse>> getAuditLogsByAction(
             @PathVariable String action,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<AuditLog> logs = auditLogService.findByAction(action, pageable);
-        Page<Map<String, Object>> response = logs.map(this::convertAuditLogToMap);
-        return ResponseEntity.ok(response);
+        Page<AuditLogResponse> logs = auditLogService.findByAction(action, pageable);
+        return ResponseEntity.ok(logs);
     }
 
     /**
@@ -321,14 +318,13 @@ public class AdminController {
      * @return Página de logs de la entidad (200 OK)
      */
     @GetMapping("/audit-logs/entity/{entityType}")
-    public ResponseEntity<Page<Map<String, Object>>> getAuditLogsByEntity(
+    public ResponseEntity<Page<AuditLogResponse>> getAuditLogsByEntity(
             @PathVariable String entityType,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<AuditLog> logs = auditLogService.findByEntityType(entityType, pageable);
-        Page<Map<String, Object>> response = logs.map(this::convertAuditLogToMap);
-        return ResponseEntity.ok(response);
+        Page<AuditLogResponse> logs = auditLogService.findByEntityType(entityType, pageable);
+        return ResponseEntity.ok(logs);
     }
 
     /**
@@ -407,4 +403,3 @@ public class AdminController {
         return ResponseEntity.ok(summary);
     }
 }
-

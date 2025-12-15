@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -42,8 +43,11 @@ public class CategoryController {
     @GetMapping
     public ResponseEntity<Page<CategoryResponse>> listCategories(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "20") int size) {
-        Pageable pageable = PageRequest.of(page, size);
+            @RequestParam(defaultValue = "20") int size,
+            @RequestParam(defaultValue = "name") String sort,
+            @RequestParam(defaultValue = "asc") String direction) {
+        Sort sortObj = direction.equalsIgnoreCase("asc") ? Sort.by(sort).ascending() : Sort.by(sort).descending();
+        Pageable pageable = PageRequest.of(page, size, sortObj);
         Page<Category> categories = categoryService.listAllCategories(pageable);
         Page<CategoryResponse> response = categories.map(categoryService::convertToResponse);
         return ResponseEntity.ok(response);
@@ -72,8 +76,8 @@ public class CategoryController {
     public ResponseEntity<List<CategoryResponse>> getCategoriesWithLessons() {
         List<Category> categories = categoryService.getCategoriesWithLessons();
         List<CategoryResponse> response = categories.stream()
-            .map(categoryService::convertToResponse)
-            .collect(Collectors.toList());
+                .map(categoryService::convertToResponse)
+                .collect(Collectors.toList());
         return ResponseEntity.ok(response);
     }
 
@@ -89,7 +93,7 @@ public class CategoryController {
             @Valid @RequestBody CreateCategoryRequest createRequest) {
         Category category = categoryService.createCategory(createRequest);
         return ResponseEntity.status(HttpStatus.CREATED)
-            .body(categoryService.convertToResponse(category));
+                .body(categoryService.convertToResponse(category));
     }
 
     /**
@@ -122,4 +126,3 @@ public class CategoryController {
         return ResponseEntity.noContent().build();
     }
 }
-

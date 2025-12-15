@@ -50,8 +50,8 @@ public interface LessonRepository extends JpaRepository<Lesson, Long> {
      * @return página de lecciones que coincidan
      */
     @Query("SELECT l FROM Lesson l WHERE (LOWER(l.title) LIKE LOWER(CONCAT('%', :searchText, '%')) " +
-           "OR LOWER(l.description) LIKE LOWER(CONCAT('%', :searchText, '%'))) " +
-           "AND l.isPublished = true ORDER BY l.title ASC")
+            "OR LOWER(l.description) LIKE LOWER(CONCAT('%', :searchText, '%'))) " +
+            "AND l.isPublished = true ORDER BY l.title ASC")
     Page<Lesson> searchLessonsByText(@Param("searchText") String searchText, Pageable pageable);
 
     /**
@@ -91,6 +91,12 @@ public interface LessonRepository extends JpaRepository<Lesson, Long> {
     long countByCategory_IdAndIsPublishedTrue(Long categoryId);
 
     /**
+     * Contar todas las lecciones publicadas en la plataforma
+     * @return número de lecciones publicadas
+     */
+    long countByIsPublishedTrue();
+
+    /**
      * Obtener siguiente orden en una categoría
      * @param categoryId id de la categoría
      * @return máximo lessonOrder en la categoría
@@ -113,7 +119,7 @@ public interface LessonRepository extends JpaRepository<Lesson, Long> {
      * @return página de lecciones ordenadas por popularidad
      */
     @Query("SELECT l FROM Lesson l WHERE l.isPublished = true " +
-           "ORDER BY (SELECT COUNT(ulp) FROM UserLessonProgress ulp WHERE ulp.lesson.id = l.id) DESC")
+            "ORDER BY (SELECT COUNT(ulp) FROM UserLessonProgress ulp WHERE ulp.lesson.id = l.id) DESC")
     Page<Lesson> findMostAccessedLessons(Pageable pageable);
 
     /**
@@ -125,4 +131,3 @@ public interface LessonRepository extends JpaRepository<Lesson, Long> {
     @Query("SELECT l FROM Lesson l WHERE l.relatedSimulator IS NOT NULL AND l.isPublished = true ORDER BY l.createdAt DESC")
     Page<Lesson> findLessonsWithSimulator(Pageable pageable);
 }
-

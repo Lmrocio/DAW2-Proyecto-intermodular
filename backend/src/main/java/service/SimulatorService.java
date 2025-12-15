@@ -98,7 +98,7 @@ public class SimulatorService {
      */
     public Simulator findById(Long simulatorId) {
         return simulatorRepository.findById(simulatorId)
-            .orElseThrow(() -> new ResourceNotFoundException("Simulator", "id", simulatorId));
+                .orElseThrow(() -> new ResourceNotFoundException("Simulator", "id", simulatorId));
     }
 
     /**
@@ -141,8 +141,8 @@ public class SimulatorService {
     public Page<Simulator> getIndependentSimulators(Pageable pageable) {
         List<Simulator> allActive = simulatorRepository.findByIsActiveTrueOrderByCreatedAtDesc(pageable).getContent();
         List<Simulator> independent = allActive.stream()
-            .filter(s -> s.getLesson() == null)
-            .toList();
+                .filter(s -> s.getLesson() == null)
+                .toList();
         // Nota: Para implementación completa, se recomienda agregar query en repositorio
         return simulatorRepository.findByIsActiveTrueOrderByCreatedAtDesc(pageable);
     }
@@ -187,7 +187,7 @@ public class SimulatorService {
      * @throws ForbiddenException si no es el creador
      */
     public Simulator updateSimulator(Long simulatorId, String title, String description,
-                                    String feedback, Long adminId) {
+                                     String feedback, Long adminId) {
         Simulator simulator = findById(simulatorId);
 
         // Validar que el admin sea el creador
@@ -285,22 +285,20 @@ public class SimulatorService {
      * @return DTO SimulatorResponse
      */
     public SimulatorResponse convertToResponse(Simulator simulator) {
-        SimulatorResponse response = new SimulatorResponse(
-            simulator.getId(),
-            simulator.getTitle(),
-            simulator.getDescription(),
-            simulator.getIsActive()
-        );
-
-        response.setFeedback(simulator.getFeedback());
-        response.setLessonId(simulator.getLesson() != null ? simulator.getLesson().getId() : null);
-        response.setCreatedAt(simulator.getCreatedAt());
-        response.setUpdatedAt(simulator.getUpdatedAt());
-        response.setCreatedBy(userService.convertToResponse(simulator.getCreatedBy()));
-        response.setUpdatedBy(userService.convertToResponse(simulator.getUpdatedBy()));
-
-        return response;
+        return SimulatorResponse.builder()
+                .id(simulator.getId())
+                .title(simulator.getTitle())
+                .description(simulator.getDescription())
+                .feedback(simulator.getFeedback())
+                .isActive(simulator.getIsActive())
+                .lessonId(simulator.getLesson() != null ? simulator.getLesson().getId() : null)
+                .createdAt(simulator.getCreatedAt())
+                .updatedAt(simulator.getUpdatedAt())
+                .createdBy(userService.convertToResponse(simulator.getCreatedBy()))
+                .updatedBy(userService.convertToResponse(simulator.getUpdatedBy()))
+                .build();
     }
+
 
     /**
      * Registrar interacción de un usuario con un simulador
@@ -310,9 +308,9 @@ public class SimulatorService {
      */
     public UserSimulatorInteraction recordInteraction(Long simulatorId, Long userId) {
         Simulator simulator = simulatorRepository.findById(simulatorId)
-            .orElseThrow(() -> new ResourceNotFoundException("Simulator", "id", simulatorId));
+                .orElseThrow(() -> new ResourceNotFoundException("Simulator", "id", simulatorId));
         User user = userRepository.findById(userId)
-            .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
 
         Optional<UserSimulatorInteraction> existing = userSimulatorInteractionRepository.findByUser_IdAndSimulator_Id(userId, simulatorId);
         UserSimulatorInteraction interaction;

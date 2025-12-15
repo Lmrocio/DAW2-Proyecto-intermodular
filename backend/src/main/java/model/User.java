@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import model.UserRole;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -85,4 +86,3 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<AuditLog> auditLogs = new HashSet<>();
 }
-

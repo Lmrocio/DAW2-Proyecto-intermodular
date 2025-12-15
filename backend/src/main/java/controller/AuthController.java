@@ -58,10 +58,10 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } catch (DuplicateResourceException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
-                .body(createErrorResponse("DUPLICATE_RESOURCE", e.getMessage()));
+                    .body(createErrorResponse("DUPLICATE_RESOURCE", e.getMessage()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(createErrorResponse("REGISTRATION_ERROR", e.getMessage()));
+                    .body(createErrorResponse("REGISTRATION_ERROR", e.getMessage()));
         }
     }
 
@@ -70,7 +70,7 @@ public class AuthController {
      * Iniciar sesión (obtener token JWT)
      *
      * @param loginRequest con fields: username, password
-     * @return Token JWT y datos del usuario (200 OK) o error (401)
+     * @return Token JWT y datos del usuario (200 OK) o error (400, 401)
      */
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> loginRequest) {
@@ -80,23 +80,22 @@ public class AuthController {
         // Validar que se proporcionen credenciales
         if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(createErrorResponse("INVALID_REQUEST", "Username y password son requeridos"));
+                    .body(createErrorResponse("INVALID_REQUEST", "Username y password son requeridos"));
         }
 
         // Búsqueda de usuario
         User user = userService.findByUsername(username)
-            .orElse(null);
+                .orElse(null);
 
         if (user == null || !user.getIsActive()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body(createErrorResponse("INVALID_CREDENTIALS", "Usuario o contraseña inválidos"));
+                    .body(createErrorResponse("INVALID_CREDENTIALS", "Usuario o contraseña inválidos"));
         }
 
-        // Validar contraseña (idealmente comparar con hash BCrypt)
-        // Por ahora, validación simple
-        if (!validatePassword(password, user.getPassword())) {
+        // Validar contraseña con BCrypt (comparar con hash)
+        if (!userService.validatePassword(password, user.getPassword())) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body(createErrorResponse("INVALID_CREDENTIALS", "Usuario o contraseña inválidos"));
+                    .body(createErrorResponse("INVALID_CREDENTIALS", "Usuario o contraseña inválidos"));
         }
 
         // Generar token JWT
@@ -113,31 +112,68 @@ public class AuthController {
     }
 
     /**
+     * GET /api/auth/me
+     * Obtener datos del usuario autenticado
+     *
+     * @param authHeader header Authorization con el token
+     * @return Datos del usuario autenticado (200 OK) o error (401)
+     */
+    @GetMapping("/me")
+    public ResponseEntity<?> getCurrentUser(
+            @RequestHeader(value = "Authorization", required = false) String authHeader) {
+
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(createErrorResponse("UNAUTHORIZED", "Token no proporcionado en header Authorization"));
+        }
+
+        String token = authHeader.substring(7);
+
+        if (!jwtTokenProvider.validateToken(token)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(createErrorResponse("INVALID_TOKEN", "Token inválido o expirado"));
+        }
+
+        String username = jwtTokenProvider.getUsernameFromToken(token);
+        User user = userService.findByUsername(username).orElse(null);
+
+        if (user == null || !user.getIsActive()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(createErrorResponse("USER_NOT_FOUND", "Usuario no encontrado o inactivo"));
+        }
+
+        UserResponse response = userService.convertToResponse(user);
+        return ResponseEntity.ok(response);
+    }
+
+    /**
      * POST /api/auth/logout
-     * Cerrar sesión (invalida el token actual)
+     * Cerrar sesión (invalida el token actual mediante blacklist)
      *
-     * Nota: En una implementación real, se debería mantener una blacklist de tokens
-     * o usar una base de datos de sesiones. Por ahora, la invalidación es manejada
-     * por el cliente eliminando el token localmente.
-     *
-     * @param token token a invalidar (enviado en el header Authorization o en el body)
-     * @return Confirmación de logout (200 OK)
+     * @param authHeader header Authorization con el token
+     * @return Confirmación de logout (200 OK) o error (401)
      */
     @PostMapping("/logout")
     public ResponseEntity<?> logout(
-            @RequestHeader(value = "Authorization", required = false) String authHeader,
-            @RequestBody(required = false) Map<String, String> body) {
+            @RequestHeader(value = "Authorization", required = false) String authHeader) {
 
-        String token = null;
-
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            token = authHeader.substring(7);
-        } else if (body != null) {
-            token = body.get("token");
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(createErrorResponse("INVALID_REQUEST", "Token no proporcionado en header Authorization"));
         }
 
-        // En una implementación real, agregar el token a una blacklist
-        // por ejemplo: tokenBlacklistService.addToBlacklist(token, jwtTokenProvider.getExpirationFromToken(token));
+        String token = authHeader.substring(7);
+
+        // Validar que el token sea válido antes de añadirlo a la blacklist
+        if (!jwtTokenProvider.validateToken(token)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(createErrorResponse("INVALID_TOKEN", "Token inválido o expirado"));
+        }
+
+        // Añadir el token a la blacklist
+        String jti = jwtTokenProvider.getJtiFromToken(token);
+        long expirationTime = jwtTokenProvider.getExpirationFromToken(token);
+        userService.getTokenBlacklistService().addToBlacklist(jti, expirationTime);
 
         Map<String, String> response = new HashMap<>();
         response.put("message", "Logout exitoso");
@@ -161,23 +197,23 @@ public class AuthController {
 
         if (oldToken == null || oldToken.isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(createErrorResponse("INVALID_REQUEST", "El token es requerido"));
+                    .body(createErrorResponse("INVALID_REQUEST", "El token es requerido"));
         }
 
         // Validar token
         if (!jwtTokenProvider.validateToken(oldToken)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body(createErrorResponse("INVALID_TOKEN", "El token es inválido o ha expirado"));
+                    .body(createErrorResponse("INVALID_TOKEN", "El token es inválido o ha expirado"));
         }
 
         // Extraer username del token
         String username = jwtTokenProvider.getUsernameFromToken(oldToken);
         User user = userService.findByUsername(username)
-            .orElse(null);
+                .orElse(null);
 
         if (user == null || !user.getIsActive()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body(createErrorResponse("USER_NOT_FOUND", "El usuario no existe o está inactivo"));
+                    .body(createErrorResponse("USER_NOT_FOUND", "El usuario no existe o está inactivo"));
         }
 
         // Generar nuevo token
@@ -205,14 +241,14 @@ public class AuthController {
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(createErrorResponse("INVALID_REQUEST", "Token no proporcionado en header Authorization"));
+                    .body(createErrorResponse("INVALID_REQUEST", "Token no proporcionado en header Authorization"));
         }
 
         String token = authHeader.substring(7);
 
         if (!jwtTokenProvider.validateToken(token)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body(createErrorResponse("INVALID_TOKEN", "El token es inválido o ha expirado"));
+                    .body(createErrorResponse("INVALID_TOKEN", "El token es inválido o ha expirado"));
         }
 
         String username = jwtTokenProvider.getUsernameFromToken(token);
@@ -220,7 +256,7 @@ public class AuthController {
 
         if (user == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body(createErrorResponse("USER_NOT_FOUND", "El usuario asociado al token no existe"));
+                    .body(createErrorResponse("USER_NOT_FOUND", "El usuario asociado al token no existe"));
         }
 
         Map<String, Object> response = new HashMap<>();
@@ -235,19 +271,6 @@ public class AuthController {
     // UTILIDADES
     // ============================================================================
 
-    /**
-     * Validar contraseña contra el hash almacenado
-     *
-     * IMPORTANTE: Esta es una implementación simplificada.
-     * En producción, debe usar BCryptPasswordEncoder de Spring Security.
-     */
-    private Boolean validatePassword(String rawPassword, String hashedPassword) {
-        // En producción:
-        // return passwordEncoder.matches(rawPassword, hashedPassword);
-
-        // Para esta implementación simplificada:
-        return rawPassword.equals(hashedPassword);
-    }
 
     /**
      * Crear respuesta de error estándar
@@ -260,4 +283,3 @@ public class AuthController {
         return response;
     }
 }
-

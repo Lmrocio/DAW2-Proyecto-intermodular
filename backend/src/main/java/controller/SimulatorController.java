@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -41,8 +42,11 @@ public class SimulatorController {
     @GetMapping
     public ResponseEntity<Page<SimulatorResponse>> listSimulators(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "20") int size) {
-        Pageable pageable = PageRequest.of(page, size);
+            @RequestParam(defaultValue = "20") int size,
+            @RequestParam(defaultValue = "createdAt") String sort,
+            @RequestParam(defaultValue = "desc") String direction) {
+        Sort sortObj = direction.equalsIgnoreCase("asc") ? Sort.by(sort).ascending() : Sort.by(sort).descending();
+        Pageable pageable = PageRequest.of(page, size, sortObj);
         Page<Simulator> simulators = simulatorService.listActiveSimulators(pageable);
         Page<SimulatorResponse> response = simulators.map(simulatorService::convertToResponse);
         return ResponseEntity.ok(response);
@@ -61,8 +65,11 @@ public class SimulatorController {
     public ResponseEntity<Page<SimulatorResponse>> searchSimulators(
             @RequestParam String text,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "20") int size) {
-        Pageable pageable = PageRequest.of(page, size);
+            @RequestParam(defaultValue = "20") int size,
+            @RequestParam(defaultValue = "createdAt") String sort,
+            @RequestParam(defaultValue = "desc") String direction) {
+        Sort sortObj = direction.equalsIgnoreCase("asc") ? Sort.by(sort).ascending() : Sort.by(sort).descending();
+        Pageable pageable = PageRequest.of(page, size, sortObj);
         Page<Simulator> simulators = simulatorService.searchActiveSimulators(text, pageable);
         Page<SimulatorResponse> response = simulators.map(simulatorService::convertToResponse);
         return ResponseEntity.ok(response);
@@ -95,7 +102,7 @@ public class SimulatorController {
             @RequestParam Long adminId) {
         Simulator simulator = simulatorService.createSimulator(createRequest, adminId);
         return ResponseEntity.status(HttpStatus.CREATED)
-            .body(simulatorService.convertToResponse(simulator));
+                .body(simulatorService.convertToResponse(simulator));
     }
 
     /**
@@ -113,8 +120,8 @@ public class SimulatorController {
             @Valid @RequestBody CreateSimulatorRequest updateRequest,
             @RequestParam Long adminId) {
         Simulator updated = simulatorService.updateSimulator(id, updateRequest.getTitle(),
-                                                             updateRequest.getDescription(),
-                                                             updateRequest.getFeedback(), adminId);
+                updateRequest.getDescription(),
+                updateRequest.getFeedback(), adminId);
         return ResponseEntity.ok(simulatorService.convertToResponse(updated));
     }
 
@@ -186,11 +193,10 @@ public class SimulatorController {
             return ResponseEntity.ok(interaction);
         } catch (Exception e) {
             return ResponseEntity.status(400)
-                .body(new HashMap<String, String>() {{
-                    put("error", "No se pudo registrar la interacción con el simulador");
-                    put("message", e.getMessage());
-                }});
+                    .body(new HashMap<String, String>() {{
+                        put("error", "No se pudo registrar la interacción con el simulador");
+                        put("message", e.getMessage());
+                    }});
         }
     }
 }
-

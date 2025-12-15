@@ -91,7 +91,7 @@ public class StepService {
      */
     public Step findById(Long stepId) {
         return stepRepository.findById(stepId)
-            .orElseThrow(() -> new ResourceNotFoundException("Step", "id", stepId));
+                .orElseThrow(() -> new ResourceNotFoundException("Step", "id", stepId));
     }
 
     /**
@@ -120,8 +120,8 @@ public class StepService {
      */
     public List<Step> getStepsWithMedia(Long lessonId) {
         return getStepsByLesson(lessonId).stream()
-            .filter(s -> s.getImageUrl() != null || s.getVideoUrl() != null)
-            .collect(Collectors.toList());
+                .filter(s -> s.getImageUrl() != null || s.getVideoUrl() != null)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -138,7 +138,7 @@ public class StepService {
      * @throws ForbiddenException si admin no es creador de la lección
      */
     public Step updateStep(Long stepId, String title, String content,
-                          String imageUrl, String videoUrl, Long adminId) {
+                           String imageUrl, String videoUrl, Long adminId) {
         Step step = findById(stepId);
 
         Lesson lesson = step.getLesson();
@@ -238,8 +238,8 @@ public class StepService {
         // Reordenar los pasos siguientes
         Integer currentOrder = step.getStepOrder();
         List<Step> subsequentSteps = stepRepository.findStepsByLessonOrderedByNumber(lesson.getId()).stream()
-            .filter(s -> s.getStepOrder() > currentOrder)
-            .collect(Collectors.toList());
+                .filter(s -> s.getStepOrder() > currentOrder)
+                .collect(Collectors.toList());
 
         for (Step s : subsequentSteps) {
             s.setStepOrder(s.getStepOrder() - 1);
@@ -275,19 +275,15 @@ public class StepService {
      * @return DTO StepResponse
      */
     public StepResponse convertToResponse(Step step) {
-        StepResponse response = new StepResponse(
-            step.getId(),
-            step.getStepOrder(),
-            step.getTitle(),
-            step.getContent(),
-            step.getImageUrl(),
-            step.getVideoUrl()
-        );
-
-        response.setCreatedAt(step.getCreatedAt());
-        response.setUpdatedAt(step.getUpdatedAt());
-
-        return response;
+        return StepResponse.builder()
+                .id(step.getId())
+                .stepOrder(step.getStepOrder())
+                .title(step.getTitle())
+                .content(step.getContent())
+                .imageUrl(step.getImageUrl())
+                .videoUrl(step.getVideoUrl())
+                .createdAt(step.getCreatedAt())
+                .updatedAt(step.getUpdatedAt())
+                .build();
     }
 }
-

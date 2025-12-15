@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -42,8 +43,11 @@ public class LessonController {
     @GetMapping
     public ResponseEntity<Page<LessonResponse>> listLessons(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "20") int size) {
-        Pageable pageable = PageRequest.of(page, size);
+            @RequestParam(defaultValue = "20") int size,
+            @RequestParam(defaultValue = "createdAt") String sort,
+            @RequestParam(defaultValue = "desc") String direction) {
+        Sort sortObj = direction.equalsIgnoreCase("asc") ? Sort.by(sort).ascending() : Sort.by(sort).descending();
+        Pageable pageable = PageRequest.of(page, size, sortObj);
         Page<Lesson> lessons = lessonService.getAllPublishedLessons(pageable);
         Page<LessonResponse> response = lessons.map(lessonService::convertToResponse);
         return ResponseEntity.ok(response);
@@ -60,8 +64,11 @@ public class LessonController {
     @GetMapping("/trending")
     public ResponseEntity<Page<LessonResponse>> getTrendingLessons(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
-        Pageable pageable = PageRequest.of(page, size);
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "accessCount") String sort,
+            @RequestParam(defaultValue = "desc") String direction) {
+        Sort sortObj = direction.equalsIgnoreCase("asc") ? Sort.by(sort).ascending() : Sort.by(sort).descending();
+        Pageable pageable = PageRequest.of(page, size, sortObj);
         Page<Lesson> lessons = lessonService.getTrendingLessons(pageable);
         Page<LessonResponse> response = lessons.map(lessonService::convertToResponse);
         return ResponseEntity.ok(response);
@@ -78,8 +85,11 @@ public class LessonController {
     @GetMapping("/with-simulator")
     public ResponseEntity<Page<LessonResponse>> getLessonsWithSimulator(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "20") int size) {
-        Pageable pageable = PageRequest.of(page, size);
+            @RequestParam(defaultValue = "20") int size,
+            @RequestParam(defaultValue = "createdAt") String sort,
+            @RequestParam(defaultValue = "desc") String direction) {
+        Sort sortObj = direction.equalsIgnoreCase("asc") ? Sort.by(sort).ascending() : Sort.by(sort).descending();
+        Pageable pageable = PageRequest.of(page, size, sortObj);
         Page<Lesson> lessons = lessonService.getLessonsWithSimulator(pageable);
         Page<LessonResponse> response = lessons.map(lessonService::convertToResponse);
         return ResponseEntity.ok(response);
@@ -98,8 +108,11 @@ public class LessonController {
     public ResponseEntity<Page<LessonResponse>> searchLessons(
             @RequestParam String text,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "20") int size) {
-        Pageable pageable = PageRequest.of(page, size);
+            @RequestParam(defaultValue = "20") int size,
+            @RequestParam(defaultValue = "createdAt") String sort,
+            @RequestParam(defaultValue = "desc") String direction) {
+        Sort sortObj = direction.equalsIgnoreCase("asc") ? Sort.by(sort).ascending() : Sort.by(sort).descending();
+        Pageable pageable = PageRequest.of(page, size, sortObj);
         Page<Lesson> lessons = lessonService.searchLessons(text, pageable);
         Page<LessonResponse> response = lessons.map(lessonService::convertToResponse);
         return ResponseEntity.ok(response);
@@ -118,8 +131,11 @@ public class LessonController {
     public ResponseEntity<Page<LessonResponse>> getLessonsByCategory(
             @PathVariable Long categoryId,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "20") int size) {
-        Pageable pageable = PageRequest.of(page, size);
+            @RequestParam(defaultValue = "20") int size,
+            @RequestParam(defaultValue = "lessonOrder") String sort,
+            @RequestParam(defaultValue = "asc") String direction) {
+        Sort sortObj = direction.equalsIgnoreCase("asc") ? Sort.by(sort).ascending() : Sort.by(sort).descending();
+        Pageable pageable = PageRequest.of(page, size, sortObj);
         Page<Lesson> lessons = lessonService.getLessonsByCategory(categoryId, pageable);
         Page<LessonResponse> response = lessons.map(lessonService::convertToResponse);
         return ResponseEntity.ok(response);
@@ -147,12 +163,13 @@ public class LessonController {
      * @return Lección creada (201 Created) o error (404)
      */
     @PostMapping
+    @org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<LessonResponse> createLesson(
             @Valid @RequestBody CreateLessonRequest createRequest,
             @RequestParam Long adminId) {
         Lesson lesson = lessonService.createLesson(createRequest, adminId);
         return ResponseEntity.status(HttpStatus.CREATED)
-            .body(lessonService.convertToResponse(lesson));
+                .body(lessonService.convertToResponse(lesson));
     }
 
     /**
@@ -165,12 +182,13 @@ public class LessonController {
      * @return Lección actualizada (200 OK) o error (403, 404)
      */
     @PutMapping("/{id}")
+    @org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<LessonResponse> updateLesson(
             @PathVariable Long id,
             @Valid @RequestBody CreateLessonRequest updateRequest,
             @RequestParam Long adminId) {
         Lesson updated = lessonService.updateLesson(id, updateRequest.getTitle(),
-                                                     updateRequest.getDescription(), adminId);
+                updateRequest.getDescription(), adminId);
         return ResponseEntity.ok(lessonService.convertToResponse(updated));
     }
 
@@ -184,6 +202,7 @@ public class LessonController {
      * @return Lección publicada (200 OK) o error (403, 404)
      */
     @PostMapping("/{id}/publish")
+    @org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<LessonResponse> publishLesson(
             @PathVariable Long id,
             @RequestParam Long adminId) {
@@ -200,6 +219,7 @@ public class LessonController {
      * @return Lección despublicada (200 OK) o error (403, 404)
      */
     @PostMapping("/{id}/unpublish")
+    @org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<LessonResponse> unpublishLesson(
             @PathVariable Long id,
             @RequestParam Long adminId) {
@@ -217,6 +237,7 @@ public class LessonController {
      * @return 204 No Content o error (403, 404)
      */
     @DeleteMapping("/{id}")
+    @org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteLesson(
             @PathVariable Long id,
             @RequestParam Long adminId) {
@@ -242,4 +263,3 @@ public class LessonController {
         return ResponseEntity.ok(response);
     }
 }
-

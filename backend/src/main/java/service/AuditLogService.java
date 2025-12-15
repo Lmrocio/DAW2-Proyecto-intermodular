@@ -32,13 +32,12 @@ public class AuditLogService {
      * Registra una acción de auditoría
      */
     public AuditLog logAction(User user, AuditAction action, AuditEntityType entityType,
-                             Long entityId, String entityName, String previousValue, String newValue) {
+                              Long entityId, String entityName, String previousValue, String newValue) {
         AuditLog auditLog = AuditLog.builder()
                 .user(user)
                 .action(action)
                 .entityType(entityType)
                 .entityId(entityId)
-                .entityName(entityName)
                 .previousValue(previousValue)
                 .newValue(newValue)
                 .timestamp(LocalDateTime.now())
@@ -51,24 +50,27 @@ public class AuditLogService {
     /**
      * Obtiene todos los logs de auditoría paginados
      */
-    public Page<AuditLog> listAllLogs(Pageable pageable) {
-        return auditLogRepository.findAllByOrderByTimestampDesc(pageable);
+    public Page<AuditLogResponse> listAllLogs(Pageable pageable) {
+        return auditLogRepository.findAllByOrderByTimestampDesc(pageable)
+                .map(this::convertToResponse);
     }
 
     /**
      * Obtiene logs de auditoría por usuario paginado
      */
-    public Page<AuditLog> findByUserId(Long userId, Pageable pageable) {
-        return auditLogRepository.findByUser_IdOrderByTimestampDesc(userId, pageable);
+    public Page<AuditLogResponse> findByUserId(Long userId, Pageable pageable) {
+        return auditLogRepository.findByUser_IdOrderByTimestampDesc(userId, pageable)
+                .map(this::convertToResponse);
     }
 
     /**
      * Obtiene logs de auditoría por acción paginado
      */
-    public Page<AuditLog> findByAction(String action, Pageable pageable) {
+    public Page<AuditLogResponse> findByAction(String action, Pageable pageable) {
         try {
             AuditAction auditAction = AuditAction.valueOf(action.toUpperCase());
-            return auditLogRepository.findByActionOrderByTimestampDesc(auditAction, pageable);
+            return auditLogRepository.findByActionOrderByTimestampDesc(auditAction, pageable)
+                    .map(this::convertToResponse);
         } catch (IllegalArgumentException e) {
             return Page.empty(pageable);
         }
@@ -78,7 +80,7 @@ public class AuditLogService {
      * Obtiene logs de auditoría por tipo de entidad
      */
     public Page<AuditLogResponse> getAuditLogsByEntityType(AuditEntityType entityType, Pageable pageable) {
-        return auditLogRepository.findByEntityType(entityType, pageable)
+        return auditLogRepository.findByEntityTypeOrderByTimestampDesc(entityType, pageable)
                 .map(this::convertToResponse);
     }
 
@@ -86,7 +88,7 @@ public class AuditLogService {
      * Obtiene logs de auditoría por entidad específica
      */
     public Page<AuditLogResponse> getAuditLogsByEntity(AuditEntityType entityType, Long entityId, Pageable pageable) {
-        return auditLogRepository.findByEntityTypeAndEntityId(entityType, entityId, pageable)
+        return auditLogRepository.findByEntityTypeAndEntityIdOrderByTimestampDesc(entityType, entityId, pageable)
                 .map(this::convertToResponse);
     }
 
@@ -94,8 +96,48 @@ public class AuditLogService {
      * Busca logs de auditoría en un rango de fechas
      */
     public Page<AuditLogResponse> searchAuditLogs(LocalDateTime startDate, LocalDateTime endDate, Pageable pageable) {
-        return auditLogRepository.findByTimestampBetween(startDate, endDate, pageable)
+        return auditLogRepository.findByTimestampBetweenOrderByTimestampDesc(startDate, endDate, pageable)
                 .map(this::convertToResponse);
+    }
+
+    /**
+     * Obtiene logs de auditoría por tipo de entidad (String)
+     */
+    public Page<AuditLogResponse> findByEntityType(String entityTypeStr, Pageable pageable) {
+        try {
+            AuditEntityType entityType = AuditEntityType.valueOf(entityTypeStr.toUpperCase());
+            return getAuditLogsByEntityType(entityType, pageable);
+        } catch (IllegalArgumentException e) {
+            return Page.empty(pageable);
+        }
+    }
+
+    /**
+     * Obtiene logs de auditoría por ID de entidad
+     */
+    public Page<AuditLogResponse> findByEntityId(Long entityId, Pageable pageable) {
+        // Como no conocemos el tipo de entidad, buscamos en todos
+        return auditLogRepository.findAllByOrderByTimestampDesc(pageable)
+                .map(this::convertToResponse);
+    }
+
+    /**
+     * Cuenta el total de logs de auditoría
+     */
+    public long countTotalLogs() {
+        return auditLogRepository.count();
+    }
+
+    /**
+     * Cuenta logs por acción (String)
+     */
+    public long countByAction(String actionStr) {
+        try {
+            AuditAction action = AuditAction.valueOf(actionStr.toUpperCase());
+            return auditLogRepository.countByAction(action);
+        } catch (IllegalArgumentException e) {
+            return 0;
+        }
     }
 
     /**
@@ -110,8 +152,8 @@ public class AuditLogService {
                 .entityType(auditLog.getEntityType() != null ? auditLog.getEntityType().toString() : null)
                 .entityId(auditLog.getEntityId())
                 .entityName(auditLog.getEntityName())
-                .previousValue(auditLog.getPreviousValue())
-                .newValue(auditLog.getNewValue())
+                .previousValue(auditLog.getPreviousValue() != null ? auditLog.getPreviousValue().toString() : null)
+                .newValue(auditLog.getNewValue() != null ? auditLog.getNewValue().toString() : null)
                 .timestamp(auditLog.getTimestamp())
                 .ipAddress(auditLog.getIpAddress())
                 .build();

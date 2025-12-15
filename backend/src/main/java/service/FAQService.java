@@ -78,7 +78,7 @@ public class FAQService {
      */
     public FAQ findById(Long faqId) {
         return faqRepository.findById(faqId)
-            .orElseThrow(() -> new ResourceNotFoundException("FAQ", "id", faqId));
+                .orElseThrow(() -> new ResourceNotFoundException("FAQ", "id", faqId));
     }
 
     /**
@@ -88,7 +88,7 @@ public class FAQService {
      */
     public Optional<FAQ> findActiveByQuestion(String question) {
         return faqRepository.findByQuestion(question)
-            .filter(FAQ::getIsActive);
+                .filter(FAQ::getIsActive);
     }
 
     /**
@@ -267,20 +267,16 @@ public class FAQService {
      * @return DTO FAQResponse
      */
     public FAQResponse convertToResponse(FAQ faq) {
-        FAQResponse response = new FAQResponse(
-            faq.getId(),
-            faq.getQuestion(),
-            faq.getAnswer(),
-            faq.getTopic(),
-            faq.getIsActive()
+        return new FAQResponse(
+                faq.getId(),
+                faq.getQuestion(),
+                faq.getAnswer(),
+                faq.getTopic(),
+                faq.getIsActive(),
+                faq.getCreatedAt(),
+                faq.getUpdatedAt(),
+                userService.convertToResponse(faq.getCreatedBy()),
+                userService.convertToResponse(faq.getUpdatedBy())
         );
-
-        response.setCreatedAt(faq.getCreatedAt());
-        response.setUpdatedAt(faq.getUpdatedAt());
-        response.setCreatedBy(userService.convertToResponse(faq.getCreatedBy()));
-        response.setUpdatedBy(userService.convertToResponse(faq.getUpdatedBy()));
-
-        return response;
     }
 }
-

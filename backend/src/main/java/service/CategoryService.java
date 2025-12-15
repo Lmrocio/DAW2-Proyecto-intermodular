@@ -74,7 +74,7 @@ public class CategoryService {
      */
     public Category findById(Long categoryId) {
         return categoryRepository.findById(categoryId)
-            .orElseThrow(() -> new ResourceNotFoundException("Category", "id", categoryId));
+                .orElseThrow(() -> new ResourceNotFoundException("Category", "id", categoryId));
     }
 
     /**
@@ -109,9 +109,9 @@ public class CategoryService {
      */
     public List<Category> getCategoriesWithLessons() {
         return categoryRepository.findAll()
-            .stream()
-            .filter(c -> c.getLessons() != null && !c.getLessons().isEmpty())
-            .collect(Collectors.toList());
+                .stream()
+                .filter(c -> c.getLessons() != null && !c.getLessons().isEmpty())
+                .collect(Collectors.toList());
     }
 
     /**
@@ -184,18 +184,16 @@ public class CategoryService {
      * @return DTO CategoryResponse
      */
     public CategoryResponse convertToResponse(Category category) {
-        CategoryResponse response = new CategoryResponse(
-            category.getId(),
-            category.getName(),
-            category.getDescription(),
-            category.getCreatedAt()
-        );
-
         // Contar lecciones publicadas
         long lessonCount = countPublishedLessonsInCategory(category.getId());
-        response.setLessonCount((int) lessonCount);
 
-        return response;
+        return new CategoryResponse(
+                category.getId(),
+                category.getName(),
+                category.getDescription(),
+                category.getCreatedAt(),
+                (int) lessonCount
+        );
     }
 
     /**
@@ -207,4 +205,3 @@ public class CategoryService {
         return categoryRepository.existsById(categoryId);
     }
 }
-

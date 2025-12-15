@@ -105,8 +105,8 @@ public class ProgressController {
         LocalDateTime since = LocalDateTime.now().minusDays(days);
         List<UserLessonProgress> progress = progressService.getRecentlyCompletedLessons(userId, since);
         List<ProgressResponse> response = progress.stream()
-            .map(progressService::convertToResponse)
-            .collect(Collectors.toList());
+                .map(progressService::convertToResponse)
+                .collect(Collectors.toList());
         return ResponseEntity.ok(response);
     }
 
@@ -193,7 +193,7 @@ public class ProgressController {
         stats.put("completedLessons", completedCount);
         stats.put("favoriteLessons", favoriteCount);
         stats.put("globalProgress", String.format("%.2f%%", globalProgress));
-        stats.put("totalPublishedLessons", progressService.userLessonProgressRepository.countTotalPublishedLessons());
+        stats.put("totalPublishedLessons", progressService.countTotalPublishedLessons());
 
         return ResponseEntity.ok(stats);
     }
@@ -221,4 +221,3 @@ public class ProgressController {
         return ResponseEntity.ok(stats);
     }
 }
-

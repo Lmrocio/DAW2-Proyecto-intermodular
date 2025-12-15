@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -239,13 +240,21 @@ public class UserLessonProgressService {
      */
     public double calculateGlobalProgress(Long userId) {
         long completed = userLessonProgressRepository.countByUser_IdAndIsCompletedTrue(userId);
-        long total = userLessonProgressRepository.countTotalPublishedLessons();
+        long total = lessonRepository.countByIsPublishedTrue();
 
         if (total == 0) {
             return 0.0;
         }
 
         return (completed * 100.0) / total;
+    }
+
+    /**
+     * Contar total de lecciones publicadas en la plataforma
+     * @return número de lecciones publicadas
+     */
+    public long countTotalPublishedLessons() {
+        return lessonRepository.countByIsPublishedTrue();
     }
 
     /**
@@ -293,20 +302,94 @@ public class UserLessonProgressService {
     }
 
     /**
+     * Calcular progreso por categoría para un usuario
+     * @param userId id del usuario
+     * @return mapa con progreso por categoría
+     */
+    public Map<String, Object> calculateProgressByCategory(Long userId) {
+        // Este método debería implementarse consultando las lecciones completadas por categoría
+        // Por ahora retornamos un mapa vacío como placeholder
+        return new java.util.HashMap<>();
+    }
+
+    /**
+     * Obtener configuración de accesibilidad del usuario
+     * @param userId id del usuario
+     * @return mapa con configuración de accesibilidad
+     */
+    public Map<String, Object> getAccessibilitySettings(Long userId) {
+        // Este método debería implementarse cuando se añada la entidad de configuración
+        // Por ahora retornamos configuración por defecto
+        Map<String, Object> settings = new java.util.HashMap<>();
+        settings.put("fontSize", "medium");
+        settings.put("contrast", "normal");
+        return settings;
+    }
+
+    /**
+     * Actualizar configuración de accesibilidad del usuario
+     * @param userId id del usuario
+     * @param settings configuración nueva
+     * @return configuración actualizada
+     */
+    public Map<String, Object> updateAccessibilitySettings(Long userId, Map<String, Object> settings) {
+        // Este método debería implementarse cuando se añada la entidad de configuración
+        // Por ahora retornamos los settings que se pasaron
+        return settings;
+    }
+
+    /**
+     * Resetear configuración de accesibilidad del usuario
+     * @param userId id del usuario
+     * @return configuración por defecto
+     */
+    public Map<String, Object> resetAccessibilitySettings(Long userId) {
+        Map<String, Object> settings = new java.util.HashMap<>();
+        settings.put("fontSize", "medium");
+        settings.put("contrast", "normal");
+        return settings;
+    }
+
+    /**
+     * Obtener interacciones del usuario con simuladores
+     * @param userId id del usuario
+     * @param pageable paginación
+     * @return página de interacciones
+     */
+    public Page<Map<String, Object>> getSimulatorInteractions(Long userId, Pageable pageable) {
+        // Este método debería implementarse consultando UserSimulatorInteraction
+        // Por ahora retornamos página vacía
+        return Page.empty(pageable);
+    }
+
+    /**
+     * Obtener resumen de interacciones con simuladores
+     * @param userId id del usuario
+     * @return resumen de interacciones
+     */
+    public Map<String, Object> getSimulatorInteractionSummary(Long userId) {
+        // Este método debería implementarse consultando UserSimulatorInteraction
+        Map<String, Object> summary = new java.util.HashMap<>();
+        summary.put("totalInteractions", 0);
+        summary.put("uniqueSimulators", 0);
+        return summary;
+    }
+
+    /**
      * Convertir entidad UserLessonProgress a DTO ProgressResponse
      * @param progress entidad UserLessonProgress
      * @return DTO ProgressResponse
      */
     public ProgressResponse convertToResponse(UserLessonProgress progress) {
-        return new ProgressResponse(
-            progress.getId(),
-            progress.getUser().getId(),
-            progress.getLesson().getId(),
-            progress.getLesson().getTitle(),
-            progress.getIsCompleted(),
-            progress.getIsFavorite(),
-            progress.getAccessCount()
-        );
+        return ProgressResponse.builder()
+                .id(progress.getId())
+                .userId(progress.getUser().getId())
+                .lessonId(progress.getLesson().getId())
+                .lessonTitle(progress.getLesson().getTitle())
+                .isCompleted(progress.getIsCompleted())
+                .isFavorite(progress.getIsFavorite())
+                .completedAt(progress.getCompletedAt())
+                .accessCount(progress.getAccessCount())
+                .build();
     }
 }
-

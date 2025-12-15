@@ -2,6 +2,7 @@ package model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
@@ -14,13 +15,14 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "audit_log", indexes = {
-    @Index(name = "idx_timestamp", columnList = "timestamp"),
-    @Index(name = "idx_user_action", columnList = "user_id, action")
+        @Index(name = "idx_timestamp", columnList = "timestamp"),
+        @Index(name = "idx_user_action", columnList = "user_id, action")
 })
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString(exclude = {"user"})
 public class AuditLog {
@@ -63,5 +65,12 @@ public class AuditLog {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
-}
 
+    /**
+     * Obtiene el nombre de la entidad basado en el tipo y el ID.
+     * @return nombre de la entidad en formato "EntityType:EntityId"
+     */
+    public String getEntityName() {
+        return entityType + ":" + entityId;
+    }
+}

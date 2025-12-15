@@ -4,6 +4,7 @@ import model.User;
 import model.AuditLog;
 import model.AuditAction;
 import model.AuditEntityType;
+import model.UserRole;
 import repository.UserRepository;
 import repository.AuditLogRepository;
 import dto.request.RegisterRequest;
@@ -42,6 +43,9 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private security.TokenBlacklistService tokenBlacklistService;
+
     /**
      * Registrar nuevo usuario
      * @param registerRequest datos del usuario a registrar
@@ -74,14 +78,14 @@ public class UserService {
         user.setUsername(registerRequest.getUsername());
         user.setEmail(registerRequest.getEmail());
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
-        user.setRole(User.UserRole.USER);
+        user.setRole(UserRole.USER);
         user.setIsActive(true);
 
         User savedUser = userRepository.save(user);
         logger.info("Usuario registrado exitosamente: {}", savedUser.getId());
 
         // Registrar en auditoría
-        recordAudit(AuditLog.AuditAction.CREATE, AuditLog.AuditEntityType.USER, savedUser.getId(), null, savedUser);
+        recordAudit(AuditAction.CREATE, AuditEntityType.USER, savedUser.getId(), null, savedUser);
 
         return savedUser;
     }
@@ -112,7 +116,7 @@ public class UserService {
      */
     public User findById(Long userId) {
         return userRepository.findById(userId)
-            .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
     }
 
     /**
@@ -201,9 +205,9 @@ public class UserService {
      * @param userRole rol del usuario autenticado
      * @return true si puede editar
      */
-    public boolean canEditUser(Long currentUserId, Long targetUserId, User.UserRole userRole) {
+    public boolean canEditUser(Long currentUserId, Long targetUserId, UserRole userRole) {
         // Un usuario regular solo puede editarse a sí mismo
-        if (userRole == User.UserRole.USER) {
+        if (userRole == UserRole.USER) {
             return currentUserId.equals(targetUserId);
         }
         // Un admin solo puede editarse a sí mismo (no otros admins)
@@ -240,7 +244,7 @@ public class UserService {
         logger.info("Perfil de usuario actualizado: {}", userId);
 
         // Registrar en auditoría
-        recordAudit(AuditLog.AuditAction.UPDATE, AuditLog.AuditEntityType.USER, userId, oldValue, email);
+        recordAudit(AuditAction.UPDATE, AuditEntityType.USER, userId, oldValue, email);
 
         return updatedUser;
     }
@@ -259,7 +263,7 @@ public class UserService {
         logger.info("Cuenta de usuario desactivada: {}", userId);
 
         // Registrar en auditoría
-        recordAudit(AuditLog.AuditAction.DISABLE_ACCOUNT, AuditLog.AuditEntityType.USER, userId, true, false);
+        recordAudit(AuditAction.DISABLE_ACCOUNT, AuditEntityType.USER, userId, true, false);
 
         return deactivatedUser;
     }
@@ -285,13 +289,13 @@ public class UserService {
      */
     public UserResponse convertToResponse(User user) {
         return new UserResponse(
-            user.getId(),
-            user.getUsername(),
-            user.getEmail(),
-            user.getRole().toString(),
-            user.getIsActive(),
-            user.getCreatedAt(),
-            user.getUpdatedAt()
+                user.getId(),
+                user.getUsername(),
+                user.getEmail(),
+                user.getRole().toString(),
+                user.getIsActive(),
+                user.getCreatedAt(),
+                user.getUpdatedAt()
         );
     }
 
@@ -304,17 +308,34 @@ public class UserService {
      * @param newValue valor nuevo
      */
     private void recordAudit(AuditAction action, AuditEntityType entityType,
-                            Long entityId, Object previousValue, Object newValue) {
+                             Long entityId, Object previousValue, Object newValue) {
         try {
             User currentUser = findById(entityId);
             auditLogService.logAction(currentUser, action, entityType, entityId,
-                                     currentUser.getUsername(),
-                                     previousValue != null ? previousValue.toString() : null,
-                                     newValue != null ? newValue.toString() : null);
+                    currentUser.getUsername(),
+                    previousValue != null ? previousValue.toString() : null,
+                    newValue != null ? newValue.toString() : null);
         } catch (Exception e) {
             logger.error("Error registrando auditoría: {}", e.getMessage());
             // No lanzar excepción para no interrumpir la operación principal
         }
     }
-}
 
+    /**
+     * Validar contraseña contra el hash almacenado con BCrypt
+     * @param rawPassword contraseña sin encriptar
+     * @param hashedPassword contraseña hasheada con BCrypt
+     * @return true si coincide, false si no
+     */
+    public boolean validatePassword(String rawPassword, String hashedPassword) {
+        return passwordEncoder.matches(rawPassword, hashedPassword);
+    }
+
+    /**
+     * Obtener el servicio de blacklist de tokens
+     * @return TokenBlacklistService
+     */
+    public security.TokenBlacklistService getTokenBlacklistService() {
+        return tokenBlacklistService;
+    }
+}

@@ -14,6 +14,7 @@ import dto.response.StepResponse;
 import dto.response.UserResponse;
 import exception.ResourceNotFoundException;
 import exception.ForbiddenException;
+import exception.UnprocessableEntityException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -39,6 +40,8 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class LessonService {
+
+    private static final Logger logger = LoggerFactory.getLogger(LessonService.class);
 
     @Autowired
     private LessonRepository lessonRepository;
@@ -94,10 +97,12 @@ public class LessonService {
     /**
      * Obtener lección por ID
      * @param lessonId id de la lección
-     * @return Optional con la lección si existe
+     * @return lección si existe
+     * @throws ResourceNotFoundException si no existe
      */
-    public Optional<Lesson> findById(Long lessonId) {
-        return lessonRepository.findById(lessonId);
+    public Lesson findById(Long lessonId) {
+        return lessonRepository.findById(lessonId)
+                .orElseThrow(() -> new ResourceNotFoundException("Lesson", "id", lessonId));
     }
 
     /**
@@ -173,7 +178,7 @@ public class LessonService {
         // Validar que el admin sea el creador
         if (!lesson.getCreatedBy().getId().equals(adminId)) {
             logger.warn("Intento de editar lección ajena: usuario {} intentó editar lección de {}",
-                       adminId, lesson.getCreatedBy().getId());
+                    adminId, lesson.getCreatedBy().getId());
             throw new ForbiddenException("editar lección", "no eres el creador");
         }
 
@@ -203,11 +208,15 @@ public class LessonService {
             throw new ForbiddenException("publicar lección", "no eres el creador");
         }
 
-        // Validar que tenga al menos un paso
+        // Validar que tenga al menos un paso (validación de negocio - 422)
         long stepCount = stepRepository.countByLesson_Id(lessonId);
         if (stepCount == 0) {
             logger.warn("Intento de publicar lección sin pasos: {}", lessonId);
-            throw new ForbiddenException("publicar lección", "debe tener al menos un paso");
+            throw new UnprocessableEntityException(
+                    "No se puede publicar una lección sin pasos. La lección debe tener al menos 1 paso.",
+                    "NO_STEPS_IN_LESSON",
+                    lessonId
+            );
         }
 
         lesson.setIsPublished(true);
@@ -300,32 +309,27 @@ public class LessonService {
      * @return DTO LessonResponse
      */
     public LessonResponse convertToResponse(Lesson lesson) {
-        LessonResponse response = new LessonResponse(
-            lesson.getId(),
-            lesson.getTitle(),
-            lesson.getDescription(),
-            lesson.getCategory().getId(),
-            lesson.getCategory().getName(),
-            lesson.getLessonOrder(),
-            lesson.getIsPublished()
-        );
-
-        response.setRelatedSimulatorId(lesson.getRelatedSimulator() != null ? lesson.getRelatedSimulator().getId() : null);
-        response.setCreatedAt(lesson.getCreatedAt());
-        response.setUpdatedAt(lesson.getUpdatedAt());
-
-        // Convertir createdBy y updatedBy a UserResponse
-        response.setCreatedBy(userService.convertToResponse(lesson.getCreatedBy()));
-        response.setUpdatedBy(userService.convertToResponse(lesson.getUpdatedBy()));
-
         // Convertir pasos a StepResponse
         List<StepResponse> stepsResponse = lesson.getSteps().stream()
-            .sorted((s1, s2) -> Integer.compare(s1.getStepOrder(), s2.getStepOrder()))
-            .map(this::convertStepToResponse)
-            .collect(Collectors.toList());
-        response.setSteps(stepsResponse);
+                .sorted((s1, s2) -> Integer.compare(s1.getStepOrder(), s2.getStepOrder()))
+                .map(this::convertStepToResponse)
+                .collect(Collectors.toList());
 
-        return response;
+        return LessonResponse.builder()
+                .id(lesson.getId())
+                .title(lesson.getTitle())
+                .description(lesson.getDescription())
+                .categoryId(lesson.getCategory().getId())
+                .categoryName(lesson.getCategory().getName())
+                .lessonOrder(lesson.getLessonOrder())
+                .isPublished(lesson.getIsPublished())
+                .relatedSimulatorId(lesson.getRelatedSimulator() != null ? lesson.getRelatedSimulator().getId() : null)
+                .createdAt(lesson.getCreatedAt())
+                .updatedAt(lesson.getUpdatedAt())
+                .createdBy(userService.convertToResponse(lesson.getCreatedBy()))
+                .updatedBy(userService.convertToResponse(lesson.getUpdatedBy()))
+                .steps(stepsResponse)
+                .build();
     }
 
     /**
@@ -334,14 +338,15 @@ public class LessonService {
      * @return DTO StepResponse
      */
     private StepResponse convertStepToResponse(Step step) {
-        return new StepResponse(
-            step.getId(),
-            step.getStepOrder(),
-            step.getTitle(),
-            step.getContent(),
-            step.getImageUrl(),
-            step.getVideoUrl()
-        );
+        return StepResponse.builder()
+                .id(step.getId())
+                .stepOrder(step.getStepOrder())
+                .title(step.getTitle())
+                .content(step.getContent())
+                .imageUrl(step.getImageUrl())
+                .videoUrl(step.getVideoUrl())
+                .createdAt(step.getCreatedAt())
+                .updatedAt(step.getUpdatedAt())
+                .build();
     }
 }
-

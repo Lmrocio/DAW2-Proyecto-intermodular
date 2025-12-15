@@ -23,18 +23,18 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
  * @version 1.0
  */
 @SpringBootApplication(scanBasePackages = {
-    "com.example.backend",
-    "config",
-    "controller",
-    "service",
-    "repository",
-    "exception"
+        "com.example.backend",
+        "config",
+        "controller",
+        "service",
+        "repository",
+        "exception",
+        "security"
 })
-@EnableJpaRepositories(basePackages = "repository")
+@EnableJpaRepositories(basePackages = {"repository"})
 public class AplicacionEducativa {
 
     public static void main(String[] args) {
         SpringApplication.run(AplicacionEducativa.class, args);
     }
 }
-
