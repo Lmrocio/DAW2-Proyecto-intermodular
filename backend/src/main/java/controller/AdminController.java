@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -47,6 +48,7 @@ public class AdminController {
      * @param size tamaño de página (default: 20)
      * @return Página de usuarios con información básica (200 OK)
      */
+    @Secured("ROLE_ADMIN")
     @GetMapping("/users")
     public ResponseEntity<Page<UserResponse>> listAllUsers(
             @RequestParam(defaultValue = "0") int page,
@@ -66,8 +68,10 @@ public class AdminController {
      * @param size tamaño de página
      * @return Página de usuarios que coincidan (200 OK)
      */
+    @Secured("ROLE_ADMIN")
     @GetMapping("/users/search")
     public ResponseEntity<Page<UserResponse>> searchUsers(
+
             @RequestParam String search,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size) {
@@ -84,6 +88,7 @@ public class AdminController {
      * @param id id del usuario
      * @return Usuario con información detallada (200 OK) o error (404)
      */
+    @Secured("ROLE_ADMIN")
     @GetMapping("/users/{id}")
     public ResponseEntity<UserResponse> getUserDetails(@PathVariable Long id) {
         User user = userService.findById(id);
@@ -97,6 +102,7 @@ public class AdminController {
      * @param id id del usuario
      * @return Estadísticas del usuario: lecciones completadas, favoritos, progreso, etc. (200 OK)
      */
+    @Secured("ROLE_ADMIN")
     @GetMapping("/users/{id}/statistics")
     public ResponseEntity<Map<String, Object>> getUserStatistics(@PathVariable Long id) {
         User user = userService.findById(id);
@@ -126,6 +132,7 @@ public class AdminController {
      * @param statusRequest con campo "isActive" (true/false)
      * @return Usuario actualizado (200 OK) o error (404)
      */
+    @Secured("ROLE_ADMIN")
     @PutMapping("/users/{id}/status")
     public ResponseEntity<UserResponse> changeUserStatus(
             @PathVariable Long id,
@@ -154,6 +161,7 @@ public class AdminController {
      *
      * @return Número total de usuarios (200 OK)
      */
+    @Secured("ROLE_ADMIN")
     @GetMapping("/users/count/total")
     public ResponseEntity<Map<String, Long>> countTotalUsers() {
         long total = userService.countTotalUsers();
@@ -168,6 +176,7 @@ public class AdminController {
      *
      * @return Número de usuarios activos (200 OK)
      */
+    @Secured("ROLE_ADMIN")
     @GetMapping("/users/count/active")
     public ResponseEntity<Map<String, Long>> countActiveUsers() {
         long active = userService.countActiveUsers();
@@ -182,6 +191,7 @@ public class AdminController {
      *
      * @return Objeto con conteo de ADMIN y USER (200 OK)
      */
+    @Secured("ROLE_ADMIN")
     @GetMapping("/users/count/by-role")
     public ResponseEntity<Map<String, Long>> countUsersByRole() {
         long adminCount = userService.countUsersByRole("ADMIN");
@@ -207,6 +217,7 @@ public class AdminController {
      * @param size tamaño de página (default: 20)
      * @return Página de logs de auditoría (200 OK)
      */
+    @Secured("ROLE_ADMIN")
     @GetMapping("/audit-logs")
     public ResponseEntity<Page<AuditLogResponse>> listAuditLogs(
             @RequestParam(defaultValue = "0") int page,
@@ -226,6 +237,7 @@ public class AdminController {
      * @param size tamaño de página
      * @return Página de logs filtrados (200 OK)
      */
+    @Secured("ROLE_ADMIN")
     @GetMapping("/audit-logs/search")
     public ResponseEntity<Page<AuditLogResponse>> searchAuditLogs(
             @RequestParam String filter,
@@ -279,6 +291,7 @@ public class AdminController {
      * @param size tamaño de página
      * @return Página de logs del usuario (200 OK)
      */
+    @Secured("ROLE_ADMIN")
     @GetMapping("/audit-logs/user/{userId}")
     public ResponseEntity<Page<AuditLogResponse>> getAuditLogsByUser(
             @PathVariable Long userId,
@@ -298,6 +311,7 @@ public class AdminController {
      * @param size tamaño de página
      * @return Página de logs de la acción (200 OK)
      */
+    @Secured("ROLE_ADMIN")
     @GetMapping("/audit-logs/action/{action}")
     public ResponseEntity<Page<AuditLogResponse>> getAuditLogsByAction(
             @PathVariable String action,
@@ -317,6 +331,7 @@ public class AdminController {
      * @param size tamaño de página
      * @return Página de logs de la entidad (200 OK)
      */
+    @Secured("ROLE_ADMIN")
     @GetMapping("/audit-logs/entity/{entityType}")
     public ResponseEntity<Page<AuditLogResponse>> getAuditLogsByEntity(
             @PathVariable String entityType,
@@ -333,6 +348,7 @@ public class AdminController {
      *
      * @return Conteo de logs por acción y entidad (200 OK)
      */
+    @Secured("ROLE_ADMIN")
     @GetMapping("/audit-logs/count")
     public ResponseEntity<Map<String, Object>> getAuditLogStatistics() {
         long totalLogs = auditLogService.countTotalLogs();
@@ -379,6 +395,7 @@ public class AdminController {
      *
      * @return Resumen con estadísticas principales (200 OK)
      */
+    @Secured("ROLE_ADMIN")
     @GetMapping("/dashboard/summary")
     public ResponseEntity<Map<String, Object>> getDashboardSummary() {
         Map<String, Object> summary = new HashMap<>();

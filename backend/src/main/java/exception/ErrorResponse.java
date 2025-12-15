@@ -1,12 +1,30 @@
 package exception;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDateTime;
 import java.util.Map;
 
 /**
  * Respuesta de error estándar para la API
  * Estructura común para todos los errores devueltos por la API
+ *
+ * Ejemplo de respuesta:
+ * {
+ *   "code": "RESOURCE_NOT_FOUND",
+ *   "message": "Lección con id 999 no encontrada",
+ *   "httpStatus": 404,
+ *   "timestamp": "2025-12-15T10:30:00",
+ *   "path": "/api/lessons/999",
+ *   "validationErrors": null,
+ *   "details": null
+ * }
  */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ErrorResponse {
 
     private String code;                    // Código de error único (ej: RESOURCE_NOT_FOUND)
@@ -18,7 +36,7 @@ public class ErrorResponse {
     private Map<String, Object> details;    // Detalles adicionales del error
 
     /**
-     * Constructor básico
+     * Constructor para casos básicos sin validationErrors ni details
      */
     public ErrorResponse(String code, String message, int httpStatus,
                          LocalDateTime timestamp, String path) {
@@ -27,74 +45,7 @@ public class ErrorResponse {
         this.httpStatus = httpStatus;
         this.timestamp = timestamp;
         this.path = path;
-    }
-
-    // Getters y Setters
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public int getHttpStatus() {
-        return httpStatus;
-    }
-
-    public void setHttpStatus(int httpStatus) {
-        this.httpStatus = httpStatus;
-    }
-
-    public LocalDateTime getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(LocalDateTime timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
-
-    public Map<String, String> getValidationErrors() {
-        return validationErrors;
-    }
-
-    public void setValidationErrors(Map<String, String> validationErrors) {
-        this.validationErrors = validationErrors;
-    }
-
-    public Map<String, Object> getDetails() {
-        return details;
-    }
-
-    public void setDetails(Map<String, Object> details) {
-        this.details = details;
-    }
-
-    @Override
-    public String toString() {
-        return "ErrorResponse{" +
-                "code='" + code + '\'' +
-                ", message='" + message + '\'' +
-                ", httpStatus=" + httpStatus +
-                ", timestamp=" + timestamp +
-                ", path='" + path + '\'' +
-                '}';
+        this.validationErrors = null;
+        this.details = null;
     }
 }

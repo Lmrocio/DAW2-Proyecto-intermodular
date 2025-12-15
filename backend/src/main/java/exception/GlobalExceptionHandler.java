@@ -2,10 +2,13 @@ package exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.servlet.NoHandlerFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -124,6 +127,29 @@ public class GlobalExceptionHandler {
     }
 
     /**
+     * Maneja AccessDeniedException → 403 Forbidden
+     * Se lanza cuando Spring Security rechaza el acceso por falta de rol/permisos
+     *
+     * Ejemplo: Usuario sin rol ADMIN intenta acceder a /api/admin/*
+     */
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ErrorResponse> handleAccessDeniedException(
+            AccessDeniedException ex, WebRequest request) {
+
+        logger.warn("Acceso denegado por Spring Security: {}", ex.getMessage());
+
+        ErrorResponse errorResponse = new ErrorResponse(
+                "ACCESS_DENIED",
+                "No tienes permisos para acceder a este recurso",
+                403,
+                LocalDateTime.now(),
+                request.getDescription(false).replace("uri=", "")
+        );
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
+    }
+
+    /**
      * Maneja UnprocessableEntityException → 422 Unprocessable Entity
      * Se lanza cuando la validación de negocio falla
      * Los datos son válidos sintácticamente pero violan reglas de negocio
@@ -207,6 +233,59 @@ public class GlobalExceptionHandler {
         );
 
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    /**
+     * Maneja MethodArgumentTypeMismatchException → 400 Bad Request
+     * Se lanza cuando un parámetro tiene tipo incorrecto
+     *
+     * Ejemplo: GET /api/lessons/abc (esperaba un Long, recibió String)
+     */
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ErrorResponse> handleMethodArgumentTypeMismatchException(
+            MethodArgumentTypeMismatchException ex, WebRequest request) {
+
+        logger.warn("Error de tipo de argumento: {}", ex.getMessage());
+
+        String message = String.format(
+                "El parámetro '%s' debe ser de tipo %s, recibió: %s",
+                ex.getName(),
+                ex.getRequiredType() != null ? ex.getRequiredType().getSimpleName() : "desconocido",
+                ex.getValue()
+        );
+
+        ErrorResponse errorResponse = new ErrorResponse(
+                "INVALID_PARAMETER_TYPE",
+                message,
+                400,
+                LocalDateTime.now(),
+                request.getDescription(false).replace("uri=", "")
+        );
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    /**
+     * Maneja NoHandlerFoundException → 404 Not Found
+     * Se lanza cuando se accede a un endpoint que no existe
+     *
+     * Ejemplo: GET /api/no-existe-este-endpoint
+     */
+    @ExceptionHandler(NoHandlerFoundException.class)
+    public ResponseEntity<ErrorResponse> handleNoHandlerFoundException(
+            NoHandlerFoundException ex, WebRequest request) {
+
+        logger.warn("Endpoint no encontrado: {} {}", ex.getHttpMethod(), ex.getRequestURL());
+
+        ErrorResponse errorResponse = new ErrorResponse(
+                "ENDPOINT_NOT_FOUND",
+                String.format("El endpoint %s %s no existe", ex.getHttpMethod(), ex.getRequestURL()),
+                404,
+                LocalDateTime.now(),
+                ex.getRequestURL()
+        );
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
     /**
