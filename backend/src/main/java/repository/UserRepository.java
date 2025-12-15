@@ -71,6 +71,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * @return página de usuarios que coincidan
      */
     @Query("SELECT u FROM User u WHERE LOWER(u.username) LIKE LOWER(CONCAT('%', :search, '%')) AND u.isActive = true ORDER BY u.username ASC")
-    Page<User> searchActiveUsersByUsername(org.springframework.data.repository.query.Param("search") String search, Pageable pageable);
+    Page<User> searchActiveUsersByUsername(@org.springframework.data.repository.query.Param("search") String search, Pageable pageable);
 }
 

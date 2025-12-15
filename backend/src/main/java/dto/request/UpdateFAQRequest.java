@@ -8,13 +8,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * DTO para crear una nueva FAQ
+ * DTO para actualizar una FAQ existente
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CreateFAQRequest {
+public class UpdateFAQRequest {
 
     @NotBlank(message = "La pregunta es requerida")
     @Size(max = 500, message = "La pregunta no puede exceder 500 caracteres")
@@ -26,5 +26,7 @@ public class CreateFAQRequest {
     @NotBlank(message = "El tema es requerido")
     @Size(max = 100, message = "El tema no puede exceder 100 caracteres")
     private String topic;
+
+    private Boolean isActive;
 }
 

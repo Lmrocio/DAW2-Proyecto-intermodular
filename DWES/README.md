@@ -344,37 +344,21 @@ backend/
 │   │   ├── java/
 │   │   │   ├── AplicacionSaludo.java    # Clase principal (@SpringBootApplication)
 │   │   │   │
-│   │   │   ├── model/              # ✅ Entidades JPA (9 implementadas)
-│   │   │   │   ├── User.java
-│   │   │   │   ├── Category.java
-│   │   │   │   ├── Lesson.java
-│   │   │   │   ├── Step.java
-│   │   │   │   ├── Simulator.java
-│   │   │   │   ├── UserLessonProgress.java
-│   │   │   │   ├── UserSimulatorInteraction.java
-│   │   │   │   ├── FAQ.java
-│   │   │   │   └── AuditLog.java
+│   │   │   ├── model/              
 │   │   │   │
-│   │   │   ├── config/             # ✅ Configuración
-│   │   │   │   └── JpaConfig.java
+│   │   │   ├── config/            
 │   │   │   │
-│   │   │   ├── repository/         # 📋 Interfaces JpaRepository (pendiente)
-│   │   │   │   └── package-info.java
+│   │   │   ├── repository/         
 │   │   │   │
-│   │   │   ├── service/            # 📋 Lógica de negocio (pendiente)
-│   │   │   │   └── package-info.java
+│   │   │   ├── service/           
 │   │   │   │
-│   │   │   ├── controller/         # 📋 Controladores REST (pendiente)
-│   │   │   │   └── package-info.java
+│   │   │   ├── controller/        
 │   │   │   │
-│   │   │   ├── dto/                # 📋 Data Transfer Objects (pendiente)
-│   │   │   │   └── package-info.java
+│   │   │   ├── dto/            
 │   │   │   │
-│   │   │   ├── exception/          # 📋 Excepciones personalizadas (pendiente)
-│   │   │   │   └── package-info.java
+│   │   │   ├── exception/        
 │   │   │   │
-│   │   │   └── security/           # 📋 Configuración de seguridad (pendiente)
-│   │   │       └── package-info.java
+│   │   │   └── security/        
 │   │   │
 │   │   └── resources/
 │   │       ├── application.properties
@@ -386,11 +370,7 @@ backend/
 │           ├── repository/
 │           ├── service/
 │           └── controller/
-│
-├── ENTIDADES_JPA.md                # Documentación de entidades implementadas
-├── README.md                       # Descripción del proyecto
-├── .gitignore                      # Archivos ignorados por Git
-└── target/                         # Archivos compilados (generados por Maven)
+
 ```
 
 ### Descripción de Paquetes

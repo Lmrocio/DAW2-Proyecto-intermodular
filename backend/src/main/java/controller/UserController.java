@@ -22,7 +22,7 @@ import java.util.Map;
  * Requiere autenticación (futuro: @PreAuthorize).
  */
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping("/api/users")
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class UserController {
 
@@ -30,7 +30,7 @@ public class UserController {
     private UserService userService;
 
     /**
-     * GET /api/v1/users/{id}
+     * GET /api/users/{id}
      * Obtener usuario por ID
      *
      * @param id id del usuario
@@ -43,7 +43,7 @@ public class UserController {
     }
 
     /**
-     * GET /api/v1/users
+     * GET /api/users
      * Listar usuarios activos (solo admin)
      *
      * @param page número de página (default: 0)
@@ -61,7 +61,7 @@ public class UserController {
     }
 
     /**
-     * GET /api/v1/users/search
+     * GET /api/users/search
      * Buscar usuarios por username
      *
      * @param search texto a buscar
@@ -81,7 +81,7 @@ public class UserController {
     }
 
     /**
-     * PUT /api/v1/users/{id}
+     * PUT /api/users/{id}
      * Actualizar perfil de usuario
      *
      * @param id id del usuario

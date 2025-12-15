@@ -14,14 +14,16 @@ public class UnauthorizedException extends RuntimeException {
      */
     public UnauthorizedException(String message) {
         super(message);
+        this.reason = message;
     }
 
     /**
-     * Constructor con razón
+     * Constructor con razón personalizada
+     * @param message mensaje de error
      * @param reason razón por la que no está autenticado
      */
-    public UnauthorizedException(String reason) {
-        super("No autenticado: " + reason);
+    public UnauthorizedException(String message, String reason) {
+        super("No autenticado: " + message);
         this.reason = reason;
     }
 

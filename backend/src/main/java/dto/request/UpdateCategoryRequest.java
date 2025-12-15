@@ -8,22 +8,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * DTO para crear un nuevo simulador
+ * DTO para actualizar una categoría existente
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CreateSimulatorRequest {
+public class UpdateCategoryRequest {
 
-    @NotBlank(message = "El título es requerido")
-    @Size(max = 255, message = "El título no puede exceder 255 caracteres")
-    private String title;
+    @NotBlank(message = "El nombre es requerido")
+    @Size(max = 100, message = "El nombre no puede exceder 100 caracteres")
+    private String name;
 
     private String description;
-
-    private String feedback;
-
-    private Long lessonId;
 }
 

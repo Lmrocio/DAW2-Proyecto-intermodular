@@ -2,8 +2,12 @@ package model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -11,13 +15,17 @@ import java.util.Set;
 
 @Entity
 @Table(name = "users")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString(exclude = {"lessonsCreated", "lessonsUpdated", "simulatorsCreated", "simulatorsUpdated", "faqs", "lessonProgress", "simulatorInteractions", "auditLogs"})
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
 
     @Column(unique = true, nullable = false, length = 100)
@@ -27,6 +35,7 @@ public class User {
     private String email;
 
     @Column(nullable = false)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @Enumerated(EnumType.STRING)
@@ -42,7 +51,16 @@ public class User {
     @Column(nullable = false)
     private LocalDateTime updatedAt = LocalDateTime.now();
 
-    // Relaciones
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
     @OneToMany(mappedBy = "createdBy", cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     private Set<Lesson> lessonsCreated = new HashSet<>();
 
@@ -66,16 +84,5 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<AuditLog> auditLogs = new HashSet<>();
-
-    @PreUpdate
-    protected void onUpdate() {
-        updatedAt = LocalDateTime.now();
-    }
-
-    // Enum para roles
-    public enum UserRole {
-        USER,
-        ADMIN
-    }
 }
 

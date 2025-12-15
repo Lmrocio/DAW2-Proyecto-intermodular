@@ -12,7 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
+import java.util.HashMap;
 
 /**
  * Controlador de Simuladores
@@ -22,7 +23,7 @@ import javax.validation.Valid;
  * Admin: POST, PUT, DELETE (solo su contenido)
  */
 @RestController
-@RequestMapping("/api/v1/simulators")
+@RequestMapping("/api/simulators")
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class SimulatorController {
 
@@ -163,6 +164,33 @@ public class SimulatorController {
             @RequestParam Long adminId) {
         simulatorService.deleteSimulator(id, adminId);
         return ResponseEntity.noContent().build();
+    }
+
+    /**
+     * POST /api/v1/simulators/{id}/interact
+     * Registrar interacción del usuario con un simulador
+     *
+     * Cada vez que un usuario accede/utiliza un simulador, se registra la interacción.
+     * Útil para rastrear qué simuladores son más usados y para futuros sistemas de recomendación.
+     *
+     * @param id id del simulador
+     * @param userId id del usuario que interactúa
+     * @return Información de la interacción registrada (200 OK) o error (404)
+     */
+    @PostMapping("/{id}/interact")
+    public ResponseEntity<?> interactWithSimulator(
+            @PathVariable Long id,
+            @RequestParam Long userId) {
+        try {
+            Object interaction = simulatorService.recordInteraction(id, userId);
+            return ResponseEntity.ok(interaction);
+        } catch (Exception e) {
+            return ResponseEntity.status(400)
+                .body(new HashMap<String, String>() {{
+                    put("error", "No se pudo registrar la interacción con el simulador");
+                    put("message", e.getMessage());
+                }});
+        }
     }
 }
 

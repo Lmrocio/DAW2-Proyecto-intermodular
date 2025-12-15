@@ -2,6 +2,8 @@ package repository;
 
 import model.FAQ;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
@@ -57,6 +59,18 @@ public interface FAQRepository extends JpaRepository<FAQ, Long> {
      * @return página de FAQs activas
      */
     Page<FAQ> findByIsActiveTrueOrderByCreatedAtDesc(Pageable pageable);
+
+    /**
+     * Buscar FAQs activas por texto (pregunta o respuesta)
+     * Búsqueda case-insensitive
+     * @param search texto a buscar
+     * @param pageable paginación
+     * @return página de FAQs que coincidan
+     */
+    @Query("SELECT f FROM FAQ f WHERE (LOWER(f.question) LIKE LOWER(CONCAT('%', :search, '%')) " +
+           "OR LOWER(f.answer) LIKE LOWER(CONCAT('%', :search, '%'))) " +
+           "AND f.isActive = true ORDER BY f.question ASC")
+    Page<FAQ> searchActiveFAQ(@Param("search") String search, Pageable pageable);
 
     /**
      * Contar FAQs activas por tema

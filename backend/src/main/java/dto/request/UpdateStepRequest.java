@@ -1,7 +1,6 @@
 package dto.request;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,15 +8,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * DTO para crear un nuevo paso en una lección
+ * DTO para actualizar un paso existente
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CreateStepRequest {
+public class UpdateStepRequest {
 
-    @NotNull(message = "El orden es requerido")
     private Integer stepOrder;
 
     @NotBlank(message = "El título es requerido")

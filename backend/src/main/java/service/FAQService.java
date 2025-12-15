@@ -111,6 +111,16 @@ public class FAQService {
     }
 
     /**
+     * Buscar FAQs activas por texto (pregunta o respuesta)
+     * @param searchText texto a buscar
+     * @param pageable paginación
+     * @return página de FAQs que coincidan
+     */
+    public Page<FAQ> searchActiveFAQs(String searchText, Pageable pageable) {
+        return faqRepository.searchActiveFAQ(searchText, pageable);
+    }
+
+    /**
      * Obtener todos los temas disponibles
      * @return lista de temas únicos
      */

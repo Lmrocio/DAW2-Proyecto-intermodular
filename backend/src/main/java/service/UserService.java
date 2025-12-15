@@ -2,6 +2,8 @@ package service;
 
 import model.User;
 import model.AuditLog;
+import model.AuditAction;
+import model.AuditEntityType;
 import repository.UserRepository;
 import repository.AuditLogRepository;
 import dto.request.RegisterRequest;
@@ -33,6 +35,9 @@ public class UserService {
 
     @Autowired
     private AuditLogRepository auditLogRepository;
+
+    @Autowired
+    private AuditLogService auditLogService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -129,6 +134,15 @@ public class UserService {
     }
 
     /**
+     * Listar todos los usuarios (activos e inactivos)
+     * @param pageable paginación
+     * @return página de todos los usuarios
+     */
+    public Page<User> listAllUsers(Pageable pageable) {
+        return userRepository.findAll(pageable);
+    }
+
+    /**
      * Buscar usuarios activos por nombre de usuario
      * @param search texto a buscar
      * @param pageable paginación
@@ -139,11 +153,44 @@ public class UserService {
     }
 
     /**
+     * Buscar todos los usuarios por nombre o email
+     * @param search texto a buscar
+     * @param pageable paginación
+     * @return página de usuarios que coincidan
+     */
+    public Page<User> searchAllUsers(String search, Pageable pageable) {
+        return userRepository.searchActiveUsersByUsername(search, pageable);
+    }
+
+    /**
      * Contar usuarios activos
      * @return número de usuarios activos
      */
     public long countActiveUsers() {
         return userRepository.countByIsActiveTrue();
+    }
+
+    /**
+     * Contar todos los usuarios (activos e inactivos)
+     * @return número total de usuarios
+     */
+    public long countTotalUsers() {
+        return userRepository.count();
+    }
+
+    /**
+     * Contar usuarios por rol
+     * @param role nombre del rol (ADMIN o USER)
+     * @return número de usuarios con ese rol
+     */
+    public long countUsersByRole(String role) {
+        long count = 0;
+        for (User user : userRepository.findAll()) {
+            if (user.getRole().toString().equalsIgnoreCase(role)) {
+                count++;
+            }
+        }
+        return count;
     }
 
     /**
@@ -256,10 +303,18 @@ public class UserService {
      * @param previousValue valor anterior
      * @param newValue valor nuevo
      */
-    private void recordAudit(AuditLog.AuditAction action, AuditLog.AuditEntityType entityType,
+    private void recordAudit(AuditAction action, AuditEntityType entityType,
                             Long entityId, Object previousValue, Object newValue) {
-        // Esta implementación será completada cuando se implemente AuditLogService
-        // Por ahora es un placeholder
+        try {
+            User currentUser = findById(entityId);
+            auditLogService.logAction(currentUser, action, entityType, entityId,
+                                     currentUser.getUsername(),
+                                     previousValue != null ? previousValue.toString() : null,
+                                     newValue != null ? newValue.toString() : null);
+        } catch (Exception e) {
+            logger.error("Error registrando auditoría: {}", e.getMessage());
+            // No lanzar excepción para no interrumpir la operación principal
+        }
     }
 }
 

@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
  * Requiere autenticación del usuario.
  */
 @RestController
-@RequestMapping("/api/v1/progress")
+@RequestMapping("/api/progress")
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class ProgressController {
 

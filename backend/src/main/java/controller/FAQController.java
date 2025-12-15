@@ -12,7 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
  * Admin: POST, PUT, DELETE (solo su contenido)
  */
 @RestController
-@RequestMapping("/api/v1/faq")
+@RequestMapping("/api/faq")
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class FAQController {
 

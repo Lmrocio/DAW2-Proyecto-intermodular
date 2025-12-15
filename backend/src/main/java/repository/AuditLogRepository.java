@@ -1,6 +1,8 @@
 package repository;
 
 import model.AuditLog;
+import model.AuditAction;
+import model.AuditEntityType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -18,6 +20,13 @@ import java.util.List;
 public interface AuditLogRepository extends JpaRepository<AuditLog, Long> {
 
     /**
+     * Obtener todos los logs paginados ordenados por fecha descendente
+     * @param pageable paginación
+     * @return página de logs
+     */
+    Page<AuditLog> findAllByOrderByTimestampDesc(Pageable pageable);
+
+    /**
      * Obtener logs de auditoría de un usuario
      * @param userId id del usuario
      * @param pageable paginación
@@ -31,7 +40,7 @@ public interface AuditLogRepository extends JpaRepository<AuditLog, Long> {
      * @param pageable paginación
      * @return página de logs
      */
-    Page<AuditLog> findByActionOrderByTimestampDesc(AuditLog.AuditAction action, Pageable pageable);
+    Page<AuditLog> findByActionOrderByTimestampDesc(AuditAction action, Pageable pageable);
 
     /**
      * Obtener logs por tipo de entidad
@@ -39,7 +48,7 @@ public interface AuditLogRepository extends JpaRepository<AuditLog, Long> {
      * @param pageable paginación
      * @return página de logs
      */
-    Page<AuditLog> findByEntityTypeOrderByTimestampDesc(AuditLog.AuditEntityType entityType, Pageable pageable);
+    Page<AuditLog> findByEntityTypeOrderByTimestampDesc(AuditEntityType entityType, Pageable pageable);
 
     /**
      * Obtener logs de una entidad específica
@@ -48,7 +57,7 @@ public interface AuditLogRepository extends JpaRepository<AuditLog, Long> {
      * @param pageable paginación
      * @return página de logs
      */
-    Page<AuditLog> findByEntityTypeAndEntityIdOrderByTimestampDesc(AuditLog.AuditEntityType entityType, Long entityId, Pageable pageable);
+    Page<AuditLog> findByEntityTypeAndEntityIdOrderByTimestampDesc(AuditEntityType entityType, Long entityId, Pageable pageable);
 
     /**
      * Obtener logs por rango de fechas
@@ -81,7 +90,7 @@ public interface AuditLogRepository extends JpaRepository<AuditLog, Long> {
      * @param action acción
      * @return número de cambios
      */
-    long countByAction(AuditLog.AuditAction action);
+    long countByAction(AuditAction action);
 
     /**
      * Obtener último cambio de una entidad
@@ -99,7 +108,7 @@ public interface AuditLogRepository extends JpaRepository<AuditLog, Long> {
      * @param action acción
      * @return lista de logs
      */
-    List<AuditLog> findByUser_IdAndActionOrderByTimestampDesc(Long userId, AuditLog.AuditAction action);
+    List<AuditLog> findByUser_IdAndActionOrderByTimestampDesc(Long userId, AuditAction action);
 
     /**
      * Verificar si hay auditoría de una entidad
@@ -107,6 +116,6 @@ public interface AuditLogRepository extends JpaRepository<AuditLog, Long> {
      * @param entityId id de la entidad
      * @return true si existe auditoría
      */
-    boolean existsByEntityTypeAndEntityId(AuditLog.AuditEntityType entityType, Long entityId);
+    boolean existsByEntityTypeAndEntityId(AuditEntityType entityType, Long entityId);
 }
 

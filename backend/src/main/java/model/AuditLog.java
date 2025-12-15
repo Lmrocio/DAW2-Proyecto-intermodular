@@ -2,9 +2,12 @@ package model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.NoArgsConstructor;
-import com.vladmihalcea.hibernate.type.json.JsonType;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+import io.hypersistence.utils.hibernate.type.json.JsonType;
 import org.hibernate.annotations.Type;
 
 import java.time.LocalDateTime;
@@ -14,13 +17,17 @@ import java.time.LocalDateTime;
     @Index(name = "idx_timestamp", columnList = "timestamp"),
     @Index(name = "idx_user_action", columnList = "user_id, action")
 })
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString(exclude = {"user"})
 public class AuditLog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
 
     @Enumerated(EnumType.STRING)
@@ -48,28 +55,13 @@ public class AuditLog {
     @Column(length = 50)
     private String ipAddress;
 
-    // Relaciones
+    @PrePersist
+    protected void onCreate() {
+        timestamp = LocalDateTime.now();
+    }
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
-
-    // Enums
-    public enum AuditAction {
-        CREATE,
-        UPDATE,
-        DELETE,
-        DISABLE_ACCOUNT
-    }
-
-    public enum AuditEntityType {
-        USER,
-        LESSON,
-        STEP,
-        SIMULATOR,
-        FAQ,
-        CATEGORY,
-        USER_LESSON_PROGRESS,
-        USER_SIMULATOR_INTERACTION
-    }
 }
 

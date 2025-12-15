@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  * Admin: POST, PUT, DELETE (solo en sus lecciones)
  */
 @RestController
-@RequestMapping("/api/v1/lessons/{lessonId}/steps")
+@RequestMapping("/api/lessons/{lessonId}/steps")
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class StepController {
 

@@ -3,9 +3,11 @@ package service;
 import model.Simulator;
 import model.Lesson;
 import model.User;
+import model.UserSimulatorInteraction;
 import repository.SimulatorRepository;
 import repository.LessonRepository;
 import repository.UserRepository;
+import repository.UserSimulatorInteractionRepository;
 import dto.request.CreateSimulatorRequest;
 import dto.response.SimulatorResponse;
 import exception.ResourceNotFoundException;
@@ -18,7 +20,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -47,6 +51,10 @@ public class SimulatorService {
 
     @Autowired
     private UserService userService;
+
+
+    @Autowired
+    private UserSimulatorInteractionRepository userSimulatorInteractionRepository;
 
     /**
      * Crear nuevo simulador
@@ -293,5 +301,32 @@ public class SimulatorService {
 
         return response;
     }
-}
 
+    /**
+     * Registrar interacción de un usuario con un simulador
+     * @param simulatorId id del simulador
+     * @param userId id del usuario
+     * @return UserSimulatorInteraction registrada
+     */
+    public UserSimulatorInteraction recordInteraction(Long simulatorId, Long userId) {
+        Simulator simulator = simulatorRepository.findById(simulatorId)
+            .orElseThrow(() -> new ResourceNotFoundException("Simulator", "id", simulatorId));
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+
+        Optional<UserSimulatorInteraction> existing = userSimulatorInteractionRepository.findByUser_IdAndSimulator_Id(userId, simulatorId);
+        UserSimulatorInteraction interaction;
+        if (existing.isPresent()) {
+            interaction = existing.get();
+            interaction.setAccessedAt(LocalDateTime.now());
+            interaction.setAccessCount(interaction.getAccessCount() + 1);
+        } else {
+            interaction = new UserSimulatorInteraction();
+            interaction.setUser(user);
+            interaction.setSimulator(simulator);
+            interaction.setAccessedAt(LocalDateTime.now());
+            interaction.setAccessCount(1);
+        }
+        return userSimulatorInteractionRepository.save(interaction);
+    }
+}

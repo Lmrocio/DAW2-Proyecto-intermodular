@@ -101,12 +101,6 @@ public interface UserLessonProgressRepository extends JpaRepository<UserLessonPr
     @Query("SELECT COUNT(l) FROM Lesson l WHERE l.category.id = :categoryId AND l.isPublished = true")
     long countTotalInCategory(@Param("categoryId") Long categoryId);
 
-    /**
-     * Obtener progreso global de un usuario
-     * @param userId id del usuario
-     * @return número de lecciones completadas (global)
-     */
-    long countByUser_IdAndIsCompletedTrue(Long userId);
 
     /**
      * Contar total de lecciones publicadas
