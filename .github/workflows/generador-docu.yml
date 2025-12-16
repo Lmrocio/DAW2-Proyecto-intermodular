@@ -36,26 +36,53 @@ jobs:
 
       # Generar Javadoc HTML
       - name: Generar Javadoc HTML
-        run: mvn clean javadoc:javadoc
+        run: |
+          echo "Generando Javadoc..."
+          mvn clean javadoc:javadoc
+          
+          # Validar que se generó la documentación
+          if [ ! -d "target/reports/apidocs" ]; then
+            echo "Error: No se generó el directorio de Javadoc en target/reports/apidocs"
+            exit 1
+          fi
+          echo "Javadoc generado exitosamente"
+          ls -la target/reports/apidocs/ | head -20
 
       # Instalar wkhtmltopdf
       - name: Instalación wkhtmltopdf
-        run: sudo apt-get update && sudo apt-get install -y wkhtmltopdf
+        run: |
+          echo "Instalando wkhtmltopdf..."
+          sudo apt-get update && sudo apt-get install -y wkhtmltopdf
+          echo "wkhtmltopdf instalado"
+          wkhtmltopdf --version
 
       # Generar PDF
       - name: Convertir HTMLs a PDFs
         run: |
+          echo "Iniciando conversión de HTML a PDF..."
           mkdir -p target/reports/pdf
-          for html in $(find target/reports/apidocs -type f -name "*.html"); do
-          relative_path=$(realpath --relative-to=target/reports/apidocs "$html")
-          pdf_path="target/reports/pdf/${relative_path%.html}.pdf"
-          mkdir -p "$(dirname "$pdf_path")"
-          echo "Generando $pdf_path..."
-          wkhtmltopdf --enable-local-file-access "file://$(pwd)/$html" "$pdf_path"
+          
+          # Verificar que existen archivos HTML
+          html_count=$(find target/reports/apidocs -type f -name "*.html" 2>/dev/null | wc -l)
+          echo "Encontrados $html_count archivos HTML"
+          
+          if [ $html_count -eq 0 ]; then
+            echo "Error: No se encontraron archivos HTML para convertir"
+            exit 1
+          fi
+          
+          # Convertir cada HTML a PDF
+          for html in $(find target/reports/apidocs -type f -name "*.html" | head -50); do
+            relative_path=$(realpath --relative-to=target/reports/apidocs "$html")
+            pdf_path="target/reports/pdf/${relative_path%.html}.pdf"
+            mkdir -p "$(dirname "$pdf_path")"
+            echo "Generando $pdf_path..."
+            wkhtmltopdf --enable-local-file-access "file://$(pwd)/$html" "$pdf_path" 2>&1 || echo "Advertencia: Error al convertir $html, continuando..."
           done  
           
-          echo "Archivos PDF generados:"
-          find target/reports/pdf -type f -name "*.pdf"
+          echo "Conversión completada"
+          pdf_count=$(find target/reports/pdf -type f -name "*.pdf" 2>/dev/null | wc -l)
+          echo "PDFs generados: $pdf_count"
 
       # PDFs como artefactos en GitHub
       - name: Subir PDFs
@@ -67,11 +94,30 @@ jobs:
       # HTML y PDF a /docs
       - name: Actualizar docs
         run: |
+          echo "Actualizando documentación en /docs..."
+          
+          # Validar que existe la documentación generada
+          if [ ! -d "target/reports/apidocs" ]; then
+            echo "Error: No existe target/reports/apidocs"
+            exit 1
+          fi
+          
+          # Limpiar y copiar documentación
           rm -rf ../docs/*
           mkdir -p ../docs/pdf
+          echo "Copiando Javadoc HTML..."
           cp -r target/reports/apidocs/* ../docs/
-          cp -r target/reports/pdf/* ../docs/pdf/
-        working-directory: backend
+          
+          # Copiar PDFs si existen
+          if [ -d "target/reports/pdf" ] && [ "$(ls -A target/reports/pdf 2>/dev/null)" ]; then
+            echo "Copiando PDFs..."
+            cp -r target/reports/pdf/* ../docs/pdf/
+          else
+            echo "Nota: No hay PDFs para copiar"
+          fi
+          
+          echo "Documentación actualizada exitosamente"
+          ls -la ../docs/ | head -20
 
       # Commit y push de Doc a Main.
       - name: Commit and push actualización docs
@@ -79,9 +125,17 @@ jobs:
           cd ..
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs
-          git commit -m "Actualización documentación [skip ci]"
-          git push origin HEAD:${GITHUB_REF#refs/heads/}
+          
+          # Verificar si hay cambios
+          if git status --porcelain | grep -q "docs/"; then
+            echo "Se detectaron cambios en documentación..."
+            git add docs
+            git commit -m "Actualización documentación [skip ci]"
+            git push origin HEAD:${GITHUB_REF#refs/heads/}
+            echo "Documentación actualizada en el repositorio"
+          else
+            echo "Nota: No hay cambios en documentación para commit"
+          fi
 
       # HTML a GitHub Pages
       - name: Despliegue HTML a GitHub Pages
