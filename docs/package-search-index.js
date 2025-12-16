@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.example.backend"}];updateSearchResults();
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"config"},{"l":"controller"},{"l":"dto.request"},{"l":"dto.response"},{"l":"exception"},{"l":"model"},{"l":"repository"},{"l":"security"},{"l":"service"}];updateSearchResults();

@@ -137,6 +137,34 @@
                     </excludes>
                 </configuration>
             </plugin>
+            <!-- Plugin para generar Javadoc -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.6.3</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>javadoc</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <outputDirectory>${project.build.directory}/reports/apidocs</outputDirectory>
+                    <reportOutputDirectory>${project.build.directory}/reports/apidocs</reportOutputDirectory>
+                    <docfilessubdirs>true</docfilessubdirs>
+                    <stylesheet>maven</stylesheet>
+                    <doctitle>Documentación API - Plataforma Educativa</doctitle>
+                    <windowtitle>API Plataforma Educativa</windowtitle>
+                    <header><![CDATA[<strong>Plataforma Educativa Backend</strong>]]></header>
+                    <bottom><![CDATA[<em>Copyright 2025 - Rocío Luque Montes</em>]]></bottom>
+                    <!-- Desactivar doclint para evitar fallos con warnings -->
+                    <doclint>none</doclint>
+                    <!-- No fallar si hay warnings en Javadoc -->
+                    <failOnWarnings>false</failOnWarnings>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
