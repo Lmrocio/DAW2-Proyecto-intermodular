@@ -34,18 +34,25 @@ jobs:
         with:
           maven-version: 3.9.11
 
+      # Compilar el proyecto
+      - name: Compilar proyecto
+        run: |
+          echo "Compilando proyecto..."
+          mvn clean compile -DskipTests
+          echo "✅ Proyecto compilado exitosamente"
+
       # Generar Javadoc HTML
       - name: Generar Javadoc HTML
         run: |
           echo "Generando Javadoc..."
-          mvn clean javadoc:javadoc
+          mvn javadoc:javadoc -DdoclintNone
           
           # Validar que se generó la documentación
           if [ ! -d "target/reports/apidocs" ]; then
             echo "Error: No se generó el directorio de Javadoc en target/reports/apidocs"
             exit 1
           fi
-          echo "Javadoc generado exitosamente"
+          echo "✅ Javadoc generado exitosamente"
           ls -la target/reports/apidocs/ | head -20
 
       # Instalar wkhtmltopdf
