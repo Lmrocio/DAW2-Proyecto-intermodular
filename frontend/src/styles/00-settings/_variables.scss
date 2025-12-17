@@ -1,0 +1,222 @@
+// ============================================================================
+// 1. PALETA DE COLORES
+// ============================================================================
+// Colores primarios y secundarios de la marca
+$color-primary: #f8d770;
+$color-secondary: #ffb842;
+$color-tertiary: #f3742b;
+$color-accent: #0454b1;
+
+// Colores de fondo
+$color-bg-light: #fff6df;
+
+// Colores de apoyo/semánticos
+$color-success: #74eb05;
+$color-error: #ff0000;
+$color-warning: #fde800;
+$color-info: #00cffd;
+
+// Colores de texto
+$color-text-dark: #030303;
+$color-text-light: #fdfdfd;
+
+// Escala de grises neutros
+// Siguiendo la metodología Tailwind: 50-900
+$color-gray-50: #fafafa;
+$color-gray-100: #f5f5f5;
+$color-gray-200: #e5e5e5;
+$color-gray-300: #d4d4d4;
+$color-gray-400: #a3a3a3;
+$color-gray-500: #737373;
+$color-gray-600: #525252;
+$color-gray-700: #404040;
+$color-gray-800: #262626;
+$color-gray-900: #171717;
+
+// ============================================================================
+// 2. TIPOGRAFÍA
+// ============================================================================
+
+$font-primary: -apple-system, blinkmacsystemfont, 'Segoe UI', roboto, 'Helvetica Neue', arial, sans-serif;
+$font-secondary: 'Georgia', 'Times New Roman', serif;
+$font-mono: 'Fira Code', 'Courier New', monospace;
+
+// Tamaños de fuente (escala modular con ratio 1.25)
+// Base: 1rem = 16px
+$font-size-xs: 0.75rem;
+$font-size-sm: 0.875rem;
+$font-size-base: 1rem;
+$font-size-lg: 1.25rem;
+$font-size-xl: 1.5625rem;
+$font-size-2xl: 1.95313rem;
+$font-size-3xl: 2.44141rem;
+$font-size-4xl: 3.05176rem;
+$font-size-5xl: 3.81470rem;
+
+// Pesos de fuente
+$font-weight-light: 300;
+$font-weight-regular: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+
+// Alturas de línea (line-height)
+$line-height-tight: 1.2;
+$line-height-normal: 1.5;
+$line-height-relaxed: 1.75;
+$line-height-loose: 2;
+
+// ============================================================================
+// 3. SISTEMA DE ESPACIADO
+// ============================================================================
+// Escala basada en 4px (múltiplos de 0.25rem)
+$spacing-1: 0.25rem;
+$spacing-2: 0.5rem;
+$spacing-3: 0.75rem;
+$spacing-4: 1rem;
+$spacing-5: 1.25rem;
+$spacing-6: 1.5rem;
+$spacing-7: 1.75rem;
+$spacing-8: 2rem;
+$spacing-10: 2.5rem;
+$spacing-12: 3rem;
+$spacing-14: 3.5rem;
+$spacing-16: 4rem;
+$spacing-20: 5rem;
+$spacing-24: 6rem;
+$spacing-32: 8rem;
+$spacing-40: 10rem;
+
+// ============================================================================
+// 4. BREAKPOINTS RESPONSIVE
+// ============================================================================
+
+$breakpoint-sm: 640px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1024px;
+$breakpoint-xl: 1280px;
+$breakpoint-2xl: 1536px;
+
+// ============================================================================
+// 5. ELEVACIONES (SOMBRAS)
+// ============================================================================
+// Utilizan rgba para ser compatibles con cualquier fondo
+
+$shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+$shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+            0 2px 4px -1px rgba(0, 0, 0, 0.06);
+$shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+            0 4px 6px -2px rgba(0, 0, 0, 0.05);
+$shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+            0 10px 10px -5px rgba(0, 0, 0, 0.04);
+$shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+
+// Sombra especial para enfoque a11y (accesibilidad)
+$shadow-focus: 0 0 0 3px rgba(4, 84, 177, 0.1),
+               0 0 0 1px rgba(4, 84, 177, 1);
+
+// ============================================================================
+// 6. BORDES Y RADIOS
+// ============================================================================
+
+// Grosores de borde
+$border-thin: 1px;
+$border-medium: 2px;
+$border-thick: 4px;
+
+// Radios de borde (border-radius)
+$radius-sm: 0.125rem;
+$radius-base: 0.375rem;
+$radius-md: 0.5rem;
+$radius-lg: 0.75rem;
+$radius-xl: 1rem;
+$radius-2xl: 1.5rem;
+$radius-full: 9999px;
+
+// ============================================================================
+// 7. TRANSICIONES Y ANIMACIONES
+// ============================================================================
+
+// Duraciones estándar
+$transition-fast: 150ms;
+$transition-base: 300ms;
+$transition-slow: 500ms; // Ralentizar por user persona mayor? (pendiente)
+
+// Función de timing
+$easing-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+$easing-out: cubic-bezier(0.0, 0, 0.2, 1);
+$easing-in: cubic-bezier(0.4, 0, 1, 1);
+$easing-linear: linear;
+
+// ============================================================================
+// 8. EFECTOS DE SOMBRA PARA ACCESIBILIDAD Y CONTRASTE
+// ============================================================================
+
+// Sombra de texto para mejorar legibilidad en textos sobre imágenes
+$text-shadow-sm: 1px 1px 2px rgba(0, 0, 0, 0.3);
+$text-shadow-md: 2px 2px 4px rgba(0, 0, 0, 0.5);
+
+// Capas de overlay para modales y menús
+$overlay-light: rgba(255, 255, 255, 0.9);
+$overlay-dark: rgba(3, 3, 3, 0.8);
+$overlay-transparent: rgba(0, 0, 0, 0.5);
+
+// ============================================================================
+// 9. DIMENSIONES ESPECIALES
+// ============================================================================
+
+// Tamaños de iconos
+$icon-size-xs: 1rem;
+$icon-size-sm: 1.5rem;
+$icon-size-md: 2rem;
+$icon-size-lg: 3rem;
+$icon-size-xl: 4rem;
+
+// Tamaños de botones (altura mínima)
+$button-height-sm: 2rem;
+$button-height-md: 2.5rem;
+$button-height-lg: 3rem;       // Para usuarios mayores
+$button-height-xl: 3.5rem;     // Máxima accesibilidad
+
+// Ancho máximo de contenedor
+$max-width-container: 1200px;
+
+// ============================================================================
+// 10. Z-INDEX - CAPAS DE PROFUNDIDAD
+// ============================================================================
+// Sistema escalado para gestionar la profundidad visual
+
+$z-dropdown: 1000;
+$z-sticky: 1100;
+$z-fixed: 1200;
+$z-modal-backdrop: 1300;
+$z-modal: 1400;
+$z-popover: 1500;
+$z-tooltip: 1600;
+$z-notification: 1700;
+
+// ============================================================================
+// 11. ESPACIADOS DE CONTENIDO
+// ============================================================================
+// Variables para layout y composición de elementos
+
+// Padding/margin de secciones
+$section-padding-mobile: $spacing-4;
+$section-padding-tablet: $spacing-6;
+$section-padding-desktop: $spacing-8;
+
+// Gap entre elementos en grid/flex
+$gap-sm: $spacing-2;
+$gap-md: $spacing-4;
+$gap-lg: $spacing-6;
+
+// ============================================================================
+// NOTAS SOBRE ACCESIBILIDAD PARA USUARIOS MAYORES
+// ============================================================================
+// Estas variables han sido diseñadas pensando en:
+// - Tamaños mínimos de botón para motricidad fina limitada
+// - Alto contraste entre colores para visión reducida
+// - Espaciado generoso para evitar errores de selección
+// - Transiciones controladas para no causar mareos
+// - Tipografía clara y tamaños legibles
+

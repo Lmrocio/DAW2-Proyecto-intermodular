@@ -1,0 +1,222 @@
+// ============================================================================
+// ESTILOS GLOBALES - PUNTO DE ENTRADA PRINCIPAL
+// ============================================================================
+// Este archivo orquesta la importación de todos los estilos SCSS
+// en el orden correcto de especificidad (ITCSS - Inverted Triangle CSS)
+//
+// IMPORTANTE: El orden de importación es crítico y debe mantenerse:
+// 1. Settings (variables)
+// 2. Tools (mixins, funciones)
+// 3. Generic (reset, normalize)
+// 4. Elements (estilos base de HTML)
+// 5. Layout (layouts y grid)
+// 6. Components (componentes Angular)
+// 7. Utilities (clases de utilidad - solo si es necesario)
+//
+// ============================================================================
+
+// ============================================================================
+// NIVEL 1: SETTINGS - Variables y configuración
+// ============================================================================
+// Define todas las variables de diseño (design tokens) que serán la base
+// para todo el proyecto. NO genera CSS, solo define variables.
+// Debe ser el primer import para que todas las variables estén disponibles.
+
+@import '00-settings/variables';
+
+// ============================================================================
+// NIVEL 2: TOOLS - Mixins y funciones
+// ============================================================================
+// Define mixins y funciones reutilizables que se usan en el resto del CSS.
+// NO genera CSS directamente, solo define herramientas para usar después.
+// Debe estar después de variables para poder acceder a ellas.
+
+@import '01-tools/mixins';
+
+// ============================================================================
+// NIVEL 3: GENERIC - Reset y normalización global
+// ============================================================================
+// CSS que afecta a todos los elementos de la página sin usar clases.
+// Baja especificidad, estilos muy generales.
+// Incluye reset, normalización y estilos de formulario base.
+
+@import '02-generic/reset';
+
+// ============================================================================
+// NIVEL 4: ELEMENTS - Estilos base de elementos HTML
+// ============================================================================
+// Estilos para elementos HTML sin clases: h1-h6, p, a, ul, ol, etc.
+// Especificidad ligeramente mayor, proporciona estilos por defecto consistentes.
+
+@import '03-elements/elements';
+
+// ============================================================================
+// NIVEL 5: LAYOUT - Sistemas de layout y grids
+// ============================================================================
+// Layouts reutilizables y utilidades de composición: grid, flexbox, containers.
+// Estructuras que definen cómo se organizan los elementos en la página.
+
+@import '04-layout/layout';
+
+// ============================================================================
+// NOTA: COMPONENTS
+// ============================================================================
+// Los estilos de componentes Angular se importarán directamente en cada
+// componente usando el ViewEncapsulation.None o Emulated, evitando la
+// contaminación global de estilos.
+//
+// Ver documentación en docs/design/DOCUMENTACION.md - Sección 1.6
+// para entender la estrategia de encapsulación de estilos.
+
+// ============================================================================
+// BOOTSTRAP DE ESTILOS
+// ============================================================================
+// Este archivo es el punto de entrada para todo CSS/SCSS del proyecto.
+// Angular lo importa automáticamente desde angular.json en:
+//   "styles": ["src/styles.scss"]
+
+// Si necesitas agregar más archivos SCSS en el futuro:
+// 1. Crea el archivo en la carpeta correspondiente
+// 2. Impórtalo aquí en el orden ITCSS correcto
+// 3. Siempre importa después de las variables y mixins (niveles 1-2)
+
+// ============================================================================
+// CONVENCIONES IMPORTANTES
+// ============================================================================
+
+// 1. ESTRUCTURA DE CARPETAS ITCSS
+//    00-settings/    - Variables (design tokens)
+//    01-tools/       - Mixins y funciones
+//    02-generic/     - Reset y normalización
+//    03-elements/    - Estilos base de elementos
+//    04-layout/      - Sistemas de layout
+//    05-components/  - (opcional) Componentes reutilizables
+//    06-utilities/   - (opcional) Clases de utilidad
+
+// 2. NOMBRADO DE ARCHIVOS PARCIALES
+//    Todos los archivos SCSS deben comenzar con _ (underscore)
+//    Ejemplo: _variables.scss, _mixins.scss, _reset.scss
+//    Esto indica a SCSS que son archivos parciales que se importan,
+//    no archivos independientes que se compilan a CSS.
+
+// 3. EVITAR ESPECIFICIDAD INNECESARIA
+//    Cuanto más arriba en la pirámide ITCSS, menor especificidad.
+//    Esto hace que los estilos sean más fáciles de sobrescribir.
+//    No uses IDs en selectores CSS, máximo usa 2 niveles de clase.
+
+// 4. USO DE MIXINS
+//    Utiliza los mixins definidos en 01-tools/_mixins.scss
+//    para mantener coherencia en cosas como:
+//    - Responsive (@include respond-to(md))
+//    - Flexbox (@include flex)
+//    - Transiciones (@include transition)
+//    - Accesibilidad (@include focus-visible)
+
+// 5. VARIABLES EN LUGAR DE VALORES HARDCODED
+//    Nunca escribas colores, espaciados, o tamaños directamente.
+//    Siempre usa variables definidas en _variables.scss.
+//    Esto permite mantener coherencia y realizar cambios globales fácilmente.
+
+// ============================================================================
+// DOCUMENTACIÓN DE VARIABLES DISPONIBLES
+// ============================================================================
+
+// COLORES
+// $color-primary: #f8d770 (amarillo principal)
+// $color-secondary: #ffb842 (naranja)
+// $color-tertiary: #f3742b (naranja oscuro)
+// $color-accent: #0454b1 (azul)
+// $color-bg-light: #fff6df (fondo claro)
+// $color-success: #74eb05 (verde)
+// $color-error: #ff0000 (rojo)
+// $color-warning: #fde800 (amarillo advertencia)
+// $color-info: #00cffd (azul claro)
+// $color-text-dark: #030303
+// $color-text-light: #fdfdfd
+// $color-gray-50 a $color-gray-900 (escala de grises)
+
+// TIPOGRAFÍA
+// $font-primary, $font-secondary, $font-mono
+// $font-size-xs a $font-size-5xl
+// $font-weight-light a $font-weight-bold
+// $line-height-tight, $line-height-normal, $line-height-relaxed
+
+// ESPACIADO
+// $spacing-1 a $spacing-40 (basado en 4px)
+
+// BREAKPOINTS
+// $breakpoint-sm: 640px
+// $breakpoint-md: 768px
+// $breakpoint-lg: 1024px
+// $breakpoint-xl: 1280px
+
+// SOMBRAS
+// $shadow-sm, $shadow-md, $shadow-lg, $shadow-xl, $shadow-2xl
+
+// RADIOS
+// $radius-sm, $radius-md, $radius-lg, $radius-xl, $radius-full
+
+// TRANSICIONES
+// $transition-fast: 150ms
+// $transition-base: 300ms
+// $transition-slow: 500ms
+// $easing-in-out, $easing-in, $easing-out
+
+// ============================================================================
+// MIXINS DISPONIBLES
+// ============================================================================
+
+// RESPONSIVE
+// @include respond-to(sm|md|lg|xl|2xl) { ... }
+
+// FLEXBOX
+// @include flex($justify, $align, $direction)
+
+// GRID
+// @include grid($columns, $gap)
+
+// TRANSICIONES
+// @include transition($property, $duration, $easing)
+
+// SOMBRAS
+// @include elevation(sm|md|lg|xl|2xl)
+
+// ACCESIBILIDAD
+// @include focus-visible
+// @include sr-only
+// @include reduced-motion { ... }
+// @include hover { ... }
+
+// BOTONES
+// @include button-accessible(sm|md|lg|xl)
+
+// CONTENEDORES
+// @include container($max-width, $padding)
+
+// ============================================================================
+// PRÁCTICAS RECOMENDADAS
+// ============================================================================
+
+// ✓ DO - Haz esto:
+// .card {
+//   padding: $spacing-4;
+//   border-radius: $radius-md;
+//   @include elevation(md);
+//   @include transition;
+// }
+
+// ✗ DON'T - No hagas esto:
+// .card {
+//   padding: 16px;
+//   border-radius: 6px;
+//   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+//   transition: all 300ms;
+// }
+
+// ============================================================================
+// CONTACTO Y DUDAS
+// ============================================================================
+// Para preguntas sobre la arquitectura CSS o cómo usar los design tokens,
+// consulta la documentación completa en:
+// docs/design/DOCUMENTACION.md
+

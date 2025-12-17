@@ -1,0 +1,266 @@
+// ============================================================================
+// 1. MIXIN: Responsive - Media Queries
+// ============================================================================
+
+@mixin respond-to($breakpoint) {
+  @if $breakpoint == 'sm' {
+    @media (min-width: $breakpoint-sm) {
+      @content;
+    }
+  } @else if $breakpoint == 'md' {
+    @media (min-width: $breakpoint-md) {
+      @content;
+    }
+  } @else if $breakpoint == 'lg' {
+    @media (min-width: $breakpoint-lg) {
+      @content;
+    }
+  } @else if $breakpoint == 'xl' {
+    @media (min-width: $breakpoint-xl) {
+      @content;
+    }
+  } @else if $breakpoint == '2xl' {
+    @media (min-width: $breakpoint-2xl) {
+      @content;
+    }
+  } @else {
+    @warn "Breakpoint '#{$breakpoint}' no reconocido. Usa: sm, md, lg, xl, 2xl";
+  }
+}
+
+// ============================================================================
+// 2. MIXIN: Flexbox simplificado
+// ============================================================================
+
+@mixin flex($justify: flex-start, $align: stretch, $direction: row) {
+  display: flex;
+  justify-content: $justify;
+  align-items: $align;
+  flex-direction: $direction;
+}
+
+// ============================================================================
+// 3. MIXIN: Grid simplificado
+// ============================================================================
+
+@mixin grid($columns: 1, $gap: $spacing-4) {
+  display: grid;
+  grid-template-columns: repeat($columns, 1fr);
+  gap: $gap;
+}
+
+// ============================================================================
+// 4. MIXIN: Transiciones estandarizadas
+// ============================================================================
+
+@mixin transition($property: all, $duration: $transition-base, $easing: $easing-in-out) {
+  transition: $property $duration $easing;
+}
+
+// ============================================================================
+// 5. MIXIN: Sombras elevadas
+// ============================================================================
+
+@mixin elevation($level: 'md') {
+  @if $level == 'sm' {
+    box-shadow: $shadow-sm;
+  } @else if $level == 'md' {
+    box-shadow: $shadow-md;
+  } @else if $level == 'lg' {
+    box-shadow: $shadow-lg;
+  } @else if $level == 'xl' {
+    box-shadow: $shadow-xl;
+  } @else if $level == '2xl' {
+    box-shadow: $shadow-2xl;
+  } @else {
+    @warn "Elevación '#{$level}' no válida. Usa: sm, md, lg, xl, 2xl";
+  }
+}
+
+// ============================================================================
+// 6. MIXIN: Estado Focus para accesibilidad
+// ============================================================================
+
+@mixin focus-visible {
+  &:focus-visible,
+  &:focus {
+    outline: 2px solid $color-accent;
+    outline-offset: 2px;
+    box-shadow: $shadow-focus;
+  }
+}
+
+// ============================================================================
+// 7. MIXIN: Truncate de texto
+// ============================================================================
+
+@mixin truncate($lines: 1) {
+  @if $lines == 1 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  } @else {
+    display: -webkit-box;
+    -webkit-line-clamp: $lines;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+// ============================================================================
+// 8. MIXIN: Aspect Ratio
+// ============================================================================
+
+@mixin aspect-ratio($width, $height) {
+  position: relative;
+
+  &::before {
+    content: '';
+    display: block;
+    width: 100%;
+    padding-bottom: ($height / $width) * 100%;
+  }
+
+  > * {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+// ============================================================================
+// 9. MIXIN: Centrado absoluto
+// ============================================================================
+
+@mixin center-absolute {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+// ============================================================================
+// 10. MIXIN: Visualmente oculto pero accesible para lectores de pantalla
+// ============================================================================
+
+@mixin sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+// ============================================================================
+// 11. MIXIN: Hover State (con accesibilidad)
+// ============================================================================
+
+@mixin hover {
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      @content;
+    }
+  }
+}
+
+// ============================================================================
+// 12. MIXIN: Botones accesibles y grandes para usuarios mayores
+// ============================================================================
+
+@mixin button-accessible($size: 'lg') {
+  display: inline-flex;
+  @include flex(center, center);
+  @include transition;
+  @include focus-visible;
+
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  border: none;
+  border-radius: $radius-md;
+  padding: 0 $spacing-6;
+  cursor: pointer;
+  user-select: none;
+
+  @if $size == 'sm' {
+    height: $button-height-sm;
+    min-width: $button-height-sm;
+  } @else if $size == 'md' {
+    height: $button-height-md;
+    min-width: $button-height-md;
+  } @else if $size == 'lg' {
+    height: $button-height-lg;
+    min-width: $button-height-lg;
+  } @else if $size == 'xl' {
+    height: $button-height-xl;
+    min-width: $button-height-xl;
+    font-size: $font-size-lg;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+// ============================================================================
+// 13. MIXIN: Validación de contraste y accesibilidad de color
+// ============================================================================
+
+@mixin high-contrast-text {
+  // Se utiliza para asegurar legibilidad
+  // El color debe tener ratio de contraste mínimo 4.5:1 con el fondo
+  color: $color-text-dark;
+
+  @media (prefers-color-scheme: dark) {
+    color: $color-text-light;
+  }
+}
+
+// ============================================================================
+// 14. FUNCIÓN: Convertir píxeles a rem
+// ============================================================================
+
+@function rem($px) {
+  @return ($px / 16px) * 1rem;
+}
+
+// ============================================================================
+// 15. MIXIN: Prefers Reduced Motion (accesibilidad movimiento)
+// ============================================================================
+
+@mixin reduced-motion {
+  @media (prefers-reduced-motion: reduce) {
+    @content;
+  }
+}
+
+// ============================================================================
+// 16. MIXIN: Contenedor con ancho máximo y centrado
+// ============================================================================
+
+@mixin container($max-width: $max-width-container, $padding: $section-padding-mobile) {
+  width: 100%;
+  max-width: $max-width;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: $padding;
+  padding-right: $padding;
+
+  @include respond-to(md) {
+    padding-left: $section-padding-tablet;
+    padding-right: $section-padding-tablet;
+  }
+
+  @include respond-to(lg) {
+    padding-left: $section-padding-desktop;
+    padding-right: $section-padding-desktop;
+  }
+}
+
