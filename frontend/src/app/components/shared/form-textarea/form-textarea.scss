@@ -1,8 +1,8 @@
 // ============================================================================
-// COMPONENTE: FORM-INPUT
+// COMPONENTE: FORM-TEXTAREA
 // ============================================================================
-// Campo de entrada accesible con label, validación y mensajes
-// Metodología BEM: .form-input .form-input__element .form-input--modifier
+// Campo textarea accesible con label, validación y mensajes
+// Metodología BEM: .form-textarea .form-textarea__element .form-textarea--modifier
 
 // Importar variables y mixins
 @import '../../../../styles/00-settings/variables';
@@ -11,7 +11,7 @@
 // ============================================================================
 // CONTENEDOR PRINCIPAL
 // ============================================================================
-.form-input {
+.form-textarea {
   display: flex;
   flex-direction: column;
   gap: $spacing-2;
@@ -21,7 +21,7 @@
 // ============================================================================
 // ELEMENTO: LABEL
 // ============================================================================
-.form-input__label {
+.form-textarea__label {
   display: flex;
   align-items: baseline;
   gap: $spacing-1;
@@ -40,26 +40,22 @@
   }
 }
 
-.form-input__label-text {
-  display: inline;
-}
-
 // ============================================================================
 // ELEMENTO: INDICADOR REQUERIDO
 // ============================================================================
-.form-input__required-indicator {
+.form-textarea__required-indicator {
   color: $color-error;
   font-weight: $font-weight-bold;
   font-size: $font-size-lg;
 }
 
 // ============================================================================
-// ELEMENTO: CAMPO INPUT
+// ELEMENTO: CAMPO TEXTAREA
 // ============================================================================
-.form-input__field {
+.form-textarea__field {
   // Dimensiones
   width: 100%;
-  height: $button-height-lg;
+  min-height: 120px;
   padding: $spacing-3 $spacing-4;
 
   // Tipografía
@@ -76,6 +72,9 @@
 
   // Sombra sutil
   @include elevation('sm');
+
+  // Permitir redimensionar verticalmente
+  resize: vertical;
 
   // Transiciones
   @include transition(all, $transition-fast);
@@ -114,18 +113,12 @@
       box-shadow: 0 0 0 3px rgba($color-error, 0.15);
     }
   }
-
-  // Autofill styling
-  &:-webkit-autofill {
-    -webkit-box-shadow: inset 0 0 0 1000px $color-gray-50 !important;
-    -webkit-text-fill-color: $color-text-dark !important;
-  }
 }
 
 // ============================================================================
 // ELEMENTO: MENSAJE DE ERROR
 // ============================================================================
-.form-input__error {
+.form-textarea__error {
   display: flex;
   align-items: center;
   gap: $spacing-1;
@@ -147,7 +140,7 @@
 // ============================================================================
 // ELEMENTO: TEXTO DE AYUDA
 // ============================================================================
-.form-input__help {
+.form-textarea__help {
   font-size: $font-size-sm;
   color: $color-gray-500;
   line-height: $line-height-normal;
@@ -176,12 +169,12 @@
 // RESPONSIVE
 // ============================================================================
 @media (max-width: $breakpoint-sm) {
-  .form-input__field {
-    height: $button-height-md;
-    padding: $spacing-2 $spacing-3;
+  .form-textarea__field {
+    min-height: 100px;
+    padding: $spacing-3;
   }
 
-  .form-input__label {
+  .form-textarea__label {
     font-size: $font-size-sm;
   }
 }

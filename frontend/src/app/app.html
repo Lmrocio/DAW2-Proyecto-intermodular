@@ -1,32 +1,14 @@
 <!-- ============================================================================ -->
-<!-- ESTRUCTURA PRINCIPAL -->
+<!-- ESTRUCTURA PRINCIPAL DE LA APLICACIÓN -->
 <!-- ============================================================================ -->
+<!-- Layout semántico: Header > Contenido (según ruta) > Footer -->
+
+<!-- Encabezado de la aplicación -->
 <app-header></app-header>
 
-<app-main>
-  <section class="home-welcome">
-    <div class="welcome-container">
-      <h1>Bienvenido a TecnoMayores</h1>
-      <p class="subtitle">Aprende tecnología a tu ritmo</p>
+<!-- Contenido principal (se reemplaza según la ruta actual) -->
+<router-outlet></router-outlet>
 
-      <div class="features">
-        <article class="feature-card">
-          <h2>Lecciones</h2>
-          <p>Tutoriales paso a paso diseñados para ti</p>
-        </article>
-
-        <article class="feature-card">
-          <h2>Simuladores</h2>
-          <p>Practica sin miedo en un ambiente seguro</p>
-        </article>
-
-        <article class="feature-card">
-          <h2>Preguntas Frecuentes</h2>
-          <p>Respuestas a tus dudas más comunes</p>
-        </article>
-      </div>
-      </div>
-  </section>
-</app-main>
-
+<!-- Pie de página -->
 <app-footer></app-footer>
+

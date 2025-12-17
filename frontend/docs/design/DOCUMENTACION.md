@@ -1620,3 +1620,233 @@ Nuestro componente `app-form-input` implementa un campo de formulario accesible 
 | **LoginForm** | Fieldsets + Legends | Estructura semántica clara |
 | **Jerarquía H1-H6** | Un H1, no saltar niveles | Navegación por lectores de pantalla |
 | **Elementos semánticos** | header, nav, main, section, article, aside, footer | Significado inherente |
+
+---
+
+# Sección 3: Sistema de Componentes UI - Fase 3
+
+---
+
+## 3.1 Componentes Implementados
+
+La Fase 3 introduce un sistema completo de componentes UI reutilizables que forman los "bloques de construcción" de la aplicación. Cada componente tiene variantes, tamaños y estados completamente implementados.
+
+### 1. **app-button** (Componente de Botón)
+
+**Ubicación**: `src/app/components/shared/button/`
+
+**Propósito**: Botón interactivo reutilizable con múltiples variantes y tamaños para diferentes contextos.
+
+**Variantes disponibles**:
+- `variant="primary"` - Acción principal (color amarillo/dorado)
+- `variant="secondary"` - Acción secundaria (color azul accent)
+- `variant="ghost"` - Acción neutral, sin fondo (solo borde)
+- `variant="danger"` - Acción destructiva (color rojo)
+
+**Tamaños disponibles**:
+- `size="sm"` - Pequeño (36px de altura)
+- `size="md"` - Mediano por defecto (48px de altura)
+- `size="lg"` - Grande (56px de altura)
+
+**Estados que maneja**:
+- **:hover** - Cambio de color + elevación de sombra + transformación translateY(-2px)
+- **:focus** - Outline de 3px en color accent
+- **:focus-visible** - Outline visible para navegación con teclado
+- **:active** - Escala reducida (0.95) para feedback de clic
+- **[disabled]** - Opacidad 0.6 + cursor no-drop
+
+**Propiedades del componente**:
+```typescript
+@Input() variant: 'primary' | 'secondary' | 'ghost' | 'danger' = 'primary';
+@Input() size: 'sm' | 'md' | 'lg' = 'md';
+@Input() disabled: boolean = false;
+@Input() type: 'button' | 'submit' | 'reset' = 'button';
+@Output() click = new EventEmitter<void>();
+```
+
+**Ejemplo de uso**:
+```html
+<!-- Botón primario grande -->
+<app-button variant="primary" size="lg" (click)="onSubmit()">
+  Guardar
+</app-button>
+
+<!-- Botón peligroso, deshabilitado -->
+<app-button variant="danger" [disabled]="isDeleting">
+  Eliminar
+</app-button>
+
+<!-- Botón fantasma pequeño -->
+<app-button variant="ghost" size="sm" (click)="cancel()">
+  Cancelar
+</app-button>
+```
+
+**Accesibilidad**:
+- ✓ Outline focus visible de 3px
+- ✓ Area mínima 48x48px (Ley de Fitts)
+- ✓ Contraste WCAG AA
+- ✓ Navegación con teclado (Tab, Enter)
+- ✓ Estados claros y diferenciables
+
+---
+
+### 2. **app-card** (Componente de Tarjeta)
+
+**Ubicación**: `src/app/components/shared/card/`
+
+**Propósito**: Contenedor visual para mostrar contenido relacionado (imagen, título, descripción, acciones).
+
+**Variantes disponibles**:
+- `variant="vertical"` - Imagen arriba, contenido abajo (por defecto)
+- `variant="horizontal"` - Imagen a la izquierda, contenido a la derecha
+
+**Tamaños disponibles**:
+- Responsive: Se adapta automáticamente a pantalla (100% ancho en móvil)
+
+**Estados que maneja**:
+- **:hover** - Elevación de sombra + transformación translateY(-4px) para feedback
+- **:normal** - Sombra sutil, sin transformación
+
+**Propiedades del componente**:
+```typescript
+@Input() title: string = '';
+@Input() description: string = '';
+@Input() image?: string;
+@Input() variant: 'vertical' | 'horizontal' = 'vertical';
+```
+
+**Ejemplo de uso**:
+```html
+<!-- Card vertical con botón -->
+<app-card 
+  title="Aprende HTML"
+  description="Guía completa de HTML5 desde cero"
+  image="/assets/html-course.jpg"
+  variant="vertical"
+>
+  <app-button variant="primary" size="sm">
+    Leer más
+  </app-button>
+</app-card>
+
+<!-- Card horizontal en listado -->
+<app-card 
+  title="JavaScript Avanzado"
+  description="Domina async/await, promises y programación funcional"
+  image="/assets/javascript-course.jpg"
+  variant="horizontal"
+>
+  <app-button variant="secondary" size="sm">
+    Comenzar
+  </app-button>
+</app-card>
+```
+
+**Accesibilidad**:
+- ✓ Elemento semántico `<article>`
+- ✓ Estructura clara (h3 para título)
+- ✓ Imagen con alt text
+- ✓ Contraste de colores WCAG AA
+- ✓ Responsive en todos los tamaños de pantalla
+
+---
+
+### 3. **app-form-textarea** (Componente de Área de Texto)
+
+**Ubicación**: `src/app/components/shared/form-textarea/`
+
+**Propósito**: Campo de entrada para múltiples líneas de texto con validación y mensajes de error.
+
+**Variantes disponibles**:
+- Versión base sin variantes visuales
+
+**Tamaños disponibles**:
+- `[rows]="4"` - Altura personalizable
+- min-height: 120px
+
+**Estados que maneja**:
+- **:focus** - Borde color accent + sombra azul
+- **:focus-visible** - Outline de 3px
+- **:disabled** - Opacidad 0.6
+- **[error]** - Borde rojo + fondo rojo tenue
+
+**Propiedades del componente**:
+```typescript
+@Input() label: string = '';
+@Input() placeholder: string = '';
+@Input() rows: number = 4;
+@Input() required: boolean = false;
+@Input() error?: string;
+@Input() hint?: string;
+@Input() value: string = '';
+@Output() change = new EventEmitter<string>();
+```
+
+**Ejemplo de uso**:
+```html
+<!-- Textarea básico -->
+<app-form-textarea
+  label="Descripción"
+  placeholder="Escribe tu descripción aquí..."
+  [rows]="5"
+  [required]="true"
+  [(ngModel)]="description"
+></app-form-textarea>
+
+<!-- Textarea con error y hint -->
+<app-form-textarea
+  label="Comentarios"
+  placeholder="Comparte tus comentarios..."
+  [rows]="4"
+  hint="Máximo 500 caracteres"
+  error="Este campo es requerido"
+></app-form-textarea>
+```
+
+**Accesibilidad**:
+- ✓ Label asociado con `for`/`id`
+- ✓ Indicador de requerido (asterisco rojo)
+- ✓ Mensajes de error con `role="alert"`
+- ✓ Resize vertical permitido
+- ✓ ControlValueAccessor para Reactive Forms
+
+---
+
+### 4. **app-form-select** (Componente de Dropdown)
+
+**Ubicación**: `src/app/components/shared/form-select/`
+
+**Propósito**: Dropdown para seleccionar una opción de una lista.
+
+**Variantes disponibles**:
+- Versión base sin variantes
+
+**Tamaños disponibles**:
+- Altura: 48px
+
+**Estados que maneja**:
+- **:hover** - Borde color accent
+- **:focus** - Sombra azul + outline
+- **option:checked** - Fondo azul, texto blanco
+- **[disabled]** - Opacidad 0.6
+- **[error]** - Borde rojo + fondo rojo tenue
+
+**Propiedades del componente**:
+```typescript
+interface SelectOption {
+  label: string;
+  value: string | number;
+  disabled?: boolean;
+}
+
+@Input() label: string = '';
+@Input() options: SelectOption[] = [];
+@Input() placeholder: string = 'Selecciona una opción';
+@Input() required: boolean = false;
+@Input() error?: string;
+@Input() hint?: string;
+@Input() value: string | number = '';
+@Output() change = new EventEmitter<string | number>();
+```
+

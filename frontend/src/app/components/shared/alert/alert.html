@@ -1,0 +1,20 @@
+<div [class]="getAlertClasses()" role="alert" *ngIf="visible">
+  <span class="alert__icon" aria-hidden="true">{{ getIcon() }}</span>
+
+  <div class="alert__content">
+    <h3 class="alert__message">{{ message }}</h3>
+
+    <p class="alert__description" *ngIf="description">{{ description }}</p>
+  </div>
+
+  <button
+    class="alert__close"
+    *ngIf="closeable"
+    (click)="onClose()"
+    aria-label="Cerrar alerta"
+    type="button"
+  >
+    ✕
+  </button>
+</div>
+

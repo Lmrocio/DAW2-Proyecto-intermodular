@@ -1,8 +1,8 @@
 // ============================================================================
-// COMPONENTE: FORM-INPUT
+// COMPONENTE: FORM-SELECT
 // ============================================================================
-// Campo de entrada accesible con label, validación y mensajes
-// Metodología BEM: .form-input .form-input__element .form-input--modifier
+// Campo select/dropdown accesible con label, validación y mensajes
+// Metodología BEM: .form-select .form-select__element .form-select--modifier
 
 // Importar variables y mixins
 @import '../../../../styles/00-settings/variables';
@@ -11,7 +11,7 @@
 // ============================================================================
 // CONTENEDOR PRINCIPAL
 // ============================================================================
-.form-input {
+.form-select {
   display: flex;
   flex-direction: column;
   gap: $spacing-2;
@@ -21,7 +21,7 @@
 // ============================================================================
 // ELEMENTO: LABEL
 // ============================================================================
-.form-input__label {
+.form-select__label {
   display: flex;
   align-items: baseline;
   gap: $spacing-1;
@@ -40,33 +40,28 @@
   }
 }
 
-.form-input__label-text {
-  display: inline;
-}
-
 // ============================================================================
 // ELEMENTO: INDICADOR REQUERIDO
 // ============================================================================
-.form-input__required-indicator {
+.form-select__required-indicator {
   color: $color-error;
   font-weight: $font-weight-bold;
   font-size: $font-size-lg;
 }
 
 // ============================================================================
-// ELEMENTO: CAMPO INPUT
+// ELEMENTO: CAMPO SELECT
 // ============================================================================
-.form-input__field {
+.form-select__field {
   // Dimensiones
   width: 100%;
   height: $button-height-lg;
-  padding: $spacing-3 $spacing-4;
+  padding: $spacing-3 $spacing-10 $spacing-3 $spacing-4;
 
   // Tipografía
   font-family: $font-primary;
   font-size: $font-size-base;
   font-weight: $font-weight-regular;
-  line-height: $line-height-normal;
   color: $color-text-dark;
 
   // Forma
@@ -74,16 +69,25 @@
   border: $border-medium solid $color-gray-300;
   border-radius: $radius-md;
 
+  // Icono de flecha personalizado
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23404040' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right $spacing-3 center;
+  background-size: $icon-size-sm;
+
+  // Ocultar flecha nativa
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  // Cursor
+  cursor: pointer;
+
   // Sombra sutil
   @include elevation('sm');
 
   // Transiciones
   @include transition(all, $transition-fast);
-
-  // Placeholder
-  &::placeholder {
-    color: $color-gray-400;
-  }
 
   // Estado hover
   @include hover {
@@ -115,17 +119,22 @@
     }
   }
 
-  // Autofill styling
-  &:-webkit-autofill {
-    -webkit-box-shadow: inset 0 0 0 1000px $color-gray-50 !important;
-    -webkit-text-fill-color: $color-text-dark !important;
+  // Estilo de las opciones
+  option {
+    padding: $spacing-2;
+    background-color: $color-gray-50;
+    color: $color-text-dark;
+  }
+
+  option:disabled {
+    color: $color-gray-400;
   }
 }
 
 // ============================================================================
 // ELEMENTO: MENSAJE DE ERROR
 // ============================================================================
-.form-input__error {
+.form-select__error {
   display: flex;
   align-items: center;
   gap: $spacing-1;
@@ -147,7 +156,7 @@
 // ============================================================================
 // ELEMENTO: TEXTO DE AYUDA
 // ============================================================================
-.form-input__help {
+.form-select__help {
   font-size: $font-size-sm;
   color: $color-gray-500;
   line-height: $line-height-normal;
@@ -176,12 +185,12 @@
 // RESPONSIVE
 // ============================================================================
 @media (max-width: $breakpoint-sm) {
-  .form-input__field {
+  .form-select__field {
     height: $button-height-md;
-    padding: $spacing-2 $spacing-3;
+    padding: $spacing-2 $spacing-8 $spacing-2 $spacing-3;
   }
 
-  .form-input__label {
+  .form-select__label {
     font-size: $font-size-sm;
   }
 }
