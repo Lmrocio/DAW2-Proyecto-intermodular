@@ -1,4 +1,9 @@
 // ============================================================================
+// IMPORTAR MÓDULOS DE SASS
+// ============================================================================
+@use "sass:color" as *;
+
+// ============================================================================
 // 1. TIPOGRAFÍA BASE
 // ============================================================================
 
@@ -120,7 +125,7 @@ a {
   @include transition(color, $transition-fast);
 
   @include hover {
-    color: darken($color-accent, 15%);
+    color: mix($color-accent, #000, 85%);
     text-decoration-thickness: $border-medium;
   }
 
@@ -130,7 +135,7 @@ a {
   }
 
   &:visited {
-    color: darken($color-accent, 10%);
+    color: mix($color-accent, #000, 90%);
   }
 }
 
@@ -392,11 +397,11 @@ button {
   color: white;
 
   @include hover {
-    background-color: darken($color-accent, 10%);
+    background-color: mix($color-accent, #000, 90%);
   }
 
   &:active {
-    background-color: darken($color-accent, 15%);
+    background-color: mix($color-accent, #000, 85%);
   }
 
   &:disabled {

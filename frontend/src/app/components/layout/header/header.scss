@@ -1,5 +1,5 @@
-@import 'styles/00-settings/variables';
-@import 'styles/00-settings/css-variables';
+@import '../../../../styles/00-settings/variables';
+@import '../../../../styles/00-settings/css-variables';
 
 // ============================================================================
 // CONTENEDOR PRINCIPAL DEL HEADER
@@ -211,7 +211,7 @@
   color: var(--text-light);
 
   &:hover {
-    background-color: darken(#00cffd, 10%);
+    background-color: mix(#00cffd, #000, 90%);
   }
 }
 
@@ -220,7 +220,7 @@
   color: var(--text-dark);
 
   &:hover {
-    background-color: darken(#fde800, 10%);
+    background-color: mix(#fde800, #000, 90%);
   }
 }
 
@@ -229,7 +229,7 @@
   color: var(--text-dark);
 
   &:hover {
-    background-color: darken(#f8d770, 10%);
+    background-color: mix(#f8d770, #000, 90%);
   }
 }
 

@@ -81,7 +81,7 @@ a {
   @include transition(color);
 
   @include hover {
-    color: darken($color-accent, 10%);
+    color: mix($color-accent, #000, 90%);
     text-decoration: underline;
   }
 
