@@ -373,7 +373,7 @@ button { @include button-accessible(lg); }
 
 ## 1.4 Sistema de Design Tokens
 
-Los design tokens son variables SCSS que definen todos los valores visuales del proyecto. Son la "única fuente de verdad" para colores, tipografía, espaciado, etc.
+Los design tokens son variables SCSS que definen todos los valores visuales del proyecto. Son la "únnica fuente de verdad" para colores, tipografía, espaciado, etc.
 
 ### Filosofía
 
@@ -1081,12 +1081,542 @@ Se pueden usar variables CSS para temas dinámicos:
 
 ---
 
-## Referencias
+# Sección 2: HTML Semántico y Estructura
 
-- [ITCSS by Harry Roberts](https://itcss.io/)
-- [BEM - Block Element Modifier](http://getbem.com/)
-- [WCAG 2.1 Accessibility Guidelines](https://www.w3.org/WAI/WCAG21/quickref/)
-- [Material Design Accessibility](https://material.io/design/usability/accessibility.html)
-- [Design Tokens Guide](https://www.designtokens.org/)
+---
 
+## 2.1 Elementos Semánticos Utilizados
 
+El HTML semántico utiliza elementos que tienen significado inherente, no solo visual. Esto es especialmente importante para usuarios que utilizan lectores de pantalla (screen readers) - una tecnología muy utilizada por usuarios mayores con problemas de visión.
+
+### Elementos Semánticos Principales
+
+#### **&lt;header&gt;** - Encabezado de la aplicación
+
+**Propósito**: Contiene el logo, navegación principal y elementos de utilidad (búsqueda, usuario, accesibilidad).
+
+**Cuándo usarlo**: En el componente `app-header`, debe aparecer al inicio de cada página.
+
+**Ejemplo**:
+
+```html
+<header class="app-header">
+  <div class="app-header__container">
+    <a href="/" class="app-header__logo">TecnoMayores</a>
+    
+    <nav class="app-header__nav">
+      <ul class="app-header__nav-list">
+        <li><a href="/lecciones">Lecciones</a></li>
+        <li><a href="/simuladores">Simuladores</a></li>
+      </ul>
+    </nav>
+    
+    <div class="app-header__utilities">
+      <button class="app-header__utility-btn">?</button>
+    </div>
+  </div>
+</header>
+```
+
+**Impacto en accesibilidad**: Los lectores de pantalla reconocen automáticamente que el header es el inicio de la página.
+
+---
+
+#### **&lt;nav&gt;** - Navegación
+
+**Propósito**: Agrupa enlaces de navegación. Hay dos tipos en nuestro proyecto:
+1. Navegación principal (en el header)
+2. Navegación secundaria (footer)
+
+**Cuándo usarlo**: Cuando agrupes múltiples enlaces para navegación.
+
+**Ejemplo en nuestro proyecto**:
+
+```html
+<!-- Navegación principal -->
+<nav class="app-header__nav" aria-label="Navegación principal">
+  <ul class="app-header__nav-list">
+    <li><a href="/lecciones">Lecciones</a></li>
+    <li><a href="/simuladores">Simuladores</a></li>
+  </ul>
+</nav>
+
+<!-- Navegación en footer -->
+<nav class="app-footer__nav" aria-label="Enlaces del footer">
+  <ul class="app-footer__nav-list">
+    <li><a href="/">Inicio</a></li>
+    <li><a href="/lecciones">Lecciones</a></li>
+  </ul>
+</nav>
+```
+
+**Atributo aria-label**: Proporciona una etiqueta descriptiva para usuarios de lectores de pantalla. Permite diferenciar entre múltiples &lt;nav&gt; en la misma página.
+
+**Impacto en accesibilidad**: Los usuarios de lectores de pantalla pueden saltarse directamente a la navegación o saber de qué se trata.
+
+---
+
+#### **&lt;main&gt;** - Contenido Principal
+
+**Propósito**: Contiene el contenido principal único de la página (no incluye headers, footers, sidebars).
+
+**Cuándo usarlo**: Una vez por página, como contenedor principal (componente `app-main`).
+
+**Ejemplo en nuestro proyecto**:
+
+```html
+<main class="app-main">
+  <!-- Aquí va el contenido único de cada página -->
+  <ng-content></ng-content>
+</main>
+```
+
+**Impacto en accesibilidad**: Los lectores de pantalla pueden saltar directamente al contenido principal sin tener que leer el header.
+
+---
+
+#### **&lt;aside&gt;** - Contenido Secundario
+
+**Propósito**: Contenido tangencialmente relacionado (sidebar con filtros, widgets, navegación secundaria).
+
+**Cuándo usarlo**: Componente `app-sidebar` - para contenido adicional pero no esencial.
+
+**Ejemplo en nuestro proyecto**:
+
+```html
+<aside class="app-sidebar">
+  <!-- Filtros, widgets, navegación secundaria -->
+  <ng-content></ng-content>
+</aside>
+```
+
+**Impacto en accesibilidad**: Los usuarios saben que este contenido es secundario y pueden optar por saltárselo.
+
+---
+
+#### **&lt;footer&gt;** - Pie de Página
+
+**Propósito**: Contiene información de la aplicación, enlaces legales, redes sociales, copyright.
+
+**Cuándo usarlo**: Una vez por página, al final (componente `app-footer`).
+
+**Ejemplo en nuestro proyecto**:
+
+```html
+<footer class="app-footer">
+  <div class="app-footer__container">
+    <!-- Secciones del footer -->
+    <section class="app-footer__section">
+      <h2 class="app-footer__section-title">TecnoMayores</h2>
+      <p>Descripción...</p>
+    </section>
+    
+    <section class="app-footer__section">
+      <h3 class="app-footer__section-title">Enlaces Rápidos</h3>
+      <nav><ul><!-- enlaces --></ul></nav>
+    </section>
+  </div>
+</footer>
+```
+
+**Impacto en accesibilidad**: Los usuarios saben que están al final de la página y pueden acceder rápidamente a información legal.
+
+---
+
+#### **&lt;section&gt;** - Secciones de Contenido
+
+**Propósito**: Agrupa contenido relacionado temáticamente.
+
+**Cuándo usarlo**: Cuando agrupes párrafos, listas, o contenido relacionado en un tema.
+
+**Ejemplo en nuestro proyecto**:
+
+```html
+<!-- En el footer, agrupamos secciones temáticas -->
+<section class="app-footer__section">
+  <h3 class="app-footer__section-title">Enlaces Legales</h3>
+  <nav>
+    <ul>
+      <li><a href="/terminos">Términos de servicio</a></li>
+      <li><a href="/privacidad">Política de privacidad</a></li>
+    </ul>
+  </nav>
+</section>
+```
+
+**Impacto en accesibilidad**: Las secciones comunican al navegador la estructura temática del contenido.
+
+---
+
+#### **&lt;article&gt;** - Artículos Independientes
+
+**Propósito**: Contenido independiente y reutilizable (blog post, lección, comentario).
+
+**Cuándo usarlo**: Cuando el contenido podría existir independientemente del resto de la página.
+
+**Ejemplo (futuro, en listado de lecciones)**:
+
+```html
+<article class="lesson-card">
+  <header class="lesson-card__header">
+    <h2 class="lesson-card__title">Cómo enviar un email</h2>
+  </header>
+  <p class="lesson-card__description">Aprende paso a paso cómo enviar tu primer email...</p>
+  <footer class="lesson-card__footer">
+    <span class="lesson-card__duration">5 minutos</span>
+  </footer>
+</article>
+```
+
+---
+
+### Estructura Jerárquica Completa
+
+```
+<body>
+  ├── <header>              <!-- Encabezado con navegación -->
+  ├── <main>                <!-- Contenido principal único -->
+  │   ├── <section>         <!-- Secciones de contenido -->
+  │   │   ├── <article>     <!-- Artículos individuales -->
+  │   │   └── <form>        <!-- Formularios -->
+  │   └── <aside>           <!-- Contenido secundario (opcional) -->
+  └── <footer>              <!-- Pie de página -->
+```
+
+---
+
+## 2.2 Jerarquía de Headings (Encabezados)
+
+Los headings (h1-h6) son extremadamente importantes para accesibilidad. Los lectores de pantalla utilizan los headings para navegar por la página.
+
+### Reglas de Jerarquía
+
+1. **Un solo H1 por página** - Representa el título principal de la página
+2. **No saltar niveles** - Pasar de H1 a H3 es confuso
+3. **H2 para secciones principales** - Divisiones mayores de contenido
+4. **H3 para subsecciones** - Subdivisiones dentro de H2
+5. **H4-H6 son raros** - Úsalos solo si tienes mucha profundidad
+
+### Diagrama de Jerarquía en Aplicación
+
+```
+H1: "Lecciones" (título de la página)
+  ├── H2: "Dispositivos Móviles" (categoría)
+  │   ├── H3: "Cómo encender el móvil" (lección)
+  │   ├── H3: "Cómo hacer una llamada" (lección)
+  │   └── H3: "Cómo enviar un mensaje" (lección)
+  │
+  ├── H2: "Redes Sociales" (categoría)
+  │   ├── H3: "Facebook Básico" (lección)
+  │   ├── H3: "WhatsApp Básico" (lección)
+  │   └── H3: "Llamadas de Video" (lección)
+  │
+  └── H2: "Seguridad en Internet" (categoría)
+      ├── H3: "Contraseñas seguras" (lección)
+      └── H3: "Reconocer estafas" (lección)
+```
+
+### Implementación en Nuestro Proyecto
+
+**Página de inicio** (inicio.component.html):
+```html
+<main class="app-main">
+  <h1>Bienvenido a TecnoMayores</h1>
+  
+  <section>
+    <h2>Aprende a tu ritmo</h2>
+    <p>Elige una lección y comienza...</p>
+  </section>
+  
+  <section>
+    <h2>Lecciones Populares</h2>
+    <article>
+      <h3>Cómo enviar un email</h3>
+      <p>Aprende los pasos básicos...</p>
+    </article>
+  </section>
+</main>
+```
+
+**Página de listado de lecciones** (lecciones.component.html):
+```html
+<main class="app-main">
+  <h1>Todas las Lecciones</h1>
+  
+  <section>
+    <h2>Dispositivos Móviles</h2>
+    <ul class="lesson-list">
+      <li>
+        <article class="lesson-card">
+          <h3>Encender y apagar el móvil</h3>
+          <p>Aprende los primeros pasos...</p>
+        </article>
+      </li>
+    </ul>
+  </section>
+</main>
+```
+
+### Errores Comunes a Evitar
+
+```html
+<!-- ❌ MALO: Salta de H1 a H3 -->
+<h1>Mi Página</h1>
+<h3>Subtítulo</h3>  <!-- Debería ser H2 -->
+
+<!-- ❌ MALO: Múltiples H1 en la misma página -->
+<h1>Título Principal</h1>
+<section>
+  <h1>Otra sección</h1>  <!-- Solo debe haber un H1 -->
+</section>
+
+<!-- ✅ CORRECTO: Jerarquía apropiada -->
+<h1>Título Principal</h1>
+<section>
+  <h2>Sección 1</h2>
+  <h3>Subsección 1.1</h3>
+</section>
+<section>
+  <h2>Sección 2</h2>
+</section>
+```
+
+---
+
+## 2.3 Estructura de Formularios
+
+Los formularios son críticos en esta aplicación (login, registro, contacto). Una estructura semántica adecuada es esencial para accesibilidad.
+
+### Elementos Clave
+
+#### **&lt;form&gt;** - Contenedor del Formulario
+
+```html
+<form method="POST" action="/login" class="login-form__form">
+  <!-- Campos del formulario aquí -->
+</form>
+```
+
+**Atributos importantes**:
+- `method`: GET (para búsquedas) o POST (para datos sensibles)
+- `action`: URL a donde se envía el formulario
+- `novalidate`: Si usas validación con JavaScript (como en Angular)
+
+---
+
+#### **&lt;fieldset&gt;** - Agrupa Campos Relacionados
+
+**Propósito**: Agrupar campos relacionados temáticamente.
+
+**Cuándo usarlo**: 
+- Credenciales de login (email + password)
+- Información personal (nombre + apellido + edad)
+- Opciones de configuración
+
+```html
+<fieldset class="login-form__fieldset">
+  <legend class="login-form__legend">Credenciales de Acceso</legend>
+  
+  <!-- Campos email y password aquí -->
+</fieldset>
+
+<fieldset class="login-form__fieldset">
+  <legend class="login-form__legend">Recuerda Tu Cuenta</legend>
+  
+  <!-- Checkbox de "recuerda mis datos" aquí -->
+</fieldset>
+```
+
+---
+
+#### **&lt;legend&gt;** - Describe el Fieldset
+
+**Propósito**: Proporciona una etiqueta para el &lt;fieldset&gt;.
+
+**Impacto en accesibilidad**: Los lectores de pantalla leen la leyenda al entrar en un fieldset.
+
+```html
+<fieldset>
+  <legend>Información Personal</legend>
+  <!-- Los campos saben que pertenecen a "Información Personal" -->
+</fieldset>
+```
+
+---
+
+#### **&lt;label&gt;** - Etiqueta de Campo
+
+**Propósito**: Asocia texto descriptivo con un campo de input.
+
+**Dos formas de asociar (ambas válidas)**:
+
+**Opción 1: Atributos for/id (recomendado)**
+```html
+<label for="email-input">Correo Electrónico</label>
+<input id="email-input" type="email" name="email">
+```
+
+**Opción 2: Label envuelve el input**
+```html
+<label>
+  Correo Electrónico
+  <input type="email" name="email">
+</label>
+```
+
+**En nuestro proyecto usamos Opción 1** en el componente `form-input`:
+
+```html
+<label [for]="inputId" class="form-input__label">
+  <span class="form-input__label-text">{{ label }}</span>
+  <span *ngIf="required" class="form-input__required-indicator">*</span>
+</label>
+
+<input [id]="inputId" [type]="inputType" ...>
+```
+
+**Impacto en accesibilidad**: 
+- Los usuarios saben qué campo es cuál
+- Hacer clic en el label enfoca el input
+- El área clickeable es más grande
+
+---
+
+### Componente FormInput - Estructura Completa
+
+Nuestro componente `app-form-input` implementa un campo de formulario accesible y reutilizable:
+
+```html
+<!-- COMPONENTE FORM-INPUT -->
+<div class="form-input">
+  
+  <!-- 1. LABEL con indicador de requerido -->
+  <label [for]="inputId" class="form-input__label">
+    <span class="form-input__label-text">{{ label }}</span>
+    <span *ngIf="required" class="form-input__required-indicator">*</span>
+  </label>
+
+  <!-- 2. INPUT con validación -->
+  <input 
+    [id]="inputId"
+    [type]="inputType"
+    [name]="inputName"
+    [placeholder]="placeholder"
+    [required]="required"
+    [value]="value"
+    (input)="onInputChange($event)"
+    class="form-input__field"
+    [class.form-input__field--error]="hasError">
+  
+  <!-- 3. MENSAJE DE ERROR (si hay error) -->
+  <span 
+    *ngIf="hasError && errorMessage" 
+    class="form-input__error" 
+    [id]="errorId"
+    role="alert">
+    {{ errorMessage }}
+  </span>
+  
+  <!-- 4. TEXTO DE AYUDA (opcional) -->
+  <span 
+    *ngIf="helpText" 
+    class="form-input__help" 
+    [id]="helpId">
+    {{ helpText }}
+  </span>
+
+</div>
+```
+
+**Características de accesibilidad**:
+- Label asociado con `for`/`id`
+- Indicador visual de requerido (asterisco)
+- Mensaje de error con `role="alert"` para lectores de pantalla
+- Texto de ayuda para instrucciones adicionales
+
+---
+
+### Componente LoginForm - Estructura Completa
+
+```html
+<form class="login-form__form" [formGroup]="loginFormGroup" (ngSubmit)="onSubmit()">
+  
+  <!-- FIELDSET 1: Credenciales -->
+  <fieldset class="login-form__fieldset">
+    <legend class="login-form__legend">Credenciales de Acceso</legend>
+    
+    <app-form-input
+      [label]="'Correo Electrónico'"
+      [inputType]="'email'"
+      [inputName]="'email'"
+      [required]="true"
+      [errorMessage]="getEmailErrorMessage()"
+      [hasError]="isFieldInvalid('email')"
+      [helpText]="'Introduce tu correo electrónico registrado'"
+      (valueChange)="onEmailChange($event)">
+    </app-form-input>
+
+    <app-form-input
+      [label]="'Contraseña'"
+      [inputType]="'password'"
+      [inputName]="'password'"
+      [required]="true"
+      [errorMessage]="'La contraseña es obligatoria'"
+      [hasError]="isFieldInvalid('password')"
+      [helpText]="'Contraseña de al menos 8 caracteres'"
+      (valueChange)="onPasswordChange($event)">
+    </app-form-input>
+  </fieldset>
+
+  <!-- FIELDSET 2: Opciones adicionales -->
+  <fieldset class="login-form__fieldset">
+    <legend class="login-form__legend">Recuerda Tu Cuenta</legend>
+    
+    <label class="login-form__checkbox">
+      <input type="checkbox" formControlName="rememberMe">
+      <span>Recuerda mis datos en este dispositivo</span>
+    </label>
+  </fieldset>
+
+  <!-- BOTÓN DE ENVÍO -->
+  <button type="submit" [disabled]="loginFormGroup.invalid">
+    Iniciar Sesión
+  </button>
+</form>
+```
+
+**Características de estructura**:
+- Dos fieldsets agrupan campos relacionados
+- Legends describen cada fieldset
+- Componente form-input reutilizable para cada campo
+- Validación integrada en Angular (reactive forms)
+- Botón submit solo habilitado cuando el formulario es válido
+
+---
+
+### Mejores Prácticas Implementadas
+
+| Práctica | Implementación | Beneficio |
+|----------|----------------|-----------|
+| **Labels asociados** | `for`/`id` | Área clickeable más grande |
+| **Fieldsets y legends** | Agrupación temática | Estructura clara |
+| **Indicadores visuales** | Asterisco para requeridos | Usuario sabe qué es obligatorio |
+| **Mensajes de error** | `role="alert"` | Lectores de pantalla lo leen |
+| **Validación en tiempo real** | Componente form-input | Feedback inmediato |
+| **Texto de ayuda** | Debajo de cada campo | Instrucciones claras |
+| **Contraste** | Colores WCAG AA | Visible para usuarios con baja visión |
+| **Tamaño de campo** | Altura mínima 48px | Fácil de tocar en móviles |
+
+---
+
+## Resumen - Decisiones de Accesibilidad Fase 2
+
+| Componente | Decisión | Razón |
+|------------|----------|-------|
+| **Header** | Navegación principal + utilidades | Acceso rápido a funciones |
+| **Main** | Proyección de contenido | Reutilizable, flexible |
+| **Footer** | Secciones temáticas con nav | Organizado, accesible |
+| **FormInput** | Componente reutilizable | DRY, consistencia |
+| **LoginForm** | Fieldsets + Legends | Estructura semántica clara |
+| **Jerarquía H1-H6** | Un H1, no saltar niveles | Navegación por lectores de pantalla |
+| **Elementos semánticos** | header, nav, main, section, article, aside, footer | Significado inherente |

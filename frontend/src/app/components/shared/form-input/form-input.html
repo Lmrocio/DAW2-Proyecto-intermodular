@@ -1,0 +1,44 @@
+<div class="form-input">
+
+  <label
+    [for]="inputId"
+    class="form-input__label">
+
+    <span class="form-input__label-text">{{ label }}</span>
+
+    <span
+      *ngIf="required"
+      class="form-input__required-indicator"
+      aria-label="requerido">
+      *
+    </span>
+  </label>
+
+  <input
+    [id]="inputId"
+    [type]="inputType"
+    [name]="inputName"
+    [placeholder]="placeholder"
+    [required]="required"
+    [value]="value"
+    (input)="onInputChange($event)"
+    class="form-input__field"
+    [class.form-input__field--error]="hasError">
+
+  <span
+    *ngIf="hasError && errorMessage"
+    class="form-input__error"
+    [id]="errorId"
+    role="alert">
+    {{ errorMessage }}
+  </span>
+
+  <span
+    *ngIf="helpText"
+    class="form-input__help"
+    [id]="helpId">
+    {{ helpText }}
+  </span>
+
+</div>
+

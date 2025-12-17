@@ -1,0 +1,53 @@
+// ============================================================================
+// IMPORTACIÓN DE ESTILOS - ITCSS (Inverted Triangle CSS)
+// ============================================================================
+// Orden crítico: de menor a mayor especificidad
+//
+// 00-settings/     Variables SCSS (colores, tipografía, espaciado)
+// 01-tools/        Mixins y funciones reutilizables
+// 02-generic/      Reset y estilos genéricos
+// 03-elements/     Estilos base de elementos HTML
+// 04-layout/       Estilos de layout y estructura
+// components/      Componentes específicos
+// utilities/       Clases de utilidad
+
+// ============================================================================
+// 00-SETTINGS: Variables SCSS
+// ============================================================================
+@import '00-settings/variables';
+@import '00-settings/css-variables';
+
+// ============================================================================
+// 01-TOOLS: Mixins y funciones
+// ============================================================================
+// @import '01-tools/mixins';
+
+// ============================================================================
+// 02-GENERIC: Reset CSS y estilos genéricos
+// ============================================================================
+// @import '02-generic/reset';
+
+// ============================================================================
+// 03-ELEMENTS: Estilos base de elementos HTML
+// ============================================================================
+// @import '03-elements/typography';
+// @import '03-elements/forms';
+
+// ============================================================================
+// 04-LAYOUT: Layout y estructura
+// ============================================================================
+// @import '04-layout/layout';
+
+// ============================================================================
+// COMPONENTS: Componentes de la aplicación
+// ============================================================================
+// Los estilos de componentes se importarán aquí a medida que se creen
+// @import 'components/card';
+// @import 'components/button';
+
+// ============================================================================
+// UTILITIES: Clases de utilidad
+// ============================================================================
+// @import 'utilities/text';
+// @import 'utilities/spacing';
+

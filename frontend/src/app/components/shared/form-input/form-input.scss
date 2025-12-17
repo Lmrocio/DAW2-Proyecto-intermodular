@@ -1,0 +1,199 @@
+@import 'styles/00-settings/variables';
+@import 'styles/00-settings/css-variables';
+
+.form-input {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2;
+
+  width: 100%;
+
+  margin-bottom: $spacing-6;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+// ============================================================================
+// LABEL
+// ============================================================================
+.form-input__label {
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  color: var(--text-primary);
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: baseline;
+  gap: $spacing-1;
+
+  transition: color $transition-base $easing-in-out;
+
+  &:hover {
+    color: var(--color-accent);
+  }
+}
+
+.form-input__label-text {
+  display: inline;
+}
+
+// ============================================================================
+// INDICADOR DE CAMPO REQUERIDO
+// ============================================================================
+.form-input__required-indicator {
+  color: var(--color-error);
+  font-weight: $font-weight-bold;
+  font-size: 1.25rem;
+
+  animation: pulse-indicator 2s infinite;
+}
+
+@keyframes pulse-indicator {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+// ============================================================================
+// CAMPO INPUT
+// ============================================================================
+.form-input__field {
+  width: 100%;
+  padding: $spacing-3 $spacing-4;
+
+  font-size: 1.125rem;
+  font-family: inherit;
+  font-weight: $font-weight-regular;
+  line-height: $line-height-normal;
+
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+
+  border: $border-medium solid var(--border-color-primary);
+  border-radius: $radius-base;
+
+  box-shadow: var(--shadow-sm);
+
+  transition:
+    border-color $transition-base $easing-in-out,
+    box-shadow $transition-base $easing-in-out,
+    background-color $transition-base $easing-in-out;
+
+  &::placeholder {
+    color: var(--text-tertiary);
+    opacity: 0.8;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow:
+      var(--shadow-md),
+      0 0 0 3px rgba(4, 84, 177, 0.1);
+  }
+
+  &:focus-visible {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    background-color: var(--bg-tertiary);
+    color: var(--text-tertiary);
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  &.form-input__field--error {
+    border-color: var(--color-error);
+    background-color: rgba(255, 0, 0, 0.05);
+
+    &:focus {
+      box-shadow:
+        var(--shadow-md),
+        0 0 0 3px rgba(255, 0, 0, 0.1);
+    }
+  }
+
+  @media (max-width: $breakpoint-sm) {
+    padding: $spacing-4 $spacing-5;
+    font-size: $font-size-base;
+  }
+}
+
+.form-input__field:-webkit-autofill {
+  -webkit-box-shadow: inset 0 0 0 1000px var(--bg-primary) !important;
+  -webkit-text-fill-color: var(--text-primary) !important;
+}
+
+// ============================================================================
+// MENSAJE DE ERROR
+// ============================================================================
+.form-input__error {
+  display: block;
+
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: var(--color-error);
+
+  animation: slideInError $transition-base $easing-in-out;
+
+  &::before {
+    content: '⚠ ';
+    font-weight: $font-weight-bold;
+  }
+}
+
+@keyframes slideInError {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// ============================================================================
+// TEXTO DE AYUDA (HELP TEXT)
+// ============================================================================
+.form-input__help {
+  display: block;
+
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  font-style: italic;
+
+  margin: 0;
+
+  &::before {
+    content: 'ℹ ';
+    margin-right: $spacing-1;
+    font-weight: $font-weight-bold;
+  }
+}
+
+// ============================================================================
+// ESTADOS RESPONSIVE
+// ============================================================================
+@media (max-width: $breakpoint-sm) {
+  .form-input {
+    margin-bottom: 1.25rem;
+  }
+
+  .form-input__label {
+    font-size: 0.95rem;
+  }
+
+  .form-input__field {
+    font-size: $font-size-base;
+  }
+}
+

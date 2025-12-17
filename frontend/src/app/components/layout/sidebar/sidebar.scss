@@ -1,0 +1,28 @@
+@import 'styles/00-settings/variables';
+@import 'styles/00-settings/css-variables';
+
+.app-sidebar {
+  width: 100%;
+  max-width: 300px;
+
+  @media (max-width: $breakpoint-md) {
+    max-width: 100%;
+  }
+
+  background-color: var(--bg-secondary);
+
+  padding: $spacing-6;
+
+  border-radius: $radius-md;
+  border: $border-thin solid var(--border-color-primary);
+
+  box-shadow: var(--shadow-sm);
+
+  transition: background-color $transition-base $easing-in-out,
+              border-color $transition-base $easing-in-out;
+
+  @media (max-width: $breakpoint-sm) {
+    padding: $spacing-4;
+  }
+}
+
