@@ -1,0 +1,26 @@
+<div class="form-textarea">
+  <label class="form-textarea__label" [for]="id" *ngIf="label">
+    {{ label }}
+    <span class="form-textarea__required-indicator" *ngIf="required">*</span>
+  </label>
+
+  <textarea
+    [id]="id"
+    class="form-textarea__field"
+    [class.form-textarea__field--error]="error"
+    [placeholder]="placeholder"
+    [rows]="rows"
+    [(ngModel)]="value"
+    (ngModelChange)="onValueChange($event)"
+    (blur)="onTouched()"
+  ></textarea>
+
+  <small class="form-textarea__error" *ngIf="error" role="alert">
+    {{ error }}
+  </small>
+
+  <small class="form-textarea__help" *ngIf="hint && !error">
+    {{ hint }}
+  </small>
+</div>
+

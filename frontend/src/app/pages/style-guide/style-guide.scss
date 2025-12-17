@@ -1,0 +1,364 @@
+// ============================================================================
+// PÁGINA: STYLE GUIDE
+// ============================================================================
+// Página de documentación visual de todos los componentes UI
+
+// Importar variables y mixins
+@import '../../../styles/00-settings/variables';
+@import '../../../styles/01-tools/mixins';
+
+// ============================================================================
+// CONTENEDOR PRINCIPAL
+// ============================================================================
+.style-guide {
+  min-height: 100vh;
+  background-color: $color-bg-light;
+  color: $color-text-dark;
+}
+
+.style-guide__container {
+  @include container;
+  padding-top: $spacing-8;
+  padding-bottom: $spacing-16;
+}
+
+// ============================================================================
+// ENCABEZADO
+// ============================================================================
+.style-guide__header {
+  text-align: center;
+  margin-bottom: $spacing-12;
+  padding: $spacing-10 $spacing-6;
+  background: linear-gradient(135deg, $color-primary 0%, $color-secondary 100%);
+  border-radius: $radius-xl;
+  @include elevation('md');
+}
+
+.style-guide__title {
+  font-size: $font-size-4xl;
+  font-weight: $font-weight-bold;
+  color: $color-text-dark;
+  margin: 0 0 $spacing-3 0;
+
+  @media (max-width: $breakpoint-sm) {
+    font-size: $font-size-3xl;
+  }
+}
+
+.style-guide__subtitle {
+  font-size: $font-size-xl;
+  color: $color-gray-800;
+  margin: 0 0 $spacing-2 0;
+
+  strong {
+    color: $color-accent;
+  }
+}
+
+.style-guide__description {
+  font-size: $font-size-base;
+  color: $color-gray-700;
+  margin: 0;
+}
+
+// ============================================================================
+// SECCIONES
+// ============================================================================
+.style-guide__section {
+  margin-bottom: $spacing-12;
+  padding-bottom: $spacing-8;
+  border-bottom: $border-thin solid $color-gray-200;
+
+  &:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+  }
+}
+
+.style-guide__section-title {
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  color: $color-text-dark;
+  margin: 0 0 $spacing-2 0;
+
+  code {
+    font-family: $font-mono;
+    font-size: $font-size-lg;
+    background-color: $color-gray-100;
+    padding: $spacing-1 $spacing-2;
+    border-radius: $radius-sm;
+    color: $color-accent;
+  }
+}
+
+.style-guide__section-description {
+  font-size: $font-size-base;
+  color: $color-gray-600;
+  margin: 0 0 $spacing-6 0;
+  max-width: 800px;
+}
+
+// ============================================================================
+// COMPONENTES INDIVIDUALES
+// ============================================================================
+.style-guide__component {
+  background-color: $color-gray-50;
+  border: $border-thin solid $color-gray-200;
+  border-radius: $radius-lg;
+  padding: $spacing-6;
+  margin-bottom: $spacing-6;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.style-guide__component-title {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-dark;
+  margin: 0 0 $spacing-2 0;
+  display: flex;
+  align-items: center;
+  gap: $spacing-3;
+  flex-wrap: wrap;
+}
+
+.style-guide__component-description {
+  font-size: $font-size-sm;
+  color: $color-gray-600;
+  margin: 0 0 $spacing-4 0;
+}
+
+// ============================================================================
+// BADGES PARA VARIANTES
+// ============================================================================
+.style-guide__badge {
+  display: inline-flex;
+  align-items: center;
+  padding: $spacing-1 $spacing-3;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-bold;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: $radius-full;
+
+  &--primary {
+    background-color: $color-primary;
+    color: $color-text-dark;
+  }
+
+  &--secondary {
+    background-color: $color-accent;
+    color: $color-text-light;
+  }
+
+  &--ghost {
+    background-color: transparent;
+    color: $color-gray-600;
+    border: $border-medium solid $color-gray-300;
+  }
+
+  &--danger {
+    background-color: $color-error;
+    color: $color-text-light;
+  }
+
+  &--success {
+    background-color: $color-success;
+    color: $color-text-dark;
+  }
+
+  &--error {
+    background-color: $color-error;
+    color: $color-text-light;
+  }
+
+  &--warning {
+    background-color: $color-warning;
+    color: $color-text-dark;
+  }
+
+  &--info {
+    background-color: $color-info;
+    color: $color-text-dark;
+  }
+}
+
+// ============================================================================
+// ÁREA DE DEMOSTRACIÓN
+// ============================================================================
+.style-guide__demo {
+  background-color: white;
+  border: $border-thin solid $color-gray-200;
+  border-radius: $radius-md;
+  padding: $spacing-6;
+}
+
+.style-guide__demo-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-6;
+  align-items: flex-end;
+}
+
+.style-guide__demo-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-2;
+}
+
+.style-guide__demo-label {
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  color: $color-gray-500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+// Demo para cards
+.style-guide__demo--cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: $spacing-6;
+
+  app-card {
+    max-width: 350px;
+  }
+}
+
+.style-guide__demo--cards-horizontal {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-4;
+
+  app-card {
+    max-width: 600px;
+  }
+}
+
+// Demo para formularios
+.style-guide__demo--forms {
+  background-color: white;
+}
+
+.style-guide__form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: $spacing-6;
+}
+
+// ============================================================================
+// GRID DE INFORMACIÓN
+// ============================================================================
+.style-guide__section--info {
+  background-color: $color-gray-100;
+  border-radius: $radius-lg;
+  padding: $spacing-8;
+  border: none;
+  margin-top: $spacing-8;
+}
+
+.style-guide__info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: $spacing-6;
+}
+
+.style-guide__info-card {
+  background-color: white;
+  border-radius: $radius-md;
+  padding: $spacing-5;
+  @include elevation('sm');
+
+  h3 {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    color: $color-text-dark;
+    margin: 0 0 $spacing-4 0;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      padding: $spacing-2 0;
+      font-size: $font-size-sm;
+      color: $color-gray-600;
+      border-bottom: $border-thin solid $color-gray-100;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      &::before {
+        content: '✓ ';
+        color: $color-success;
+        font-weight: $font-weight-bold;
+      }
+    }
+  }
+}
+
+// ============================================================================
+// RESPONSIVE
+// ============================================================================
+@media (max-width: $breakpoint-md) {
+  .style-guide__container {
+    padding-top: $spacing-4;
+    padding-bottom: $spacing-8;
+  }
+
+  .style-guide__header {
+    padding: $spacing-6 $spacing-4;
+  }
+
+  .style-guide__section {
+    margin-bottom: $spacing-8;
+    padding-bottom: $spacing-6;
+  }
+
+  .style-guide__component {
+    padding: $spacing-4;
+  }
+
+  .style-guide__demo {
+    padding: $spacing-4;
+  }
+
+  .style-guide__demo-row {
+    gap: $spacing-4;
+  }
+}
+
+@media (max-width: $breakpoint-sm) {
+  .style-guide__demo-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .style-guide__demo-item {
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    padding: $spacing-3;
+    background-color: $color-gray-50;
+    border-radius: $radius-md;
+  }
+
+  .style-guide__demo--cards {
+    grid-template-columns: 1fr;
+
+    app-card {
+      max-width: 100%;
+    }
+  }
+
+  .style-guide__form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+

@@ -1,0 +1,328 @@
+// ============================================================================
+// COMPONENTE: HEADER
+// ============================================================================
+// Encabezado con logo, navegación responsive y utilidades
+// Incluye menú hamburguesa funcional para móvil
+
+// Importar variables y mixins
+@import '../../../../styles/00-settings/variables';
+@import '../../../../styles/01-tools/mixins';
+
+// ============================================================================
+// CONTENEDOR PRINCIPAL
+// ============================================================================
+.app-header {
+  background-color: $color-gray-50;
+  border-bottom: $border-medium solid $color-gray-200;
+  @include elevation('sm');
+
+  // Sticky header
+  position: sticky;
+  top: 0;
+  z-index: $z-sticky;
+
+  @include transition(box-shadow);
+}
+
+.app-header__container {
+  @include container;
+  @include flex(space-between, center);
+  gap: $spacing-6;
+  height: 70px;
+
+  @media (max-width: $breakpoint-md) {
+    height: 60px;
+  }
+}
+
+// ============================================================================
+// LOGO
+// ============================================================================
+.app-header__logo {
+  @include flex(center, center);
+  text-decoration: none;
+  padding: $spacing-2;
+  border-radius: $radius-md;
+
+  @include transition(opacity);
+
+  @include hover {
+    opacity: 0.8;
+  }
+
+  @include focus-visible {
+    outline: 3px solid $color-accent;
+    outline-offset: 2px;
+  }
+}
+
+.app-header__logo-text {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+  color: $color-accent;
+  white-space: nowrap;
+
+  @media (max-width: $breakpoint-sm) {
+    font-size: $font-size-lg;
+  }
+}
+
+// ============================================================================
+// BOTÓN HAMBURGUESA
+// ============================================================================
+.app-header__hamburger {
+  // Oculto en desktop
+  display: none;
+
+  // Reset
+  background: transparent;
+  border: none;
+  padding: $spacing-2;
+  cursor: pointer;
+
+  // Layout
+  @include flex(center, center, column);
+  gap: 5px;
+
+  // Tamaño accesible
+  width: $button-height-lg;
+  height: $button-height-lg;
+  border-radius: $radius-md;
+
+  @include transition(background-color);
+
+  @include hover {
+    background-color: $color-gray-100;
+  }
+
+  @include focus-visible {
+    outline: 3px solid $color-accent;
+    outline-offset: 2px;
+  }
+
+  // Visible en móvil
+  @media (max-width: $breakpoint-md) {
+    display: flex;
+  }
+}
+
+.app-header__hamburger-line {
+  display: block;
+  width: 24px;
+  height: 3px;
+  background-color: $color-text-dark;
+  border-radius: $radius-full;
+
+  @include transition(all, $transition-fast);
+}
+
+// Estado activo del hamburguesa (X)
+.app-header__hamburger--active {
+  .app-header__hamburger-line {
+    &:nth-child(1) {
+      transform: translateY(8px) rotate(45deg);
+    }
+    &:nth-child(2) {
+      opacity: 0;
+      transform: scaleX(0);
+    }
+    &:nth-child(3) {
+      transform: translateY(-8px) rotate(-45deg);
+    }
+  }
+}
+
+// ============================================================================
+// NAVEGACIÓN
+// ============================================================================
+.app-header__nav {
+  flex: 1;
+  @include flex(center, center);
+
+  // En móvil: menú lateral
+  @media (max-width: $breakpoint-md) {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    background-color: $color-gray-50;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    padding: $spacing-6;
+
+    // Oculto por defecto
+    transform: translateX(-100%);
+    opacity: 0;
+    visibility: hidden;
+
+    @include transition(all, $transition-base);
+
+    // Estado abierto
+    &--open {
+      transform: translateX(0);
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+}
+
+.app-header__nav-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  @include flex(center, center);
+  gap: $spacing-2;
+
+  @media (max-width: $breakpoint-md) {
+    flex-direction: column;
+    align-items: stretch;
+    gap: $spacing-2;
+    width: 100%;
+  }
+}
+
+.app-header__nav-item {
+  @media (max-width: $breakpoint-md) {
+    width: 100%;
+  }
+}
+
+.app-header__nav-link {
+  display: flex;
+  align-items: center;
+  padding: $spacing-3 $spacing-4;
+
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  color: $color-text-dark;
+  text-decoration: none;
+
+  border-radius: $radius-md;
+
+  @include transition(all, $transition-fast);
+
+  @include hover {
+    background-color: $color-gray-100;
+    color: $color-accent;
+  }
+
+  @include focus-visible {
+    outline: 3px solid $color-accent;
+    outline-offset: 2px;
+  }
+
+  &:active {
+    background-color: $color-gray-200;
+  }
+
+  @media (max-width: $breakpoint-md) {
+    padding: $spacing-4 $spacing-5;
+    font-size: $font-size-lg;
+    border-bottom: $border-thin solid $color-gray-200;
+    border-radius: 0;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+}
+
+// ============================================================================
+// UTILIDADES
+// ============================================================================
+.app-header__utilities {
+  @include flex(flex-end, center);
+  gap: $spacing-2;
+
+  @media (max-width: $breakpoint-md) {
+    // Ocultar algunas utilidades en móvil muy pequeño
+    gap: $spacing-1;
+  }
+}
+
+.app-header__utility-btn {
+  // Reset
+  background: transparent;
+  border: $border-thin solid $color-gray-300;
+  padding: 0;
+  cursor: pointer;
+
+  // Layout
+  @include flex(center, center);
+
+  // Tamaño
+  width: $button-height-md;
+  height: $button-height-md;
+  border-radius: $radius-md;
+
+  @include transition(all, $transition-fast);
+
+  @include hover {
+    background-color: $color-gray-100;
+    border-color: $color-accent;
+  }
+
+  @include focus-visible {
+    outline: 3px solid $color-accent;
+    outline-offset: 2px;
+  }
+
+  @media (max-width: $breakpoint-sm) {
+    width: $button-height-sm;
+    height: $button-height-sm;
+  }
+}
+
+.app-header__utility-icon {
+  font-size: $font-size-base;
+  color: $color-text-dark;
+  line-height: 1;
+
+  @media (max-width: $breakpoint-sm) {
+    font-size: $font-size-sm;
+  }
+}
+
+// ============================================================================
+// OVERLAY (Para cerrar menú en móvil)
+// ============================================================================
+.app-header__overlay {
+  display: none;
+
+  @media (max-width: $breakpoint-md) {
+    display: block;
+    position: fixed;
+    top: 60px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    background-color: $overlay-dark;
+
+    opacity: 0;
+    visibility: hidden;
+
+    @include transition(all, $transition-base);
+
+    &--visible {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+}
+
+// ============================================================================
+// PREFERENCIAS DE MOVIMIENTO REDUCIDO
+// ============================================================================
+@include reduced-motion {
+  .app-header__hamburger-line,
+  .app-header__nav,
+  .app-header__overlay {
+    transition: none;
+  }
+}
+

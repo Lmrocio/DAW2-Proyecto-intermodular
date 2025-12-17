@@ -1,0 +1,74 @@
+<section class="login-form">
+  <h2 class="login-form__title">Iniciar Sesión</h2>
+  <p class="login-form__subtitle">
+    Accede a tu cuenta para guardar tus lecciones favoritas y ver tu historial.
+  </p>
+
+  <form class="login-form__form" [formGroup]="loginFormGroup" (ngSubmit)="onSubmit()">
+
+    <fieldset class="login-form__fieldset">
+      <legend class="login-form__legend">Credenciales de Acceso</legend>
+
+      <app-form-input
+        [label]="'Correo Electrónico'"
+        [inputType]="'email'"
+        [inputName]="'email'"
+        [placeholder]="'tu@email.com'"
+        [required]="true"
+        [value]="loginFormGroup.get('email')?.value || ''"
+        [errorMessage]="getEmailErrorMessage()"
+        [hasError]="isFieldInvalid('email')"
+        [helpText]="'Introduce tu correo electrónico registrado'"
+        (valueChange)="onEmailChange($event)">
+      </app-form-input>
+
+      <app-form-input
+        [label]="'Contraseña'"
+        [inputType]="'password'"
+        [inputName]="'password'"
+        [placeholder]="'Tu contraseña'"
+        [required]="true"
+        [value]="loginFormGroup.get('password')?.value || ''"
+        [errorMessage]="'La contraseña es obligatoria'"
+        [hasError]="isFieldInvalid('password')"
+        [helpText]="'Contraseña de al menos 8 caracteres'"
+        (valueChange)="onPasswordChange($event)">
+      </app-form-input>
+
+    </fieldset>
+
+    <fieldset class="login-form__fieldset">
+      <legend class="login-form__legend">Recuerda Tu Cuenta</legend>
+
+      <label class="login-form__checkbox">
+        <input
+          type="checkbox"
+          class="login-form__checkbox-input"
+          formControlName="rememberMe">
+        <span class="login-form__checkbox-text">Recuerda mis datos en este dispositivo</span>
+      </label>
+    </fieldset>
+
+    <div class="login-form__actions">
+      <button
+        type="submit"
+        class="login-form__button login-form__button--primary"
+        [disabled]="loginFormGroup.invalid">
+        <span class="login-form__button-text">Iniciar Sesión</span>
+      </button>
+    </div>
+
+    <p class="login-form__link-container">
+      ¿No tienes cuenta?
+      <a href="/registro" class="login-form__link">Regístrate aquí</a>
+    </p>
+
+    <p class="login-form__link-container">
+      ¿Olvidaste tu contraseña?
+      <a href="/recuperar-contrasena" class="login-form__link">Recuperarla aquí</a>
+    </p>
+
+  </form>
+
+</section>
+

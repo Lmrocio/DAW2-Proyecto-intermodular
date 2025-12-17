@@ -1,0 +1,190 @@
+// ============================================================================
+// COMPONENTE: CARD
+// ============================================================================
+// Tarjeta reutilizable con imagen, título, descripción y acciones
+// Variantes: vertical (default), horizontal
+// Metodología BEM: .card .card__element .card--modifier
+
+// Importar variables y mixins
+@import '../../../../styles/00-settings/variables';
+@import '../../../../styles/01-tools/mixins';
+
+// ============================================================================
+// ESTILOS BASE DE LA CARD
+// ============================================================================
+.card {
+  // Layout
+  display: flex;
+  flex-direction: column;
+
+  // Forma
+  border-radius: $radius-lg;
+  overflow: hidden;
+
+  // Colores
+  background-color: $color-gray-50;
+  border: $border-thin solid $color-gray-200;
+
+  // Sombra inicial
+  @include elevation('sm');
+
+  // Transiciones suaves para hover
+  @include transition(all, $transition-base);
+
+  // Estado hover - Elevar la card
+  @include hover {
+    @include elevation('lg');
+    transform: translateY(-4px);
+    border-color: $color-gray-300;
+  }
+
+  // Focus para accesibilidad cuando la card es interactiva
+  &:focus-within {
+    outline: 2px solid $color-accent;
+    outline-offset: 2px;
+  }
+}
+
+// ============================================================================
+// ELEMENTO: IMAGEN
+// ============================================================================
+.card__image {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  background-color: $color-gray-200;
+  flex-shrink: 0;
+}
+
+.card__image-element {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
+  // Transición suave para zoom en hover
+  @include transition(transform, $transition-base);
+
+  .card:hover & {
+    transform: scale(1.05);
+  }
+}
+
+// ============================================================================
+// ELEMENTO: CONTENIDO
+// ============================================================================
+.card__content {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-3;
+  padding: $spacing-5;
+  flex: 1;
+}
+
+// ============================================================================
+// ELEMENTO: TÍTULO
+// ============================================================================
+.card__title {
+  margin: 0;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-dark;
+  line-height: $line-height-tight;
+
+  // Limitar a 2 líneas máximo
+  @include truncate(2);
+}
+
+// ============================================================================
+// ELEMENTO: DESCRIPCIÓN
+// ============================================================================
+.card__description {
+  margin: 0;
+  font-size: $font-size-base;
+  color: $color-gray-600;
+  line-height: $line-height-normal;
+  flex: 1;
+
+  // Limitar a 3 líneas máximo
+  @include truncate(3);
+}
+
+// ============================================================================
+// ELEMENTO: FOOTER (Acciones)
+// ============================================================================
+.card__footer {
+  display: flex;
+  gap: $spacing-3;
+  margin-top: auto;
+  padding-top: $spacing-3;
+}
+
+// ============================================================================
+// MODIFICADOR: HORIZONTAL
+// ============================================================================
+.card--horizontal {
+  flex-direction: row;
+
+  .card__image {
+    width: 200px;
+    height: auto;
+    min-height: 180px;
+  }
+
+  .card__content {
+    flex: 1;
+  }
+
+  // En móvil, volver a vertical
+  @media (max-width: $breakpoint-sm) {
+    flex-direction: column;
+
+    .card__image {
+      width: 100%;
+      height: 180px;
+    }
+  }
+}
+
+// ============================================================================
+// MODIFICADOR: SIN IMAGEN
+// ============================================================================
+.card--no-image {
+  .card__content {
+    padding-top: $spacing-6;
+  }
+}
+
+// ============================================================================
+// MODIFICADOR: DESTACADA
+// ============================================================================
+.card--featured {
+  border-color: $color-primary;
+  border-width: $border-medium;
+
+  @include hover {
+    border-color: $color-secondary;
+  }
+}
+
+// ============================================================================
+// RESPONSIVE
+// ============================================================================
+@media (max-width: $breakpoint-sm) {
+  .card__content {
+    padding: $spacing-4;
+    gap: $spacing-2;
+  }
+
+  .card__title {
+    font-size: $font-size-base;
+  }
+
+  .card__description {
+    font-size: $font-size-sm;
+  }
+
+  .card__image {
+    height: 160px;
+  }
+}
+

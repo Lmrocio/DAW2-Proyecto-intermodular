@@ -1,0 +1,263 @@
+// ============================================================================
+// COMPONENTE: ALERT
+// ============================================================================
+// Alertas para feedback al usuario (success, error, warning, info)
+// Metodología BEM: .alert .alert__element .alert--type
+
+// Importar variables y mixins
+@import '../../../../styles/00-settings/variables';
+@import '../../../../styles/01-tools/mixins';
+
+// ============================================================================
+// ESTILOS BASE DE LA ALERTA
+// ============================================================================
+.alert {
+  // Layout
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-4;
+
+  // Forma
+  border-radius: $radius-md;
+  border-left: $border-large solid;
+
+  // Espaciado
+  padding: $spacing-4 $spacing-5;
+
+  // Animación de entrada
+  animation: alertSlideIn $transition-base $easing-out;
+
+  // Posición para el botón de cerrar
+  position: relative;
+}
+
+// ============================================================================
+// ELEMENTO: ICONO
+// ============================================================================
+.alert__icon {
+  // Tamaño fijo del icono
+  flex-shrink: 0;
+  width: $icon-size-sm;
+  height: $icon-size-sm;
+
+  // Centrar contenido
+  @include flex(center, center);
+
+  // Tipografía del icono
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  line-height: 1;
+}
+
+// ============================================================================
+// ELEMENTO: CONTENIDO
+// ============================================================================
+.alert__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-1;
+  min-width: 0; // Permite truncar texto
+}
+
+// ============================================================================
+// ELEMENTO: MENSAJE (Título)
+// ============================================================================
+.alert__message {
+  margin: 0;
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  line-height: $line-height-tight;
+}
+
+// ============================================================================
+// ELEMENTO: DESCRIPCIÓN
+// ============================================================================
+.alert__description {
+  margin: 0;
+  font-size: $font-size-sm;
+  line-height: $line-height-normal;
+  opacity: 0.85;
+}
+
+// ============================================================================
+// ELEMENTO: BOTÓN CERRAR
+// ============================================================================
+.alert__close {
+  // Reset
+  border: none;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+
+  // Tamaño
+  flex-shrink: 0;
+  width: $icon-size-sm;
+  height: $icon-size-sm;
+
+  // Layout
+  @include flex(center, center);
+
+  // Tipografía
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  line-height: 1;
+
+  // Transición
+  @include transition(opacity, $transition-fast);
+
+  // Hover
+  @include hover {
+    opacity: 0.6;
+  }
+
+  // Focus accesible
+  @include focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+    border-radius: $radius-sm;
+  }
+}
+
+// ============================================================================
+// MODIFICADOR: SUCCESS (Verde)
+// ============================================================================
+.alert--success {
+  $alert-color: $color-success;
+  $alert-bg: rgba($alert-color, 0.1);
+  $alert-text: darken($alert-color, 40%);
+
+  background-color: $alert-bg;
+  border-left-color: $alert-color;
+  color: $alert-text;
+
+  .alert__icon {
+    color: $alert-color;
+  }
+
+  .alert__message {
+    color: $alert-text;
+  }
+
+  .alert__close {
+    color: $alert-text;
+  }
+}
+
+// ============================================================================
+// MODIFICADOR: ERROR (Rojo)
+// ============================================================================
+.alert--error {
+  $alert-color: $color-error;
+  $alert-bg: rgba($alert-color, 0.1);
+  $alert-text: darken($alert-color, 20%);
+
+  background-color: $alert-bg;
+  border-left-color: $alert-color;
+  color: $alert-text;
+
+  .alert__icon {
+    color: $alert-color;
+  }
+
+  .alert__message {
+    color: $alert-text;
+  }
+
+  .alert__close {
+    color: $alert-text;
+  }
+}
+
+// ============================================================================
+// MODIFICADOR: WARNING (Amarillo/Naranja)
+// ============================================================================
+.alert--warning {
+  $alert-color: $color-warning;
+  $alert-bg: rgba($alert-color, 0.15);
+  $alert-text: darken($alert-color, 45%);
+
+  background-color: $alert-bg;
+  border-left-color: $alert-color;
+  color: $alert-text;
+
+  .alert__icon {
+    color: darken($alert-color, 10%);
+  }
+
+  .alert__message {
+    color: $alert-text;
+  }
+
+  .alert__close {
+    color: $alert-text;
+  }
+}
+
+// ============================================================================
+// MODIFICADOR: INFO (Azul)
+// ============================================================================
+.alert--info {
+  $alert-color: $color-info;
+  $alert-bg: rgba($alert-color, 0.1);
+  $alert-text: darken($alert-color, 35%);
+
+  background-color: $alert-bg;
+  border-left-color: $alert-color;
+  color: $alert-text;
+
+  .alert__icon {
+    color: $alert-color;
+  }
+
+  .alert__message {
+    color: $alert-text;
+  }
+
+  .alert__close {
+    color: $alert-text;
+  }
+}
+
+// ============================================================================
+// ANIMACIÓN: Entrada de alerta
+// ============================================================================
+@keyframes alertSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-$spacing-4);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+// ============================================================================
+// RESPONSIVE
+// ============================================================================
+@media (max-width: $breakpoint-sm) {
+  .alert {
+    padding: $spacing-3 $spacing-4;
+    gap: $spacing-3;
+  }
+
+  .alert__message {
+    font-size: $font-size-sm;
+  }
+
+  .alert__description {
+    font-size: $font-size-xs;
+  }
+}
+
+// ============================================================================
+// PREFERENCIAS DE MOVIMIENTO REDUCIDO
+// ============================================================================
+@include reduced-motion {
+  .alert {
+    animation: none;
+  }
+}
+

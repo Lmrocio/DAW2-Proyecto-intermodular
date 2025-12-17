@@ -1,0 +1,32 @@
+@import '../../../../styles/00-settings/variables';
+@import '../../../../styles/00-settings/css-variables';
+
+.app-main {
+  width: 100%;
+
+  min-height: calc(100vh - 200px);
+
+  padding: $spacing-8 $spacing-6;
+
+  margin: 0 auto;
+  max-width: $max-width-container;
+
+  display: flex;
+  flex-direction: column;
+
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+
+  transition: background-color $transition-base $easing-in-out;
+
+  @media (max-width: $breakpoint-md) {
+    padding: $spacing-6 $spacing-4;
+    min-height: calc(100vh - 150px);
+  }
+
+  @media (max-width: $breakpoint-sm) {
+    padding: $spacing-4 $spacing-3;
+    min-height: calc(100vh - 120px);
+  }
+}
+

@@ -1,0 +1,41 @@
+<div class="form-select">
+  <label class="form-select__label" [for]="id" *ngIf="label">
+    {{ label }}
+    <span class="form-select__required-indicator" *ngIf="required">*</span>
+  </label>
+
+  <select
+    [id]="id"
+    class="form-select__field"
+    [class.form-select__field--error]="error"
+    [value]="value"
+    (change)="onValueChange($any($event.target).value)"
+    (blur)="onTouched()"
+  >
+
+    <option
+      value=""
+      disabled
+      [selected]="!value"
+    >
+      {{ placeholder }}
+    </option>
+
+    <option
+      *ngFor="let option of options"
+      [value]="option.value"
+      [disabled]="option.disabled"
+    >
+      {{ option.label }}
+    </option>
+  </select>
+
+  <small class="form-select__error" *ngIf="error" role="alert">
+    {{ error }}
+  </small>
+
+  <small class="form-select__help" *ngIf="hint && !error">
+    {{ hint }}
+  </small>
+</div>
+

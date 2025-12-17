@@ -1,0 +1,367 @@
+// ============================================================================
+// 1. RESET DE ELEMENTOS BASE
+// ============================================================================
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: $font-primary;
+  font-size: $font-size-base;
+  font-weight: $font-weight-regular;
+  line-height: $line-height-normal;
+  color: $color-text-dark;
+  background-color: $color-bg-light;
+  min-height: 100vh;
+}
+
+// ============================================================================
+// 2. HEADINGS - TÍTULOS
+// ============================================================================
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $font-primary;
+  font-weight: $font-weight-semibold;
+  line-height: $line-height-tight;
+  margin-bottom: $spacing-4;
+  color: $color-text-dark;
+}
+
+h1 {
+  font-size: $font-size-5xl;
+}
+
+h2 {
+  font-size: $font-size-4xl;
+}
+
+h3 {
+  font-size: $font-size-3xl;
+}
+
+h4 {
+  font-size: $font-size-2xl;
+}
+
+h5 {
+  font-size: $font-size-xl;
+}
+
+h6 {
+  font-size: $font-size-lg;
+}
+
+// ============================================================================
+// 3. PÁRRAFOS Y TEXTO
+// ============================================================================
+
+p {
+  margin-bottom: $spacing-4;
+  line-height: $line-height-normal;
+}
+
+a {
+  color: $color-accent;
+  text-decoration: none;
+  @include transition(color);
+
+  @include hover {
+    color: mix($color-accent, #000, 90%);
+    text-decoration: underline;
+  }
+
+  @include focus-visible;
+}
+
+strong, b {
+  font-weight: $font-weight-bold;
+}
+
+em, i {
+  font-style: italic;
+}
+
+small {
+  font-size: $font-size-sm;
+}
+
+// ============================================================================
+// 4. LISTAS
+// ============================================================================
+
+ul, ol {
+  margin-bottom: $spacing-4;
+  padding-left: $spacing-6;
+}
+
+li {
+  margin-bottom: $spacing-2;
+}
+
+dl {
+  margin-bottom: $spacing-4;
+}
+
+dt {
+  font-weight: $font-weight-semibold;
+  margin-top: $spacing-4;
+}
+
+dd {
+  margin-left: $spacing-4;
+  margin-bottom: $spacing-2;
+}
+
+// ============================================================================
+// 5. FORMULARIOS
+// ============================================================================
+
+input,
+textarea,
+select,
+button {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  padding: $spacing-3 $spacing-4;
+  border: $border-medium solid $color-gray-300;
+  border-radius: $radius-md;
+  background-color: white;
+  color: $color-text-dark;
+  @include transition;
+
+  &:focus {
+    outline: none;
+    border-color: $color-accent;
+    box-shadow: $shadow-focus;
+  }
+
+  &:disabled {
+    background-color: $color-gray-100;
+    color: $color-gray-500;
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  &::placeholder {
+    color: $color-gray-400;
+  }
+}
+
+textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+button {
+  cursor: pointer;
+  @include transition;
+
+  @include focus-visible;
+}
+
+// Desactiva comportamiento por defecto
+input[type="checkbox"],
+input[type="radio"] {
+  width: auto;
+  margin-right: $spacing-2;
+  cursor: pointer;
+}
+
+// ============================================================================
+// 6. IMÁGENES Y MEDIA
+// ============================================================================
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+video,
+iframe {
+  max-width: 100%;
+  height: auto;
+}
+
+// ============================================================================
+// 7. TABLAS
+// ============================================================================
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: $spacing-4;
+}
+
+thead {
+  background-color: $color-gray-100;
+}
+
+th {
+  padding: $spacing-3 $spacing-4;
+  text-align: left;
+  font-weight: $font-weight-semibold;
+  border-bottom: $border-medium solid $color-gray-300;
+}
+
+td {
+  padding: $spacing-3 $spacing-4;
+  border-bottom: $border-thin solid $color-gray-200;
+}
+
+tbody tr:hover {
+  background-color: $color-gray-50;
+}
+
+// ============================================================================
+// 8. ELEMENTOS DE BLOQUE
+// ============================================================================
+
+blockquote {
+  margin: $spacing-4 0;
+  padding-left: $spacing-4;
+  border-left: $border-thick solid $color-accent;
+  font-style: italic;
+  color: $color-gray-600;
+}
+
+hr {
+  margin: $spacing-6 0;
+  border: none;
+  border-top: $border-thin solid $color-gray-300;
+}
+
+code {
+  font-family: $font-mono;
+  font-size: 0.9em;
+  background-color: $color-gray-100;
+  padding: $spacing-1 $spacing-2;
+  border-radius: $radius-sm;
+  color: $color-error;
+}
+
+pre {
+  background-color: $color-gray-900;
+  color: $color-gray-100;
+  padding: $spacing-4;
+  border-radius: $radius-md;
+  overflow-x: auto;
+  margin-bottom: $spacing-4;
+
+  code {
+    background-color: transparent;
+    color: inherit;
+    padding: 0;
+  }
+}
+
+// ============================================================================
+// 9. ACCESIBILIDAD Y VISIBILIDAD
+// ============================================================================
+
+// Oculta elementos pero mantiene acceso para lectores de pantalla
+.sr-only {
+  @include sr-only;
+}
+
+// Focus visible para navegación por teclado
+*:focus-visible {
+  outline: 2px solid $color-accent;
+  outline-offset: 2px;
+}
+
+// Prefers reduced motion - respeta preferencias del usuario
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+// ============================================================================
+// 10. SCROLLBAR PERSONALIZADA (Webkit browsers)
+// ============================================================================
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: $color-gray-100;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $color-gray-400;
+  border-radius: $radius-full;
+
+  &:hover {
+    background: $color-gray-500;
+  }
+}
+
+// ============================================================================
+// 11. SELECCIÓN DE TEXTO
+// ============================================================================
+
+::selection {
+  background-color: $color-primary;
+  color: $color-text-dark;
+}
+
+::-moz-selection {
+  background-color: $color-primary;
+  color: $color-text-dark;
+}
+
+// ============================================================================
+// 12. VALIDACIÓN DE FORMULARIOS
+// ============================================================================
+
+input:invalid:not(:placeholder-shown),
+textarea:invalid:not(:placeholder-shown) {
+  border-color: $color-error;
+
+  &:focus {
+    box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.1);
+  }
+}
+
+input:valid:not(:placeholder-shown),
+textarea:valid:not(:placeholder-shown) {
+  border-color: $color-success;
+
+  &:focus {
+    box-shadow: 0 0 0 3px rgba(116, 235, 5, 0.1);
+  }
+}
+

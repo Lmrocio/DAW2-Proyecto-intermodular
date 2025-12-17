@@ -1,0 +1,84 @@
+// ============================================================================
+// CSS CUSTOM PROPERTIES - VARIABLES CSS PARA TEMAS
+// ============================================================================
+
+:root {
+  // ========================================================================
+  // COLORES DE FONDO
+  // ========================================================================
+  --bg-primary: #{$color-bg-light};
+  --bg-secondary: #{$color-gray-50};
+  --bg-tertiary: #{$color-gray-100};
+
+  // ========================================================================
+  // COLORES DE TEXTO
+  // ========================================================================
+  --text-primary: #{$color-text-dark};
+  --text-secondary: #{$color-gray-700};
+  --text-tertiary: #{$color-gray-500};
+  --text-light: #{$color-text-light};
+
+  // ========================================================================
+  // COLORES SEMÁNTICOS
+  // ========================================================================
+  --color-success: #{$color-success};
+  --color-error: #{$color-error};
+  --color-warning: #{$color-warning};
+  --color-info: #{$color-info};
+
+  // ========================================================================
+  // COLORES DE MARCA/PRIMARIOS
+  // ========================================================================
+  --color-primary: #{$color-primary};
+  --color-secondary: #{$color-secondary};
+  --color-tertiary: #{$color-tertiary};
+  --color-accent: #{$color-accent};
+
+  // ========================================================================
+  // BORDES
+  // ========================================================================
+  --border-color-primary: #{$color-gray-300};
+  --border-color-secondary: #{$color-gray-200};
+  --border-color-dark: #{$color-gray-700};
+
+  // ========================================================================
+  // SOMBRAS (para modo claro)
+  // ========================================================================
+  --shadow-sm: #{$shadow-sm};
+  --shadow-md: #{$shadow-md};
+  --shadow-lg: #{$shadow-lg};
+  --shadow-xl: #{$shadow-xl};
+
+  // ========================================================================
+  // OVERLAY/TRANSPARENCIAS
+  // ========================================================================
+  --overlay-light: #{$overlay-light};
+  --overlay-dark: #{$overlay-dark};
+  --overlay-transparent: #{$overlay-transparent};
+}
+
+// ============================================================================
+// TEMA OSCURO (PARA FUTURO)
+// ============================================================================
+// <body class="theme-dark">
+//
+// @media (prefers-color-scheme: dark) {
+//   :root {
+//     --bg-primary: #{$color-gray-900};
+//     --bg-secondary: #{$color-gray-800};
+//     --bg-tertiary: #{$color-gray-700};
+//     --text-primary: #{$color-text-light};
+//     --text-secondary: #{$color-gray-300};
+//     --text-tertiary: #{$color-gray-400};
+//   }
+// }
+
+// .theme-dark {
+//   --bg-primary: #{$color-gray-900};
+//   --bg-secondary: #{$color-gray-800};
+//   --bg-tertiary: #{$color-gray-700};
+//   --text-primary: #{$color-text-light};
+//   --text-secondary: #{$color-gray-300};
+//   --text-tertiary: #{$color-gray-400};
+// }
+
