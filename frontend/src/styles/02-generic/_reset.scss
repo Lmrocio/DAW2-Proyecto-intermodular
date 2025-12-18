@@ -21,25 +21,36 @@ html {
 }
 
 body {
-  font-family: $font-primary;
+  font-family: $font-body;
   font-size: $font-size-base;
   font-weight: $font-weight-regular;
   line-height: $line-height-normal;
-  color: $color-text-dark;
-  background-color: $color-bg-light;
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
   min-height: 100vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 // ============================================================================
 // 2. HEADINGS - TÍTULOS
 // ============================================================================
 
-h1, h2, h3, h4, h5, h6 {
+// Títulos principales (h1, h2): Arima Madurai
+h1, h2 {
   font-family: $font-primary;
+  font-weight: $font-weight-bold;
+  line-height: $line-height-tight;
+  margin-bottom: $spacing-4;
+  color: var(--text-primary);
+}
+
+// Subtítulos (h3, h4, h5, h6): Glory
+h3, h4, h5, h6 {
+  font-family: $font-secondary;
   font-weight: $font-weight-semibold;
   line-height: $line-height-tight;
   margin-bottom: $spacing-4;
-  color: $color-text-dark;
+  color: var(--text-primary);
 }
 
 h1 {

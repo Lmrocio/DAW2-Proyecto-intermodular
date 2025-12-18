@@ -1,0 +1,136 @@
+// ============================================================================
+// ESTILOS: THEME SWITCHER
+// ============================================================================
+// Estilos para el toggle de tema con animaciones
+
+@use '../../../../styles/00-settings/variables' as *;
+@use '../../../../styles/01-tools/mixins' as *;
+
+// ============================================================================
+// BOTÓN PRINCIPAL
+// ============================================================================
+
+.theme-switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-3;
+  padding: $spacing-2;
+  background-color: transparent;
+  border: 2px solid $color-gray-300;
+  border-radius: $radius-full;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    border-color: $color-accent;
+    background-color: rgba($color-accent, 0.05);
+  }
+
+  &:focus {
+    outline: 3px solid $color-accent;
+    outline-offset: 2px;
+  }
+
+  &--dark {
+    border-color: $color-gray-600;
+
+    &:hover {
+      border-color: $color-primary;
+      background-color: rgba($color-primary, 0.1);
+    }
+  }
+}
+
+// ============================================================================
+// TRACK (PISTA DEL TOGGLE)
+// ============================================================================
+
+.theme-switcher__track {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 64px;
+  height: 32px;
+  padding: $spacing-1;
+  background-color: $color-gray-200;
+  border-radius: $radius-full;
+  transition: background-color 0.3s ease;
+
+  .theme-switcher--dark & {
+    background-color: $color-gray-700;
+  }
+}
+
+// ============================================================================
+// THUMB (DESLIZADOR)
+// ============================================================================
+
+.theme-switcher__thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 28px;
+  height: 28px;
+  background-color: white;
+  border-radius: $radius-full;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, background-color 0.3s ease;
+
+  .theme-switcher--dark & {
+    transform: translateX(32px);
+    background-color: $color-gray-800;
+  }
+}
+
+// ============================================================================
+// ICONOS
+// ============================================================================
+
+.theme-switcher__icon {
+  font-size: 14px;
+  z-index: 1;
+  opacity: 0.5;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+
+  &--active {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+
+  &--sun {
+    margin-left: 2px;
+  }
+
+  &--moon {
+    margin-right: 2px;
+  }
+}
+
+// ============================================================================
+// LABEL (TEXTO)
+// ============================================================================
+
+.theme-switcher__label {
+  font-family: $font-body;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $color-text-dark;
+  min-width: 50px;
+
+  .theme-switcher--dark & {
+    color: $color-text-light;
+  }
+}
+
+// ============================================================================
+// RESPONSIVE
+// ============================================================================
+
+@media (max-width: $breakpoint-sm) {
+  .theme-switcher__label {
+    // Ocultar texto en móvil para ahorrar espacio
+    display: none;
+  }
+}
+

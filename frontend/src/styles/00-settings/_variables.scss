@@ -37,8 +37,15 @@ $color-gray-900: #171717;
 // 2. TIPOGRAFÍA
 // ============================================================================
 
-$font-primary: -apple-system, blinkmacsystemfont, 'Segoe UI', roboto, 'Helvetica Neue', arial, sans-serif;
-$font-secondary: 'Georgia', 'Times New Roman', serif;
+// Familias tipográficas
+// - Primary (Títulos): Arima Madurai - Fuente decorativa para encabezados
+// - Secondary (Subtítulos): Glory - Fuente moderna y limpia para subtítulos
+// - Body (Texto normal): Montserrat - Fuente legible para cuerpo de texto
+// - Mono: Para código y datos técnicos
+
+$font-primary: 'Arima Madurai', cursive;
+$font-secondary: 'Glory', sans-serif;
+$font-body: 'Montserrat', sans-serif;
 $font-mono: 'Fira Code', 'Courier New', monospace;
 
 // Tamaños de fuente (escala modular con ratio 1.25)
@@ -195,6 +202,7 @@ $z-modal: 1400;
 $z-popover: 1500;
 $z-tooltip: 1600;
 $z-notification: 1700;
+$z-toast: 1800;
 
 // ============================================================================
 // 11. ESPACIADOS DE CONTENIDO

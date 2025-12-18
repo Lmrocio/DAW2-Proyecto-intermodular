@@ -6,25 +6,387 @@
 
 <main class="style-guide">
   <div class="style-guide__container">
+    <h1 class="style-guide__title">Style Guide</h1>
 
     <!-- ====================================================================== -->
-    <!-- ENCABEZADO -->
+    <!-- SECCIÓN 0: DESIGN TOKENS - FUNDAMENTOS -->
     <!-- ====================================================================== -->
-    <header class="style-guide__header">
-      <h1 class="style-guide__title">🎨 Style Guide</h1>
-      <p class="style-guide__subtitle">
-        Documentación visual de los componentes UI de <strong>TecnoMayores</strong>
+    <section class="style-guide__section" id="design-tokens">
+      <h2 class="style-guide__section-title">0. Design Tokens</h2>
+      <p class="style-guide__section-description">
+        Fundamentos del sistema de diseño: colores, tipografía, espaciado, bordes y sombras.
+        Todas las variables están definidas en SCSS y disponibles como CSS Custom Properties.
       </p>
-      <p class="style-guide__description">
-        Todos los componentes siguen la metodología BEM y usan las variables SCSS definidas en el proyecto.
-      </p>
-    </header>
+
+      <!-- ================================================================== -->
+      <!-- PALETA DE COLORES -->
+      <!-- ================================================================== -->
+      <article class="style-guide__component">
+        <h3 class="style-guide__component-title">Paleta de Colores</h3>
+
+        <!-- Colores de Marca -->
+        <div class="style-guide__subsection">
+          <h4 class="style-guide__subsection-title">Colores de Marca</h4>
+          <div class="style-guide__color-grid">
+            <div
+              *ngFor="let color of brandColors"
+              class="style-guide__color-card"
+              (click)="copyToClipboard(color.value)"
+              title="Click para copiar"
+            >
+              <div class="style-guide__color-swatch" [style.background-color]="color.value"></div>
+              <div class="style-guide__color-info">
+                <span class="style-guide__color-name">{{ color.name }}</span>
+                <code class="style-guide__color-value">{{ color.value }}</code>
+                <code class="style-guide__color-var">{{ color.variable }}</code>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Colores Semánticos -->
+        <div class="style-guide__subsection">
+          <h4 class="style-guide__subsection-title">Colores Semánticos</h4>
+          <div class="style-guide__color-grid">
+            <div
+              *ngFor="let color of semanticColors"
+              class="style-guide__color-card"
+              (click)="copyToClipboard(color.value)"
+              title="Click para copiar"
+            >
+              <div class="style-guide__color-swatch" [style.background-color]="color.value"></div>
+              <div class="style-guide__color-info">
+                <span class="style-guide__color-name">{{ color.name }}</span>
+                <code class="style-guide__color-value">{{ color.value }}</code>
+                <code class="style-guide__color-var">{{ color.variable }}</code>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Colores de Texto y Fondo -->
+        <div class="style-guide__subsection">
+          <h4 class="style-guide__subsection-title">Texto y Fondo</h4>
+          <div class="style-guide__color-grid style-guide__color-grid--small">
+            <div
+              *ngFor="let color of textColors"
+              class="style-guide__color-card style-guide__color-card--small"
+              (click)="copyToClipboard(color.value)"
+              title="Click para copiar"
+            >
+              <div class="style-guide__color-swatch" [style.background-color]="color.value"></div>
+              <div class="style-guide__color-info">
+                <span class="style-guide__color-name">{{ color.name }}</span>
+                <code class="style-guide__color-value">{{ color.value }}</code>
+              </div>
+            </div>
+            <div
+              *ngFor="let color of backgroundColors"
+              class="style-guide__color-card style-guide__color-card--small"
+              (click)="copyToClipboard(color.value)"
+              title="Click para copiar"
+            >
+              <div class="style-guide__color-swatch" [style.background-color]="color.value"></div>
+              <div class="style-guide__color-info">
+                <span class="style-guide__color-name">{{ color.name }}</span>
+                <code class="style-guide__color-value">{{ color.value }}</code>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Escala de Grises -->
+        <div class="style-guide__subsection">
+          <h4 class="style-guide__subsection-title">Escala de Grises</h4>
+          <div class="style-guide__gray-scale">
+            <div
+              *ngFor="let color of grayScale"
+              class="style-guide__gray-item"
+              (click)="copyToClipboard(color.value)"
+              title="Click para copiar"
+            >
+              <div class="style-guide__gray-swatch" [style.background-color]="color.value"></div>
+              <div class="style-guide__gray-info">
+                <span class="style-guide__gray-label">{{ color.name }}</span>
+                <code class="style-guide__gray-value">{{ color.value }}</code>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- ================================================================== -->
+      <!-- TIPOGRAFÍA -->
+      <!-- ================================================================== -->
+      <article class="style-guide__component">
+        <h3 class="style-guide__component-title">Tipografía</h3>
+
+        <!-- Familias tipográficas -->
+        <div class="style-guide__subsection">
+          <h4 class="style-guide__subsection-title">Familias Tipográficas</h4>
+          <div class="style-guide__font-families">
+            <div *ngFor="let font of fontFamilies" class="style-guide__font-family">
+              <div class="style-guide__font-header">
+                <span class="style-guide__font-name">{{ font.name }}</span>
+                <code class="style-guide__font-var">{{ font.variable }}</code>
+              </div>
+              <p class="style-guide__font-sample"
+                 [style.font-family]="font.value">
+                {{ font.sample }}
+              </p>
+              <code class="style-guide__font-value">{{ font.value }}</code>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tamaños de fuente -->
+        <div class="style-guide__subsection">
+          <h4 class="style-guide__subsection-title">Escala de Tamaños</h4>
+          <div class="style-guide__font-sizes">
+            <div *ngFor="let size of fontSizes" class="style-guide__font-size">
+              <div class="style-guide__font-size-sample" [style.font-size]="size.value">
+                Aa
+              </div>
+              <div class="style-guide__font-size-info">
+                <span class="style-guide__font-size-name">{{ size.name }}</span>
+                <code class="style-guide__font-size-value">{{ size.value }} ({{ size.px }})</code>
+                <code class="style-guide__font-size-var">{{ size.variable }}</code>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pesos de fuente -->
+        <div class="style-guide__subsection">
+          <h4 class="style-guide__subsection-title">Pesos de Fuente</h4>
+          <div class="style-guide__font-weights">
+            <div *ngFor="let weight of fontWeights" class="style-guide__font-weight">
+              <span class="style-guide__font-weight-sample" [style.font-weight]="weight.value">
+                El veloz murciélago hindú
+              </span>
+              <div class="style-guide__font-weight-info">
+                <span class="style-guide__font-weight-name">{{ weight.name }}</span>
+                <code>{{ weight.value }}</code>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Line heights -->
+        <div class="style-guide__subsection">
+          <h4 class="style-guide__subsection-title">Alturas de Línea</h4>
+          <div class="style-guide__line-heights">
+            <div *ngFor="let lh of lineHeights" class="style-guide__line-height">
+              <div class="style-guide__line-height-sample" [style.line-height]="lh.value">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor.
+              </div>
+              <div class="style-guide__line-height-info">
+                <span class="style-guide__line-height-name">{{ lh.name }}</span>
+                <code>{{ lh.variable }}: {{ lh.value }}</code>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- ================================================================== -->
+      <!-- ESPACIADO -->
+      <!-- ================================================================== -->
+      <article class="style-guide__component">
+        <h3 class="style-guide__component-title">Sistema de Espaciado</h3>
+        <p class="style-guide__component-description">
+          Escala basada en 4px (0.25rem). Usado para margin, padding y gap.
+        </p>
+        <div class="style-guide__spacing-grid">
+          <div *ngFor="let space of spacings" class="style-guide__spacing-item">
+            <div class="style-guide__spacing-visual">
+              <div class="style-guide__spacing-bar" [style.width]="space.value"></div>
+            </div>
+            <div class="style-guide__spacing-info">
+              <span class="style-guide__spacing-name">{{ space.name }}</span>
+              <code class="style-guide__spacing-value">{{ space.value }}</code>
+              <span class="style-guide__spacing-px">{{ space.px }}</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- ================================================================== -->
+      <!-- BORDER RADIUS -->
+      <!-- ================================================================== -->
+      <article class="style-guide__component">
+        <h3 class="style-guide__component-title">Border Radius</h3>
+        <p class="style-guide__component-description">
+          Radios de borde para suavizar esquinas de componentes.
+        </p>
+        <div class="style-guide__radius-grid">
+          <div *ngFor="let radius of radiuses" class="style-guide__radius-item">
+            <div class="style-guide__radius-visual" [style.border-radius]="radius.value"></div>
+            <div class="style-guide__radius-info">
+              <span class="style-guide__radius-name">{{ radius.name }}</span>
+              <code class="style-guide__radius-value">{{ radius.value }}</code>
+              <span class="style-guide__radius-px">({{ radius.px }})</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- ================================================================== -->
+      <!-- SOMBRAS -->
+      <!-- ================================================================== -->
+      <article class="style-guide__component">
+        <h3 class="style-guide__component-title">Elevaciones (Sombras)</h3>
+        <p class="style-guide__component-description">
+          Sistema de sombras para crear jerarquía visual y profundidad.
+        </p>
+        <div class="style-guide__shadow-grid">
+          <div *ngFor="let shadow of shadows" class="style-guide__shadow-item">
+            <div class="style-guide__shadow-visual" [style.box-shadow]="shadow.value"></div>
+            <div class="style-guide__shadow-info">
+              <span class="style-guide__shadow-name">{{ shadow.name }}</span>
+              <code class="style-guide__shadow-var">{{ shadow.variable }}</code>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- ================================================================== -->
+      <!-- BREAKPOINTS -->
+      <!-- ================================================================== -->
+      <article class="style-guide__component">
+        <h3 class="style-guide__component-title">Breakpoints Responsive</h3>
+        <div class="style-guide__table-wrapper">
+          <table class="style-guide__table">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Variable</th>
+                <th>Valor</th>
+                <th>Dispositivo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let bp of breakpoints">
+                <td><strong>{{ bp.name }}</strong></td>
+                <td><code>{{ bp.variable }}</code></td>
+                <td>{{ bp.value }}</td>
+                <td>{{ bp.description }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+
+      <!-- ================================================================== -->
+      <!-- TRANSICIONES -->
+      <!-- ================================================================== -->
+      <article class="style-guide__component">
+        <h3 class="style-guide__component-title">Transiciones</h3>
+        <div class="style-guide__transitions">
+          <div *ngFor="let trans of transitions" class="style-guide__transition-item">
+            <div class="style-guide__transition-visual" [style.transition-duration]="trans.value">
+              Hover me
+            </div>
+            <div class="style-guide__transition-info">
+              <span class="style-guide__transition-name">{{ trans.name }}</span>
+              <code>{{ trans.variable }}: {{ trans.value }}</code>
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
 
     <!-- ====================================================================== -->
-    <!-- SECCIÓN 1: BOTONES -->
+    <!-- SECCIÓN 1: CARDS -->
+    <!-- ====================================================================== -->
+    <section class="style-guide__section" id="cards">
+      <h2 class="style-guide__section-title">1. Cards <code>app-card</code></h2>
+      <p class="style-guide__section-description">
+        Componente de tarjeta reutilizable con soporte para imagen, título, descripción y contenido personalizado.
+        Disponible en variantes vertical (por defecto) y horizontal.
+      </p>
+
+      <!-- Cards Verticales -->
+      <article class="style-guide__component">
+        <h3 class="style-guide__component-title">
+          Cards Verticales
+        </h3>
+        <p class="style-guide__component-description">
+          Layout vertical con imagen en la parte superior, ideal para mostrar cursos, artículos o productos.
+        </p>
+        <div class="style-guide__demo style-guide__demo--cards">
+          <app-card
+            *ngFor="let card of exampleCards"
+            [title]="card.title"
+            [description]="card.description"
+            [image]="card.image"
+            variant="vertical"
+          >
+            <app-button variant="primary" size="sm">
+              Ver más
+            </app-button>
+          </app-card>
+        </div>
+      </article>
+
+      <!-- Cards Horizontales -->
+      <article class="style-guide__component">
+        <h3 class="style-guide__component-title">
+          Cards Horizontales
+        </h3>
+        <p class="style-guide__component-description">
+          Layout horizontal con imagen a la izquierda, ideal para listas detalladas o contenido extenso.
+        </p>
+        <div class="style-guide__demo style-guide__demo--cards-horizontal">
+          <app-card
+            *ngFor="let card of exampleHorizontalCards"
+            [title]="card.title"
+            [description]="card.description"
+            [image]="card.image"
+            variant="horizontal"
+          >
+            <app-button variant="secondary" size="sm">
+              Leer más
+            </app-button>
+          </app-card>
+        </div>
+      </article>
+
+      <!-- Cards sin imagen -->
+      <article class="style-guide__component">
+        <h3 class="style-guide__component-title">
+          Cards sin Imagen
+        </h3>
+        <p class="style-guide__component-description">
+          Variante simplificada sin imagen, útil para información textual o contenido minimalista.
+        </p>
+        <div class="style-guide__demo style-guide__demo--cards">
+          <app-card
+            title="Información Importante"
+            description="Esta tarjeta no tiene imagen y se enfoca únicamente en el contenido textual."
+          >
+            <app-button variant="ghost" size="sm">
+              Más info
+            </app-button>
+          </app-card>
+
+          <app-card
+            title="Notificación"
+            description="Mensaje breve para el usuario sin necesidad de elementos visuales adicionales."
+          >
+            <app-button variant="danger" size="sm">
+              Descartar
+            </app-button>
+          </app-card>
+        </div>
+      </article>
+    </section>
+
+    <!-- ====================================================================== -->
+    <!-- SECCIÓN 2: BOTONES -->
     <!-- ====================================================================== -->
     <section class="style-guide__section" id="buttons">
-      <h2 class="style-guide__section-title">1. Botones <code>app-button</code></h2>
+      <h2 class="style-guide__section-title">2. Botones <code>app-button</code></h2>
       <p class="style-guide__section-description">
         Componente de botón con 4 variantes visuales y 3 tamaños.
         Incluye estados hover, focus, active y disabled.
@@ -155,79 +517,6 @@
       </article>
     </section>
 
-    <!-- ====================================================================== -->
-    <!-- SECCIÓN 2: CARDS -->
-    <!-- ====================================================================== -->
-    <section class="style-guide__section" id="cards">
-      <h2 class="style-guide__section-title">2. Cards <code>app-card</code></h2>
-      <p class="style-guide__section-description">
-        Tarjetas para mostrar contenido con imagen, título, descripción y acciones.
-        Variantes vertical y horizontal.
-      </p>
-
-      <!-- Variante Vertical -->
-      <article class="style-guide__component">
-        <h3 class="style-guide__component-title">Cards Verticales</h3>
-        <p class="style-guide__component-description">
-          Imagen arriba, contenido abajo. Ideal para grids de contenido.
-        </p>
-        <div class="style-guide__demo style-guide__demo--cards">
-          <app-card
-            title="Aprende HTML Básico"
-            description="Guía completa de HTML5 desde cero. Aprende los fundamentos de la web y crea tu primera página."
-            image="https://picsum.photos/seed/html/400/250"
-            variant="vertical"
-          >
-            <app-button variant="primary" size="sm">Comenzar lección</app-button>
-          </app-card>
-
-          <app-card
-            title="CSS para Principiantes"
-            description="Domina los estilos CSS y dale vida a tus páginas web con colores, fuentes y layouts."
-            image="https://picsum.photos/seed/css/400/250"
-            variant="vertical"
-          >
-            <app-button variant="secondary" size="sm">Ver contenido</app-button>
-          </app-card>
-
-          <app-card
-            title="JavaScript Interactivo"
-            description="Aprende a crear páginas web dinámicas e interactivas con JavaScript moderno."
-            image="https://picsum.photos/seed/javascript/400/250"
-            variant="vertical"
-          >
-            <app-button variant="ghost" size="sm">Explorar</app-button>
-          </app-card>
-        </div>
-      </article>
-
-      <!-- Variante Horizontal -->
-      <article class="style-guide__component">
-        <h3 class="style-guide__component-title">Cards Horizontales</h3>
-        <p class="style-guide__component-description">
-          Imagen a la izquierda, contenido a la derecha. Ideal para listados.
-        </p>
-        <div class="style-guide__demo style-guide__demo--cards-horizontal">
-          <app-card
-            title="Cómo usar el correo electrónico"
-            description="Aprende paso a paso a enviar y recibir correos electrónicos de forma segura."
-            image="https://picsum.photos/seed/email/400/300"
-            variant="horizontal"
-          >
-            <app-button variant="primary" size="sm">Leer más</app-button>
-          </app-card>
-
-          <app-card
-            title="Videollamadas con WhatsApp"
-            description="Conecta con tu familia y amigos mediante videollamadas fáciles de usar."
-            image="https://picsum.photos/seed/whatsapp/400/300"
-            variant="horizontal"
-          >
-            <app-button variant="secondary" size="sm">Ver tutorial</app-button>
-          </app-card>
-        </div>
-      </article>
-    </section>
 
     <!-- ====================================================================== -->
     <!-- SECCIÓN 3: FORMULARIOS -->
@@ -426,58 +715,6 @@
         </div>
       </article>
     </section>
-
-    <!-- ====================================================================== -->
-    <!-- SECCIÓN 5: INFORMACIÓN -->
-    <!-- ====================================================================== -->
-    <section class="style-guide__section style-guide__section--info" id="info">
-      <h2 class="style-guide__section-title">5. Información del Sistema</h2>
-
-      <div class="style-guide__info-grid">
-        <div class="style-guide__info-card">
-          <h3>📦 Componentes</h3>
-          <ul>
-            <li>app-button (4 variantes, 3 tamaños)</li>
-            <li>app-card (2 variantes)</li>
-            <li>app-form-input</li>
-            <li>app-form-textarea</li>
-            <li>app-form-select</li>
-            <li>app-alert (4 tipos)</li>
-          </ul>
-        </div>
-
-        <div class="style-guide__info-card">
-          <h3>🎨 Metodología</h3>
-          <ul>
-            <li>BEM (Block Element Modifier)</li>
-            <li>ITCSS (Inverted Triangle CSS)</li>
-            <li>Variables SCSS centralizadas</li>
-            <li>Mixins reutilizables</li>
-          </ul>
-        </div>
-
-        <div class="style-guide__info-card">
-          <h3>♿ Accesibilidad</h3>
-          <ul>
-            <li>WCAG 2.1 Nivel AA</li>
-            <li>Focus visible en todos los elementos</li>
-            <li>Contraste de colores adecuado</li>
-            <li>Navegación con teclado</li>
-          </ul>
-        </div>
-
-        <div class="style-guide__info-card">
-          <h3>📱 Responsive</h3>
-          <ul>
-            <li>Mobile-first design</li>
-            <li>Breakpoints: sm, md, lg, xl</li>
-            <li>Componentes adaptables</li>
-            <li>Touch-friendly (min 48px)</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
   </div>
 </main>
 

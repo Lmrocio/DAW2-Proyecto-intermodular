@@ -1,0 +1,27 @@
+<!-- ============================================================================ -->
+<!-- PÁGINA PRINCIPAL - HOME -->
+<!-- ============================================================================ -->
+
+<main class="home">
+  <div class="home__container">
+    <h1 class="home__title">Bienvenido</h1>
+    <p class="home__subtitle">Selecciona una opción para continuar</p>
+
+    <div class="home__buttons">
+      <!-- Botón para ir a la Guía de Estilos -->
+      <a routerLink="/style-guide" class="home__link">
+        <app-button variant="primary" size="lg">
+          Guía de Estilos
+        </app-button>
+      </a>
+
+      <!-- Botón para ir al Cliente -->
+      <a routerLink="/client" class="home__link">
+        <app-button variant="secondary" size="lg">
+          Cliente
+        </app-button>
+      </a>
+    </div>
+  </div>
+</main>
+

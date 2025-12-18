@@ -52,19 +52,25 @@ export class FormInput {
   // PROPIEDADES INTERNAS
   // ========================================================================
 
-  /** ID único del input (para vincular label) */
-  get inputId(): string {
-    return `input-${this.inputName}-${Math.random().toString(36).substr(2, 9)}`;
-  }
+  /** ID único del input (generado una sola vez) */
+  inputId: string;
 
-  /** ID único para el mensaje de error */
-  get errorId(): string {
-    return `error-${this.inputName}-${Math.random().toString(36).substr(2, 9)}`;
-  }
+  /** ID único para el mensaje de error (generado una sola vez) */
+  errorId: string;
 
-  /** ID único para el texto de ayuda */
-  get helpId(): string {
-    return `help-${this.inputName}-${Math.random().toString(36).substr(2, 9)}`;
+  /** ID único para el texto de ayuda (generado una sola vez) */
+  helpId: string;
+
+  // ========================================================================
+  // CONSTRUCTOR
+  // ========================================================================
+
+  constructor() {
+    // Generar IDs únicos UNA SOLA VEZ para evitar ExpressionChangedAfterItHasBeenCheckedError
+    const uniqueId = Math.random().toString(36).substr(2, 9);
+    this.inputId = `input-${uniqueId}`;
+    this.errorId = `error-${uniqueId}`;
+    this.helpId = `help-${uniqueId}`;
   }
 
   // ========================================================================

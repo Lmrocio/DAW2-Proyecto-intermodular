@@ -12,9 +12,9 @@
 // CONTENEDOR PRINCIPAL
 // ============================================================================
 .app-header {
-  background-color: $color-gray-50;
-  border-bottom: $border-medium solid $color-gray-200;
-  @include elevation('sm');
+  background-color: var(--bg-secondary);
+  border-bottom: $border-medium solid var(--border-color-secondary);
+  box-shadow: var(--shadow-sm);
 
   // Sticky header
   position: sticky;
@@ -110,7 +110,7 @@
   display: block;
   width: 24px;
   height: 3px;
-  background-color: $color-text-dark;
+  background-color: var(--text-primary);
   border-radius: $radius-full;
 
   @include transition(all, $transition-fast);
@@ -147,7 +147,7 @@
     right: 0;
     bottom: 0;
 
-    background-color: $color-gray-50;
+    background-color: var(--bg-secondary);
     flex-direction: column;
     justify-content: flex-start;
     align-items: stretch;

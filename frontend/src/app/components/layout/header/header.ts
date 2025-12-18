@@ -6,11 +6,12 @@
 
 import { Component, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ThemeSwitcher } from '../../shared/theme-switcher/theme-switcher';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ThemeSwitcher],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })

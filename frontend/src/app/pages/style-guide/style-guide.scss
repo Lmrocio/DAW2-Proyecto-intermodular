@@ -1,9 +1,7 @@
 // ============================================================================
 // PÁGINA: STYLE GUIDE
 // ============================================================================
-// Página de documentación visual de todos los componentes UI
 
-// Importar variables y mixins
 @import '../../../styles/00-settings/variables';
 @import '../../../styles/01-tools/mixins';
 
@@ -12,8 +10,8 @@
 // ============================================================================
 .style-guide {
   min-height: 100vh;
-  background-color: $color-bg-light;
-  color: $color-text-dark;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
 }
 
 .style-guide__container {
@@ -78,13 +76,13 @@
 .style-guide__section-title {
   font-size: $font-size-2xl;
   font-weight: $font-weight-bold;
-  color: $color-text-dark;
+  color: var(--text-primary);
   margin: 0 0 $spacing-2 0;
 
   code {
     font-family: $font-mono;
     font-size: $font-size-lg;
-    background-color: $color-gray-100;
+    background-color: var(--bg-tertiary);
     padding: $spacing-1 $spacing-2;
     border-radius: $radius-sm;
     color: $color-accent;
@@ -93,7 +91,7 @@
 
 .style-guide__section-description {
   font-size: $font-size-base;
-  color: $color-gray-600;
+  color: var(--text-secondary);
   margin: 0 0 $spacing-6 0;
   max-width: 800px;
 }
@@ -102,8 +100,8 @@
 // COMPONENTES INDIVIDUALES
 // ============================================================================
 .style-guide__component {
-  background-color: $color-gray-50;
-  border: $border-thin solid $color-gray-200;
+  background-color: var(--bg-secondary);
+  border: $border-thin solid var(--border-color-secondary);
   border-radius: $radius-lg;
   padding: $spacing-6;
   margin-bottom: $spacing-6;
@@ -116,7 +114,7 @@
 .style-guide__component-title {
   font-size: $font-size-lg;
   font-weight: $font-weight-semibold;
-  color: $color-text-dark;
+  color: var(--text-primary);
   margin: 0 0 $spacing-2 0;
   display: flex;
   align-items: center;
@@ -126,7 +124,7 @@
 
 .style-guide__component-description {
   font-size: $font-size-sm;
-  color: $color-gray-600;
+  color: var(--text-secondary);
   margin: 0 0 $spacing-4 0;
 }
 
@@ -189,8 +187,8 @@
 // ÁREA DE DEMOSTRACIÓN
 // ============================================================================
 .style-guide__demo {
-  background-color: white;
-  border: $border-thin solid $color-gray-200;
+  background-color: var(--bg-tertiary);
+  border: $border-thin solid var(--border-color-secondary);
   border-radius: $radius-md;
   padding: $spacing-6;
 }
@@ -212,7 +210,7 @@
 .style-guide__demo-label {
   font-size: $font-size-xs;
   font-weight: $font-weight-medium;
-  color: $color-gray-500;
+  color: var(--text-tertiary);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -253,7 +251,7 @@
 // GRID DE INFORMACIÓN
 // ============================================================================
 .style-guide__section--info {
-  background-color: $color-gray-100;
+  background-color: var(--bg-tertiary);
   border-radius: $radius-lg;
   padding: $spacing-8;
   border: none;
@@ -267,7 +265,7 @@
 }
 
 .style-guide__info-card {
-  background-color: white;
+  background-color: var(--bg-secondary);
   border-radius: $radius-md;
   padding: $spacing-5;
   @include elevation('sm');
@@ -275,7 +273,7 @@
   h3 {
     font-size: $font-size-lg;
     font-weight: $font-weight-semibold;
-    color: $color-text-dark;
+    color: var(--text-primary);
     margin: 0 0 $spacing-4 0;
   }
 
@@ -287,8 +285,8 @@
     li {
       padding: $spacing-2 0;
       font-size: $font-size-sm;
-      color: $color-gray-600;
-      border-bottom: $border-thin solid $color-gray-100;
+      color: var(--text-secondary);
+      border-bottom: $border-thin solid var(--border-color-secondary);
 
       &:last-child {
         border-bottom: none;
@@ -301,6 +299,598 @@
       }
     }
   }
+}
+
+// ============================================================================
+// DESIGN TOKENS - ESTILOS
+// ============================================================================
+
+// Subsecciones dentro de componentes
+.style-guide__subsection {
+  margin-bottom: $spacing-6;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.style-guide__subsection-title {
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  color: var(--text-secondary);
+  margin: 0 0 $spacing-4 0;
+  padding-bottom: $spacing-2;
+  border-bottom: $border-thin solid var(--border-color-secondary);
+}
+
+// ============================================================================
+// COLORES
+// ============================================================================
+.style-guide__color-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: $spacing-4;
+
+  &--small {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+}
+
+.style-guide__color-card {
+  border-radius: $radius-lg;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform $transition-fast $easing-out, box-shadow $transition-fast $easing-out;
+  @include elevation('sm');
+  background-color: var(--bg-secondary);
+
+  &:hover {
+    transform: translateY(-2px);
+    @include elevation('md');
+  }
+
+  &--small {
+    .style-guide__color-swatch {
+      height: 60px;
+    }
+  }
+}
+
+// Muestra del color (solo el color, sin texto)
+.style-guide__color-swatch {
+  height: 80px;
+  width: 100%;
+}
+
+// Información del color (fondo neutro, alta legibilidad)
+.style-guide__color-info {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-1;
+  padding: $spacing-3;
+  background-color: var(--bg-secondary);
+  border-top: $border-thin solid var(--border-color-secondary);
+}
+
+.style-guide__color-name {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-bold;
+  color: var(--text-primary);
+}
+
+.style-guide__color-value {
+  font-family: $font-mono;
+  font-size: $font-size-xs;
+  color: var(--text-secondary);
+  background-color: var(--bg-tertiary);
+  padding: $spacing-1 $spacing-2;
+  border-radius: $radius-sm;
+  display: inline-block;
+  width: fit-content;
+}
+
+.style-guide__color-var {
+  font-family: $font-mono;
+  font-size: $font-size-xs;
+  color: $color-accent;
+}
+
+// Escala de Grises - rediseño
+.style-guide__gray-scale {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: $spacing-3;
+}
+
+.style-guide__gray-item {
+  display: flex;
+  flex-direction: column;
+  border-radius: $radius-md;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform $transition-fast $easing-out;
+  @include elevation('sm');
+  background-color: var(--bg-secondary);
+
+  &:hover {
+    transform: translateY(-2px);
+    @include elevation('md');
+  }
+}
+
+.style-guide__gray-swatch {
+  height: 50px;
+  width: 100%;
+}
+
+.style-guide__gray-info {
+  padding: $spacing-2;
+  background-color: var(--bg-secondary);
+  text-align: center;
+}
+
+.style-guide__gray-label {
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+  color: var(--text-primary);
+  display: block;
+  margin-bottom: $spacing-1;
+}
+
+.style-guide__gray-value {
+  font-family: $font-mono;
+  font-size: 0.65rem;
+  color: var(--text-tertiary);
+}
+
+// ============================================================================
+// TIPOGRAFÍA
+// ============================================================================
+.style-guide__font-families {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-4;
+}
+
+.style-guide__font-family {
+  background-color: var(--bg-secondary);
+  border-radius: $radius-md;
+  padding: $spacing-4;
+  @include elevation('sm');
+}
+
+.style-guide__font-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-2;
+  flex-wrap: wrap;
+  gap: $spacing-2;
+}
+
+.style-guide__font-name {
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  color: var(--text-primary);
+}
+
+.style-guide__font-var {
+  font-family: $font-mono;
+  font-size: $font-size-xs;
+  color: $color-accent;
+  background-color: var(--bg-tertiary);
+  padding: $spacing-1 $spacing-2;
+  border-radius: $radius-sm;
+}
+
+.style-guide__font-sample {
+  font-size: $font-size-2xl;
+  margin: 0 0 $spacing-2 0;
+  color: var(--text-primary);
+}
+
+.style-guide__font-value {
+  font-family: $font-mono;
+  font-size: $font-size-xs;
+  color: var(--text-tertiary);
+}
+
+// Tamaños de fuente
+.style-guide__font-sizes {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-3;
+}
+
+.style-guide__font-size {
+  display: flex;
+  align-items: center;
+  gap: $spacing-4;
+  padding: $spacing-3;
+  background-color: var(--bg-secondary);
+  border-radius: $radius-md;
+  @include elevation('sm');
+}
+
+.style-guide__font-size-sample {
+  min-width: 80px;
+  text-align: center;
+  color: var(--text-primary);
+  font-weight: $font-weight-semibold;
+}
+
+.style-guide__font-size-info {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-1;
+}
+
+.style-guide__font-size-name {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  color: var(--text-primary);
+}
+
+.style-guide__font-size-value {
+  font-family: $font-mono;
+  font-size: $font-size-xs;
+  color: var(--text-secondary);
+}
+
+.style-guide__font-size-var {
+  font-family: $font-mono;
+  font-size: $font-size-xs;
+  color: $color-accent;
+}
+
+// Pesos de fuente
+.style-guide__font-weights {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-3;
+}
+
+.style-guide__font-weight {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $spacing-3 $spacing-4;
+  background-color: var(--bg-secondary);
+  border-radius: $radius-md;
+  @include elevation('sm');
+  flex-wrap: wrap;
+  gap: $spacing-2;
+}
+
+.style-guide__font-weight-sample {
+  font-size: $font-size-lg;
+  color: var(--text-primary);
+}
+
+.style-guide__font-weight-info {
+  display: flex;
+  align-items: center;
+  gap: $spacing-3;
+
+  code {
+    font-family: $font-mono;
+    font-size: $font-size-sm;
+    color: $color-accent;
+    background-color: var(--bg-tertiary);
+    padding: $spacing-1 $spacing-2;
+    border-radius: $radius-sm;
+  }
+}
+
+.style-guide__font-weight-name {
+  font-size: $font-size-sm;
+  color: var(--text-secondary);
+}
+
+// Line heights
+.style-guide__line-heights {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: $spacing-4;
+}
+
+.style-guide__line-height {
+  background-color: var(--bg-secondary);
+  border-radius: $radius-md;
+  padding: $spacing-4;
+  @include elevation('sm');
+}
+
+.style-guide__line-height-sample {
+  font-size: $font-size-sm;
+  color: var(--text-primary);
+  margin-bottom: $spacing-3;
+  padding: $spacing-2;
+  background-color: var(--bg-tertiary);
+  border-radius: $radius-sm;
+}
+
+.style-guide__line-height-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: $spacing-2;
+
+  code {
+    font-family: $font-mono;
+    font-size: $font-size-xs;
+    color: $color-accent;
+  }
+}
+
+.style-guide__line-height-name {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  color: var(--text-primary);
+}
+
+// ============================================================================
+// ESPACIADO
+// ============================================================================
+.style-guide__spacing-grid {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2;
+}
+
+.style-guide__spacing-item {
+  display: flex;
+  align-items: center;
+  gap: $spacing-4;
+  padding: $spacing-2;
+  background-color: var(--bg-secondary);
+  border-radius: $radius-md;
+
+  &:hover {
+    background-color: var(--bg-tertiary);
+  }
+}
+
+.style-guide__spacing-visual {
+  width: 200px;
+  height: 24px;
+  background-color: var(--bg-tertiary);
+  border-radius: $radius-sm;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.style-guide__spacing-bar {
+  height: 100%;
+  background: linear-gradient(135deg, $color-primary 0%, $color-secondary 100%);
+  border-radius: $radius-sm;
+  min-width: 4px;
+}
+
+.style-guide__spacing-info {
+  display: flex;
+  align-items: center;
+  gap: $spacing-3;
+}
+
+.style-guide__spacing-name {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-bold;
+  color: var(--text-primary);
+  min-width: 30px;
+}
+
+.style-guide__spacing-value {
+  font-family: $font-mono;
+  font-size: $font-size-xs;
+  color: $color-accent;
+  background-color: var(--bg-tertiary);
+  padding: $spacing-1 $spacing-2;
+  border-radius: $radius-sm;
+}
+
+.style-guide__spacing-px {
+  font-size: $font-size-xs;
+  color: var(--text-tertiary);
+}
+
+// ============================================================================
+// BORDER RADIUS
+// ============================================================================
+.style-guide__radius-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: $spacing-4;
+}
+
+.style-guide__radius-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-3;
+  padding: $spacing-4;
+  background-color: var(--bg-secondary);
+  border-radius: $radius-md;
+  @include elevation('sm');
+}
+
+.style-guide__radius-visual {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, $color-primary 0%, $color-secondary 100%);
+}
+
+.style-guide__radius-info {
+  text-align: center;
+}
+
+.style-guide__radius-name {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  color: var(--text-primary);
+  display: block;
+  margin-bottom: $spacing-1;
+}
+
+.style-guide__radius-value {
+  font-family: $font-mono;
+  font-size: $font-size-xs;
+  color: $color-accent;
+}
+
+.style-guide__radius-px {
+  font-size: $font-size-xs;
+  color: var(--text-tertiary);
+  margin-left: $spacing-1;
+}
+
+// ============================================================================
+// SOMBRAS
+// ============================================================================
+.style-guide__shadow-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: $spacing-6;
+}
+
+.style-guide__shadow-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-4;
+}
+
+.style-guide__shadow-visual {
+  width: 120px;
+  height: 80px;
+  background-color: var(--bg-secondary);
+  border-radius: $radius-md;
+}
+
+.style-guide__shadow-info {
+  text-align: center;
+}
+
+.style-guide__shadow-name {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  color: var(--text-primary);
+  display: block;
+  margin-bottom: $spacing-1;
+}
+
+.style-guide__shadow-var {
+  font-family: $font-mono;
+  font-size: $font-size-xs;
+  color: $color-accent;
+}
+
+// ============================================================================
+// TABLA
+// ============================================================================
+.style-guide__table-wrapper {
+  overflow-x: auto;
+}
+
+.style-guide__table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--bg-secondary);
+  border-radius: $radius-md;
+  overflow: hidden;
+  @include elevation('sm');
+
+  th, td {
+    padding: $spacing-3 $spacing-4;
+    text-align: left;
+    border-bottom: $border-thin solid var(--border-color-secondary);
+  }
+
+  th {
+    background-color: var(--bg-tertiary);
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    color: var(--text-primary);
+  }
+
+  td {
+    font-size: $font-size-sm;
+    color: var(--text-secondary);
+
+    code {
+      font-family: $font-mono;
+      font-size: $font-size-xs;
+      color: $color-accent;
+      background-color: var(--bg-tertiary);
+      padding: $spacing-1 $spacing-2;
+      border-radius: $radius-sm;
+    }
+  }
+
+  tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  tbody tr:hover {
+    background-color: var(--bg-tertiary);
+  }
+}
+
+// ============================================================================
+// TRANSICIONES
+// ============================================================================
+.style-guide__transitions {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: $spacing-4;
+}
+
+.style-guide__transition-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-3;
+}
+
+.style-guide__transition-visual {
+  width: 150px;
+  height: 60px;
+  background: linear-gradient(135deg, var(--bg-tertiary) 0%, var(--border-color-primary) 100%);
+  border-radius: $radius-md;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition-property: transform, background-color;
+  transition-timing-function: $easing-out;
+
+  &:hover {
+    background: linear-gradient(135deg, $color-primary 0%, $color-secondary 100%);
+    color: $color-text-dark;
+    transform: scale(1.05);
+  }
+}
+
+.style-guide__transition-info {
+  text-align: center;
+
+  code {
+    font-family: $font-mono;
+    font-size: $font-size-xs;
+    color: $color-accent;
+  }
+}
+
+.style-guide__transition-name {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  color: var(--text-primary);
+  display: block;
+  margin-bottom: $spacing-1;
 }
 
 // ============================================================================
@@ -362,3 +952,28 @@
   }
 }
 
+// ============================================================================
+// COMPONENTES INTERACTIVOS - ClienteFase1
+// ============================================================================
+
+.style-guide__demo--buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-4;
+}
+
+.style-guide__demo--tooltips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-8;
+  justify-content: center;
+  padding: $spacing-8;
+}
+
+.style-guide__tab-content {
+  margin-top: $spacing-4;
+  padding: $spacing-4;
+  background-color: var(--bg-secondary);
+  border-radius: $radius-md;
+  border: 1px solid var(--border-color-secondary);
+}

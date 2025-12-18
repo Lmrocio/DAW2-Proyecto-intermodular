@@ -1,0 +1,200 @@
+// ============================================================================
+// ESTILOS: TABS
+// ============================================================================
+// Estilos para el sistema de pestañas con múltiples variantes
+
+@use '../../../../styles/00-settings/variables' as *;
+@use '../../../../styles/01-tools/mixins' as *;
+
+// ============================================================================
+// CONTENEDOR PRINCIPAL
+// ============================================================================
+
+.tabs {
+  width: 100%;
+}
+
+// ============================================================================
+// LISTA DE PESTAÑAS
+// ============================================================================
+
+.tabs__list {
+  display: flex;
+  gap: $spacing-2;
+  border-bottom: 2px solid $color-gray-200;
+  padding-bottom: $spacing-1;
+  overflow-x: auto;
+  scrollbar-width: thin;
+
+  // Ocultar scrollbar en móvil pero mantener funcionalidad
+  &::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $color-gray-300;
+    border-radius: $radius-full;
+  }
+}
+
+// ============================================================================
+// PESTAÑA INDIVIDUAL
+// ============================================================================
+
+.tabs__tab {
+  display: flex;
+  align-items: center;
+  gap: $spacing-2;
+  padding: $spacing-3 $spacing-5;
+  font-family: $font-body;
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  color: $color-gray-600;
+  background-color: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  min-height: 48px; // Mínimo para accesibilidad (Ley de Fitts)
+
+  &:hover:not(.tabs__tab--disabled) {
+    color: $color-text-dark;
+    background-color: rgba($color-primary, 0.1);
+  }
+
+  &:focus {
+    outline: 3px solid $color-accent;
+    outline-offset: 2px;
+    border-radius: $radius-sm;
+  }
+
+  &--active {
+    color: $color-accent;
+    border-bottom-color: $color-accent;
+    font-weight: $font-weight-semibold;
+
+    &:hover {
+      background-color: rgba($color-accent, 0.05);
+    }
+  }
+
+  &--disabled {
+    color: $color-gray-400;
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+.tabs__tab-icon {
+  font-size: $font-size-lg;
+}
+
+.tabs__tab-label {
+  // Para usuarios mayores, texto más grande
+}
+
+// ============================================================================
+// VARIANTE: PILLS
+// ============================================================================
+
+.tabs--pills {
+  .tabs__list {
+    border-bottom: none;
+    gap: $spacing-3;
+    padding-bottom: 0;
+  }
+
+  .tabs__tab {
+    background-color: $color-gray-100;
+    border-radius: $radius-full;
+    border-bottom: none;
+    padding: $spacing-3 $spacing-6;
+
+    &:hover:not(.tabs__tab--disabled) {
+      background-color: $color-gray-200;
+    }
+
+    &--active {
+      background-color: $color-primary;
+      color: $color-text-dark;
+
+      &:hover {
+        background-color: $color-secondary;
+      }
+    }
+  }
+}
+
+// ============================================================================
+// VARIANTE: UNDERLINE
+// ============================================================================
+
+.tabs--underline {
+  .tabs__list {
+    border-bottom: 1px solid $color-gray-200;
+    gap: 0;
+  }
+
+  .tabs__tab {
+    border-bottom-width: 2px;
+    margin-bottom: -1px;
+    padding: $spacing-4 $spacing-6;
+
+    &--active {
+      border-bottom-color: $color-accent;
+    }
+  }
+}
+
+// ============================================================================
+// PANELES DE CONTENIDO
+// ============================================================================
+
+.tabs__panels {
+  padding-top: $spacing-6;
+}
+
+// Panel individual (para usar con ng-content)
+.tabs__panel {
+  animation: fadeIn 0.2s ease;
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// ============================================================================
+// RESPONSIVE
+// ============================================================================
+
+@media (max-width: $breakpoint-sm) {
+  .tabs__list {
+    gap: $spacing-1;
+  }
+
+  .tabs__tab {
+    padding: $spacing-3 $spacing-4;
+    font-size: $font-size-sm;
+  }
+
+  .tabs--pills .tabs__tab {
+    padding: $spacing-2 $spacing-4;
+  }
+}
+

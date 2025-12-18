@@ -1,0 +1,46 @@
+<!-- ============================================================================ -->
+<!-- COMPONENTE: THEME SWITCHER -->
+<!-- ============================================================================ -->
+<!-- Botón accesible para cambiar entre modo claro y oscuro -->
+
+<button
+  type="button"
+  class="theme-switcher"
+  [class.theme-switcher--dark]="isDarkMode"
+  (click)="toggleTheme()"
+  (keydown)="onKeyDown($event)"
+  [attr.aria-label]="ariaLabel"
+  [title]="buttonTitle"
+  role="switch"
+  [attr.aria-checked]="isDarkMode"
+>
+  <!-- Contenedor del toggle -->
+  <span class="theme-switcher__track">
+    <!-- Icono del sol (tema claro) -->
+    <span
+      class="theme-switcher__icon theme-switcher__icon--sun"
+      [class.theme-switcher__icon--active]="!isDarkMode"
+      aria-hidden="true"
+    >
+      ☀️
+    </span>
+
+    <!-- Deslizador -->
+    <span class="theme-switcher__thumb"></span>
+
+    <!-- Icono de la luna (tema oscuro) -->
+    <span
+      class="theme-switcher__icon theme-switcher__icon--moon"
+      [class.theme-switcher__icon--active]="isDarkMode"
+      aria-hidden="true"
+    >
+      🌙
+    </span>
+  </span>
+
+  <!-- Texto visible (opcional) -->
+  <span class="theme-switcher__label">
+    {{ isDarkMode ? 'Oscuro' : 'Claro' }}
+  </span>
+</button>
+

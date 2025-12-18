@@ -7,6 +7,7 @@
 // ============================================================================
 
 @import 'styles/00-settings/variables';
+@import 'styles/00-settings/css-variables';
 
 // ============================================================================
 // NIVEL 2: TOOLS - Mixins y funciones
@@ -20,6 +21,8 @@
 
 @import 'styles/02-generic/reset';
 
+// ============================================================================
+// NIVEL 4: ELEMENTS - Estilos base de elementos HTML
 // ============================================================================
 
 @import 'styles/03-elements/elements';
