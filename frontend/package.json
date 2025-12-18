@@ -6,7 +6,10 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "build:prod": "ng build --configuration production --base-href /DAW2-Proyecto-intermodular/",
+    "deploy": "ng deploy --base-href=/DAW2-Proyecto-intermodular/",
+    "deploy:full": "npm run build:prod && ng deploy --no-build --base-href=/DAW2-Proyecto-intermodular/"
   },
   "prettier": {
     "printWidth": 100,
