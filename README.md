@@ -5,6 +5,8 @@
 
 ## ÍNDICE CON ENLACES DE INTERÉS
 
-[Práctica 1.1 del módulo DAW](./DAW/README.md)
+### [DAW --> Práctica 1.1](./DAW/README.md)
 
-[Entrega del módulo DWES - Plataforma Educativa Backend](./DWES/README.md)
+### [DWES --> Documentación entregas](./DWES/README.md)
+
+### [DIW --> Documentación fases](./frontend/docs/design/DOCUMENTACION.md)
