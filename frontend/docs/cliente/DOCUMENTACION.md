@@ -1,13 +1,143 @@
 # Documentación Técnica - Frontend Cliente
 
-## Índice
+## Índice General
+
+### Fase 1: Manipulación del DOM y Eventos
 
 1. [Manipulación del DOM en Angular](#manipulación-del-dom-en-angular)
+   - [Acceso a elementos del DOM](#acceso-a-elementos-del-dom)
+   - [Modificación dinámica de propiedades y estilos](#modificación-dinámica-de-propiedades-y-estilos)
+   - [Creación y eliminación de elementos](#creación-y-eliminación-de-elementos)
+
 2. [Sistema de Eventos](#sistema-de-eventos)
+   - [Event Binding en componentes](#event-binding-en-componentes)
+   - [Tipos de eventos soportados](#tipos-de-eventos-soportados)
+   - [Prevención de comportamientos predeterminados](#prevención-de-comportamientos-predeterminados)
+   - [Control de propagación de eventos](#control-de-propagación-de-eventos)
+
 3. [Componentes Interactivos](#componentes-interactivos)
+   - [Menú hamburguesa](#menú-hamburguesa)
+   - [Modales](#modales)
+   - [Tabs (Pestañas)](#tabs-pestañas)
+   - [Tooltips](#tooltips)
+
 4. [Theme Switcher](#theme-switcher)
+   - [Detección de preferencias del sistema](#detección-de-preferencias-del-sistema)
+   - [Toggle entre tema claro y oscuro](#toggle-entre-tema-claro-y-oscuro)
+   - [Persistencia en localStorage](#persistencia-en-localstorage)
+   - [Aplicación del tema al cargar](#aplicación-del-tema-al-cargar)
+
 5. [Arquitectura de Eventos](#arquitectura-de-eventos)
+   - [Patrón unidireccional de datos](#patrón-unidireccional-de-datos)
+   - [Flujo de eventos](#flujo-de-eventos)
+   - [Centralización de eventos complejos](#centralización-de-eventos-complejos)
+   - [Modificadores de eventos](#modificadores-de-eventos)
+   - [Buenas prácticas](#buenas-prácticas)
+
 6. [Compatibilidad de Navegadores](#compatibilidad-de-navegadores)
+   - [Tabla de compatibilidad para eventos utilizados](#tabla-de-compatibilidad-para-eventos-utilizados)
+   - [Consideraciones especiales](#consideraciones-especiales)
+
+7. [Resumen de Entregables](#resumen-de-entregables)
+
+---
+
+### Fase 2: Comunicación entre Componentes y Gestión de Estado
+
+8. [Servicios de Comunicación](#servicios-de-comunicación)
+   - [Patrón Observable/Subject](#patrón-observablesubject)
+   - [Creación de servicio para comunicación entre componentes hermanos](#creación-de-servicio-para-comunicación-entre-componentes-hermanos)
+   - [Uso en componentes](#uso-en-componentes)
+   - [Tipos de Subject y sus usos](#tipos-de-subject-y-sus-usos)
+   - [Prevención de memory leaks](#prevención-de-memory-leaks)
+
+9. [Separación de Responsabilidades](#separación-de-responsabilidades)
+   - [Extracción de lógica de negocio a servicios](#extracción-de-lógica-de-negocio-a-servicios)
+   - [Componentes de presentación](#componentes-de-presentación)
+   - [Servicios "smart"](#servicios-smart)
+   - [Estructura de carpetas recomendada](#estructura-de-carpetas-recomendada)
+
+10. [Sistema de Notificaciones (Toasts)](#sistema-de-notificaciones-toasts)
+    - [Servicio centralizado de notificaciones](#servicio-centralizado-de-notificaciones)
+    - [Componente Toast](#componente-toast)
+    - [Estilos diferenciados por tipo](#estilos-diferenciados-por-tipo)
+    - [Uso en componentes](#uso-en-componentes-1)
+    - [Configuración de auto-dismiss](#configuración-de-auto-dismiss)
+
+11. [Gestión de Estados de Carga](#gestión-de-estados-de-carga)
+    - [Servicio LoadingService](#servicio-loadingservice)
+    - [Componente Spinner global](#componente-spinner-global)
+    - [Loading local en botones](#loading-local-en-botones)
+    - [Uso con RxJS finalize](#uso-con-rxjs-finalize)
+    - [HttpInterceptor para loading automático](#httpinterceptor-para-loading-automático)
+
+12. [Arquitectura de Servicios](#arquitectura-de-servicios)
+    - [Diagrama jerárquico](#diagrama-jerárquico)
+    - [Flujo de comunicación](#flujo-de-comunicación)
+
+13. [Patrones de Comunicación Implementados](#patrones-de-comunicación-implementados)
+    - [Observable/Subject Pattern](#1-observablesubject-pattern)
+    - [Servicio Singleton](#2-servicio-singleton)
+    - [HttpInterceptor Pattern](#3-httpinterceptor-pattern)
+    - [Signals + AsyncPipe](#4-signals--asyncpipe)
+
+14. [Buenas Prácticas de Separación de Responsabilidades](#buenas-prácticas-de-separación-de-responsabilidades)
+    - [Principios SOLID aplicados](#principios-solid-aplicados)
+    - [Comparación: Código malo vs código bueno](#comparación-código-malo-vs-código-bueno)
+    - [Checklist de buenas prácticas](#checklist-de-buenas-prácticas)
+
+15. [Resumen de Entregables - Fase 2](#resumen-de-entregables---fase-2)
+
+---
+
+### Fase 3: Formularios Reactivos con Validación Completa
+
+16. [Formularios Reactivos Básicos](#formularios-reactivos-básicos)
+    - [Implementación de FormBuilder](#implementación-de-formbuilder)
+    - [FormGroup y FormControl](#formgroup-y-formcontrol)
+    - [Validadores síncronos integrados](#validadores-síncronos-integrados)
+
+17. [Validadores Personalizados](#validadores-personalizados)
+    - [Validador de contraseña fuerte](#validador-de-contraseña-fuerte)
+    - [Validador de confirmación de contraseña](#validador-de-confirmación-de-contraseña)
+    - [Validadores de formato español](#validadores-de-formato-español)
+    - [Validadores cross-field avanzados](#validadores-cross-field-avanzados)
+
+18. [Validadores Asíncronos](#validadores-asíncronos)
+    - [Validador de email único](#validador-de-email-único)
+    - [Validador de username disponible](#validador-de-username-disponible)
+    - [Validador de NIF único](#validador-de-nif-único)
+    - [Uso en FormBuilder](#uso-en-formbuilder)
+    - [Template con estados de loading](#template-con-estados-de-loading)
+    - [Configuración de updateOn](#configuración-de-updateon)
+
+19. [FormArray para Contenido Dinámico](#formarray-para-contenido-dinámico)
+    - [Definición de FormArray](#definición-de-formarray)
+    - [Template con agregar/eliminar dinámico](#template-con-agregareliminar-dinámico)
+    - [Estilos para FormArray](#estilos-para-formarray)
+
+20. [Mostrar Errores Según Estado del Campo](#mostrar-errores-según-estado-del-campo)
+    - [Mostrar errores tras touched/dirty](#mostrar-errores-tras-toucheddirty)
+    - [Deshabilitar submit si formulario inválido](#deshabilitar-submit-si-formulario-inválido)
+    - [Loading durante validación asíncrona](#loading-durante-validación-asíncrona)
+    - [Feedback visual con clases de Angular](#feedback-visual-con-clases-de-angular)
+    - [Marcar todos los campos como touched en submit](#marcar-todos-los-campos-como-touched-en-submit)
+
+21. [Catálogo de Validadores Implementados](#catálogo-de-validadores-implementados)
+    - [Tabla resumen de validadores](#tabla-resumen-de-validadores)
+    - [Ejemplos de uso por categoría](#ejemplos-de-uso-por-categoría)
+
+22. [Guía de Uso de FormArray](#guía-de-uso-de-formarray)
+    - [Casos de uso documentados](#casos-de-uso-documentados)
+    - [Flujo completo de implementación](#flujo-completo-de-implementación)
+    - [Validación en FormArray](#validación-en-formarray)
+    - [Límites y restricciones](#límites-y-restricciones)
+
+23. [Ejemplos de Validación Asíncrona](#ejemplos-de-validación-asíncrona)
+    - [Flujo completo de validación asíncrona](#flujo-completo-de-validación-asíncrona)
+    - [Ventajas de esta implementación](#ventajas-de-esta-implementación)
+
+24. [Resumen de Entregables - Fase 3](#resumen-de-entregables---fase-3)
 
 ---
 
