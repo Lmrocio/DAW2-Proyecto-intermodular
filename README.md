@@ -10,3 +10,5 @@
 ### [DWES --> Documentación entregas](./DWES/README.md)
 
 ### [DIW --> Documentación fases](./frontend/docs/design/DOCUMENTACION.md)
+
+### [DWEC --> Documentación fases](./frontend/docs/cliente/DOCUMENTACION.md)
