@@ -1,5 +1,27 @@
 # Documentación del Sistema de Estilos - TecnoMayores
 
+## Índice de Contenidos
+
+1. [Sección 1: Arquitectura CSS y Comunicación Visual](#sección-1-arquitectura-css-y-comunicación-visual)
+   - [1.1 Principios de Comunicación Visual](#11-principios-de-comunicación-visual)
+   - [1.2 Metodología CSS: BEM (Block Element Modifier)](#12-metodología-css-bem-block-element-modifier)
+   - [1.3 Organización de Archivos: Arquitectura ITCSS](#13-organización-de-archivos-arquitectura-itcss)
+   - [1.4 Sistema de Design Tokens](#14-sistema-de-design-tokens)
+   - [1.5 Mixins y Funciones Reutilizables](#15-mixins-y-funciones-reutilizables)
+   - [1.6 ViewEncapsulation en Angular](#16-viewencapsulation-en-angular)
+   - [Resumen de Decisiones Arquitectónicas](#resumen-de-decisiones-arquitectónicas)
+
+2. [Sección 2: HTML Semántico y Estructura](#sección-2-html-semántico-y-estructura)
+   - [2.1 Elementos Semánticos Utilizados](#21-elementos-semánticos-utilizados)
+   - [2.2 Jerarquía de Headings (Encabezados)](#22-jerarquía-de-headings-encabezados)
+   - [2.3 Estructura de Formularios](#23-estructura-de-formularios)
+
+3. [Sección 3: Sistema de Componentes UI](#sección-3-sistema-de-componentes-ui)
+   - [3.1 Componentes Implementados](#31-componentes-implementados)
+   - [3.2 Nomenclatura y Metodología BEM](#32-nomenclatura-y-metodología-bem)
+   - [3.3 Style Guide](#33-style-guide)
+   - [Resumen de la Sección 3](#resumen-de-la-sección-3)
+
 ---
 
 ## Sección 1: Arquitectura CSS y Comunicación Visual
@@ -1424,1032 +1446,421 @@ Accesibilidad:
 - Contraste de colores WCAG AA
 - Tamaño adecuado para clics en pantallas tactiles
 
----
+#### app-alert (Componente de Alerta)
 
-### Resumen de Decisiones de Accesibilidad
+Ubicacion: `src/app/components/shared/alert/`
 
-| Componente | Decision | Justificacion |
-|------------|----------|---------------|
-| Header | Navegacion principal + utilidades | Acceso rapido a funciones |
-| Main | Proyeccion de contenido | Reutilizable, flexible |
-| Footer | Secciones tematicas con nav | Organizado, accesible |
-| FormInput | Componente reutilizable | DRY, consistencia |
-| LoginForm | Fieldsets + Legends | Estructura semantica clara |
-| Jerarquia H1-H6 | Un H1, no saltar niveles | Navegacion por lectores de pantalla |
-| Elementos semanticos | header, nav, main, section, article, aside, footer | Significado inherente |
+Proposito: Mensajes de feedback visual para el usuario con diferentes tipos semanticos segun el contexto.
 
----
+Variantes disponibles:
+- `type="success"` - Confirmacion de acciones exitosas (color verde)
+- `type="error"` - Errores o problemas (color rojo)
+- `type="warning"` - Advertencias o precauciones (color naranja)
+- `type="info"` - Informacion general (color azul)
 
-## Sección 2: HTML Semántico y Estructura
+Estados que maneja:
+- Visible/oculto mediante propiedad visible
+- Cerrable con boton X (opcional)
+- Animacion de entrada y salida
 
----
-
-### 2.1 Elementos Semánticos Utilizados
-
-El HTML semántico es la base de una aplicación web accesible y mantenible. Los elementos semánticos proporcionan significado al contenido y mejoran la experiencia tanto para usuarios con tecnologías de asistencia como para desarrolladores que mantienen el código.
-
-#### header - Encabezado de la Aplicación
-
-Utilizado en el componente app-header para definir el encabezado principal de la aplicación.
-
-Cuándo usar:
-- Para el encabezado principal del sitio que contiene logo y navegación
-- Para encabezados de secciones cuando contienen información introductoria
-
-Ejemplo de implementación:
-
-```html
-<header class="app-header">
-  <div class="app-header__container">
-    <a href="/" class="app-header__logo" aria-label="Inicio - TecnoMayores">
-      <span class="app-header__logo-text">TecnoMayores</span>
-    </a>
-    <nav class="app-header__nav" aria-label="Navegación principal">
-      <ul class="app-header__nav-list">
-        <li><a href="/" class="app-header__nav-link">Inicio</a></li>
-        <li><a href="/lecciones" class="app-header__nav-link">Lecciones</a></li>
-      </ul>
-    </nav>
-  </div>
-</header>
-```
-
-Beneficios:
-- Los lectores de pantalla identifican automáticamente el encabezado
-- Facilita la navegación por puntos de referencia (landmarks)
-- Mejora la estructura semántica del documento
-
-#### nav - Navegación
-
-Utilizado para contener bloques de enlaces de navegación. En nuestro proyecto se usa en el header y en el footer.
-
-Cuándo usar:
-- Para navegación principal del sitio
-- Para navegación secundaria (breadcrumbs, paginación)
-- Para enlaces agrupados temáticamente en el footer
-
-Ejemplo de implementación:
-
-```html
-<nav class="app-header__nav" aria-label="Navegación principal">
-  <ul class="app-header__nav-list">
-    <li class="app-header__nav-item">
-      <a href="/" class="app-header__nav-link">Inicio</a>
-    </li>
-    <li class="app-header__nav-item">
-      <a href="/lecciones" class="app-header__nav-link">Lecciones</a>
-    </li>
-  </ul>
-</nav>
-```
-
-Buenas prácticas:
-- Siempre incluir aria-label descriptivo cuando hay múltiples nav en la página
-- Usar listas (ul/li) para estructurar los enlaces
-- No abusar del elemento: solo para navegación real, no para cualquier grupo de enlaces
-
-#### main - Contenido Principal
-
-El elemento main representa el contenido principal de la aplicación. Solo debe haber un main visible por página.
-
-Cuándo usar:
-- Para envolver el contenido único de cada página
-- Excluir header, footer y sidebars que se repiten en todas las páginas
-
-Ejemplo de implementación:
-
-```html
-<main class="app-main">
-  <ng-content></ng-content>
-</main>
-```
-
-Uso en el componente:
-
-```html
-<app-main>
-  <h1>Título de la página</h1>
-  <p>Contenido principal de esta página específica</p>
-</app-main>
-```
-
-Beneficios:
-- Permite a los lectores de pantalla saltar directamente al contenido principal
-- Mejora la navegación por teclado
-- Clarifica la estructura del documento
-
-#### article - Contenido Independiente
-
-Utilizado para contenido que tiene sentido por sí mismo y podría distribuirse independientemente.
-
-Cuándo usar:
-- Para tarjetas de lecciones individuales
-- Para entradas de blog o noticias
-- Para contenido que podría ser sindicado (RSS)
-
-Ejemplo de implementación:
-
-```html
-<article class="lesson-card">
-  <h2 class="lesson-card__title">Introducción al correo electrónico</h2>
-  <p class="lesson-card__description">
-    Aprende a enviar y recibir correos electrónicos de forma segura.
-  </p>
-  <footer class="lesson-card__footer">
-    <time datetime="2024-01-15">15 de enero de 2024</time>
-  </footer>
-</article>
-```
-
-Criterio de decisión:
-- Si el contenido respondería a la pregunta "¿Podría publicarse esto de forma independiente?", usa article
-- Si no, considera usar section o div
-
-#### section - Sección Temática
-
-Utilizado para agrupar contenido relacionado temáticamente. Generalmente incluye un encabezado.
-
-Cuándo usar:
-- Para agrupar contenido por tema (ej: sección de lecciones, sección de FAQ)
-- Para dividir una página larga en partes lógicas
-- Cuando el contenido tiene un encabezado natural
-
-Ejemplo de implementación:
-
-```html
-<section class="home-section">
-  <h2 class="home-section__title">Lecciones Populares</h2>
-  <div class="home-section__content">
-    <article>...</article>
-    <article>...</article>
-  </div>
-</section>
-```
-
-Diferencia con article:
-- section agrupa contenido relacionado
-- article contiene contenido independiente
-- A menudo article se usa dentro de section
-
-#### aside - Contenido Complementario
-
-Utilizado para contenido tangencialmente relacionado con el contenido principal.
-
-Cuándo usar:
-- Para barras laterales con filtros
-- Para información relacionada pero no esencial
-- Para widgets o contenido promocional
-
-Ejemplo de implementación:
-
-```html
-<aside class="app-sidebar">
-  <h3 class="app-sidebar__title">Filtros</h3>
-  <form class="app-sidebar__filters">
-    <label>
-      <input type="checkbox" name="completed">
-      Lecciones completadas
-    </label>
-  </form>
-</aside>
-```
-
-Uso recomendado:
-- No usar aside para contenido crítico
-- Asegurarse de que el contenido principal funciona sin el aside
-- Considerar el diseño responsive: el aside puede moverse al final en móvil
-
-#### footer - Pie de Página
-
-Utilizado para el pie de página de la aplicación o de secciones específicas.
-
-Cuándo usar:
-- Para el footer principal del sitio con enlaces y copyright
-- Para información meta de un article (autor, fecha, tags)
-
-Ejemplo de implementación:
-
-```html
-<footer class="app-footer">
-  <div class="app-footer__container">
-    <section class="app-footer__section">
-      <h3 class="app-footer__section-title">Legal</h3>
-      <nav aria-label="Enlaces legales">
-        <ul>
-          <li><a href="/terminos">Términos de servicio</a></li>
-          <li><a href="/privacidad">Política de privacidad</a></li>
-          <li><a href="/cookies">Política de cookies</a></li>
-        </ul>
-      </nav>
-    </section>
-    <div class="app-footer__bottom">
-      <p>&copy; 2024 TecnoMayores. Todos los derechos reservados.</p>
-    </div>
-  </div>
-</footer>
-```
-
-Buenas prácticas:
-- Incluir información de copyright
-- Agrupar enlaces por temática usando section
-- Considerar la accesibilidad: los footers son landmarks de navegación
-
----
-
-### 2.2 Jerarquía de Headings
-
-La jerarquía correcta de encabezados es fundamental para la accesibilidad y el SEO. Los usuarios con lectores de pantalla navegan por los encabezados para entender la estructura de la página.
-
-#### Reglas Fundamentales
-
-1. Solo un h1 por página
-   - El h1 debe describir el contenido principal único de la página
-   - En aplicaciones Angular, cada ruta debería tener su propio h1
-
-2. No saltar niveles
-   - Correcto: h1 → h2 → h3
-   - Incorrecto: h1 → h3 (se salta el h2)
-
-3. Anidamiento lógico
-   - Los h2 son subsecciones del h1
-   - Los h3 son subsecciones del h2 anterior
-   - Y así sucesivamente
-
-4. No usar headings solo por estilo
-   - Si necesitas texto grande pero no es un encabezado, usa clases CSS
-   - Los headings tienen significado semántico, no solo visual
-
-#### Estructura de Headings por Tipo de Página
-
-**Página de Inicio**
-
-```
-h1: "Bienvenido a TecnoMayores"
-├── h2: "Lecciones Destacadas"
-│   └── h3: Títulos individuales de lecciones (dentro de cada article)
-├── h2: "Cómo Funciona"
-│   ├── h3: "Paso 1: Regístrate"
-│   ├── h3: "Paso 2: Elige una lección"
-│   └── h3: "Paso 3: Practica"
-└── h2: "Testimonios"
-```
-
-**Página de Lección Individual**
-
-```
-h1: "Introducción al Correo Electrónico"
-├── h2: "Qué aprenderás"
-├── h2: "Contenido de la Lección"
-│   ├── h3: "¿Qué es el correo electrónico?"
-│   ├── h3: "Partes de un correo"
-│   └── h3: "Cómo enviar un correo"
-├── h2: "Práctica"
-│   ├── h3: "Ejercicio 1"
-│   └── h3: "Ejercicio 2"
-└── h2: "Recursos Adicionales"
-```
-
-**Página de Listado de Lecciones**
-
-```
-h1: "Catálogo de Lecciones"
-├── h2: "Lecciones de Correo Electrónico"
-│   └── h3: Título de cada lección (dentro de article)
-├── h2: "Lecciones de Navegación Web"
-│   └── h3: Título de cada lección (dentro de article)
-└── h2: "Lecciones de Seguridad"
-    └── h3: Título de cada lección (dentro de article)
-```
-
-#### Implementación en Componentes
-
-**En el layout principal (app.component.html)**
-
-```html
-<app-header></app-header>
-<app-main>
-  <!-- Cada página define su propio h1 -->
-  <router-outlet></router-outlet>
-</app-main>
-<app-footer></app-footer>
-```
-
-**En una página específica (home.component.html)**
-
-```html
-<h1 class="home__title">Bienvenido a TecnoMayores</h1>
-
-<section class="home__section">
-  <h2 class="home__section-title">Lecciones Destacadas</h2>
-  <div class="home__cards">
-    <article class="lesson-card">
-      <h3 class="lesson-card__title">Introducción al Correo</h3>
-      <p class="lesson-card__description">...</p>
-    </article>
-  </div>
-</section>
-
-<section class="home__section">
-  <h2 class="home__section-title">Cómo Funciona</h2>
-  <div class="home__steps">
-    <article class="step">
-      <h3 class="step__title">Paso 1: Regístrate</h3>
-      <p class="step__description">...</p>
-    </article>
-  </div>
-</section>
-```
-
-#### Verificación de Jerarquía
-
-Para verificar que la jerarquía es correcta, puedes usar:
-
-1. Extensiones de navegador:
-   - HeadingsMap (Chrome/Firefox)
-   - WAVE Web Accessibility Evaluation Tool
-
-2. Lectores de pantalla:
-   - NVDA (Windows, gratuito)
-   - JAWS (Windows, de pago)
-   - VoiceOver (macOS/iOS, integrado)
-
-3. Consola del navegador:
-
-```javascript
-// Extraer todos los headings de la página
-Array.from(document.querySelectorAll('h1, h2, h3, h4, h5, h6'))
-  .map(h => `${h.tagName}: ${h.textContent.trim()}`);
-```
-
-#### Errores Comunes a Evitar
-
-**Error: Múltiples h1**
-
-```html
-<!-- MAL -->
-<h1>TecnoMayores</h1>
-<main>
-  <h1>Bienvenido</h1>
-</main>
-```
-
-Solución: El logo no debe ser h1, usar h1 solo para el título de la página.
-
-**Error: Saltar niveles**
-
-```html
-<!-- MAL -->
-<h1>Título principal</h1>
-<h3>Subsección</h3> <!-- Se salta el h2 -->
-```
-
-Solución: Siempre usar h2 antes de h3.
-
-**Error: Usar headings para estilo**
-
-```html
-<!-- MAL -->
-<h4 class="small-title">Este texto es pequeño</h4>
-```
-
-Solución: Usar clases CSS para estilos, headings solo para estructura.
-
-```html
-<!-- BIEN -->
-<p class="text--small">Este texto es pequeño</p>
-```
-
----
-
-### 2.3 Estructura de Formularios
-
-Los formularios son uno de los componentes más críticos en términos de accesibilidad. Un formulario bien estructurado permite que todos los usuarios, independientemente de sus capacidades, puedan completarlo con éxito.
-
-#### Componente form-input: Estructura Base
-
-El componente form-input es la base de todos los campos de formulario en la aplicación. Su estructura garantiza accesibilidad y reutilización.
-
-**HTML del componente (form-input.html)**
-
-```html
-<div class="form-input">
-  <label [for]="inputId" class="form-input__label">
-    <span class="form-input__label-text">{{ label }}</span>
-    <span *ngIf="required" class="form-input__required-indicator" aria-label="requerido">
-      *
-    </span>
-  </label>
-
-  <input
-    [id]="inputId"
-    [type]="inputType"
-    [name]="inputName"
-    [placeholder]="placeholder"
-    [required]="required"
-    [value]="value"
-    (input)="onInputChange($event)"
-    class="form-input__field"
-    [class.form-input__field--error]="hasError">
-
-  <span *ngIf="hasError && errorMessage" class="form-input__error" [id]="errorId" role="alert">
-    {{ errorMessage }}
-  </span>
-
-  <span *ngIf="helpText" class="form-input__help" [id]="helpId">
-    {{ helpText }}
-  </span>
-</div>
-```
-
-**TypeScript del componente (form-input.ts)**
+Propiedades del componente:
 
 ```typescript
-export class FormInput {
-  @Input() label: string = '';
-  @Input() inputType: string = 'text';
-  @Input() inputName: string = '';
-  @Input() placeholder: string = '';
-  @Input() required: boolean = false;
-  @Input() value: string = '';
-  @Input() errorMessage: string = '';
-  @Input() hasError: boolean = false;
-  @Input() helpText: string = '';
-  
-  @Output() valueChange = new EventEmitter<string>();
-
-  inputId: string;
-  errorId: string;
-  helpId: string;
-
-  constructor() {
-    const uniqueId = Math.random().toString(36).substring(2, 11);
-    this.inputId = `input-${this.inputName}-${uniqueId}`;
-    this.errorId = `error-${this.inputName}-${uniqueId}`;
-    this.helpId = `help-${this.inputName}-${uniqueId}`;
-  }
-
-  onInputChange(event: Event): void {
-    const target = event.target as HTMLInputElement;
-    this.valueChange.emit(target.value);
-  }
-}
-```
-
-#### Asociación Label - Input
-
-La asociación correcta entre label e input es fundamental para la accesibilidad.
-
-**Método 1: Atributos for e id (usado en este proyecto)**
-
-```html
-<label for="email" class="form-input__label">
-  Correo Electrónico
-</label>
-<input id="email" type="email" name="email" class="form-input__field">
-```
-
-Ventajas:
-- Funciona con cualquier estructura HTML
-- El label puede estar físicamente separado del input
-- Al hacer clic en el label, el focus va al input
-
-**Método 2: Label envolvente (alternativa)**
-
-```html
-<label class="form-input__label">
-  Correo Electrónico
-  <input type="email" name="email" class="form-input__field">
-</label>
-```
-
-Ventajas:
-- No requiere IDs
-- Relación implícita
-- Más simple para casos básicos
-
-Decisión de diseño: Se utiliza el Método 1 (for/id) porque permite mayor flexibilidad en el diseño y es más explícito, lo cual es mejor para el mantenimiento a largo plazo.
-
-#### Generación de IDs Únicos
-
-En Angular, los componentes pueden instanciarse múltiples veces en la misma página. Para evitar IDs duplicados, se generan IDs únicos en el constructor.
-
-```typescript
-constructor() {
-  const uniqueId = Math.random().toString(36).substring(2, 11);
-  this.inputId = `input-${this.inputName}-${uniqueId}`;
-  this.errorId = `error-${this.inputName}-${uniqueId}`;
-  this.helpId = `help-${this.inputName}-${uniqueId}`;
-}
-```
-
-Esto garantiza que cada instancia del componente tenga IDs únicos, evitando conflictos.
-
-#### Indicador de Campo Requerido
-
-Los campos obligatorios se marcan visualmente y semánticamente.
-
-**Indicador visual**
-
-```html
-<span *ngIf="required" class="form-input__required-indicator" aria-label="requerido">
-  *
-</span>
-```
-
-**Atributo HTML**
-
-```html
-<input [required]="required" ...>
-```
-
-Beneficios:
-- El asterisco proporciona un indicador visual
-- El atributo aria-label da contexto a lectores de pantalla
-- El atributo required activa la validación HTML5
-
-#### Mensajes de Error
-
-Los mensajes de error deben ser claros, específicos y accesibles.
-
-**Estructura HTML**
-
-```html
-<span *ngIf="hasError && errorMessage" class="form-input__error" [id]="errorId" role="alert">
-  {{ errorMessage }}
-</span>
-```
-
-Características:
-- role="alert" anuncia automáticamente el error a lectores de pantalla
-- ID único permite referenciarse con aria-describedby
-- Solo se muestra cuando hay un error real
-
-#### Texto de Ayuda
-
-El texto de ayuda proporciona contexto adicional para completar el campo.
-
-```html
-<span *ngIf="helpText" class="form-input__help" [id]="helpId">
-  {{ helpText }}
-</span>
+@Input() type: 'success' | 'error' | 'warning' | 'info' = 'info';
+@Input() message: string = '';
+@Input() description?: string;
+@Input() closeable: boolean = true;
+@Input() visible: boolean = true;
+@Output() close = new EventEmitter<void>();
 ```
 
 Ejemplo de uso:
 
 ```html
-<app-form-input
-  label="Contraseña"
-  inputType="password"
-  helpText="Mínimo 8 caracteres, incluye mayúsculas y números"
-  [required]="true">
-</app-form-input>
+<app-alert
+  type="success"
+  message="Operacion completada"
+  description="Los cambios se han guardado correctamente."
+  [closeable]="true"
+></app-alert>
+
+<app-alert
+  type="error"
+  message="Error al guardar"
+  description="No se pudo completar la operacion. Intentalo de nuevo."
+></app-alert>
 ```
 
-Beneficios:
-- Reduce errores al proporcionar instrucciones claras
-- Mejora la experiencia de usuario
-- Ayuda a usuarios con dificultades cognitivas
-
-#### Uso de fieldset y legend
-
-fieldset y legend agrupan campos relacionados y proporcionan contexto semántico.
-
-**Ejemplo del formulario de login**
-
-```html
-<form class="login-form__form" [formGroup]="loginFormGroup" (ngSubmit)="onSubmit()">
-  <fieldset class="login-form__fieldset">
-    <legend class="login-form__legend">Credenciales de Acceso</legend>
-
-    <app-form-input
-      label="Correo Electrónico"
-      inputType="email"
-      inputName="email"
-      [required]="true">
-    </app-form-input>
-
-    <app-form-input
-      label="Contraseña"
-      inputType="password"
-      inputName="password"
-      [required]="true">
-    </app-form-input>
-  </fieldset>
-
-  <button type="submit" [disabled]="loginFormGroup.invalid">
-    Iniciar Sesión
-  </button>
-</form>
-```
-
-**Cuándo usar fieldset/legend**
-
-Usar siempre que:
-- Haya un grupo lógico de campos relacionados
-- Sea necesario proporcionar contexto grupal
-- Se quiera mejorar la navegación por teclado
-
-No usar cuando:
-- Solo hay un campo
-- Los campos no están realmente relacionados
-- Afecte negativamente al diseño (en cuyo caso, usar role="group" y aria-labelledby)
-
-#### Ejemplo Completo: Formulario de Registro
-
-**HTML (register-form.html) - Fragmento**
-
-```html
-<form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form">
-  <fieldset class="register-form__section">
-    <legend class="register-form__legend">Datos Personales</legend>
-
-    <div class="register-form__field">
-      <label for="nombre" class="register-form__label">
-        Nombre <span class="required">*</span>
-      </label>
-      <input
-        type="text"
-        id="nombre"
-        formControlName="nombre"
-        class="register-form__input"
-        [class.invalid]="nombre?.invalid && nombre?.touched"
-        placeholder="Tu nombre">
-      <small *ngIf="nombre?.invalid && nombre?.touched" class="register-form__error">
-        {{ getErrorMessage('nombre') }}
-      </small>
-    </div>
-
-    <div class="register-form__field">
-      <label for="nif" class="register-form__label">
-        NIF <span class="required">*</span>
-      </label>
-      <input
-        type="text"
-        id="nif"
-        formControlName="nif"
-        class="register-form__input"
-        [class.invalid]="nif?.invalid && nif?.touched"
-        [class.pending]="nif?.pending"
-        placeholder="12345678Z"
-        maxlength="9">
-      <small *ngIf="nif?.pending" class="register-form__hint">
-        Verificando NIF...
-      </small>
-      <small *ngIf="nif?.invalid && nif?.touched && !nif?.pending" class="register-form__error">
-        {{ getErrorMessage('nif') }}
-      </small>
-    </div>
-  </fieldset>
-
-  <button type="submit" class="register-form__submit" [disabled]="registerForm.invalid">
-    Crear Cuenta
-  </button>
-</form>
-```
-
-**TypeScript (register-form.ts) - Fragmento**
-
-```typescript
-export class RegisterForm implements OnInit {
-  registerForm!: FormGroup;
-
-  ngOnInit(): void {
-    this.registerForm = this.fb.group({
-      nombre: ['', [Validators.required, Validators.minLength(2)]],
-      apellidos: ['', [Validators.required, Validators.minLength(2)]],
-      nif: ['', {
-        validators: [Validators.required],
-        asyncValidators: [this.nifValidator()],
-        updateOn: 'blur'
-      }]
-    });
-  }
-
-  getErrorMessage(field: string): string {
-    const control = this.registerForm.get(field);
-    if (control?.hasError('required')) {
-      return 'Este campo es obligatorio';
-    }
-    if (control?.hasError('minlength')) {
-      return `Mínimo ${control.errors?.['minlength'].requiredLength} caracteres`;
-    }
-    if (control?.hasError('nifInvalid')) {
-      return 'NIF inválido o ya registrado';
-    }
-    return '';
-  }
-
-  onSubmit(): void {
-    if (this.registerForm.valid) {
-      console.log('Formulario válido:', this.registerForm.value);
-    }
-  }
-}
-```
-
-#### Validación Síncrona vs Asíncrona
-
-**Validación Síncrona**
-
-Se ejecuta inmediatamente al cambiar el valor.
-
-```typescript
-nombre: ['', [Validators.required, Validators.minLength(2)]]
-```
-
-Casos de uso:
-- Validaciones simples (requerido, longitud, patrón)
-- No requiere consulta al servidor
-- Respuesta instantánea
-
-**Validación Asíncrona**
-
-Se ejecuta después de validaciones síncronas y puede tardar.
-
-```typescript
-nif: ['', {
-  validators: [Validators.required],
-  asyncValidators: [this.nifValidator()],
-  updateOn: 'blur'
-}]
-```
-
-Casos de uso:
-- Verificar disponibilidad de username o email
-- Validar NIF contra base de datos
-- Cualquier validación que requiera servidor
-
-#### Estados del Formulario
-
-Los formularios reactivos de Angular tienen estados que podemos usar visualmente:
-
-```typescript
-registerForm.valid      // Todos los campos son válidos
-registerForm.invalid    // Al menos un campo es inválido
-registerForm.pending    // Hay validaciones asíncronas en progreso
-registerForm.pristine   // El usuario no ha interactuado
-registerForm.dirty      // El usuario ha modificado algún campo
-registerForm.touched    // El usuario ha entrado y salido de un campo
-```
-
-Uso en el template:
-
-```html
-<input
-  formControlName="email"
-  [class.valid]="email?.valid && email?.touched"
-  [class.invalid]="email?.invalid && email?.touched"
-  [class.pending]="email?.pending">
-
-<button type="submit" [disabled]="registerForm.invalid || registerForm.pending">
-  Enviar
-</button>
-```
-
-#### Mejores Prácticas de Formularios
-
-1. Asociar siempre labels con inputs usando for/id o label envolvente
-2. Indicar campos obligatorios visual y semánticamente
-3. Proporcionar mensajes de error específicos con role="alert"
-4. Validar en el momento adecuado (blur o submit, no mientras se escribe)
-5. Deshabilitar el botón de envío cuando el formulario es inválido
-6. Agrupar campos relacionados con fieldset/legend
-7. Usar placeholders como ejemplo, no como label
-8. Considerar el diseño responsive con campos grandes para móviles
+Accesibilidad:
+- Colores semanticos diferenciados
+- Iconos distintivos para cada tipo
+- Contraste WCAG AA
+- Boton de cierre con area minima 44x44px
+- Mensajes claros y descriptivos
 
 ---
 
-### 2.4 CSS Custom Properties para Temas
+### 3.2 Nomenclatura y Metodologia BEM
 
-Las CSS Custom Properties (variables CSS nativas) permiten crear temas dinámicos que pueden cambiar en tiempo de ejecución sin recargar la página.
+El proyecto sigue la metodologia BEM (Block Element Modifier) para nombrar clases CSS de forma consistente y escalable. BEM facilita la comprension del codigo y evita conflictos de nombres.
 
-#### Ventajas sobre Variables SCSS
+#### Estructura de BEM
 
-**Variables SCSS**
-- Se compilan en tiempo de build
-- No pueden cambiar dinámicamente
-- Mejor para valores que nunca cambian
+**Block (Bloque)**: Componente independiente que tiene sentido por si mismo.
 
 ```scss
-$color-primary: #f8d770;  // Valor fijo en tiempo de compilación
+.button { }
+.card { }
+.form-input { }
 ```
 
-**Variables CSS (Custom Properties)**
-- Existen en tiempo de ejecución
-- Pueden cambiar dinámicamente con JavaScript
-- Pueden heredarse en cascada
-- Perfectas para temas
+**Element (Elemento)**: Parte de un bloque que no tiene sentido por si mismo fuera del bloque.
 
 ```scss
-:root {
-  --color-primary: #{$color-primary};  // Valor dinámico en tiempo de ejecución
+.button__icon { }
+.card__title { }
+.card__description { }
+.form-input__label { }
+.form-input__field { }
+```
+
+**Modifier (Modificador)**: Variacion o estado de un bloque o elemento.
+
+```scss
+.button--primary { }
+.button--secondary { }
+.button--disabled { }
+.card--horizontal { }
+.form-input__field--error { }
+```
+
+#### Ejemplos Reales del Proyecto
+
+**Componente Button**
+
+```scss
+// Block
+.button {
+  display: inline-flex;
+  border: none;
+  cursor: pointer;
+}
+
+// Modifiers de variante
+.button--primary {
+  background-color: $color-primary;
+  color: $color-text-dark;
+}
+
+.button--secondary {
+  background-color: $color-accent;
+  color: $color-text-light;
+}
+
+.button--ghost {
+  background-color: transparent;
+  border: $border-medium solid $color-gray-300;
+}
+
+.button--danger {
+  background-color: $color-error;
+  color: $color-text-light;
+}
+
+// Modifiers de tamaño
+.button--sm {
+  height: $button-height-sm;
+  padding: $spacing-1 $spacing-3;
+  font-size: $font-size-sm;
+}
+
+.button--md {
+  height: $button-height-md;
+  padding: $spacing-2 $spacing-5;
+  font-size: $font-size-base;
+}
+
+.button--lg {
+  height: $button-height-lg;
+  padding: $spacing-3 $spacing-6;
+  font-size: $font-size-lg;
+}
+
+// Modifier de estado
+.button--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
 }
 ```
 
-#### Estructura del Archivo _css-variables.scss
-
-El archivo _css-variables.scss convierte las variables SCSS en variables CSS utilizando la interpolación.
+**Componente Card**
 
 ```scss
-:root {
-  // Colores de fondo
-  --bg-primary: #{$color-bg-light};
-  --bg-secondary: #{$color-gray-50};
-  --bg-tertiary: #{$color-gray-100};
-
-  // Colores de texto
-  --text-primary: #{$color-text-dark};
-  --text-secondary: #{$color-gray-700};
-  --text-tertiary: #{$color-gray-500};
-
-  // Bordes
-  --border-color-primary: #{$color-gray-300};
-  --border-color-secondary: #{$color-gray-200};
-
-  // Colores de marca
-  --color-primary: #{$color-primary};
-  --color-secondary: #{$color-secondary};
+// Block
+.card {
+  display: flex;
+  flex-direction: column;
+  border-radius: $radius-lg;
+  background-color: $color-gray-50;
 }
-```
 
-La sintaxis `#{$variable}` convierte una variable SCSS en un valor literal para CSS Custom Property.
-
-#### Implementación del Tema Oscuro
-
-El tema oscuro se implementa redefiniendo solo las variables que cambian, manteniendo la coherencia visual.
-
-```scss
-.theme-dark {
-  // Fondos
-  --bg-primary: #2a2420;          // Marrón oscuro
-  --bg-secondary: #352e28;        // Marrón más claro
-  --bg-tertiary: #403830;         // Marrón aún más claro
-
-  // Textos - invertidos para contraste
-  --text-primary: #f5f0eb;        // Casi blanco cálido
-  --text-secondary: #d9d0c5;      // Beige claro
-  --text-tertiary: #b8a999;       // Beige medio
-
-  // Bordes
-  --border-color-primary: #5a4d40;
-  --border-color-secondary: #4a4038;
-
-  // Sombras ajustadas para fondos oscuros
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+// Elements
+.card__image {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
 }
-```
 
-Estrategia de colores:
-- Los fondos usan tonos marrones oscuros coherentes con la paleta cálida
-- Los textos son claros para contraste sobre fondos oscuros
-- Las sombras son más pronunciadas (mayor opacidad de negro)
-- Los colores de marca (primary, secondary) no cambian para mantener identidad
-
-#### Uso en Componentes
-
-Los componentes utilizan las variables CSS en lugar de variables SCSS:
-
-```scss
-.app-header {
-  background-color: var(--bg-secondary);
-  color: var(--text-primary);
-  border-bottom: 1px solid var(--border-color-primary);
+.card__image-element {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
-```
 
-Cuando se cambia el tema, estas variables se actualizan automáticamente sin necesidad de recargar estilos.
-
-#### Implementación del Theme Switcher
-
-**HTML (theme-switcher.html)**
-
-```html
-<button
-  class="theme-switcher"
-  (click)="toggleTheme()"
-  [attr.aria-label]="currentTheme === 'light' ? 'Activar modo oscuro' : 'Activar modo claro'"
-  [attr.title]="currentTheme === 'light' ? 'Modo oscuro' : 'Modo claro'">
-  <span class="theme-switcher__icon">
-    {{ currentTheme === 'light' ? '🌙' : '☀️' }}
-  </span>
-</button>
-```
-
-**TypeScript (theme-switcher.ts)**
-
-```typescript
-export class ThemeSwitcher implements OnInit {
-  currentTheme: 'light' | 'dark' = 'light';
-
-  ngOnInit(): void {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      this.currentTheme = savedTheme as 'light' | 'dark';
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      this.currentTheme = 'dark';
-    }
-    this.applyTheme();
-  }
-
-  toggleTheme(): void {
-    this.currentTheme = this.currentTheme === 'light' ? 'dark' : 'light';
-    this.applyTheme();
-    localStorage.setItem('theme', this.currentTheme);
-  }
-
-  private applyTheme(): void {
-    document.body.classList.remove('theme-light', 'theme-dark');
-    document.body.classList.add(`theme-${this.currentTheme}`);
-  }
+.card__content {
+  display: flex;
+  flex-direction: column;
+  padding: $spacing-5;
 }
-```
 
-Características:
-- Persiste la preferencia del usuario en localStorage
-- Respeta la preferencia del sistema operativo por defecto
-- Cambia el tema añadiendo/quitando clases del body
+.card__title {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-dark;
+}
 
-#### Soporte para prefers-color-scheme
+.card__description {
+  font-size: $font-size-base;
+  color: $color-gray-600;
+}
 
-El archivo también incluye soporte para la preferencia del sistema operativo:
+.card__footer {
+  display: flex;
+  gap: $spacing-3;
+  margin-top: auto;
+}
 
-```scss
-@media (prefers-color-scheme: dark) {
-  :root:not(.theme-light):not(.theme-dark) {
-    --bg-primary: #2a2420;
-    --text-primary: #f5f0eb;
-    // Solo redefinir variables que cambian
+// Modifier de variante
+.card--horizontal {
+  flex-direction: row;
+  
+  .card__image {
+    width: 200px;
+    height: auto;
   }
 }
 ```
 
-Esto aplica el tema oscuro automáticamente si el usuario tiene preferencia de modo oscuro en su sistema y no ha seleccionado manualmente un tema.
-
-#### Variables que NO Cambian entre Temas
-
-Algunas variables deben ser consistentes en todos los temas:
+**Componente Form Input**
 
 ```scss
-:root {
-  // Estas NO se redefinen en .theme-dark
-  --color-primary: #{$color-primary};      // Amarillo mantequilla
-  --color-secondary: #{$color-secondary};  // Azul eléctrico
-  --color-success: #{$color-success};      // Verde
-  --color-error: #{$color-error};          // Rojo
-  --color-warning: #{$color-warning};      // Naranja
+// Block
+.form-input {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2;
+}
+
+// Elements
+.form-input__label {
+  display: flex;
+  align-items: center;
+  gap: $spacing-1;
+  font-weight: $font-weight-medium;
+}
+
+.form-input__label-text {
+  color: $color-text-dark;
+}
+
+.form-input__required-indicator {
+  color: $color-error;
+}
+
+.form-input__field {
+  height: $input-height;
+  padding: $input-padding-y $input-padding-x;
+  border: $border-medium solid $color-gray-300;
+  border-radius: $radius-md;
+}
+
+.form-input__error {
+  color: $color-error;
+  font-size: $font-size-sm;
+}
+
+.form-input__help {
+  color: $color-gray-600;
+  font-size: $font-size-sm;
+}
+
+// Modifier de estado
+.form-input__field--error {
+  border-color: $color-error;
+  background-color: rgba($color-error, 0.05);
 }
 ```
 
-Razón: Los colores de marca y semánticos deben ser reconocibles en ambos temas.
+#### Ventajas de BEM en el Proyecto
 
-#### Transiciones Suaves entre Temas
+1. **Claridad**: Al leer una clase se entiende inmediatamente su funcion
+   - `.card__title` es claramente el titulo de una card
+   - `.button--primary` es claramente un boton con estilo primario
 
-Para que el cambio de tema sea agradable visualmente, los componentes incluyen transiciones:
+2. **Evita conflictos**: Los nombres son unicos y especificos
+   - No hay colisiones entre `.card__title` y `.article__title`
 
-```scss
-.app-main {
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
-  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
-}
-```
+3. **Facilita mantenimiento**: Es facil encontrar donde esta definido un estilo
+   - Buscar `.button--ghost` lleva directamente al archivo button.scss
 
-Esto crea una animación suave cuando cambian los colores.
+4. **Escalabilidad**: Se pueden añadir nuevos elementos sin afectar los existentes
+   - Añadir `.card__badge` no afecta a `.card__title`
 
-#### Buenas Prácticas con CSS Custom Properties
+5. **Reutilizacion**: Los bloques son independientes y portables
+   - El componente `.button` puede usarse en cualquier contexto
 
-1. Nomenclatura descriptiva
-   - Usar nombres que describan el propósito, no el valor
-   - Correcto: --bg-primary (indica uso)
-   - Incorrecto: --color-yellow (indica valor específico)
+#### Criterios de Nomenclatura
 
-2. Organizar por categorías
-   - Fondos juntos, textos juntos, bordes juntos
+**Cuando usar Block**:
+- Componente completo que tiene sentido por si mismo
+- Puede existir independientemente
+- Ejemplos: button, card, modal, alert
 
-3. Usar valores fallback
-   - `color: var(--text-primary, #030303);`
+**Cuando usar Element**:
+- Parte de un componente que no tiene sentido fuera del bloque
+- Depende del contexto del bloque padre
+- Ejemplos: card__title, button__icon, modal__close
 
-4. Documentar las variables
-   - Comentarios que expliquen cuándo usar cada variable
+**Cuando usar Modifier**:
+- Variacion visual del bloque o elemento
+- Estado temporal (hover, active, disabled)
+- Ejemplos: button--primary, card--horizontal, input--error
 
-5. Testear la accesibilidad en ambos temas
-   - Verificar ratios de contraste
-   - Probar con lectores de pantalla
-   - Validar con herramientas como WAVE o axe DevTools
+**No usar BEM para**:
+- Utilidades generales (.text-center, .mt-4)
+- Estados CSS nativos (:hover, :focus, :disabled)
+- Clases de JavaScript (.js-toggle, .js-modal-trigger)
 
 ---
 
-### Resumen de la Sección 2
+### 3.3 Style Guide
 
-| Aspecto | Implementación | Justificación |
+El Style Guide es una pagina especial de la aplicacion accesible en `/style-guide` que muestra visualmente todos los componentes UI implementados con todas sus variantes, tamanos y estados.
+
+#### Proposito del Style Guide
+
+1. **Documentacion visual**: Muestra como se ven todos los componentes en la aplicacion real
+2. **Testing rapido**: Permite verificar que todos los componentes funcionan correctamente
+3. **Referencia para desarrollo**: Los desarrolladores pueden copiar ejemplos de uso
+4. **Control de calidad**: Facilita detectar inconsistencias visuales
+5. **Onboarding**: Ayuda a nuevos desarrolladores a conocer los componentes disponibles
+
+#### Estructura del Style Guide
+
+El Style Guide esta organizado en secciones tematicas:
+
+**Seccion 0: Design Tokens**
+- Paleta de colores (marca, semanticos, grises)
+- Tipografia (familias, tamanos, pesos, alturas de linea)
+- Sistema de espaciado
+- Border radius
+- Elevaciones (sombras)
+- Breakpoints responsive
+- Transiciones
+
+**Seccion 1: Cards**
+- Cards verticales
+- Cards horizontales
+- Cards sin imagen
+
+**Seccion 2: Botones**
+- Variante Primary (3 tamanos + disabled)
+- Variante Secondary (3 tamanos + disabled)
+- Variante Ghost (3 tamanos + disabled)
+- Variante Danger (3 tamanos + disabled)
+
+**Seccion 3: Formularios**
+- Form Input (normal, con error, con ayuda)
+- Form Textarea (normal, con error)
+- Form Select (con opciones)
+
+**Seccion 4: Alertas**
+- Alert Success
+- Alert Error
+- Alert Warning
+- Alert Info
+
+Cada seccion muestra:
+- Titulo descriptivo del componente
+- Descripcion breve de su proposito
+- Ejemplos visuales interactivos
+- Todas las variantes disponibles
+- Todos los tamanos disponibles
+- Todos los estados (normal, hover, disabled)
+
+#### Implementacion Tecnica
+
+El Style Guide esta implementado como un componente Angular standalone:
+
+```typescript
+@Component({
+  selector: 'app-style-guide',
+  standalone: true,
+  imports: [
+    CommonModule,
+    Button,
+    Card,
+    FormInput,
+    FormTextarea,
+    FormSelect,
+    Alert,
+    // ... otros componentes
+  ],
+  templateUrl: './style-guide.html',
+  styleUrl: './style-guide.scss'
+})
+export class StyleGuide {
+  // Datos de ejemplo para mostrar componentes
+  brandColors = [...];
+  semanticColors = [...];
+  exampleCards = [...];
+  categoryOptions = [...];
+  alertStates = {...};
+}
+```
+
+#### Navegacion al Style Guide
+
+El Style Guide es accesible desde:
+- Menu de navegacion principal: `/style-guide`
+- Header de la aplicacion
+- Durante el desarrollo para verificar componentes
+
+#### Beneficios del Style Guide
+
+1. **Desarrollo mas rapido**: Los desarrolladores ven ejemplos de uso inmediatos
+2. **Consistencia visual**: Todos usan los mismos componentes de la misma forma
+3. **Documentacion actualizada**: Se actualiza automaticamente al modificar componentes
+4. **Testing visual**: Se detectan rapidamente problemas de CSS
+5. **Comunicacion con diseño**: Diseñadores pueden revisar la implementacion
+
+---
+
+### Resumen de la Seccion 3
+
+| Aspecto | Implementacion | Justificacion |
 |---------|----------------|---------------|
-| Elementos semánticos | header, nav, main, article, section, aside, footer | Mejora accesibilidad y SEO |
-| Jerarquía headings | Un h1 por página, no saltar niveles | Navegación por lectores de pantalla |
-| Formularios | fieldset/legend, label asociado con for/id | Estructura semántica clara |
-| form-input | Componente reutilizable con validación | DRY, consistencia, accesibilidad |
-| Validación | Síncrona y asíncrona con feedback claro | UX mejorada, prevención de errores |
-| CSS Custom Properties | Variables dinámicas en :root y .theme-dark | Temas cambiables en tiempo real |
-| Theme Switcher | Componente con persistencia en localStorage | Respeta preferencias del usuario |
+| Componentes obligatorios | button, card, form-textarea, form-select, alert | Base del sistema UI |
+| Componentes opcionales | modal, tabs, toast, spinner, tooltip, accordion | Funcionalidades avanzadas |
+| Metodologia | BEM estricta | Nombres claros, sin conflictos |
+| Variantes | Multiples opciones visuales | Flexibilidad de uso |
+| Tamanos | sm, md, lg | Adaptacion a contextos |
+| Estados | hover, focus, active, disabled | Feedback interactivo |
+| Accesibilidad | WCAG AA, navegacion teclado | Usable para todos |
+| Style Guide | Pagina /style-guide | Documentacion visual en vivo |
+| Reutilizacion | Componentes standalone | DRY, mantenible |
 
-La correcta implementación de HTML semántico y estructuras accesibles garantiza que la aplicación sea usable para todos los usuarios, independientemente de sus capacidades o tecnologías de asistencia.
+El sistema de componentes UI proporciona bloques de construccion consistentes, accesibles y bien documentados que se utilizan en toda la aplicacion para crear interfaces coherentes y profesionales.
 
+---
