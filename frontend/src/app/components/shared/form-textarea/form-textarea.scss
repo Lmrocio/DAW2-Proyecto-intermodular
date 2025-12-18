@@ -1,10 +1,3 @@
-// ============================================================================
-// COMPONENTE: FORM-TEXTAREA
-// ============================================================================
-// Campo textarea accesible con label, validación y mensajes
-// Metodología BEM: .form-textarea .form-textarea__element .form-textarea--modifier
-
-// Importar variables y mixins
 @import '../../../../styles/00-settings/variables';
 @import '../../../../styles/01-tools/mixins';
 
@@ -53,50 +46,40 @@
 // ELEMENTO: CAMPO TEXTAREA
 // ============================================================================
 .form-textarea__field {
-  // Dimensiones
   width: 100%;
   min-height: 120px;
   padding: $spacing-3 $spacing-4;
 
-  // Tipografía
   font-family: $font-primary;
   font-size: $font-size-base;
   font-weight: $font-weight-regular;
   line-height: $line-height-normal;
   color: $color-text-dark;
 
-  // Forma
   background-color: $color-gray-50;
   border: $border-medium solid $color-gray-300;
   border-radius: $radius-md;
 
-  // Sombra sutil
   @include elevation('sm');
 
-  // Permitir redimensionar verticalmente
   resize: vertical;
 
-  // Transiciones
   @include transition(all, $transition-fast);
 
-  // Placeholder
   &::placeholder {
     color: $color-gray-400;
   }
 
-  // Estado hover
   @include hover {
     border-color: $color-gray-400;
   }
 
-  // Estado focus
   &:focus {
     outline: none;
     border-color: $color-accent;
     box-shadow: $shadow-focus;
   }
 
-  // Estado disabled
   &:disabled {
     background-color: $color-gray-100;
     color: $color-gray-400;
@@ -104,7 +87,6 @@
     opacity: 0.7;
   }
 
-  // Estado error
   &--error {
     border-color: $color-error;
     background-color: rgba($color-error, 0.03);
@@ -128,7 +110,6 @@
   color: $color-error;
   line-height: $line-height-normal;
 
-  // Animación de entrada
   animation: formErrorSlideIn $transition-fast $easing-out;
 
   &::before {

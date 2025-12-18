@@ -1,8 +1,3 @@
-<!-- ============================================================================ -->
-<!-- COMPONENTE: ACCORDION -->
-<!-- ============================================================================ -->
-<!-- Acordeón accesible con roles ARIA -->
-
 <div
   #accordionContainer
   class="accordion"
@@ -12,7 +7,6 @@
     *ngFor="let item of items; let i = index"
     [class]="getItemClasses(item)"
   >
-    <!-- Header del item (botón expandir/colapsar) -->
     <button
       type="button"
       class="accordion__header"
@@ -24,15 +18,14 @@
       (click)="toggleItem(item.id, $event)"
       (keydown)="onKeyDown($event, item.id, i)"
     >
-      <!-- Icono opcional -->
+
       <span *ngIf="item.icon" class="accordion__icon" aria-hidden="true">
         {{ item.icon }}
       </span>
 
-      <!-- Título -->
+
       <span class="accordion__title">{{ item.title }}</span>
 
-      <!-- Indicador de estado (flecha) -->
       <span class="accordion__indicator" aria-hidden="true">
         <svg
           class="accordion__arrow"
@@ -49,7 +42,6 @@
       </span>
     </button>
 
-    <!-- Panel de contenido -->
     <div
       [id]="getPanelId(item.id)"
       class="accordion__panel"

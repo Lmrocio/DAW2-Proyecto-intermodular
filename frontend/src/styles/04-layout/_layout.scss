@@ -1,13 +1,10 @@
 // ============================================================================
 // 1. CONTENEDOR PRINCIPAL
 // ============================================================================
-// Contenedor base con ancho máximo y padding responsivo
-
 .container {
   @include container;
 }
 
-// Contenedor fluido sin ancho máximo
 .container-fluid {
   width: 100%;
   padding-left: $section-padding-mobile;

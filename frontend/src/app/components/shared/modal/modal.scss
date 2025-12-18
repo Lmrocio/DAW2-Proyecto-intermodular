@@ -1,8 +1,3 @@
-// ============================================================================
-// ESTILOS: MODAL
-// ============================================================================
-// Estilos para el componente modal con animaciones y responsive
-
 @use '../../../../styles/00-settings/variables' as *;
 @use '../../../../styles/01-tools/mixins' as *;
 
@@ -69,7 +64,6 @@
   }
 }
 
-// Tamaños del modal
 .modal--sm .modal__content {
   width: 90%;
   max-width: 400px;
