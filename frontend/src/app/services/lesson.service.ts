@@ -38,7 +38,7 @@ export class LessonService {
       category: 'WhatsApp',
       difficulty: 'facil',
       duration: 15,
-      image: '/assets/images/imagen-1.svg',
+      image: 'assets/images/imagen-1.svg',
       completed: false,
       favorite: true
     },
@@ -49,7 +49,7 @@ export class LessonService {
       category: 'WhatsApp',
       difficulty: 'facil',
       duration: 10,
-      image: '/assets/images/imagen-2.svg',
+      image: 'assets/images/imagen-2.svg',
       completed: true,
       favorite: false
     },
@@ -60,7 +60,7 @@ export class LessonService {
       category: 'Internet',
       difficulty: 'facil',
       duration: 12,
-      image: '/assets/images/imagen-3.svg',
+      image: 'assets/images/imagen-3.svg',
       completed: false,
       favorite: false
     },
@@ -71,7 +71,7 @@ export class LessonService {
       category: 'Correo',
       difficulty: 'medio',
       duration: 20,
-      image: '/assets/images/imagen-4.svg',
+      image: 'assets/images/imagen-4.svg',
       completed: false,
       favorite: true
     },
@@ -82,7 +82,7 @@ export class LessonService {
       category: 'Smartphone',
       difficulty: 'medio',
       duration: 18,
-      image: '/assets/images/imagen-5.svg',
+      image: 'assets/images/imagen-5.svg',
       completed: true,
       favorite: false
     },
@@ -93,7 +93,7 @@ export class LessonService {
       category: 'Seguridad',
       difficulty: 'avanzado',
       duration: 25,
-      image: '/assets/images/imagen-6.svg',
+      image: 'assets/images/imagen-6.svg',
       completed: false,
       favorite: false
     }

@@ -207,32 +207,32 @@ export class StyleGuide {
     {
       title: 'Desarrollo Web Frontend',
       description: 'Aprende HTML, CSS y JavaScript desde cero hasta nivel avanzado.',
-      image: '/assets/images/imagen-1.svg'
+      image: 'assets/images/imagen-1.svg'
     },
     {
       title: 'Frameworks Modernos',
       description: 'Domina Angular, React y Vue.js con proyectos prácticos.',
-      image: '/assets/images/imagen-2.svg'
+      image: 'assets/images/imagen-2.svg'
     },
     {
       title: 'Backend y APIs',
       description: 'Construye servidores robustos y APIs RESTful con Node.js.',
-      image: '/assets/images/imagen-3.svg'
+      image: 'assets/images/imagen-3.svg'
     },
     {
       title: 'Base de Datos',
       description: 'Gestiona datos eficientemente con SQL y NoSQL.',
-      image: '/assets/images/imagen-4.svg'
+      image: 'assets/images/imagen-4.svg'
     },
     {
       title: 'DevOps y Deployment',
       description: 'Despliega aplicaciones con Docker, CI/CD y cloud services.',
-      image: '/assets/images/imagen-5.svg'
+      image: 'assets/images/imagen-5.svg'
     },
     {
       title: 'Experiencia de Usuario',
       description: 'Diseña interfaces intuitivas y accesibles para todos los usuarios.',
-      image: '/assets/images/imagen-6.svg'
+      image: 'assets/images/imagen-6.svg'
     }
   ];
 
@@ -241,12 +241,12 @@ export class StyleGuide {
     {
       title: 'Proyecto Colaborativo',
       description: 'Trabaja en equipo usando Git, GitHub y metodologías ágiles para crear aplicaciones web completas.',
-      image: '/assets/images/imagen-7.svg'
+      image: 'assets/images/imagen-7.svg'
     },
     {
       title: 'Curso de JavaScript Avanzado',
       description: 'Profundiza en conceptos avanzados como closures, async/await, y patrones de diseño.',
-      image: '/assets/images/imagen-1.svg'
+      image: 'assets/images/imagen-1.svg'
     }
   ];
 
