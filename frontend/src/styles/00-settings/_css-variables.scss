@@ -58,38 +58,30 @@
 }
 
 // ============================================================================
-// TEMA OSCURO - ClienteFase1
+// TEMA OSCURO
 // ============================================================================
-// Solo redefinimos las variables que CAMBIAN entre temas
-// Fondos marrones más claros y textos con buen contraste
 
 .theme-dark {
-  // Fondos - Marrones más claros para mejor legibilidad
   --bg-primary: #2a2420;
   --bg-secondary: #352e28;
   --bg-tertiary: #403830;
 
-  // Textos - Colores claros para buen contraste sobre fondo oscuro
-  --text-primary: #f5f0eb;           // Casi blanco cálido
-  --text-secondary: #d9d0c5;         // Beige claro
-  --text-tertiary: #b8a999;          // Beige medio
+  --text-primary: #f5f0eb;
+  --text-secondary: #d9d0c5;
+  --text-tertiary: #b8a999;
 
-  // Bordes - Tonos cálidos visibles
   --border-color-primary: #5a4d40;
   --border-color-secondary: #4a4038;
   --border-color-dark: #6a5d50;
 
-  // Sombras
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
   --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
 
-  // Overlays
   --overlay-dark: rgba(0, 0, 0, 0.7);
 }
 
-// Media query para preferencia del sistema (solo variables que cambian)
 @media (prefers-color-scheme: dark) {
   :root:not(.theme-light):not(.theme-dark) {
     --bg-primary: #2a2420;

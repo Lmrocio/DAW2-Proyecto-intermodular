@@ -1,10 +1,3 @@
-// ============================================================================
-// COMPONENTE: HEADER
-// ============================================================================
-// Encabezado con logo, navegación responsive y utilidades
-// Incluye menú hamburguesa funcional para móvil
-
-// Importar variables y mixins
 @import '../../../../styles/00-settings/variables';
 @import '../../../../styles/01-tools/mixins';
 
@@ -71,20 +64,16 @@
 // BOTÓN HAMBURGUESA
 // ============================================================================
 .app-header__hamburger {
-  // Oculto en desktop
   display: none;
 
-  // Reset
   background: transparent;
   border: none;
   padding: $spacing-2;
   cursor: pointer;
 
-  // Layout
   @include flex(center, center, column);
   gap: 5px;
 
-  // Tamaño accesible
   width: $button-height-lg;
   height: $button-height-lg;
   border-radius: $radius-md;
@@ -100,7 +89,6 @@
     outline-offset: 2px;
   }
 
-  // Visible en móvil
   @media (max-width: $breakpoint-md) {
     display: flex;
   }
@@ -116,7 +104,6 @@
   @include transition(all, $transition-fast);
 }
 
-// Estado activo del hamburguesa (X)
 .app-header__hamburger--active {
   .app-header__hamburger-line {
     &:nth-child(1) {
@@ -139,7 +126,6 @@
   flex: 1;
   @include flex(center, center);
 
-  // En móvil: menú lateral
   @media (max-width: $breakpoint-md) {
     position: fixed;
     top: 60px;
@@ -153,14 +139,12 @@
     align-items: stretch;
     padding: $spacing-6;
 
-    // Oculto por defecto
     transform: translateX(-100%);
     opacity: 0;
     visibility: hidden;
 
     @include transition(all, $transition-base);
 
-    // Estado abierto
     &--open {
       transform: translateX(0);
       opacity: 1;
@@ -239,22 +223,18 @@
   gap: $spacing-2;
 
   @media (max-width: $breakpoint-md) {
-    // Ocultar algunas utilidades en móvil muy pequeño
     gap: $spacing-1;
   }
 }
 
 .app-header__utility-btn {
-  // Reset
   background: transparent;
   border: $border-thin solid $color-gray-300;
   padding: 0;
   cursor: pointer;
 
-  // Layout
   @include flex(center, center);
 
-  // Tamaño
   width: $button-height-md;
   height: $button-height-md;
   border-radius: $radius-md;

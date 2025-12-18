@@ -212,8 +212,6 @@
 // ============================================================================
 
 @mixin high-contrast-text {
-  // Se utiliza para asegurar legibilidad
-  // El color debe tener ratio de contraste mínimo 4.5:1 con el fondo
   color: $color-text-dark;
 
   @media (prefers-color-scheme: dark) {

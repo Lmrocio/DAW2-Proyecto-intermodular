@@ -1,9 +1,3 @@
-// ============================================================================
-// COMPONENTE: ACCORDION
-// ============================================================================
-// Acordeón accesible con animaciones y navegación por teclado
-// Implementa gestión de eventos según ClienteFase1
-
 import {
   Component,
   Input,
@@ -35,9 +29,6 @@ export interface AccordionItem {
   styleUrl: './accordion.scss',
 })
 export class Accordion implements AfterViewInit {
-  // ========================================================================
-  // INPUTS
-  // ========================================================================
 
   /** Lista de items del acordeón */
   @Input() items: AccordionItem[] = [];
@@ -48,44 +39,20 @@ export class Accordion implements AfterViewInit {
   /** IDs de los items abiertos inicialmente */
   @Input() expandedIds: string[] = [];
 
-  // ========================================================================
-  // OUTPUTS
-  // ========================================================================
-
   /** Evento emitido cuando cambia el estado de un item */
   @Output() itemToggle = new EventEmitter<{ id: string; isExpanded: boolean }>();
 
-  // ========================================================================
-  // VIEWCHILD
-  // ========================================================================
-
   @ViewChild('accordionContainer', { static: false }) accordionContainer!: ElementRef;
-
-  // ========================================================================
-  // PROPIEDADES
-  // ========================================================================
 
   /** Set de IDs expandidos para búsqueda rápida */
   private expandedSet: Set<string> = new Set();
 
-  // ========================================================================
-  // CONSTRUCTOR
-  // ========================================================================
-
   constructor(private renderer: Renderer2) {}
 
-  // ========================================================================
-  // CICLO DE VIDA
-  // ========================================================================
-
   ngAfterViewInit(): void {
-    // Inicializar items expandidos
+
     this.expandedIds.forEach(id => this.expandedSet.add(id));
   }
-
-  // ========================================================================
-  // MÉTODOS PÚBLICOS - Gestión de eventos
-  // ========================================================================
 
   /**
    * Alterna el estado de un item del acordeón
@@ -94,7 +61,6 @@ export class Accordion implements AfterViewInit {
   toggleItem(itemId: string, event?: MouseEvent | KeyboardEvent): void {
     const item = this.items.find(i => i.id === itemId);
 
-    // No hacer nada si el item está deshabilitado
     if (item?.disabled) {
       event?.preventDefault();
       return;
@@ -103,21 +69,19 @@ export class Accordion implements AfterViewInit {
     const isCurrentlyExpanded = this.isExpanded(itemId);
 
     if (isCurrentlyExpanded) {
-      // Colapsar
+
       this.expandedSet.delete(itemId);
     } else {
-      // Expandir
+
       if (!this.allowMultiple) {
-        // Si no permite múltiples, cerrar todos los demás
+
         this.expandedSet.clear();
       }
       this.expandedSet.add(itemId);
     }
 
-    // Actualizar el array de IDs expandidos
     this.expandedIds = Array.from(this.expandedSet);
 
-    // Emitir evento
     this.itemToggle.emit({
       id: itemId,
       isExpanded: !isCurrentlyExpanded
@@ -158,9 +122,6 @@ export class Accordion implements AfterViewInit {
     }
   }
 
-  // ========================================================================
-  // MÉTODOS PÚBLICOS - Utilidades
-  // ========================================================================
 
   /**
    * Verifica si un item está expandido
@@ -191,19 +152,13 @@ export class Accordion implements AfterViewInit {
     this.expandedIds = [];
   }
 
-  // ========================================================================
-  // MÉTODOS PRIVADOS
-  // ========================================================================
-
   /**
    * Enfoca un item por su índice usando Renderer2
    */
   private focusItem(index: number): void {
-    // Asegurar que el índice esté dentro de los límites
     if (index < 0) index = this.items.length - 1;
     if (index >= this.items.length) index = 0;
 
-    // Buscar el siguiente item no deshabilitado
     let attempts = 0;
     while (this.items[index]?.disabled && attempts < this.items.length) {
       index = index + 1 >= this.items.length ? 0 : index + 1;
@@ -217,10 +172,6 @@ export class Accordion implements AfterViewInit {
       }
     }
   }
-
-  // ========================================================================
-  // GETTERS para plantilla
-  // ========================================================================
 
   /**
    * Genera las clases CSS para un item

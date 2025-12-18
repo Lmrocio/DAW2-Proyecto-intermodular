@@ -191,7 +191,7 @@ button {
   @include focus-visible;
 }
 
-// Desactiva comportamiento por defecto
+
 input[type="checkbox"],
 input[type="radio"] {
   width: auto;
