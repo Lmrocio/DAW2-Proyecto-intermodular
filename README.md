@@ -12,3 +12,5 @@
 ### [DIW --> Documentación fases](./frontend/docs/design/DOCUMENTACION.md)
 
 ### [DWEC --> Documentación fases](./frontend/docs/cliente/DOCUMENTACION.md)
+
+### [Enlace al frontend desplegado](https://lmrocio.github.io/DAW2-Proyecto-intermodular/)
