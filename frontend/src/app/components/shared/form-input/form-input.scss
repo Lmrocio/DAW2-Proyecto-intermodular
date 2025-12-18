@@ -1,0 +1,188 @@
+// ============================================================================
+// COMPONENTE: FORM-INPUT
+// ============================================================================
+// Campo de entrada accesible con label, validación y mensajes
+// Metodología BEM: .form-input .form-input__element .form-input--modifier
+
+// Importar variables y mixins
+@import '../../../../styles/00-settings/variables';
+@import '../../../../styles/01-tools/mixins';
+
+// ============================================================================
+// CONTENEDOR PRINCIPAL
+// ============================================================================
+.form-input {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2;
+  width: 100%;
+}
+
+// ============================================================================
+// ELEMENTO: LABEL
+// ============================================================================
+.form-input__label {
+  display: flex;
+  align-items: baseline;
+  gap: $spacing-1;
+
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  color: var(--text-primary);
+  line-height: $line-height-normal;
+
+  cursor: pointer;
+
+  @include transition(color, $transition-fast);
+
+  &:hover {
+    color: $color-accent;
+  }
+}
+
+.form-input__label-text {
+  display: inline;
+}
+
+// ============================================================================
+// ELEMENTO: INDICADOR REQUERIDO
+// ============================================================================
+.form-input__required-indicator {
+  color: $color-error;
+  font-weight: $font-weight-bold;
+  font-size: $font-size-lg;
+}
+
+// ============================================================================
+// ELEMENTO: CAMPO INPUT
+// ============================================================================
+.form-input__field {
+  // Dimensiones
+  width: 100%;
+  height: $button-height-lg;
+  padding: $spacing-3 $spacing-4;
+
+  // Tipografía
+  font-family: $font-primary;
+  font-size: $font-size-base;
+  font-weight: $font-weight-regular;
+  line-height: $line-height-normal;
+  color: var(--text-primary);
+
+  // Forma
+  background-color: var(--bg-secondary);
+  border: $border-medium solid var(--border-color-primary);
+  border-radius: $radius-md;
+
+  // Sombra sutil
+  @include elevation('sm');
+
+  // Transiciones
+  @include transition(all, $transition-fast);
+
+  // Placeholder
+  &::placeholder {
+    color: var(--text-tertiary);
+  }
+
+  // Estado hover
+  @include hover {
+    border-color: var(--border-color-dark);
+  }
+
+  // Estado focus
+  &:focus {
+    outline: none;
+    border-color: $color-accent;
+    box-shadow: $shadow-focus;
+  }
+
+  // Estado disabled
+  &:disabled {
+    background-color: var(--bg-tertiary);
+    color: var(--text-tertiary);
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+
+  // Estado error
+  &--error {
+    border-color: $color-error;
+    background-color: rgba($color-error, 0.03);
+
+    &:focus {
+      box-shadow: 0 0 0 3px rgba($color-error, 0.15);
+    }
+  }
+
+  // Autofill styling
+  &:-webkit-autofill {
+    -webkit-box-shadow: inset 0 0 0 1000px var(--bg-secondary) !important;
+    -webkit-text-fill-color: var(--text-primary) !important;
+  }
+}
+
+// ============================================================================
+// ELEMENTO: MENSAJE DE ERROR
+// ============================================================================
+.form-input__error {
+  display: flex;
+  align-items: center;
+  gap: $spacing-1;
+
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: var(--color-error);
+  line-height: $line-height-normal;
+
+  // Animación de entrada
+  animation: formErrorSlideIn $transition-fast $easing-out;
+
+  &::before {
+    content: '⚠';
+    font-size: $font-size-base;
+  }
+}
+
+// ============================================================================
+// ELEMENTO: TEXTO DE AYUDA
+// ============================================================================
+.form-input__help {
+  font-size: $font-size-sm;
+  color: var(--text-secondary);
+  line-height: $line-height-normal;
+
+  &::before {
+    content: 'ℹ ';
+    color: var(--color-info);
+  }
+}
+
+// ============================================================================
+// ANIMACIÓN: Error slide in
+// ============================================================================
+@keyframes formErrorSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-$spacing-1);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// ============================================================================
+// RESPONSIVE
+// ============================================================================
+@media (max-width: $breakpoint-sm) {
+  .form-input__field {
+    height: $button-height-md;
+    padding: $spacing-2 $spacing-3;
+  }
+
+  .form-input__label {
+    font-size: $font-size-sm;
+  }
+}
+

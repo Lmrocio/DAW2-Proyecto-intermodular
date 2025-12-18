@@ -1,0 +1,720 @@
+<!-- ============================================================================ -->
+<!-- PÁGINA: STYLE GUIDE -->
+<!-- ============================================================================ -->
+<!-- Documentación visual de todos los componentes UI -->
+<!-- Muestra todas las variantes, tamaños y estados -->
+
+<main class="style-guide">
+  <div class="style-guide__container">
+    <h1 class="style-guide__title">Style Guide</h1>
+
+    <!-- ====================================================================== -->
+    <!-- SECCIÓN 0: DESIGN TOKENS - FUNDAMENTOS -->
+    <!-- ====================================================================== -->
+    <section class="style-guide__section" id="design-tokens">
+      <h2 class="style-guide__section-title">0. Design Tokens</h2>
+      <p class="style-guide__section-description">
+        Fundamentos del sistema de diseño: colores, tipografía, espaciado, bordes y sombras.
+        Todas las variables están definidas en SCSS y disponibles como CSS Custom Properties.
+      </p>
+
+      <!-- ================================================================== -->
+      <!-- PALETA DE COLORES -->
+      <!-- ================================================================== -->
+      <article class="style-guide__component">
+        <h3 class="style-guide__component-title">Paleta de Colores</h3>
+
+        <!-- Colores de Marca -->
+        <div class="style-guide__subsection">
+          <h4 class="style-guide__subsection-title">Colores de Marca</h4>
+          <div class="style-guide__color-grid">
+            <div
+              *ngFor="let color of brandColors"
+              class="style-guide__color-card"
+              (click)="copyToClipboard(color.value)"
+              title="Click para copiar"
+            >
+              <div class="style-guide__color-swatch" [style.background-color]="color.value"></div>
+              <div class="style-guide__color-info">
+                <span class="style-guide__color-name">{{ color.name }}</span>
+                <code class="style-guide__color-value">{{ color.value }}</code>
+                <code class="style-guide__color-var">{{ color.variable }}</code>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Colores Semánticos -->
+        <div class="style-guide__subsection">
+          <h4 class="style-guide__subsection-title">Colores Semánticos</h4>
+          <div class="style-guide__color-grid">
+            <div
+              *ngFor="let color of semanticColors"
+              class="style-guide__color-card"
+              (click)="copyToClipboard(color.value)"
+              title="Click para copiar"
+            >
+              <div class="style-guide__color-swatch" [style.background-color]="color.value"></div>
+              <div class="style-guide__color-info">
+                <span class="style-guide__color-name">{{ color.name }}</span>
+                <code class="style-guide__color-value">{{ color.value }}</code>
+                <code class="style-guide__color-var">{{ color.variable }}</code>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Colores de Texto y Fondo -->
+        <div class="style-guide__subsection">
+          <h4 class="style-guide__subsection-title">Texto y Fondo</h4>
+          <div class="style-guide__color-grid style-guide__color-grid--small">
+            <div
+              *ngFor="let color of textColors"
+              class="style-guide__color-card style-guide__color-card--small"
+              (click)="copyToClipboard(color.value)"
+              title="Click para copiar"
+            >
+              <div class="style-guide__color-swatch" [style.background-color]="color.value"></div>
+              <div class="style-guide__color-info">
+                <span class="style-guide__color-name">{{ color.name }}</span>
+                <code class="style-guide__color-value">{{ color.value }}</code>
+              </div>
+            </div>
+            <div
+              *ngFor="let color of backgroundColors"
+              class="style-guide__color-card style-guide__color-card--small"
+              (click)="copyToClipboard(color.value)"
+              title="Click para copiar"
+            >
+              <div class="style-guide__color-swatch" [style.background-color]="color.value"></div>
+              <div class="style-guide__color-info">
+                <span class="style-guide__color-name">{{ color.name }}</span>
+                <code class="style-guide__color-value">{{ color.value }}</code>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Escala de Grises -->
+        <div class="style-guide__subsection">
+          <h4 class="style-guide__subsection-title">Escala de Grises</h4>
+          <div class="style-guide__gray-scale">
+            <div
+              *ngFor="let color of grayScale"
+              class="style-guide__gray-item"
+              (click)="copyToClipboard(color.value)"
+              title="Click para copiar"
+            >
+              <div class="style-guide__gray-swatch" [style.background-color]="color.value"></div>
+              <div class="style-guide__gray-info">
+                <span class="style-guide__gray-label">{{ color.name }}</span>
+                <code class="style-guide__gray-value">{{ color.value }}</code>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- ================================================================== -->
+      <!-- TIPOGRAFÍA -->
+      <!-- ================================================================== -->
+      <article class="style-guide__component">
+        <h3 class="style-guide__component-title">Tipografía</h3>
+
+        <!-- Familias tipográficas -->
+        <div class="style-guide__subsection">
+          <h4 class="style-guide__subsection-title">Familias Tipográficas</h4>
+          <div class="style-guide__font-families">
+            <div *ngFor="let font of fontFamilies" class="style-guide__font-family">
+              <div class="style-guide__font-header">
+                <span class="style-guide__font-name">{{ font.name }}</span>
+                <code class="style-guide__font-var">{{ font.variable }}</code>
+              </div>
+              <p class="style-guide__font-sample"
+                 [style.font-family]="font.value">
+                {{ font.sample }}
+              </p>
+              <code class="style-guide__font-value">{{ font.value }}</code>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tamaños de fuente -->
+        <div class="style-guide__subsection">
+          <h4 class="style-guide__subsection-title">Escala de Tamaños</h4>
+          <div class="style-guide__font-sizes">
+            <div *ngFor="let size of fontSizes" class="style-guide__font-size">
+              <div class="style-guide__font-size-sample" [style.font-size]="size.value">
+                Aa
+              </div>
+              <div class="style-guide__font-size-info">
+                <span class="style-guide__font-size-name">{{ size.name }}</span>
+                <code class="style-guide__font-size-value">{{ size.value }} ({{ size.px }})</code>
+                <code class="style-guide__font-size-var">{{ size.variable }}</code>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pesos de fuente -->
+        <div class="style-guide__subsection">
+          <h4 class="style-guide__subsection-title">Pesos de Fuente</h4>
+          <div class="style-guide__font-weights">
+            <div *ngFor="let weight of fontWeights" class="style-guide__font-weight">
+              <span class="style-guide__font-weight-sample" [style.font-weight]="weight.value">
+                El veloz murciélago hindú
+              </span>
+              <div class="style-guide__font-weight-info">
+                <span class="style-guide__font-weight-name">{{ weight.name }}</span>
+                <code>{{ weight.value }}</code>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Line heights -->
+        <div class="style-guide__subsection">
+          <h4 class="style-guide__subsection-title">Alturas de Línea</h4>
+          <div class="style-guide__line-heights">
+            <div *ngFor="let lh of lineHeights" class="style-guide__line-height">
+              <div class="style-guide__line-height-sample" [style.line-height]="lh.value">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor.
+              </div>
+              <div class="style-guide__line-height-info">
+                <span class="style-guide__line-height-name">{{ lh.name }}</span>
+                <code>{{ lh.variable }}: {{ lh.value }}</code>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- ================================================================== -->
+      <!-- ESPACIADO -->
+      <!-- ================================================================== -->
+      <article class="style-guide__component">
+        <h3 class="style-guide__component-title">Sistema de Espaciado</h3>
+        <p class="style-guide__component-description">
+          Escala basada en 4px (0.25rem). Usado para margin, padding y gap.
+        </p>
+        <div class="style-guide__spacing-grid">
+          <div *ngFor="let space of spacings" class="style-guide__spacing-item">
+            <div class="style-guide__spacing-visual">
+              <div class="style-guide__spacing-bar" [style.width]="space.value"></div>
+            </div>
+            <div class="style-guide__spacing-info">
+              <span class="style-guide__spacing-name">{{ space.name }}</span>
+              <code class="style-guide__spacing-value">{{ space.value }}</code>
+              <span class="style-guide__spacing-px">{{ space.px }}</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- ================================================================== -->
+      <!-- BORDER RADIUS -->
+      <!-- ================================================================== -->
+      <article class="style-guide__component">
+        <h3 class="style-guide__component-title">Border Radius</h3>
+        <p class="style-guide__component-description">
+          Radios de borde para suavizar esquinas de componentes.
+        </p>
+        <div class="style-guide__radius-grid">
+          <div *ngFor="let radius of radiuses" class="style-guide__radius-item">
+            <div class="style-guide__radius-visual" [style.border-radius]="radius.value"></div>
+            <div class="style-guide__radius-info">
+              <span class="style-guide__radius-name">{{ radius.name }}</span>
+              <code class="style-guide__radius-value">{{ radius.value }}</code>
+              <span class="style-guide__radius-px">({{ radius.px }})</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- ================================================================== -->
+      <!-- SOMBRAS -->
+      <!-- ================================================================== -->
+      <article class="style-guide__component">
+        <h3 class="style-guide__component-title">Elevaciones (Sombras)</h3>
+        <p class="style-guide__component-description">
+          Sistema de sombras para crear jerarquía visual y profundidad.
+        </p>
+        <div class="style-guide__shadow-grid">
+          <div *ngFor="let shadow of shadows" class="style-guide__shadow-item">
+            <div class="style-guide__shadow-visual" [style.box-shadow]="shadow.value"></div>
+            <div class="style-guide__shadow-info">
+              <span class="style-guide__shadow-name">{{ shadow.name }}</span>
+              <code class="style-guide__shadow-var">{{ shadow.variable }}</code>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- ================================================================== -->
+      <!-- BREAKPOINTS -->
+      <!-- ================================================================== -->
+      <article class="style-guide__component">
+        <h3 class="style-guide__component-title">Breakpoints Responsive</h3>
+        <div class="style-guide__table-wrapper">
+          <table class="style-guide__table">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Variable</th>
+                <th>Valor</th>
+                <th>Dispositivo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let bp of breakpoints">
+                <td><strong>{{ bp.name }}</strong></td>
+                <td><code>{{ bp.variable }}</code></td>
+                <td>{{ bp.value }}</td>
+                <td>{{ bp.description }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+
+      <!-- ================================================================== -->
+      <!-- TRANSICIONES -->
+      <!-- ================================================================== -->
+      <article class="style-guide__component">
+        <h3 class="style-guide__component-title">Transiciones</h3>
+        <div class="style-guide__transitions">
+          <div *ngFor="let trans of transitions" class="style-guide__transition-item">
+            <div class="style-guide__transition-visual" [style.transition-duration]="trans.value">
+              Hover me
+            </div>
+            <div class="style-guide__transition-info">
+              <span class="style-guide__transition-name">{{ trans.name }}</span>
+              <code>{{ trans.variable }}: {{ trans.value }}</code>
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- ====================================================================== -->
+    <!-- SECCIÓN 1: CARDS -->
+    <!-- ====================================================================== -->
+    <section class="style-guide__section" id="cards">
+      <h2 class="style-guide__section-title">1. Cards <code>app-card</code></h2>
+      <p class="style-guide__section-description">
+        Componente de tarjeta reutilizable con soporte para imagen, título, descripción y contenido personalizado.
+        Disponible en variantes vertical (por defecto) y horizontal.
+      </p>
+
+      <!-- Cards Verticales -->
+      <article class="style-guide__component">
+        <h3 class="style-guide__component-title">
+          Cards Verticales
+        </h3>
+        <p class="style-guide__component-description">
+          Layout vertical con imagen en la parte superior, ideal para mostrar cursos, artículos o productos.
+        </p>
+        <div class="style-guide__demo style-guide__demo--cards">
+          <app-card
+            *ngFor="let card of exampleCards"
+            [title]="card.title"
+            [description]="card.description"
+            [image]="card.image"
+            variant="vertical"
+          >
+            <app-button variant="primary" size="sm">
+              Ver más
+            </app-button>
+          </app-card>
+        </div>
+      </article>
+
+      <!-- Cards Horizontales -->
+      <article class="style-guide__component">
+        <h3 class="style-guide__component-title">
+          Cards Horizontales
+        </h3>
+        <p class="style-guide__component-description">
+          Layout horizontal con imagen a la izquierda, ideal para listas detalladas o contenido extenso.
+        </p>
+        <div class="style-guide__demo style-guide__demo--cards-horizontal">
+          <app-card
+            *ngFor="let card of exampleHorizontalCards"
+            [title]="card.title"
+            [description]="card.description"
+            [image]="card.image"
+            variant="horizontal"
+          >
+            <app-button variant="secondary" size="sm">
+              Leer más
+            </app-button>
+          </app-card>
+        </div>
+      </article>
+
+      <!-- Cards sin imagen -->
+      <article class="style-guide__component">
+        <h3 class="style-guide__component-title">
+          Cards sin Imagen
+        </h3>
+        <p class="style-guide__component-description">
+          Variante simplificada sin imagen, útil para información textual o contenido minimalista.
+        </p>
+        <div class="style-guide__demo style-guide__demo--cards">
+          <app-card
+            title="Información Importante"
+            description="Esta tarjeta no tiene imagen y se enfoca únicamente en el contenido textual."
+          >
+            <app-button variant="ghost" size="sm">
+              Más info
+            </app-button>
+          </app-card>
+
+          <app-card
+            title="Notificación"
+            description="Mensaje breve para el usuario sin necesidad de elementos visuales adicionales."
+          >
+            <app-button variant="danger" size="sm">
+              Descartar
+            </app-button>
+          </app-card>
+        </div>
+      </article>
+    </section>
+
+    <!-- ====================================================================== -->
+    <!-- SECCIÓN 2: BOTONES -->
+    <!-- ====================================================================== -->
+    <section class="style-guide__section" id="buttons">
+      <h2 class="style-guide__section-title">2. Botones <code>app-button</code></h2>
+      <p class="style-guide__section-description">
+        Componente de botón con 4 variantes visuales y 3 tamaños.
+        Incluye estados hover, focus, active y disabled.
+      </p>
+
+      <!-- Variante Primary -->
+      <article class="style-guide__component">
+        <h3 class="style-guide__component-title">
+          <span class="style-guide__badge style-guide__badge--primary">Primary</span>
+          Botón Principal
+        </h3>
+        <p class="style-guide__component-description">
+          Color amarillo/dorado. Para acciones principales como "Guardar", "Enviar", "Continuar".
+        </p>
+        <div class="style-guide__demo">
+          <div class="style-guide__demo-row">
+            <div class="style-guide__demo-item">
+              <span class="style-guide__demo-label">Small</span>
+              <app-button variant="primary" size="sm">Guardar</app-button>
+            </div>
+            <div class="style-guide__demo-item">
+              <span class="style-guide__demo-label">Medium</span>
+              <app-button variant="primary" size="md">Guardar</app-button>
+            </div>
+            <div class="style-guide__demo-item">
+              <span class="style-guide__demo-label">Large</span>
+              <app-button variant="primary" size="lg">Guardar</app-button>
+            </div>
+            <div class="style-guide__demo-item">
+              <span class="style-guide__demo-label">Disabled</span>
+              <app-button variant="primary" size="md" [disabled]="true">Guardar</app-button>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Variante Secondary -->
+      <article class="style-guide__component">
+        <h3 class="style-guide__component-title">
+          <span class="style-guide__badge style-guide__badge--secondary">Secondary</span>
+          Botón Secundario
+        </h3>
+        <p class="style-guide__component-description">
+          Color azul accent. Para acciones secundarias importantes como "Ver más", "Editar".
+        </p>
+        <div class="style-guide__demo">
+          <div class="style-guide__demo-row">
+            <div class="style-guide__demo-item">
+              <span class="style-guide__demo-label">Small</span>
+              <app-button variant="secondary" size="sm">Editar</app-button>
+            </div>
+            <div class="style-guide__demo-item">
+              <span class="style-guide__demo-label">Medium</span>
+              <app-button variant="secondary" size="md">Editar</app-button>
+            </div>
+            <div class="style-guide__demo-item">
+              <span class="style-guide__demo-label">Large</span>
+              <app-button variant="secondary" size="lg">Editar</app-button>
+            </div>
+            <div class="style-guide__demo-item">
+              <span class="style-guide__demo-label">Disabled</span>
+              <app-button variant="secondary" size="md" [disabled]="true">Editar</app-button>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Variante Ghost -->
+      <article class="style-guide__component">
+        <h3 class="style-guide__component-title">
+          <span class="style-guide__badge style-guide__badge--ghost">Ghost</span>
+          Botón Fantasma
+        </h3>
+        <p class="style-guide__component-description">
+          Sin fondo, solo borde. Para acciones terciarias como "Cancelar", "Volver".
+        </p>
+        <div class="style-guide__demo">
+          <div class="style-guide__demo-row">
+            <div class="style-guide__demo-item">
+              <span class="style-guide__demo-label">Small</span>
+              <app-button variant="ghost" size="sm">Cancelar</app-button>
+            </div>
+            <div class="style-guide__demo-item">
+              <span class="style-guide__demo-label">Medium</span>
+              <app-button variant="ghost" size="md">Cancelar</app-button>
+            </div>
+            <div class="style-guide__demo-item">
+              <span class="style-guide__demo-label">Large</span>
+              <app-button variant="ghost" size="lg">Cancelar</app-button>
+            </div>
+            <div class="style-guide__demo-item">
+              <span class="style-guide__demo-label">Disabled</span>
+              <app-button variant="ghost" size="md" [disabled]="true">Cancelar</app-button>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Variante Danger -->
+      <article class="style-guide__component">
+        <h3 class="style-guide__component-title">
+          <span class="style-guide__badge style-guide__badge--danger">Danger</span>
+          Botón Peligroso
+        </h3>
+        <p class="style-guide__component-description">
+          Color rojo. Para acciones destructivas como "Eliminar", "Borrar cuenta".
+        </p>
+        <div class="style-guide__demo">
+          <div class="style-guide__demo-row">
+            <div class="style-guide__demo-item">
+              <span class="style-guide__demo-label">Small</span>
+              <app-button variant="danger" size="sm">Eliminar</app-button>
+            </div>
+            <div class="style-guide__demo-item">
+              <span class="style-guide__demo-label">Medium</span>
+              <app-button variant="danger" size="md">Eliminar</app-button>
+            </div>
+            <div class="style-guide__demo-item">
+              <span class="style-guide__demo-label">Large</span>
+              <app-button variant="danger" size="lg">Eliminar</app-button>
+            </div>
+            <div class="style-guide__demo-item">
+              <span class="style-guide__demo-label">Disabled</span>
+              <app-button variant="danger" size="md" [disabled]="true">Eliminar</app-button>
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+
+    <!-- ====================================================================== -->
+    <!-- SECCIÓN 3: FORMULARIOS -->
+    <!-- ====================================================================== -->
+    <section class="style-guide__section" id="forms">
+      <h2 class="style-guide__section-title">3. Elementos de Formulario</h2>
+      <p class="style-guide__section-description">
+        Componentes de formulario accesibles con labels asociados, validación y mensajes de ayuda.
+      </p>
+
+      <!-- Form Input -->
+      <article class="style-guide__component">
+        <h3 class="style-guide__component-title">Form Input <code>app-form-input</code></h3>
+        <p class="style-guide__component-description">
+          Campo de texto simple con estados normal, error y con ayuda.
+        </p>
+        <div class="style-guide__demo style-guide__demo--forms">
+          <div class="style-guide__form-grid">
+            <app-form-input
+              label="Nombre completo"
+              placeholder="Escribe tu nombre"
+              [required]="true"
+            ></app-form-input>
+
+            <app-form-input
+              label="Correo electrónico (con error)"
+              placeholder="tu@email.com"
+              [required]="true"
+              [hasError]="true"
+              errorMessage="El formato del correo no es válido"
+            ></app-form-input>
+
+            <app-form-input
+              label="Teléfono (con ayuda)"
+              placeholder="600 000 000"
+              helpText="Introduce tu número de teléfono sin espacios"
+            ></app-form-input>
+          </div>
+        </div>
+      </article>
+
+      <!-- Form Textarea -->
+      <article class="style-guide__component">
+        <h3 class="style-guide__component-title">Form Textarea <code>app-form-textarea</code></h3>
+        <p class="style-guide__component-description">
+          Campo de texto multilínea para comentarios, descripciones, etc.
+        </p>
+        <div class="style-guide__demo style-guide__demo--forms">
+          <div class="style-guide__form-grid">
+            <app-form-textarea
+              label="Comentarios"
+              placeholder="Escribe tus comentarios aquí..."
+              [rows]="4"
+              hint="Máximo 500 caracteres"
+            ></app-form-textarea>
+
+            <app-form-textarea
+              label="Descripción (con error)"
+              placeholder="Describe tu problema..."
+              [rows]="4"
+              [required]="true"
+              error="Este campo es obligatorio"
+            ></app-form-textarea>
+          </div>
+        </div>
+      </article>
+
+      <!-- Form Select -->
+      <article class="style-guide__component">
+        <h3 class="style-guide__component-title">Form Select <code>app-form-select</code></h3>
+        <p class="style-guide__component-description">
+          Dropdown para seleccionar una opción de una lista.
+        </p>
+        <div class="style-guide__demo style-guide__demo--forms">
+          <div class="style-guide__form-grid">
+            <app-form-select
+              label="Categoría"
+              [options]="categoryOptions"
+              placeholder="Selecciona una categoría"
+              [required]="true"
+            ></app-form-select>
+
+            <app-form-select
+              label="Nivel de dificultad"
+              [options]="difficultyOptions"
+              placeholder="Selecciona el nivel"
+              hint="Elige según tu experiencia previa"
+            ></app-form-select>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- ====================================================================== -->
+    <!-- SECCIÓN 4: ALERTAS -->
+    <!-- ====================================================================== -->
+    <section class="style-guide__section" id="alerts">
+      <h2 class="style-guide__section-title">4. Alertas <code>app-alert</code></h2>
+      <p class="style-guide__section-description">
+        Mensajes de feedback para el usuario con 4 tipos: success, error, warning, info.
+      </p>
+
+      <!-- Alert Success -->
+      <article class="style-guide__component">
+        <h3 class="style-guide__component-title">
+          <span class="style-guide__badge style-guide__badge--success">Success</span>
+          Alerta de Éxito
+        </h3>
+        <div class="style-guide__demo">
+          <app-alert
+            type="success"
+            message="¡Operación completada!"
+            description="Los cambios se han guardado correctamente en tu perfil."
+            [closeable]="true"
+            [visible]="alertStates['success']"
+            (close)="closeAlert('success')"
+          ></app-alert>
+          <app-button
+            variant="ghost"
+            size="sm"
+            (click)="showAlert('success')"
+            *ngIf="!alertStates['success']"
+          >Mostrar alerta</app-button>
+        </div>
+      </article>
+
+      <!-- Alert Error -->
+      <article class="style-guide__component">
+        <h3 class="style-guide__component-title">
+          <span class="style-guide__badge style-guide__badge--error">Error</span>
+          Alerta de Error
+        </h3>
+        <div class="style-guide__demo">
+          <app-alert
+            type="error"
+            message="Ha ocurrido un error"
+            description="No se pudo completar la operación. Por favor, inténtalo de nuevo."
+            [closeable]="true"
+            [visible]="alertStates['error']"
+            (close)="closeAlert('error')"
+          ></app-alert>
+          <app-button
+            variant="ghost"
+            size="sm"
+            (click)="showAlert('error')"
+            *ngIf="!alertStates['error']"
+          >Mostrar alerta</app-button>
+        </div>
+      </article>
+
+      <!-- Alert Warning -->
+      <article class="style-guide__component">
+        <h3 class="style-guide__component-title">
+          <span class="style-guide__badge style-guide__badge--warning">Warning</span>
+          Alerta de Advertencia
+        </h3>
+        <div class="style-guide__demo">
+          <app-alert
+            type="warning"
+            message="Atención"
+            description="Esta acción no se puede deshacer. ¿Estás seguro de continuar?"
+            [closeable]="true"
+            [visible]="alertStates['warning']"
+            (close)="closeAlert('warning')"
+          ></app-alert>
+          <app-button
+            variant="ghost"
+            size="sm"
+            (click)="showAlert('warning')"
+            *ngIf="!alertStates['warning']"
+          >Mostrar alerta</app-button>
+        </div>
+      </article>
+
+      <!-- Alert Info -->
+      <article class="style-guide__component">
+        <h3 class="style-guide__component-title">
+          <span class="style-guide__badge style-guide__badge--info">Info</span>
+          Alerta Informativa
+        </h3>
+        <div class="style-guide__demo">
+          <app-alert
+            type="info"
+            message="Información importante"
+            description="Puedes ajustar el tamaño del texto en cualquier momento desde los ajustes."
+            [closeable]="true"
+            [visible]="alertStates['info']"
+            (close)="closeAlert('info')"
+          ></app-alert>
+          <app-button
+            variant="ghost"
+            size="sm"
+            (click)="showAlert('info')"
+            *ngIf="!alertStates['info']"
+          >Mostrar alerta</app-button>
+        </div>
+      </article>
+    </section>
+  </div>
+</main>
+

@@ -1,0 +1,94 @@
+<!-- ============================================================================ -->
+<!-- COMPONENTE: HEADER -->
+<!-- ============================================================================ -->
+<!-- Encabezado principal con logo, navegación y utilidades -->
+<!-- Incluye menú hamburguesa responsive para móvil -->
+
+<header class="app-header">
+  <div class="app-header__container">
+
+    <!-- Logo -->
+    <a href="/" class="app-header__logo" aria-label="Inicio - TecnoMayores">
+      <span class="app-header__logo-text">TecnoMayores</span>
+    </a>
+
+    <!-- Botón hamburguesa (visible solo en móvil) -->
+    <button
+      class="app-header__hamburger"
+      [class.app-header__hamburger--active]="menuOpen"
+      (click)="toggleMenu()"
+      aria-label="Abrir menú de navegación"
+      [attr.aria-expanded]="menuOpen"
+      aria-controls="main-nav"
+    >
+      <span class="app-header__hamburger-line"></span>
+      <span class="app-header__hamburger-line"></span>
+      <span class="app-header__hamburger-line"></span>
+    </button>
+
+    <!-- Navegación principal -->
+    <nav
+      class="app-header__nav"
+      [class.app-header__nav--open]="menuOpen"
+      id="main-nav"
+      aria-label="Navegación principal"
+    >
+      <ul class="app-header__nav-list">
+        <li class="app-header__nav-item">
+          <a href="/" class="app-header__nav-link" (click)="closeMenu()">Inicio</a>
+        </li>
+        <li class="app-header__nav-item">
+          <a href="/lecciones" class="app-header__nav-link" (click)="closeMenu()">Lecciones</a>
+        </li>
+        <li class="app-header__nav-item">
+          <a href="/simuladores" class="app-header__nav-link" (click)="closeMenu()">Simuladores</a>
+        </li>
+        <li class="app-header__nav-item">
+          <a href="/faq" class="app-header__nav-link" (click)="closeMenu()">Ayuda</a>
+        </li>
+        <li class="app-header__nav-item">
+          <a href="/style-guide" class="app-header__nav-link" (click)="closeMenu()">Style Guide</a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Utilidades -->
+    <div class="app-header__utilities">
+      <!-- Theme Switcher -->
+      <app-theme-switcher></app-theme-switcher>
+
+      <button
+        class="app-header__utility-btn"
+        aria-label="Activar modo guiado"
+        title="Modo guiado"
+      >
+        <span class="app-header__utility-icon">?</span>
+      </button>
+
+      <button
+        class="app-header__utility-btn"
+        aria-label="Ajustes de accesibilidad"
+        title="Accesibilidad"
+      >
+        <span class="app-header__utility-icon">Aa</span>
+      </button>
+
+      <button
+        class="app-header__utility-btn"
+        aria-label="Perfil de usuario"
+        title="Mi perfil"
+      >
+        <span class="app-header__utility-icon">👤</span>
+      </button>
+    </div>
+
+  </div>
+
+  <!-- Overlay para cerrar menú en móvil -->
+  <div
+    class="app-header__overlay"
+    [class.app-header__overlay--visible]="menuOpen"
+    (click)="closeMenu()"
+  ></div>
+</header>
+

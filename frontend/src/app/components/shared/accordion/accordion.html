@@ -1,0 +1,67 @@
+<!-- ============================================================================ -->
+<!-- COMPONENTE: ACCORDION -->
+<!-- ============================================================================ -->
+<!-- Acordeón accesible con roles ARIA -->
+
+<div
+  #accordionContainer
+  class="accordion"
+  role="presentation"
+>
+  <div
+    *ngFor="let item of items; let i = index"
+    [class]="getItemClasses(item)"
+  >
+    <!-- Header del item (botón expandir/colapsar) -->
+    <button
+      type="button"
+      class="accordion__header"
+      [id]="getHeaderId(item.id)"
+      [attr.aria-expanded]="isExpanded(item.id)"
+      [attr.aria-controls]="getPanelId(item.id)"
+      [attr.aria-disabled]="item.disabled"
+      [disabled]="item.disabled"
+      (click)="toggleItem(item.id, $event)"
+      (keydown)="onKeyDown($event, item.id, i)"
+    >
+      <!-- Icono opcional -->
+      <span *ngIf="item.icon" class="accordion__icon" aria-hidden="true">
+        {{ item.icon }}
+      </span>
+
+      <!-- Título -->
+      <span class="accordion__title">{{ item.title }}</span>
+
+      <!-- Indicador de estado (flecha) -->
+      <span class="accordion__indicator" aria-hidden="true">
+        <svg
+          class="accordion__arrow"
+          [class.accordion__arrow--rotated]="isExpanded(item.id)"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </span>
+    </button>
+
+    <!-- Panel de contenido -->
+    <div
+      [id]="getPanelId(item.id)"
+      class="accordion__panel"
+      [class.accordion__panel--expanded]="isExpanded(item.id)"
+      role="region"
+      [attr.aria-labelledby]="getHeaderId(item.id)"
+      [attr.hidden]="!isExpanded(item.id) ? true : null"
+    >
+      <div class="accordion__content">
+        {{ item.content }}
+      </div>
+    </div>
+  </div>
+</div>
+

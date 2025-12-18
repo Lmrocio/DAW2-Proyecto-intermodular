@@ -1,0 +1,315 @@
+<!-- ============================================================================ -->
+<!-- PÁGINA: CLIENT - TecnoMayores -->
+<!-- ============================================================================ -->
+<!-- Área de usuario: lecciones, progreso y ayuda -->
+<!-- ClienteFase2: Usa servicios para datos y notificaciones -->
+
+<main class="client">
+  <div class="client__container">
+
+    <!-- ================================================================== -->
+    <!-- ALERTAS -->
+    <!-- ================================================================== -->
+
+    <!-- Alerta de bienvenida -->
+    <app-alert
+      *ngIf="showWelcomeAlert"
+      type="info"
+      message="¡Bienvenido a TecnoMayores!"
+      description="Explora nuestras lecciones y aprende a usar la tecnología a tu ritmo. Prueba los botones de notificación para ver el sistema de toasts."
+      [closeable]="true"
+      (close)="closeWelcomeAlert()"
+    ></app-alert>
+
+    <!-- ================================================================== -->
+    <!-- HEADER DE LA PÁGINA -->
+    <!-- ================================================================== -->
+    <header class="client__header">
+      <div class="client__header-content">
+        <h1 class="client__title">Mi Área de Aprendizaje</h1>
+        <p class="client__subtitle">
+          Aprende a usar la tecnología con lecciones sencillas y prácticas
+        </p>
+      </div>
+
+      <div class="client__header-actions">
+        <app-tooltip text="Crea una cuenta nueva" position="bottom">
+          <app-button variant="secondary" size="lg" (click)="openRegisterModal()">
+            Registrarse
+          </app-button>
+        </app-tooltip>
+        <app-tooltip text="Guarda tu progreso iniciando sesión" position="bottom">
+          <app-button variant="primary" size="lg" (click)="openLoginModal()">
+            Iniciar Sesión
+          </app-button>
+        </app-tooltip>
+      </div>
+    </header>
+
+    <!-- ================================================================== -->
+    <!-- SISTEMA DE NOTIFICACIONES - Demo ClienteFase2 -->
+    <!-- ================================================================== -->
+    <section class="client__notifications-demo">
+      <h2 class="client__section-title">🔔 Sistema de Notificaciones</h2>
+      <p class="client__section-desc">
+        Prueba los diferentes tipos de notificaciones (toasts) - ClienteFase2
+      </p>
+      <div class="client__toast-buttons">
+        <app-button variant="primary" size="sm" (click)="showSuccessToast()">
+          ✓ Éxito
+        </app-button>
+        <app-button variant="danger" size="sm" (click)="showErrorToast()">
+          ✕ Error
+        </app-button>
+        <app-button variant="secondary" size="sm" (click)="showInfoToast()">
+          ℹ Info
+        </app-button>
+        <app-button variant="ghost" size="sm" (click)="showWarningToast()">
+          ⚠ Aviso
+        </app-button>
+      </div>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- BARRA DE PROGRESO -->
+    <!-- ================================================================== -->
+    <section class="client__progress-section">
+      <div class="client__progress-info">
+        <span class="client__progress-label">Tu progreso:</span>
+        <span class="client__progress-stats">
+          {{ progress.completed }} de {{ progress.total }} lecciones completadas
+        </span>
+      </div>
+      <div class="client__progress-bar">
+        <div
+          class="client__progress-fill"
+          [style.width.%]="progress.percentage"
+        ></div>
+      </div>
+      <span class="client__progress-percentage">{{ progress.percentage }}%</span>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- BUSCADOR -->
+    <!-- ================================================================== -->
+    <section class="client__search-section">
+      <div class="client__search-wrapper">
+        <span class="client__search-icon">🔍</span>
+        <input
+          #searchInput
+          type="text"
+          class="client__search-input"
+          placeholder="Buscar lecciones..."
+          [value]="searchQuery"
+          (keyup)="onSearchKeyup($event)"
+          (focus)="onSearchFocus()"
+          (blur)="onSearchBlur()"
+          aria-label="Buscar lecciones"
+        />
+        <app-tooltip text="Escribe para filtrar las lecciones" position="right">
+          <button
+            class="client__search-help"
+            type="button"
+            aria-label="Ayuda de búsqueda"
+          >
+            ?
+          </button>
+        </app-tooltip>
+      </div>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- TABS - Navegación entre secciones -->
+    <!-- ================================================================== -->
+    <section class="client__tabs-section">
+      <app-tabs
+        [tabs]="userTabs"
+        [activeTabId]="activeTabId"
+        variant="pills"
+        (tabChange)="onTabChange($event)"
+      ></app-tabs>
+
+      <!-- Contenido de las Tabs -->
+      <div class="client__tab-content">
+
+        <!-- Mensaje cuando no hay resultados -->
+        <div *ngIf="filteredLessons.length === 0" class="client__empty-state">
+          <span class="client__empty-icon">📭</span>
+          <p *ngIf="activeTabId === 'todas'">No se encontraron lecciones con "{{ searchQuery }}"</p>
+          <p *ngIf="activeTabId === 'progreso'">Aún no has completado ninguna lección. ¡Empieza hoy!</p>
+          <p *ngIf="activeTabId === 'favoritos'">No tienes lecciones favoritas. Pulsa la ⭐ para añadir.</p>
+        </div>
+
+        <!-- Grid de Lecciones -->
+        <div class="client__lessons-grid" *ngIf="filteredLessons.length > 0">
+          <article
+            *ngFor="let lesson of filteredLessons"
+            class="client__lesson-card"
+            [class.client__lesson-card--done]="lesson.completed"
+            (click)="openLessonModal(lesson)"
+            (keyup.enter)="openLessonModal(lesson)"
+            tabindex="0"
+            role="button"
+            [attr.aria-label]="'Abrir lección: ' + lesson.title"
+          >
+            <!-- Imagen de la lección -->
+            <div class="client__lesson-image">
+              <img [src]="lesson.image" [alt]="lesson.title" />
+              <span
+                *ngIf="lesson.completed"
+                class="client__lesson-badge"
+                aria-label="Completada"
+              >
+                ✓
+              </span>
+            </div>
+
+            <!-- Contenido de la card -->
+            <div class="client__lesson-content">
+              <div class="client__lesson-header">
+                <span class="client__lesson-category">{{ lesson.category }}</span>
+                <app-tooltip
+                  [text]="lesson.favorite ? 'Quitar de favoritos' : 'Añadir a favoritos'"
+                  position="top"
+                >
+                  <button
+                    class="client__favorite-btn"
+                    [class.client__favorite-btn--active]="lesson.favorite"
+                    (click)="toggleFavorite(lesson, $event)"
+                    [attr.aria-pressed]="lesson.favorite"
+                    aria-label="Favorito"
+                  >
+                    {{ lesson.favorite ? '⭐' : '☆' }}
+                  </button>
+                </app-tooltip>
+              </div>
+
+              <h3 class="client__lesson-title">{{ lesson.title }}</h3>
+              <p class="client__lesson-description">{{ lesson.description }}</p>
+
+              <div class="client__lesson-footer">
+                <span class="client__lesson-duration">⏱️ {{ lesson.duration }} min</span>
+                <span class="client__lesson-difficulty">{{ getDifficultyLabel(lesson.difficulty) }}</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- FAQ - Preguntas Frecuentes con Accordion -->
+    <!-- ================================================================== -->
+    <section class="client__faq-section">
+      <h2 class="client__section-title">❓ Preguntas Frecuentes</h2>
+      <p class="client__section-desc">
+        Respuestas a las dudas más comunes. Pulsa en una pregunta para ver la respuesta.
+      </p>
+
+      <app-accordion
+        [items]="faqItems"
+        [allowMultiple]="false"
+      ></app-accordion>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- MODAL - Detalle de Lección -->
+    <!-- ================================================================== -->
+    <app-modal
+      [isOpen]="showLessonModal"
+      [title]="selectedLesson?.title || 'Lección'"
+      size="md"
+      (closed)="closeLessonModal()"
+    >
+      <div class="client__lesson-modal" *ngIf="selectedLesson">
+        <img
+          [src]="selectedLesson.image"
+          [alt]="selectedLesson.title"
+          class="client__lesson-modal-image"
+        />
+
+        <div class="client__lesson-modal-meta">
+          <span class="client__lesson-modal-category">{{ selectedLesson.category }}</span>
+          <span class="client__lesson-modal-duration">⏱️ {{ selectedLesson.duration }} minutos</span>
+          <span class="client__lesson-modal-difficulty">{{ getDifficultyLabel(selectedLesson.difficulty) }}</span>
+        </div>
+
+        <p class="client__lesson-modal-desc">{{ selectedLesson.description }}</p>
+
+        <div class="client__lesson-modal-info">
+          <h4>¿Qué aprenderás?</h4>
+          <ul>
+            <li>Paso a paso con explicaciones claras</li>
+            <li>Imágenes de ejemplo para seguir fácilmente</li>
+            <li>Consejos prácticos para recordar</li>
+          </ul>
+        </div>
+      </div>
+
+      <div modal-footer>
+        <app-button variant="ghost" (click)="closeLessonModal()">
+          Cerrar
+        </app-button>
+        <!-- Botón con loading local - ClienteFase2 -->
+        <app-button
+          *ngIf="selectedLesson && !selectedLesson.completed"
+          variant="primary"
+          [disabled]="isSavingLesson()"
+          (click)="completeLesson(selectedLesson)"
+        >
+          {{ isSavingLesson() ? 'Guardando...' : 'Marcar como Completada ✓' }}
+        </app-button>
+        <app-button
+          *ngIf="selectedLesson?.completed"
+          variant="secondary"
+          (click)="closeLessonModal()"
+        >
+          Repasar Lección
+        </app-button>
+      </div>
+    </app-modal>
+
+    <!-- ================================================================== -->
+    <!-- MODAL - Login -->
+    <!-- ================================================================== -->
+    <app-modal
+      [isOpen]="showLoginModal"
+      title="Iniciar Sesión"
+      size="sm"
+      (closed)="closeLoginModal()"
+    >
+      <div class="client__login-modal">
+        <p class="client__login-info">
+          Inicia sesión para guardar tu progreso y acceder desde cualquier dispositivo.
+        </p>
+
+        <app-login-form
+          (loginSubmit)="onLoginSubmit($event)"
+        ></app-login-form>
+      </div>
+    </app-modal>
+
+    <!-- ================================================================== -->
+    <!-- MODAL - Registro (ClienteFase3) -->
+    <!-- ================================================================== -->
+    <app-modal
+      [isOpen]="showRegisterModal"
+      title="Crear Cuenta Nueva"
+      size="lg"
+      (closed)="closeRegisterModal()"
+    >
+      <div class="client__register-modal">
+        <p class="client__register-info">
+          Completa el formulario para crear tu cuenta en TecnoMayores.
+          Los campos marcados con <span class="required">*</span> son obligatorios.
+        </p>
+
+        <app-register-form
+          (formSubmit)="onRegisterSubmit($event)"
+        ></app-register-form>
+      </div>
+    </app-modal>
+
+  </div>
+</main>
+

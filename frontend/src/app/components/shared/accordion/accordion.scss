@@ -1,0 +1,166 @@
+// ============================================================================
+// ESTILOS: ACCORDION
+// ============================================================================
+// Estilos para el acordeón con animaciones suaves
+
+@use '../../../../styles/00-settings/variables' as *;
+@use '../../../../styles/01-tools/mixins' as *;
+
+// ============================================================================
+// CONTENEDOR PRINCIPAL
+// ============================================================================
+
+.accordion {
+  width: 100%;
+  border: 2px solid $color-gray-200;
+  border-radius: $radius-lg;
+  overflow: hidden;
+}
+
+// ============================================================================
+// ITEM DEL ACORDEÓN
+// ============================================================================
+
+.accordion__item {
+  border-bottom: 2px solid $color-gray-200;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &--disabled {
+    opacity: 0.6;
+  }
+}
+
+// ============================================================================
+// HEADER (BOTÓN)
+// ============================================================================
+
+.accordion__header {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: $spacing-5 $spacing-6;
+  background-color: $color-bg-light;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.2s ease;
+  min-height: 60px; // Para accesibilidad (Ley de Fitts)
+
+  &:hover:not(:disabled) {
+    background-color: rgba($color-primary, 0.15);
+  }
+
+  &:focus {
+    outline: 3px solid $color-accent;
+    outline-offset: -3px;
+    z-index: 1;
+    position: relative;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+
+  // Cuando está expandido
+  .accordion__item--expanded & {
+    background-color: rgba($color-primary, 0.2);
+    border-bottom: 2px solid $color-gray-200;
+  }
+}
+
+// ============================================================================
+// ICONO OPCIONAL
+// ============================================================================
+
+.accordion__icon {
+  flex-shrink: 0;
+  margin-right: $spacing-4;
+  font-size: $font-size-xl;
+}
+
+// ============================================================================
+// TÍTULO
+// ============================================================================
+
+.accordion__title {
+  flex: 1;
+  font-family: $font-secondary;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-dark;
+  line-height: $line-height-normal;
+}
+
+// ============================================================================
+// INDICADOR (FLECHA)
+// ============================================================================
+
+.accordion__indicator {
+  flex-shrink: 0;
+  margin-left: $spacing-4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.accordion__arrow {
+  color: $color-gray-600;
+  transition: transform 0.3s ease;
+
+  &--rotated {
+    transform: rotate(180deg);
+  }
+}
+
+// ============================================================================
+// PANEL DE CONTENIDO
+// ============================================================================
+
+.accordion__panel {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+
+  &--expanded {
+    max-height: 500px; // Ajustar según necesidad
+    transition: max-height 0.3s ease-in;
+  }
+}
+
+.accordion__content {
+  padding: $spacing-5 $spacing-6;
+  font-family: $font-body;
+  font-size: $font-size-base;
+  line-height: $line-height-relaxed;
+  color: $color-text-dark;
+  background-color: white;
+}
+
+// ============================================================================
+// RESPONSIVE
+// ============================================================================
+
+@media (max-width: $breakpoint-sm) {
+  .accordion__header {
+    padding: $spacing-4;
+    min-height: 56px;
+  }
+
+  .accordion__title {
+    font-size: $font-size-base;
+  }
+
+  .accordion__content {
+    padding: $spacing-4;
+    font-size: $font-size-sm;
+  }
+
+  .accordion__icon {
+    margin-right: $spacing-3;
+    font-size: $font-size-lg;
+  }
+}
+

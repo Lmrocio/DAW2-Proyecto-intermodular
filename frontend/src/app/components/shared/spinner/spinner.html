@@ -1,0 +1,17 @@
+<!-- ============================================================================ -->
+<!-- COMPONENTE: SPINNER - Auto-cierre después de 5 segundos -->
+<!-- ============================================================================ -->
+
+<div
+  *ngIf="isVisible"
+  class="spinner-overlay"
+  role="status"
+  aria-live="polite"
+  aria-label="Cargando..."
+>
+  <div class="spinner">
+    <div class="spinner__circle"></div>
+    <span class="spinner__text">Cargando...</span>
+  </div>
+</div>
+

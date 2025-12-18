@@ -1,0 +1,250 @@
+@import '../../../../styles/00-settings/variables';
+@import '../../../../styles/00-settings/css-variables';
+
+.login-form {
+  width: 100%;
+  max-width: 500px;
+
+  margin: 0 auto;
+
+  padding: $spacing-8;
+
+  background-color: var(--bg-secondary);
+  border: $border-thin solid var(--border-color-primary);
+  border-radius: $radius-lg;
+  box-shadow: var(--shadow-lg);
+
+  transition: background-color $transition-base $easing-in-out,
+              border-color $transition-base $easing-in-out;
+
+  @media (max-width: $breakpoint-sm) {
+    padding: $spacing-6;
+    border-radius: $radius-md;
+  }
+}
+
+// ============================================================================
+// TÍTULOS
+// ============================================================================
+.login-form__title {
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-semibold;
+  color: var(--text-primary);
+  margin: 0 0 $spacing-2 0;
+  text-align: center;
+
+  @media (max-width: $breakpoint-sm) {
+    font-size: $font-size-xl;
+  }
+}
+
+.login-form__subtitle {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  text-align: center;
+  margin: 0 0 $spacing-8 0;
+  line-height: $line-height-normal;
+}
+
+// ============================================================================
+// FORMULARIO
+// ============================================================================
+.login-form__form {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-6;
+}
+
+// ============================================================================
+// FIELDSETS Y LEGENDS
+// ============================================================================
+.login-form__fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-4;
+}
+
+.login-form__legend {
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  color: var(--text-primary);
+
+  padding: 0;
+  margin: 0 0 $spacing-2 0;
+
+  padding-bottom: $spacing-3;
+  border-bottom: $border-medium solid var(--color-primary);
+}
+
+// ============================================================================
+// CHECKBOXES PERSONALIZADAS
+// ============================================================================
+.login-form__checkbox {
+  display: flex;
+  align-items: center;
+  gap: $spacing-3;
+
+  cursor: pointer;
+
+  padding: $spacing-2;
+  border-radius: $radius-base;
+
+  transition: background-color $transition-base $easing-in-out;
+
+  &:hover {
+    background-color: rgba(248, 215, 112, 0.1);
+  }
+}
+
+.login-form__checkbox-input {
+  width: 1.25rem;
+  height: 1.25rem;
+  cursor: pointer;
+  accent-color: var(--color-primary);
+
+  // Focus
+  &:focus {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+}
+
+.login-form__checkbox-text {
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  user-select: none;
+
+  @media (max-width: $breakpoint-sm) {
+    font-size: $font-size-sm;
+  }
+}
+
+// ============================================================================
+// SECCIÓN DE ACCIONES (BOTONES)
+// ============================================================================
+.login-form__actions {
+  display: flex;
+  gap: $spacing-4;
+  margin-top: $spacing-2;
+}
+
+.login-form__button {
+  flex: 1;
+
+  padding: $spacing-4 $spacing-6;
+  min-height: $button-height-lg;
+
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  font-family: inherit;
+
+  border: none;
+  border-radius: $radius-md;
+
+  cursor: pointer;
+
+  transition:
+    background-color $transition-base $easing-in-out,
+    transform $transition-base $easing-in-out,
+    box-shadow $transition-base $easing-in-out;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:focus-visible {
+    box-shadow:
+      0 0 0 4px rgba(248, 215, 112, 0.25),
+      var(--shadow-lg);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  @media (max-width: $breakpoint-sm) {
+    padding: $spacing-3 $spacing-5;
+    min-height: 2.75rem;
+    font-size: $font-size-base;
+  }
+}
+
+.login-form__button--primary {
+  background-color: var(--color-primary);
+  color: var(--text-dark);
+
+  &:hover:not(:disabled) {
+    background-color: var(--color-secondary);
+  }
+}
+
+.login-form__button--secondary {
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
+  border: 2px solid var(--border-color-primary);
+
+  &:hover:not(:disabled) {
+    background-color: var(--bg-secondary);
+    border-color: var(--color-primary);
+  }
+}
+
+.login-form__button-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+// ============================================================================
+// ENLACES (Registro, Recuperación de contraseña)
+// ============================================================================
+.login-form__link-container {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  text-align: center;
+  margin: 0;
+  margin-top: 1rem;
+
+  @media (max-width: 640px) {
+    font-size: 0.875rem;
+  }
+}
+
+.login-form__link {
+  color: var(--color-accent);
+  text-decoration: none;
+  font-weight: 500;
+
+  transition: color 300ms ease-in-out, text-decoration 300ms ease-in-out;
+
+  &:hover {
+    color: var(--color-tertiary);
+    text-decoration: underline;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+    border-radius: 0.25rem;
+  }
+}
+

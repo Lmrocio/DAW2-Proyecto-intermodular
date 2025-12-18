@@ -1,0 +1,214 @@
+// ============================================================================
+// ESTILOS: MODAL
+// ============================================================================
+// Estilos para el componente modal con animaciones y responsive
+
+@use '../../../../styles/00-settings/variables' as *;
+@use '../../../../styles/01-tools/mixins' as *;
+
+// ============================================================================
+// CONTENEDOR PRINCIPAL
+// ============================================================================
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+
+  &--open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  &--visible {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+// ============================================================================
+// BACKDROP
+// ============================================================================
+
+.modal__backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba($color-text-dark, 0.6);
+  backdrop-filter: blur(4px);
+}
+
+// ============================================================================
+// CONTENIDO DEL MODAL
+// ============================================================================
+
+.modal__content {
+  position: relative;
+  background-color: $color-bg-light;
+  border-radius: $radius-lg;
+  box-shadow: 0 20px 40px rgba($color-text-dark, 0.2);
+  max-height: 90vh;
+  overflow-y: auto;
+  transform: scale(0.95) translateY(20px);
+  transition: transform 0.2s ease;
+
+  .modal--open &,
+  .modal--visible & {
+    transform: scale(1) translateY(0);
+  }
+}
+
+// Tamaños del modal
+.modal--sm .modal__content {
+  width: 90%;
+  max-width: 400px;
+}
+
+.modal--md .modal__content {
+  width: 90%;
+  max-width: 560px;
+}
+
+.modal--lg .modal__content {
+  width: 95%;
+  max-width: 800px;
+}
+
+// ============================================================================
+// HEADER
+// ============================================================================
+
+.modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $spacing-6;
+  border-bottom: 2px solid $color-gray-200;
+}
+
+.modal__title {
+  font-family: $font-primary;
+  font-size: $font-size-xl;
+  font-weight: $font-weight-semibold;
+  color: $color-text-dark;
+  margin: 0;
+}
+
+// ============================================================================
+// BOTÓN CERRAR
+// ============================================================================
+
+.modal__close-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  background-color: transparent;
+  border: 2px solid $color-gray-300;
+  border-radius: $radius-md;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: $color-error;
+    border-color: $color-error;
+
+    .modal__close-icon {
+      color: $color-text-light;
+    }
+  }
+
+  &:focus {
+    outline: 3px solid $color-accent;
+    outline-offset: 2px;
+  }
+
+  &--floating {
+    position: absolute;
+    top: $spacing-4;
+    right: $spacing-4;
+    z-index: 1;
+  }
+}
+
+.modal__close-icon {
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  color: $color-gray-600;
+  line-height: 1;
+}
+
+// ============================================================================
+// CUERPO
+// ============================================================================
+
+.modal__body {
+  padding: $spacing-6;
+  font-family: $font-body;
+  font-size: $font-size-base;
+  line-height: $line-height-relaxed;
+  color: $color-text-dark;
+}
+
+// ============================================================================
+// FOOTER
+// ============================================================================
+
+.modal__footer {
+  display: flex;
+  gap: $spacing-4;
+  justify-content: flex-end;
+  padding: $spacing-4 $spacing-6 $spacing-6;
+
+  &:empty {
+    display: none;
+  }
+}
+
+// ============================================================================
+// RESPONSIVE
+// ============================================================================
+
+@media (max-width: $breakpoint-sm) {
+  .modal__content {
+    margin: $spacing-4;
+  }
+
+  .modal--sm .modal__content,
+  .modal--md .modal__content,
+  .modal--lg .modal__content {
+    width: calc(100% - #{$spacing-8});
+    max-width: none;
+  }
+
+  .modal__header {
+    padding: $spacing-4;
+  }
+
+  .modal__body {
+    padding: $spacing-4;
+  }
+
+  .modal__footer {
+    padding: $spacing-3 $spacing-4 $spacing-4;
+    flex-direction: column;
+
+    > * {
+      width: 100%;
+    }
+  }
+}
+

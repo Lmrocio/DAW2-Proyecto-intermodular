@@ -1,0 +1,34 @@
+<!-- ============================================================================ -->
+<!-- COMPONENTE: TOOLTIP -->
+<!-- ============================================================================ -->
+<!-- Tooltip accesible con soporte para mouse y teclado -->
+
+<div
+  class="tooltip"
+  (mouseenter)="onMouseEnter()"
+  (mouseleave)="onMouseLeave()"
+>
+  <!-- Elemento que activa el tooltip -->
+  <div
+    #tooltipTrigger
+    class="tooltip__trigger"
+    [attr.aria-describedby]="showTooltip ? tooltipId : null"
+    (focus)="onFocus()"
+    (blur)="onBlur()"
+  >
+    <ng-content></ng-content>
+  </div>
+
+  <!-- Contenido del tooltip -->
+  <div
+    #tooltipContent
+    [id]="tooltipId"
+    [class]="tooltipClasses"
+    role="tooltip"
+    [attr.aria-hidden]="!showTooltip"
+  >
+    <span class="tooltip__text">{{ text }}</span>
+    <span class="tooltip__arrow"></span>
+  </div>
+</div>
+

@@ -1,0 +1,484 @@
+<!-- ============================================================================ -->
+<!-- FORMULARIO DE REGISTRO - ClienteFase3 -->
+<!-- ============================================================================ -->
+<!-- Formulario reactivo completo con validación síncrona y asíncrona -->
+
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form">
+
+  <!-- ================================================================== -->
+  <!-- SECCIÓN: DATOS PERSONALES -->
+  <!-- ================================================================== -->
+  <fieldset class="register-form__section">
+    <legend class="register-form__legend">👤 Datos Personales</legend>
+
+    <!-- Nombre -->
+    <div class="register-form__field">
+      <label for="nombre" class="register-form__label">
+        Nombre <span class="required">*</span>
+      </label>
+      <input
+        type="text"
+        id="nombre"
+        formControlName="nombre"
+        class="register-form__input"
+        [class.invalid]="nombre?.invalid && nombre?.touched"
+        [class.valid]="nombre?.valid && nombre?.touched"
+        placeholder="Tu nombre"
+      />
+      <small *ngIf="nombre?.invalid && nombre?.touched" class="register-form__error">
+        {{ getErrorMessage('nombre') }}
+      </small>
+    </div>
+
+    <!-- Apellidos -->
+    <div class="register-form__field">
+      <label for="apellidos" class="register-form__label">
+        Apellidos <span class="required">*</span>
+      </label>
+      <input
+        type="text"
+        id="apellidos"
+        formControlName="apellidos"
+        class="register-form__input"
+        [class.invalid]="apellidos?.invalid && apellidos?.touched"
+        [class.valid]="apellidos?.valid && apellidos?.touched"
+        placeholder="Tus apellidos"
+      />
+      <small *ngIf="apellidos?.invalid && apellidos?.touched" class="register-form__error">
+        {{ getErrorMessage('apellidos') }}
+      </small>
+    </div>
+
+    <!-- NIF -->
+    <div class="register-form__field">
+      <label for="nif" class="register-form__label">
+        NIF <span class="required">*</span>
+      </label>
+      <input
+        type="text"
+        id="nif"
+        formControlName="nif"
+        class="register-form__input"
+        [class.invalid]="nif?.invalid && nif?.touched"
+        [class.valid]="nif?.valid && nif?.touched && !nif?.pending"
+        [class.pending]="nif?.pending"
+        placeholder="12345678Z"
+        maxlength="9"
+      />
+      <small *ngIf="nif?.pending" class="register-form__hint">
+        🔍 Verificando NIF...
+      </small>
+      <small *ngIf="nif?.invalid && nif?.touched && !nif?.pending" class="register-form__error">
+        {{ getErrorMessage('nif') }}
+      </small>
+    </div>
+
+    <!-- Fecha de Nacimiento -->
+    <div class="register-form__field">
+      <label for="fechaNacimiento" class="register-form__label">
+        Fecha de Nacimiento <span class="required">*</span>
+      </label>
+      <input
+        type="date"
+        id="fechaNacimiento"
+        formControlName="fechaNacimiento"
+        class="register-form__input"
+        [class.invalid]="fechaNacimiento?.invalid && fechaNacimiento?.touched"
+        [class.valid]="fechaNacimiento?.valid && fechaNacimiento?.touched"
+      />
+      <small *ngIf="fechaNacimiento?.invalid && fechaNacimiento?.touched" class="register-form__error">
+        {{ getErrorMessage('fechaNacimiento') }}
+      </small>
+    </div>
+  </fieldset>
+
+  <!-- ================================================================== -->
+  <!-- SECCIÓN: DATOS DE CUENTA -->
+  <!-- ================================================================== -->
+  <fieldset class="register-form__section">
+    <legend class="register-form__legend">🔐 Datos de Cuenta</legend>
+
+    <!-- Username -->
+    <div class="register-form__field">
+      <label for="username" class="register-form__label">
+        Nombre de Usuario <span class="required">*</span>
+      </label>
+      <input
+        type="text"
+        id="username"
+        formControlName="username"
+        class="register-form__input"
+        [class.invalid]="username?.invalid && username?.touched && !username?.pending"
+        [class.valid]="username?.valid && username?.touched && !username?.pending"
+        [class.pending]="username?.pending"
+        placeholder="tu_usuario"
+      />
+      <small *ngIf="username?.pending" class="register-form__hint">
+        🔍 Comprobando disponibilidad...
+      </small>
+      <small *ngIf="username?.invalid && username?.touched && !username?.pending" class="register-form__error">
+        {{ getErrorMessage('username') }}
+      </small>
+      <small *ngIf="username?.valid && username?.touched && !username?.pending" class="register-form__success">
+        ✓ Nombre de usuario disponible
+      </small>
+    </div>
+
+    <!-- Email -->
+    <div class="register-form__field">
+      <label for="email" class="register-form__label">
+        Correo Electrónico <span class="required">*</span>
+      </label>
+      <input
+        type="email"
+        id="email"
+        formControlName="email"
+        class="register-form__input"
+        [class.invalid]="email?.invalid && email?.touched && !email?.pending"
+        [class.valid]="email?.valid && email?.touched && !email?.pending"
+        [class.pending]="email?.pending"
+        placeholder="tu@email.com"
+      />
+      <small *ngIf="email?.pending" class="register-form__hint">
+        🔍 Verificando email...
+      </small>
+      <small *ngIf="email?.invalid && email?.touched && !email?.pending" class="register-form__error">
+        {{ getErrorMessage('email') }}
+      </small>
+      <small *ngIf="email?.valid && email?.touched && !email?.pending" class="register-form__success">
+        ✓ Email disponible
+      </small>
+    </div>
+
+    <!-- Contraseña -->
+    <div class="register-form__field">
+      <label for="password" class="register-form__label">
+        Contraseña <span class="required">*</span>
+      </label>
+      <div class="register-form__password-wrapper">
+        <input
+          [type]="showPassword ? 'text' : 'password'"
+          id="password"
+          formControlName="password"
+          class="register-form__input"
+          [class.invalid]="password?.invalid && password?.touched"
+          [class.valid]="password?.valid && password?.touched"
+          placeholder="Mínimo 8 caracteres"
+        />
+        <button
+          type="button"
+          class="register-form__toggle-password"
+          (click)="togglePasswordVisibility()"
+          [attr.aria-label]="showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+        >
+          {{ showPassword ? '🙈' : '👁️' }}
+        </button>
+      </div>
+      <!-- Lista de requisitos de contraseña -->
+      <div *ngIf="password?.touched || password?.dirty" class="register-form__password-requirements">
+        <small *ngFor="let error of getPasswordErrors()" class="register-form__error">
+          ✗ {{ error }}
+        </small>
+        <small *ngIf="password?.valid" class="register-form__success">
+          ✓ Contraseña segura
+        </small>
+      </div>
+    </div>
+
+    <!-- Confirmar Contraseña -->
+    <div class="register-form__field">
+      <label for="confirmPassword" class="register-form__label">
+        Confirmar Contraseña <span class="required">*</span>
+      </label>
+      <div class="register-form__password-wrapper">
+        <input
+          [type]="showConfirmPassword ? 'text' : 'password'"
+          id="confirmPassword"
+          formControlName="confirmPassword"
+          class="register-form__input"
+          [class.invalid]="(confirmPassword?.invalid || registerForm.errors?.['passwordMismatch']) && confirmPassword?.touched"
+          [class.valid]="confirmPassword?.valid && !registerForm.errors?.['passwordMismatch'] && confirmPassword?.touched"
+          placeholder="Repite tu contraseña"
+        />
+        <button
+          type="button"
+          class="register-form__toggle-password"
+          (click)="toggleConfirmPasswordVisibility()"
+        >
+          {{ showConfirmPassword ? '🙈' : '👁️' }}
+        </button>
+      </div>
+      <small *ngIf="registerForm.errors?.['passwordMismatch'] && confirmPassword?.touched" class="register-form__error">
+        ✗ Las contraseñas no coinciden
+      </small>
+    </div>
+  </fieldset>
+
+  <!-- ================================================================== -->
+  <!-- SECCIÓN: TELÉFONOS DE CONTACTO -->
+  <!-- ================================================================== -->
+  <fieldset class="register-form__section">
+    <legend class="register-form__legend">📞 Teléfonos de Contacto</legend>
+
+    <p class="register-form__hint">
+      Introduce al menos un teléfono de contacto
+    </p>
+
+    <!-- Teléfono Principal -->
+    <div class="register-form__field">
+      <label for="telefonoPrincipal" class="register-form__label">
+        Teléfono Principal
+      </label>
+      <input
+        type="tel"
+        id="telefonoPrincipal"
+        formControlName="telefonoPrincipal"
+        class="register-form__input"
+        [class.invalid]="telefonoPrincipal?.invalid && telefonoPrincipal?.touched"
+        [class.valid]="telefonoPrincipal?.valid && telefonoPrincipal?.value && telefonoPrincipal?.touched"
+        placeholder="612 345 678"
+      />
+      <small *ngIf="telefonoPrincipal?.invalid && telefonoPrincipal?.touched" class="register-form__error">
+        {{ getErrorMessage('telefonoPrincipal') }}
+      </small>
+    </div>
+
+    <!-- Teléfono Secundario -->
+    <div class="register-form__field">
+      <label for="telefonoSecundario" class="register-form__label">
+        Teléfono Secundario
+      </label>
+      <input
+        type="tel"
+        id="telefonoSecundario"
+        formControlName="telefonoSecundario"
+        class="register-form__input"
+        [class.invalid]="telefonoSecundario?.invalid && telefonoSecundario?.touched"
+        [class.valid]="telefonoSecundario?.valid && telefonoSecundario?.value && telefonoSecundario?.touched"
+        placeholder="698 765 432"
+      />
+      <small *ngIf="telefonoSecundario?.invalid && telefonoSecundario?.touched" class="register-form__error">
+        {{ getErrorMessage('telefonoSecundario') }}
+      </small>
+    </div>
+
+    <!-- Error de validación cross-field -->
+    <small
+      *ngIf="registerForm.errors?.['atLeastOneRequired'] && (telefonoPrincipal?.touched || telefonoSecundario?.touched)"
+      class="register-form__error register-form__error--group"
+    >
+      ✗ Debes proporcionar al menos un teléfono de contacto
+    </small>
+
+    <!-- Teléfonos Adicionales (FormArray) -->
+    <div class="register-form__array" formArrayName="telefonosAdicionales">
+      <h4 class="register-form__array-title">Teléfonos Adicionales</h4>
+
+      <div
+        *ngFor="let tel of telefonosAdicionales.controls; let i = index"
+        [formGroupName]="i"
+        class="register-form__array-item"
+      >
+        <select formControlName="tipo" class="register-form__select">
+          <option value="movil">Móvil</option>
+          <option value="fijo">Fijo</option>
+          <option value="trabajo">Trabajo</option>
+        </select>
+
+        <input
+          type="tel"
+          formControlName="numero"
+          class="register-form__input register-form__input--flex"
+          placeholder="Número de teléfono"
+        />
+
+        <button
+          type="button"
+          class="register-form__btn-remove"
+          (click)="removeTelefono(i)"
+          aria-label="Eliminar teléfono"
+        >
+          🗑️
+        </button>
+      </div>
+
+      <button
+        type="button"
+        class="register-form__btn-add"
+        (click)="addTelefono()"
+        *ngIf="telefonosAdicionales.length < 3"
+      >
+        ➕ Añadir otro teléfono
+      </button>
+    </div>
+  </fieldset>
+
+  <!-- ================================================================== -->
+  <!-- SECCIÓN: DIRECCIÓN -->
+  <!-- ================================================================== -->
+  <fieldset class="register-form__section" formGroupName="direccion">
+    <legend class="register-form__legend">🏠 Dirección</legend>
+
+    <div class="register-form__row">
+      <!-- Calle -->
+      <div class="register-form__field register-form__field--large">
+        <label for="calle" class="register-form__label">
+          Calle <span class="required">*</span>
+        </label>
+        <input
+          type="text"
+          id="calle"
+          formControlName="calle"
+          class="register-form__input"
+          [class.invalid]="direccion.get('calle')?.invalid && direccion.get('calle')?.touched"
+          placeholder="Nombre de la calle"
+        />
+      </div>
+
+      <!-- Número -->
+      <div class="register-form__field register-form__field--small">
+        <label for="numero" class="register-form__label">
+          Nº <span class="required">*</span>
+        </label>
+        <input
+          type="text"
+          id="numero"
+          formControlName="numero"
+          class="register-form__input"
+          [class.invalid]="direccion.get('numero')?.invalid && direccion.get('numero')?.touched"
+          placeholder="Nº"
+        />
+      </div>
+
+      <!-- Piso -->
+      <div class="register-form__field register-form__field--small">
+        <label for="piso" class="register-form__label">Piso</label>
+        <input
+          type="text"
+          id="piso"
+          formControlName="piso"
+          class="register-form__input"
+          placeholder="1ºA"
+        />
+      </div>
+    </div>
+
+    <div class="register-form__row">
+      <!-- Código Postal -->
+      <div class="register-form__field register-form__field--small">
+        <label for="codigoPostal" class="register-form__label">
+          C.P. <span class="required">*</span>
+        </label>
+        <input
+          type="text"
+          id="codigoPostal"
+          formControlName="codigoPostal"
+          class="register-form__input"
+          [class.invalid]="direccion.get('codigoPostal')?.invalid && direccion.get('codigoPostal')?.touched"
+          placeholder="28001"
+          maxlength="5"
+        />
+        <small
+          *ngIf="direccion.get('codigoPostal')?.invalid && direccion.get('codigoPostal')?.touched"
+          class="register-form__error"
+        >
+          Código postal inválido
+        </small>
+      </div>
+
+      <!-- Ciudad -->
+      <div class="register-form__field">
+        <label for="ciudad" class="register-form__label">
+          Ciudad <span class="required">*</span>
+        </label>
+        <input
+          type="text"
+          id="ciudad"
+          formControlName="ciudad"
+          class="register-form__input"
+          [class.invalid]="direccion.get('ciudad')?.invalid && direccion.get('ciudad')?.touched"
+          placeholder="Madrid"
+        />
+      </div>
+
+      <!-- Provincia -->
+      <div class="register-form__field">
+        <label for="provincia" class="register-form__label">
+          Provincia <span class="required">*</span>
+        </label>
+        <input
+          type="text"
+          id="provincia"
+          formControlName="provincia"
+          class="register-form__input"
+          [class.invalid]="direccion.get('provincia')?.invalid && direccion.get('provincia')?.touched"
+          placeholder="Madrid"
+        />
+      </div>
+    </div>
+  </fieldset>
+
+  <!-- ================================================================== -->
+  <!-- SECCIÓN: TÉRMINOS Y CONDICIONES -->
+  <!-- ================================================================== -->
+  <fieldset class="register-form__section">
+    <legend class="register-form__legend">📋 Términos y Condiciones</legend>
+
+    <!-- Acepta términos -->
+    <div class="register-form__checkbox">
+      <input
+        type="checkbox"
+        id="aceptaTerminos"
+        formControlName="aceptaTerminos"
+      />
+      <label for="aceptaTerminos">
+        Acepto los <a href="#" class="register-form__link">términos y condiciones</a>
+        y la <a href="#" class="register-form__link">política de privacidad</a>
+        <span class="required">*</span>
+      </label>
+    </div>
+    <small *ngIf="aceptaTerminos?.invalid && aceptaTerminos?.touched" class="register-form__error">
+      Debes aceptar los términos y condiciones
+    </small>
+
+    <!-- Newsletter -->
+    <div class="register-form__checkbox">
+      <input
+        type="checkbox"
+        id="recibirNewsletter"
+        formControlName="recibirNewsletter"
+      />
+      <label for="recibirNewsletter">
+        Deseo recibir información y novedades por email
+      </label>
+    </div>
+  </fieldset>
+
+  <!-- ================================================================== -->
+  <!-- BOTONES DE ACCIÓN -->
+  <!-- ================================================================== -->
+  <div class="register-form__actions">
+    <app-button
+      type="button"
+      variant="ghost"
+      (click)="resetForm()"
+    >
+      Limpiar
+    </app-button>
+
+    <app-button
+      type="submit"
+      variant="primary"
+      [disabled]="registerForm.invalid || registerForm.pending"
+    >
+      {{ registerForm.pending ? 'Validando...' : 'Crear Cuenta' }}
+    </app-button>
+  </div>
+
+  <!-- Debug info (solo desarrollo) -->
+  <!--
+  <pre>{{ registerForm.value | json }}</pre>
+  <pre>Valid: {{ registerForm.valid }} | Pending: {{ registerForm.pending }}</pre>
+  -->
+</form>
+

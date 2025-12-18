@@ -1,0 +1,65 @@
+<!-- ============================================================================ -->
+<!-- COMPONENTE: MODAL -->
+<!-- ============================================================================ -->
+<!-- Modal accesible con backdrop, cierre con ESC y click fuera -->
+
+<div
+  *ngIf="isOpen"
+  #modalContainer
+  [class]="modalClasses"
+  role="dialog"
+  aria-modal="true"
+  [attr.aria-labelledby]="title ? 'modal-title' : null"
+>
+  <!-- Backdrop oscuro -->
+  <div
+    class="modal__backdrop"
+    (click)="onBackdropClick($event)"
+    aria-hidden="true"
+  ></div>
+
+  <!-- Contenido del modal -->
+  <div
+    #modalContent
+    class="modal__content"
+    (click)="onContentClick($event)"
+    tabindex="-1"
+  >
+    <!-- Header del modal -->
+    <header class="modal__header" *ngIf="title">
+      <h2 id="modal-title" class="modal__title">{{ title }}</h2>
+      <button
+        type="button"
+        class="modal__close-btn"
+        (click)="close()"
+        aria-label="Cerrar modal"
+        title="Cerrar (ESC)"
+      >
+        <span class="modal__close-icon" aria-hidden="true">×</span>
+      </button>
+    </header>
+
+    <!-- Botón cerrar sin header -->
+    <button
+      *ngIf="!title"
+      type="button"
+      class="modal__close-btn modal__close-btn--floating"
+      (click)="close()"
+      aria-label="Cerrar modal"
+      title="Cerrar (ESC)"
+    >
+      <span class="modal__close-icon" aria-hidden="true">×</span>
+    </button>
+
+    <!-- Cuerpo del modal - Proyección de contenido -->
+    <div class="modal__body">
+      <ng-content></ng-content>
+    </div>
+
+    <!-- Footer del modal - Proyección de contenido opcional -->
+    <footer class="modal__footer">
+      <ng-content select="[modal-footer]"></ng-content>
+    </footer>
+  </div>
+</div>
+

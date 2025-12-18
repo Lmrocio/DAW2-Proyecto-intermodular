@@ -1,0 +1,175 @@
+// ============================================================================
+// ESTILOS: TOAST - ClienteFase2
+// ============================================================================
+
+@use '../../../../styles/00-settings/variables' as *;
+
+.toast {
+  position: fixed;
+  top: $spacing-6;
+  right: $spacing-6;
+  z-index: 9999;
+
+  display: flex;
+  align-items: center;
+  gap: $spacing-3;
+
+  padding: $spacing-4 $spacing-5;
+  border-radius: $radius-lg;
+
+  min-width: 300px;
+  max-width: 500px;
+
+  box-shadow: $shadow-lg;
+
+  // Animación de entrada
+  animation: toastSlideIn 0.3s ease-out;
+
+  // Transición para el fade out
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+@keyframes toastSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes toastSlideOut {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+}
+
+// Estado de cierre
+.toast--closing {
+  animation: toastSlideOut 0.3s ease-in forwards !important;
+}
+
+// ============================================================================
+// TIPOS DE TOAST
+// ============================================================================
+
+.toast--success {
+  background-color: $color-success;
+  color: $color-text-dark;
+
+  .toast__icon {
+    background-color: rgba(0, 0, 0, 0.15);
+  }
+}
+
+.toast--error {
+  background-color: $color-error;
+  color: $color-text-light;
+
+  .toast__icon {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .toast__close:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+}
+
+.toast--info {
+  background-color: $color-info;
+  color: $color-text-dark;
+
+  .toast__icon {
+    background-color: rgba(0, 0, 0, 0.15);
+  }
+}
+
+.toast--warning {
+  background-color: $color-warning;
+  color: $color-text-dark;
+
+  .toast__icon {
+    background-color: rgba(0, 0, 0, 0.15);
+  }
+}
+
+// ============================================================================
+// ELEMENTOS INTERNOS
+// ============================================================================
+
+.toast__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 28px;
+  height: 28px;
+
+  border-radius: $radius-full;
+
+  font-size: $font-size-base;
+  font-weight: $font-weight-bold;
+
+  flex-shrink: 0;
+}
+
+.toast__message {
+  flex: 1;
+  font-family: $font-body;
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  line-height: $line-height-normal;
+}
+
+.toast__close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 28px;
+  height: 28px;
+
+  background: transparent;
+  border: none;
+  border-radius: $radius-full;
+
+  font-size: $font-size-xl;
+  line-height: 1;
+
+  cursor: pointer;
+  opacity: 0.7;
+
+  transition: opacity 0.2s ease, background-color 0.2s ease;
+
+  &:hover {
+    opacity: 1;
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+
+  &:focus {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
+}
+
+// ============================================================================
+// RESPONSIVE
+// ============================================================================
+
+@media (max-width: $breakpoint-sm) {
+  .toast {
+    top: $spacing-4;
+    right: $spacing-4;
+    left: $spacing-4;
+    min-width: auto;
+    max-width: none;
+  }
+}
+

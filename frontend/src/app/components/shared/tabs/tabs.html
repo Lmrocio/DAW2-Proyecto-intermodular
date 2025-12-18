@@ -1,0 +1,39 @@
+<!-- ============================================================================ -->
+<!-- COMPONENTE: TABS -->
+<!-- ============================================================================ -->
+<!-- Sistema de pestañas accesible con roles ARIA -->
+
+<div [class]="containerClasses">
+  <!-- Lista de pestañas -->
+  <div
+    #tabList
+    class="tabs__list"
+    role="tablist"
+    aria-label="Pestañas de navegación"
+    (keydown)="onKeyDown($event)"
+  >
+    <button
+      *ngFor="let tab of tabs; let i = index"
+      type="button"
+      role="tab"
+      [class]="getTabClasses(tab)"
+      [id]="'tab-' + tab.id"
+      [attr.aria-selected]="isActive(tab.id)"
+      [attr.aria-controls]="'panel-' + tab.id"
+      [attr.tabindex]="isActive(tab.id) ? 0 : -1"
+      [attr.aria-disabled]="tab.disabled"
+      [disabled]="tab.disabled"
+      (click)="selectTab(tab.id, $event)"
+      (focus)="onTabFocus(i)"
+    >
+      <span *ngIf="tab.icon" class="tabs__tab-icon" aria-hidden="true">{{ tab.icon }}</span>
+      <span class="tabs__tab-label">{{ tab.label }}</span>
+    </button>
+  </div>
+
+  <!-- Paneles de contenido -->
+  <div class="tabs__panels">
+    <ng-content></ng-content>
+  </div>
+</div>
+

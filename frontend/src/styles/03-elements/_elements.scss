@@ -1,0 +1,457 @@
+// ============================================================================
+// IMPORTAR MÓDULOS DE SASS
+// ============================================================================
+@use "sass:color" as *;
+
+// ============================================================================
+// 1. TIPOGRAFÍA BASE
+// ============================================================================
+
+// Estilos base para párrafos
+p {
+  margin-bottom: $spacing-4;
+
+  // Párrafos en contextos principales (mayor legibilidad)
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+// Espaciado entre párrafos consecutivos
+p + p {
+  margin-top: $spacing-2;
+}
+
+// ============================================================================
+// 2. HEADINGS CON ESPACIADO
+// ============================================================================
+
+h1, h2, h3, h4, h5, h6 {
+  // Espaciado superior más grande para separación visual
+  margin-top: $spacing-8;
+  margin-bottom: $spacing-4;
+
+
+  &:first-child {
+    margin-top: 0;
+  }
+}
+
+// Reducir espaciado entre heading y párrafo siguiente
+h1 + p,
+h2 + p,
+h3 + p,
+h4 + p,
+h5 + p,
+h6 + p {
+  margin-top: 0;
+}
+
+// ============================================================================
+// 3. LISTAS CON ESPACIADO
+// ============================================================================
+
+ul, ol {
+  margin-bottom: $spacing-4;
+  padding-left: $spacing-6;
+
+  // Anidamiento: reducir margen para listas internas
+  ul, ol {
+    margin-bottom: $spacing-2;
+    margin-top: $spacing-2;
+  }
+}
+
+li {
+  margin-bottom: $spacing-2;
+  line-height: $line-height-normal;
+}
+
+dl {
+  margin-bottom: $spacing-6;
+}
+
+dt {
+  font-weight: $font-weight-semibold;
+  margin-top: $spacing-4;
+  color: $color-text-dark;
+}
+
+dd {
+  margin-left: $spacing-4;
+  margin-bottom: $spacing-2;
+  color: $color-gray-600;
+}
+
+// ============================================================================
+// 4. BLOCKQUOTES Y CITAS
+// ============================================================================
+
+blockquote {
+  margin: $spacing-6 0;
+  padding: $spacing-4 $spacing-6;
+  border-left: $border-thick solid $color-primary;
+  background-color: rgba($color-primary, 0.05);
+  font-style: italic;
+  color: $color-gray-700;
+  font-size: $font-size-lg;
+  line-height: $line-height-relaxed;
+
+  // Cita dentro de blockquote
+  p {
+    margin-bottom: 0;
+  }
+
+  // Atribución
+  footer {
+    margin-top: $spacing-2;
+    font-style: normal;
+    font-size: $font-size-sm;
+    color: $color-gray-600;
+
+    &::before {
+      content: '— ';
+    }
+  }
+}
+
+// ============================================================================
+// 5. ENLACES
+// ============================================================================
+
+a {
+  color: $color-accent;
+  text-decoration: underline;
+  @include transition(color, $transition-fast);
+
+  @include hover {
+    color: mix($color-accent, #000, 85%);
+    text-decoration-thickness: $border-medium;
+  }
+
+  @include focus-visible {
+    outline: 2px solid $color-accent;
+    outline-offset: 2px;
+  }
+
+  &:visited {
+    color: mix($color-accent, #000, 90%);
+  }
+}
+
+// ============================================================================
+// 6. CÓDIGO
+// ============================================================================
+
+// Código inline
+code {
+  font-family: $font-mono;
+  font-size: 0.9em;
+  background-color: $color-gray-100;
+  color: $color-error;
+  padding: $spacing-1 $spacing-2;
+  border-radius: $radius-sm;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+// Bloque de código
+pre {
+  background-color: $color-gray-900;
+  color: $color-text-light;
+  padding: $spacing-4;
+  border-radius: $radius-md;
+  overflow-x: auto;
+  margin: $spacing-4 0;
+  font-size: $font-size-sm;
+  line-height: $line-height-normal;
+  @include elevation(md);
+
+  // Código dentro de pre, no necesita estilos adicionales
+  code {
+    background-color: transparent;
+    color: inherit;
+    padding: 0;
+    font-size: inherit;
+  }
+}
+
+// ============================================================================
+// 7. IMÁGENES Y ELEMENTOS MEDIA
+// ============================================================================
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  vertical-align: middle;
+  border-radius: $radius-md;
+
+  // Imagen destacada o importante
+  &[alt] {
+    // Proporciona visual feedback si la imagen no carga
+    background-color: $color-gray-100;
+  }
+}
+
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  vertical-align: middle;
+}
+
+video, iframe {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+// ============================================================================
+// 8. TABLAS
+// ============================================================================
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: $spacing-6 0;
+  @include elevation(sm);
+  border-radius: $radius-md;
+  overflow: hidden;
+}
+
+thead {
+  background-color: $color-gray-100;
+  border-bottom: $border-medium solid $color-gray-300;
+}
+
+th {
+  padding: $spacing-4;
+  text-align: left;
+  font-weight: $font-weight-semibold;
+  color: $color-text-dark;
+  font-size: $font-size-sm;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+td {
+  padding: $spacing-3 $spacing-4;
+  border-bottom: $border-thin solid $color-gray-200;
+  font-size: $font-size-base;
+}
+
+// Fila alternada para mejor legibilidad
+tbody tr:nth-child(odd) {
+  background-color: rgba($color-primary, 0.02);
+}
+
+// Hover en filas por accesibilidad
+tbody tr:hover {
+  background-color: rgba($color-primary, 0.05);
+}
+
+// Última fila sin borde
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+// ============================================================================
+// 9. SEPARADORES
+// ============================================================================
+
+hr {
+  margin: $spacing-8 0;
+  border: none;
+  border-top: $border-thin solid $color-gray-300;
+  height: 0;
+
+  // Variante de separador más prominente
+  &.hr--prominent {
+    margin: $spacing-12 0;
+    border-top-width: $border-medium;
+    border-top-color: $color-primary;
+  }
+}
+
+// ============================================================================
+// 10. ÉNFASIS
+// ============================================================================
+
+strong, b {
+  font-weight: $font-weight-bold;
+  color: inherit;
+}
+
+em, i {
+  font-style: italic;
+  color: inherit;
+}
+
+mark {
+  background-color: rgba($color-warning, 0.3);
+  color: $color-text-dark;
+  padding: $spacing-1 $spacing-2;
+  border-radius: $radius-sm;
+}
+
+small {
+  font-size: $font-size-sm;
+  color: $color-gray-600;
+}
+
+// ============================================================================
+// 11. FORMULARIOS BASE
+// ============================================================================
+
+// Campos de entrada
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="search"],
+input[type="url"],
+input[type="tel"],
+input[type="number"],
+input[type="date"],
+input[type="time"],
+textarea,
+select {
+  width: 100%;
+  padding: $spacing-3 $spacing-4;
+  border: $border-medium solid $color-gray-300;
+  border-radius: $radius-md;
+  background-color: white;
+  color: $color-text-dark;
+  font-size: $font-size-base;
+  @include transition(border-color, $transition-fast);
+
+  &:focus {
+    outline: none;
+    border-color: $color-accent;
+    box-shadow: $shadow-focus;
+  }
+
+  &:disabled {
+    background-color: $color-gray-100;
+    color: $color-gray-500;
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+
+  &::placeholder {
+    color: $color-gray-400;
+  }
+}
+
+// Select personalizado
+select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23030303' d='M10.293 3.293L6 7.586 1.707 3.293A1 1 0 00.293 4.707l5 5a1 1 0 001.414 0l5-5a1 1 0 10-1.414-1.414z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right $spacing-3 center;
+  background-size: $spacing-4;
+  padding-right: $spacing-10;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 100px;
+  font-family: inherit;
+}
+
+// Checkbox y radio personalizados
+input[type="checkbox"],
+input[type="radio"] {
+  width: auto;
+  margin-right: $spacing-2;
+  cursor: pointer;
+  accent-color: $color-accent;
+}
+
+// ============================================================================
+// 12. ETIQUETAS DE FORMULARIO
+// ============================================================================
+
+label {
+  display: block;
+  margin-bottom: $spacing-2;
+  font-weight: $font-weight-medium;
+  color: $color-text-dark;
+  cursor: pointer;
+
+  input[type="checkbox"] ~ &,
+  input[type="radio"] ~ & {
+    display: inline;
+    margin-left: $spacing-2;
+    margin-bottom: 0;
+  }
+}
+
+// ============================================================================
+// 13. BOTONES
+// ============================================================================
+
+button {
+  @include button-accessible(lg);
+  background-color: $color-accent;
+  color: white;
+
+  @include hover {
+    background-color: mix($color-accent, #000, 90%);
+  }
+
+  &:active {
+    background-color: mix($color-accent, #000, 85%);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+// ============================================================================
+// 14. TEXTOS CON CONTEXTO
+// ============================================================================
+
+// Texto de ayuda
+.help-text {
+  font-size: $font-size-sm;
+  color: $color-gray-600;
+  margin-top: $spacing-1;
+}
+
+// Texto de error (para validación)
+.error-text {
+  font-size: $font-size-sm;
+  color: $color-error;
+  margin-top: $spacing-1;
+}
+
+// Texto de éxito
+.success-text {
+  font-size: $font-size-sm;
+  color: $color-success;
+  margin-top: $spacing-1;
+}
+
+// ============================================================================
+// 15. ACCESIBILIDAD
+// ============================================================================
+
+// Salta a contenido principal (visible solo para lectores de pantalla)
+.skip-to-content {
+  @include sr-only;
+
+  &:focus {
+    position: static;
+    width: auto;
+    height: auto;
+    padding: $spacing-2 $spacing-4;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+  }
+}
+

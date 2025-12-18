@@ -1,0 +1,197 @@
+// ============================================================================
+// COMPONENTE: FORM-SELECT
+// ============================================================================
+// Campo select/dropdown accesible con label, validación y mensajes
+// Metodología BEM: .form-select .form-select__element .form-select--modifier
+
+// Importar variables y mixins
+@import '../../../../styles/00-settings/variables';
+@import '../../../../styles/01-tools/mixins';
+
+// ============================================================================
+// CONTENEDOR PRINCIPAL
+// ============================================================================
+.form-select {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2;
+  width: 100%;
+}
+
+// ============================================================================
+// ELEMENTO: LABEL
+// ============================================================================
+.form-select__label {
+  display: flex;
+  align-items: baseline;
+  gap: $spacing-1;
+
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  color: $color-text-dark;
+  line-height: $line-height-normal;
+
+  cursor: pointer;
+
+  @include transition(color, $transition-fast);
+
+  &:hover {
+    color: $color-accent;
+  }
+}
+
+// ============================================================================
+// ELEMENTO: INDICADOR REQUERIDO
+// ============================================================================
+.form-select__required-indicator {
+  color: $color-error;
+  font-weight: $font-weight-bold;
+  font-size: $font-size-lg;
+}
+
+// ============================================================================
+// ELEMENTO: CAMPO SELECT
+// ============================================================================
+.form-select__field {
+  // Dimensiones
+  width: 100%;
+  height: $button-height-lg;
+  padding: $spacing-3 $spacing-10 $spacing-3 $spacing-4;
+
+  // Tipografía
+  font-family: $font-primary;
+  font-size: $font-size-base;
+  font-weight: $font-weight-regular;
+  color: $color-text-dark;
+
+  // Forma
+  background-color: $color-gray-50;
+  border: $border-medium solid $color-gray-300;
+  border-radius: $radius-md;
+
+  // Icono de flecha personalizado
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23404040' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right $spacing-3 center;
+  background-size: $icon-size-sm;
+
+  // Ocultar flecha nativa
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  // Cursor
+  cursor: pointer;
+
+  // Sombra sutil
+  @include elevation('sm');
+
+  // Transiciones
+  @include transition(all, $transition-fast);
+
+  // Estado hover
+  @include hover {
+    border-color: $color-gray-400;
+  }
+
+  // Estado focus
+  &:focus {
+    outline: none;
+    border-color: $color-accent;
+    box-shadow: $shadow-focus;
+  }
+
+  // Estado disabled
+  &:disabled {
+    background-color: $color-gray-100;
+    color: $color-gray-400;
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+
+  // Estado error
+  &--error {
+    border-color: $color-error;
+    background-color: rgba($color-error, 0.03);
+
+    &:focus {
+      box-shadow: 0 0 0 3px rgba($color-error, 0.15);
+    }
+  }
+
+  // Estilo de las opciones
+  option {
+    padding: $spacing-2;
+    background-color: $color-gray-50;
+    color: $color-text-dark;
+  }
+
+  option:disabled {
+    color: $color-gray-400;
+  }
+}
+
+// ============================================================================
+// ELEMENTO: MENSAJE DE ERROR
+// ============================================================================
+.form-select__error {
+  display: flex;
+  align-items: center;
+  gap: $spacing-1;
+
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $color-error;
+  line-height: $line-height-normal;
+
+  // Animación de entrada
+  animation: formErrorSlideIn $transition-fast $easing-out;
+
+  &::before {
+    content: '⚠';
+    font-size: $font-size-base;
+  }
+}
+
+// ============================================================================
+// ELEMENTO: TEXTO DE AYUDA
+// ============================================================================
+.form-select__help {
+  font-size: $font-size-sm;
+  color: $color-gray-500;
+  line-height: $line-height-normal;
+
+  &::before {
+    content: 'ℹ ';
+    color: $color-info;
+  }
+}
+
+// ============================================================================
+// ANIMACIÓN: Error slide in
+// ============================================================================
+@keyframes formErrorSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-$spacing-1);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// ============================================================================
+// RESPONSIVE
+// ============================================================================
+@media (max-width: $breakpoint-sm) {
+  .form-select__field {
+    height: $button-height-md;
+    padding: $spacing-2 $spacing-8 $spacing-2 $spacing-3;
+  }
+
+  .form-select__label {
+    font-size: $font-size-sm;
+  }
+}
+

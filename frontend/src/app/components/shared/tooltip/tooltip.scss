@@ -1,0 +1,181 @@
+// ============================================================================
+// ESTILOS: TOOLTIP
+// ============================================================================
+// Estilos para tooltips con animaciones y posicionamiento
+
+@use '../../../../styles/00-settings/variables' as *;
+@use '../../../../styles/01-tools/mixins' as *;
+
+// ============================================================================
+// CONTENEDOR PRINCIPAL
+// ============================================================================
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+// ============================================================================
+// TRIGGER (ELEMENTO QUE ACTIVA EL TOOLTIP)
+// ============================================================================
+
+.tooltip__trigger {
+  display: inline-block;
+}
+
+// ============================================================================
+// CONTENIDO DEL TOOLTIP
+// ============================================================================
+
+.tooltip__content {
+  position: absolute;
+  z-index: 1000;
+  padding: $spacing-3 $spacing-4;
+  background-color: $color-gray-800;
+  color: $color-text-light;
+  font-family: $font-body;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  line-height: $line-height-normal;
+  border-radius: $radius-md;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(0.95);
+  transition: opacity 0.15s ease, visibility 0.15s ease, transform 0.15s ease;
+
+  // Sombra para mejor visibilidad
+  box-shadow: 0 4px 12px rgba($color-text-dark, 0.15);
+
+  &--visible {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+  }
+}
+
+// ============================================================================
+// POSICIONAMIENTO
+// ============================================================================
+
+// TOP (por defecto)
+.tooltip__content--top {
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) scale(0.95);
+  margin-bottom: $spacing-2;
+
+  &.tooltip__content--visible {
+    transform: translateX(-50%) scale(1);
+  }
+
+  .tooltip__arrow {
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid $color-gray-800;
+  }
+}
+
+// BOTTOM
+.tooltip__content--bottom {
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) scale(0.95);
+  margin-top: $spacing-2;
+
+  &.tooltip__content--visible {
+    transform: translateX(-50%) scale(1);
+  }
+
+  .tooltip__arrow {
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid $color-gray-800;
+  }
+}
+
+// LEFT
+.tooltip__content--left {
+  right: 100%;
+  top: 50%;
+  transform: translateY(-50%) scale(0.95);
+  margin-right: $spacing-2;
+
+  &.tooltip__content--visible {
+    transform: translateY(-50%) scale(1);
+  }
+
+  .tooltip__arrow {
+    left: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-left: 6px solid $color-gray-800;
+  }
+}
+
+// RIGHT
+.tooltip__content--right {
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%) scale(0.95);
+  margin-left: $spacing-2;
+
+  &.tooltip__content--visible {
+    transform: translateY(-50%) scale(1);
+  }
+
+  .tooltip__arrow {
+    right: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-right: 6px solid $color-gray-800;
+  }
+}
+
+// ============================================================================
+// FLECHA
+// ============================================================================
+
+.tooltip__arrow {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+// ============================================================================
+// TEXTO
+// ============================================================================
+
+.tooltip__text {
+  display: block;
+  max-width: 250px;
+  white-space: normal;
+  word-wrap: break-word;
+}
+
+// ============================================================================
+// RESPONSIVE - Tooltips más grandes en móvil para accesibilidad
+// ============================================================================
+
+@media (max-width: $breakpoint-sm) {
+  .tooltip__content {
+    font-size: $font-size-base;
+    padding: $spacing-4 $spacing-5;
+  }
+
+  .tooltip__text {
+    max-width: 200px;
+  }
+}
+
