@@ -25,6 +25,13 @@
 
   @media (max-width: $breakpoint-md) {
     height: 60px;
+    gap: $spacing-3;
+  }
+
+  @media (max-width: $breakpoint-sm) {
+    gap: $spacing-2;
+    padding-left: $spacing-3;
+    padding-right: $spacing-3;
   }
 }
 
@@ -64,6 +71,7 @@
 // BOTÓN HAMBURGUESA
 // ============================================================================
 .app-header__hamburger {
+  // Oculto por defecto en pantallas grandes
   display: none;
 
   background: transparent;
@@ -89,8 +97,14 @@
     outline-offset: 2px;
   }
 
+  // Solo visible en pantallas <= 768px
   @media (max-width: $breakpoint-md) {
     display: flex;
+  }
+
+  // Explícitamente oculto en pantallas grandes
+  @media (min-width: 769px) {
+    display: none !important;
   }
 }
 
@@ -126,6 +140,16 @@
   flex: 1;
   @include flex(center, center);
 
+  // En pantallas grandes, siempre visible
+  @media (min-width: 769px) {
+    display: flex;
+    position: static;
+    transform: none;
+    opacity: 1;
+    visibility: visible;
+  }
+
+  // En pantallas pequeñas, menú desplegable
   @media (max-width: $breakpoint-md) {
     position: fixed;
     top: 60px;
@@ -225,6 +249,10 @@
   @media (max-width: $breakpoint-md) {
     gap: $spacing-1;
   }
+
+  @media (max-width: $breakpoint-sm) {
+    gap: $spacing-1;
+  }
 }
 
 .app-header__utility-btn {
@@ -251,9 +279,30 @@
     outline-offset: 2px;
   }
 
-  @media (max-width: $breakpoint-sm) {
+  @media (max-width: $breakpoint-md) {
     width: $button-height-sm;
     height: $button-height-sm;
+  }
+
+  @media (max-width: $breakpoint-sm) {
+    width: 36px;
+    height: 36px;
+  }
+
+  // Ocultar botones secundarios en pantallas pequeñas (modo guiado y accesibilidad)
+  // Mantener solo theme-switcher y perfil de usuario
+  &:nth-child(2), // Botón "?"
+  &:nth-child(3) { // Botón "Aa"
+    @media (max-width: $breakpoint-sm) {
+      display: none;
+    }
+  }
+
+  // En pantallas medianas, reducir aún más el gap
+  @media (max-width: $breakpoint-md) and (min-width: calc($breakpoint-sm + 1px)) {
+    &:nth-child(2) {
+      display: none;
+    }
   }
 }
 
@@ -262,8 +311,12 @@
   color: $color-text-dark;
   line-height: 1;
 
-  @media (max-width: $breakpoint-sm) {
+  @media (max-width: $breakpoint-md) {
     font-size: $font-size-sm;
+  }
+
+  @media (max-width: $breakpoint-sm) {
+    font-size: 0.875rem;
   }
 }
 
@@ -271,9 +324,11 @@
 // OVERLAY (Para cerrar menú en móvil)
 // ============================================================================
 .app-header__overlay {
+  // Overlay deshabilitado - sin sombra oscura
   display: none;
 
   @media (max-width: $breakpoint-md) {
+    // Mantener para funcionalidad de cerrar al hacer click fuera
     display: block;
     position: fixed;
     top: 60px;
@@ -281,7 +336,9 @@
     right: 0;
     bottom: 0;
 
-    background-color: $overlay-dark;
+    // Sin fondo oscuro - transparente
+    background-color: transparent;
+    pointer-events: none;
 
     opacity: 0;
     visibility: hidden;
@@ -291,6 +348,7 @@
     &--visible {
       opacity: 1;
       visibility: visible;
+      pointer-events: auto;
     }
   }
 }
