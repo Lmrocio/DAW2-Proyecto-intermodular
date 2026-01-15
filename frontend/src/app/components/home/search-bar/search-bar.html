@@ -1,0 +1,23 @@
+<div class="search-bar">
+  <div class="search-bar__container">
+    <h2 class="search-bar__title">¿Qué necesitas aprender hoy?</h2>
+    <p class="search-bar__subtitle">Busca entre más de 50 lecciones</p>
+
+    <div class="search-bar__input-wrapper">
+      <lucide-angular
+        [img]="Search"
+        [size]="20"
+        class="search-bar__icon"
+      ></lucide-angular>
+      <input
+        type="text"
+        class="search-bar__input"
+        placeholder="Escribe aquí tu búsqueda..."
+        [(ngModel)]="searchQuery"
+        (keyup.enter)="onSearch()"
+        aria-label="Buscar lecciones"
+      />
+    </div>
+  </div>
+</div>
+

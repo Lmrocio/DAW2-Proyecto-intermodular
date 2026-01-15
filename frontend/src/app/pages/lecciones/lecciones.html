@@ -1,0 +1,64 @@
+<main class="lecciones-page">
+  <div class="lecciones-page__container">
+    <!-- Breadcrumb -->
+    <app-breadcrumb [items]="breadcrumbItems"></app-breadcrumb>
+
+    <!-- Header -->
+    <app-page-header
+      title="Catálogo de Lecciones"
+      subtitle="Explora todas nuestras lecciones diseñadas para ti. Aprende a tu ritmo y encuentra lo que necesitas."
+      [showReadingMode]="true"
+    ></app-page-header>
+
+    <!-- Barra de búsqueda -->
+    <app-search-bar-lecciones
+      (search)="onSearch($event)"
+    ></app-search-bar-lecciones>
+
+    <!-- Filtros rápidos -->
+    <app-quick-filters
+      (filterSelected)="onQuickFilter($event)"
+    ></app-quick-filters>
+
+    <!-- Layout: Sidebar + Grid -->
+    <div class="lecciones-page__layout">
+      <!-- Sidebar de filtros -->
+      <app-sidebar-filtros
+        (filterChange)="onFilterChange($event)"
+      ></app-sidebar-filtros>
+
+      <!-- Contenido principal -->
+      <div class="lecciones-page__content">
+        <!-- Contador de resultados -->
+        <div class="lecciones-page__results-count">
+          Mostrando {{ displayedLecciones.length }} de {{ totalLecciones }} lecciones
+        </div>
+
+        <!-- Grid de lecciones -->
+        <div class="lecciones-page__grid" *ngIf="displayedLecciones.length > 0">
+          <app-leccion-card
+            *ngFor="let leccion of displayedLecciones"
+            [leccion]="leccion"
+          ></app-leccion-card>
+        </div>
+
+        <!-- Sin resultados -->
+        <div class="lecciones-page__no-results" *ngIf="displayedLecciones.length === 0">
+          <p>No se encontraron lecciones con los filtros seleccionados.</p>
+          <p>Intenta cambiar los filtros o realizar una búsqueda diferente.</p>
+        </div>
+
+        <!-- Paginación -->
+        <app-pagination
+          *ngIf="displayedLecciones.length > 0"
+          [currentPage]="currentPage"
+          [totalPages]="totalPages"
+          [totalItems]="totalLecciones"
+          [itemsPerPage]="itemsPerPage"
+          (pageChange)="onPageChange($event)"
+        ></app-pagination>
+      </div>
+    </div>
+  </div>
+</main>
+

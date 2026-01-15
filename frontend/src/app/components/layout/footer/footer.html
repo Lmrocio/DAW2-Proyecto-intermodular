@@ -1,79 +1,108 @@
 <footer class="app-footer">
   <div class="app-footer__container">
 
-    <div class="app-footer__content">
+    <!-- Grid Principal (4 columnas) -->
+    <div class="app-footer__grid">
 
+      <!-- Columna 1: Branding -->
       <section class="app-footer__section">
-        <h3 class="app-footer__section-title">TecnoMayores</h3>
-        <p class="app-footer__description">
+        <h3 class="app-footer__logo">TecnoMayores</h3>
+        <p class="app-footer__tagline">
           Aprendiendo tecnología a tu ritmo. Una plataforma educativa diseñada para adultos mayores.
         </p>
+        <div class="app-footer__social">
+          <a
+            href="https://tecnomayores.com"
+            class="app-footer__social-link"
+            aria-label="Visitar sitio web"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <lucide-angular [img]="Globe" [size]="20"></lucide-angular>
+          </a>
+          <a
+            href="mailto:contacto@tecnomayores.com"
+            class="app-footer__social-link"
+            aria-label="Enviar correo electrónico"
+          >
+            <lucide-angular [img]="Mail" [size]="20"></lucide-angular>
+          </a>
+          <a
+            href="https://youtube.com/@tecnomayores"
+            class="app-footer__social-link"
+            aria-label="YouTube - Nuestro canal"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <lucide-angular [img]="Youtube" [size]="20"></lucide-angular>
+          </a>
+        </div>
       </section>
 
+      <!-- Columna 2: Secciones -->
       <section class="app-footer__section">
-        <h3 class="app-footer__section-title">Enlaces Rápidos</h3>
-        <nav class="app-footer__nav" aria-label="Enlaces del footer">
+        <h4 class="app-footer__section-title">Secciones</h4>
+        <nav class="app-footer__nav" aria-label="Enlaces de secciones">
           <ul class="app-footer__nav-list">
             <li><a href="/" class="app-footer__link">Inicio</a></li>
-            <li><a href="/lecciones" class="app-footer__link">Lecciones</a></li>
+            <li><a href="/catalogo" class="app-footer__link">Catálogo</a></li>
+            <li><a href="/lecciones" class="app-footer__link">Catálogo de Lecciones</a></li>
             <li><a href="/simuladores" class="app-footer__link">Simuladores</a></li>
             <li><a href="/faq" class="app-footer__link">Ayuda</a></li>
           </ul>
         </nav>
       </section>
 
+      <!-- Columna 3: Información -->
       <section class="app-footer__section">
-        <h3 class="app-footer__section-title">Legal</h3>
-        <nav class="app-footer__nav" aria-label="Enlaces legales">
+        <h4 class="app-footer__section-title">Información</h4>
+        <nav class="app-footer__nav" aria-label="Enlaces de información">
           <ul class="app-footer__nav-list">
-            <li><a href="/terminos" class="app-footer__link">Términos de servicio</a></li>
-            <li><a href="/privacidad" class="app-footer__link">Política de privacidad</a></li>
-            <li><a href="/cookies" class="app-footer__link">Política de cookies</a></li>
-            <li><a href="/contacto" class="app-footer__link">Contacto</a></li>
+            <li><a href="/nosotros" class="app-footer__link">¿Quiénes somos?</a></li>
+            <li><a href="/privacidad" class="app-footer__link">Aviso de Privacidad</a></li>
+            <li><a href="/accesibilidad" class="app-footer__link">Política de Accesibilidad</a></li>
           </ul>
         </nav>
       </section>
 
+      <!-- Columna 4: Newsletter -->
       <section class="app-footer__section">
-        <h3 class="app-footer__section-title">Síguenos</h3>
-        <div class="app-footer__social">
-          <a href="https://facebook.com/tecnomayores"
-             class="app-footer__social-link"
-             aria-label="Facebook - Síguenos en Facebook"
-             target="_blank"
-             rel="noopener noreferrer">
-            f
-          </a>
-          <a href="https://twitter.com/tecnomayores"
-             class="app-footer__social-link"
-             aria-label="Twitter - Síguenos en Twitter"
-             target="_blank"
-             rel="noopener noreferrer">
-            𝕏
-          </a>
-          <a href="https://instagram.com/tecnomayores"
-             class="app-footer__social-link"
-             aria-label="Instagram - Síguenos en Instagram"
-             target="_blank"
-             rel="noopener noreferrer">
-            📷
-          </a>
-          <a href="https://youtube.com/@tecnomayores"
-             class="app-footer__social-link"
-             aria-label="YouTube - Síguenos en YouTube"
-             target="_blank"
-             rel="noopener noreferrer">
-            ▶
-          </a>
+        <div class="app-footer__newsletter">
+          <h4 class="app-footer__newsletter-title">¿Quieres novedades?</h4>
+          <p class="app-footer__newsletter-subtitle">
+            Recibe tips y actualizaciones en tu correo
+          </p>
+          <form class="app-footer__newsletter-form" (submit)="subscribeNewsletter(); $event.preventDefault()">
+            <input
+              type="email"
+              class="app-footer__newsletter-input"
+              placeholder="tu@email.com"
+              [(ngModel)]="newsletterEmail"
+              name="newsletter"
+              required
+              aria-label="Tu correo electrónico"
+            />
+            <button type="submit" class="app-footer__newsletter-btn">
+              Suscribirme
+            </button>
+          </form>
         </div>
       </section>
 
     </div>
 
+    <!-- Separador -->
+    <div class="app-footer__separator"></div>
+
+    <!-- Copyright y Badges -->
     <div class="app-footer__bottom">
       <p class="app-footer__copyright">
         &copy; 2024 TecnoMayores. Todos los derechos reservados.
       </p>
+      <div class="app-footer__badges">
+        <span class="app-footer__badge">✟ AAA Accesible</span>
+        <span class="app-footer__badge">Español (ES)</span>
+      </div>
     </div>
 
   </div>

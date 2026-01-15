@@ -84,9 +84,8 @@
           "builder": "angular-cli-ghpages:deploy",
           "options": {
             "dir": "dist/frontend/browser",
-            "repo": "https://github.com/Lmrocio/DAW2-Proyecto-intermodular.git",
-            "message": "Deploy to GitHub Pages",
-            "noBuildTarget": true
+            "repo": "git@github.com:Lmrocio/DAW2-Proyecto-intermodular.git",
+            "message": "Deploy to GitHub Pages"
           }
         }
       }

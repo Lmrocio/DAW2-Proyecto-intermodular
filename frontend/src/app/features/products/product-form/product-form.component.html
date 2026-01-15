@@ -1,0 +1,127 @@
+<div class="product-form">
+  <div class="product-form__header">
+    <h1>{{ isEditMode() ? 'Editar Producto' : 'Nuevo Producto' }}</h1>
+    <a routerLink="/products" class="btn btn--back">
+      ← Volver al catálogo
+    </a>
+  </div>
+
+  <!-- Mensaje de error global -->
+  <div *ngIf="error()" class="product-form__error">
+    {{ error() }}
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="product-form__form">
+    <!-- Nombre -->
+    <div class="form-group">
+      <label for="name">Nombre del producto *</label>
+      <input
+        id="name"
+        type="text"
+        formControlName="name"
+        [class.form-group__input--error]="hasError('name')"
+        placeholder="Ej: Manual de Señales de Tráfico">
+      <span *ngIf="hasError('name')" class="form-group__error">
+        {{ getErrorMessage('name') }}
+      </span>
+    </div>
+
+    <!-- Descripción -->
+    <div class="form-group">
+      <label for="description">Descripción *</label>
+      <textarea
+        id="description"
+        formControlName="description"
+        [class.form-group__input--error]="hasError('description')"
+        rows="4"
+        placeholder="Describe el producto en detalle..."></textarea>
+      <span *ngIf="hasError('description')" class="form-group__error">
+        {{ getErrorMessage('description') }}
+      </span>
+    </div>
+
+    <!-- Precio y Stock en la misma fila -->
+    <div class="form-row">
+      <div class="form-group">
+        <label for="price">Precio (€) *</label>
+        <input
+          id="price"
+          type="number"
+          formControlName="price"
+          [class.form-group__input--error]="hasError('price')"
+          min="0"
+          step="0.01"
+          placeholder="0.00">
+        <span *ngIf="hasError('price')" class="form-group__error">
+          {{ getErrorMessage('price') }}
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label for="stock">Stock (unidades) *</label>
+        <input
+          id="stock"
+          type="number"
+          formControlName="stock"
+          [class.form-group__input--error]="hasError('stock')"
+          min="0"
+          placeholder="0">
+        <span *ngIf="hasError('stock')" class="form-group__error">
+          {{ getErrorMessage('stock') }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Categoría -->
+    <div class="form-group">
+      <label for="category">Categoría *</label>
+      <select
+        id="category"
+        formControlName="category"
+        [class.form-group__input--error]="hasError('category')">
+        <option value="">Selecciona una categoría</option>
+        <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+      </select>
+      <span *ngIf="hasError('category')" class="form-group__error">
+        {{ getErrorMessage('category') }}
+      </span>
+    </div>
+
+    <!-- URL de imagen -->
+    <div class="form-group">
+      <label for="imageUrl">URL de la imagen *</label>
+      <input
+        id="imageUrl"
+        type="url"
+        formControlName="imageUrl"
+        [class.form-group__input--error]="hasError('imageUrl')"
+        placeholder="https://example.com/image.jpg">
+      <span *ngIf="hasError('imageUrl')" class="form-group__error">
+        {{ getErrorMessage('imageUrl') }}
+      </span>
+
+      <!-- Preview de imagen -->
+      <div *ngIf="form.get('imageUrl')?.value" class="form-group__preview">
+        <img [src]="form.get('imageUrl')?.value" alt="Vista previa">
+      </div>
+    </div>
+
+    <!-- Botones de acción -->
+    <div class="product-form__actions">
+      <button
+        type="button"
+        routerLink="/products"
+        class="btn btn--secondary"
+        [disabled]="isSaving()">
+        Cancelar
+      </button>
+      <button
+        type="submit"
+        class="btn btn--primary"
+        [disabled]="form.invalid || isSaving()">
+        {{ isSaving() ? 'Guardando...' : (isEditMode() ? 'Actualizar' : 'Crear') }} Producto
+      </button>
+    </div>
+  </form>
+</div>
+

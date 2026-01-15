@@ -1,0 +1,15 @@
+<div class="quick-filters">
+  <span class="quick-filters__label">Lo más buscado:</span>
+  <div class="quick-filters__chips">
+    <button
+      *ngFor="let filter of filters"
+      (click)="selectFilter(filter)"
+      class="quick-filters__chip"
+      [class.quick-filters__chip--active]="selectedFilter === filter"
+      [attr.aria-pressed]="selectedFilter === filter"
+    >
+      {{ filter }}
+    </button>
+  </div>
+</div>
+

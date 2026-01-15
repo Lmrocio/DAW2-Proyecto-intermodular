@@ -1,0 +1,130 @@
+<div class="nav-demo">
+  <h1 class="nav-demo__title">🧭 Demostración de Navegación Programática</h1>
+
+  <!-- NAVEGACIÓN BÁSICA -->
+  <section class="nav-demo__section">
+    <h2 class="nav-demo__section-title">1. Navegación Básica</h2>
+    <div class="nav-demo__buttons">
+      <button class="nav-demo__button" (click)="irAHome()">
+        Ir a Home
+      </button>
+      <button class="nav-demo__button" (click)="navService.goToLecciones()">
+        Ir a Lecciones
+      </button>
+    </div>
+    <div class="nav-demo__info">
+      <div class="nav-demo__code">this.router.navigate(['/home'])</div>
+    </div>
+  </section>
+
+  <!-- NAVEGACIÓN CON PARÁMETROS -->
+  <section class="nav-demo__section">
+    <h2 class="nav-demo__section-title">2. Navegación con Parámetros de Ruta</h2>
+    <div class="nav-demo__buttons">
+      <button class="nav-demo__button" (click)="irALeccion(123)">
+        Ver Lección #123
+      </button>
+      <button class="nav-demo__button" (click)="irALeccion(456)">
+        Ver Lección #456
+      </button>
+    </div>
+    <div class="nav-demo__info">
+      <div class="nav-demo__code">this.router.navigate(['/lecciones', 123])</div>
+    </div>
+  </section>
+
+  <!-- NAVEGACIÓN CON QUERY PARAMS -->
+  <section class="nav-demo__section">
+    <h2 class="nav-demo__section-title">3. Navegación con Query Params</h2>
+    <div class="nav-demo__buttons">
+      <button class="nav-demo__button" (click)="irALeccionesFiltradas()">
+        Lecciones Filtradas
+      </button>
+      <button class="nav-demo__button" (click)="navegarPreservandoFiltros()">
+        Preservar Filtros Actuales
+      </button>
+    </div>
+    <div class="nav-demo__info">
+      <div class="nav-demo__code">
+        <!-- Mostrar ejemplo de código sin usar {{ }} -->
+        this.router.navigate(['/lecciones'], &#123; queryParams: &#123; categoria: 'trafico', nivel: 'basico' &#125; &#125;)
+      </div>
+    </div>
+  </section>
+
+  <!-- NAVEGACIÓN CON FRAGMENT -->
+  <section class="nav-demo__section">
+    <h2 class="nav-demo__section-title">4. Navegación con Fragment (Scroll)</h2>
+    <div class="nav-demo__buttons">
+      <button class="nav-demo__button" (click)="irAAboutMision()">
+        About → Sección Misión
+      </button>
+    </div>
+    <div class="nav-demo__info">
+      <div class="nav-demo__code">
+        this.router.navigate(['/about'], &#123; fragment: 'mision' &#125;)
+      </div>
+    </div>
+  </section>
+
+  <!-- NAVEGACIÓN CON STATE -->
+  <section class="nav-demo__section">
+    <h2 class="nav-demo__section-title">5. Navegación con State (datos ocultos)</h2>
+    <div class="nav-demo__buttons">
+      <button class="nav-demo__button" (click)="irALeccionConDatos()">
+        Navegar con Datos Complejos
+      </button>
+    </div>
+    <div class="nav-demo__info">
+      <div class="nav-demo__code">
+        this.router.navigate(['/lecciones', 123], &#123; state: &#123; leccion: '...objeto...' , origen: 'demo' &#125; &#125;)
+      </div>
+    </div>
+  </section>
+
+  <!-- NAVEGACIÓN COMPLETA -->
+  <section class="nav-demo__section">
+    <h2 class="nav-demo__section-title">6. NavigationExtras Completo</h2>
+    <div class="nav-demo__buttons">
+      <button class="nav-demo__button" (click)="navegacionCompleta()">
+        Navegación con TODO
+      </button>
+    </div>
+    <div class="nav-demo__info">
+      <div class="nav-demo__info-title">Incluye:</div>
+      <ul>
+        <li>✅ Parámetros de ruta (/lecciones/456)</li>
+        <li>✅ Query params (?destacado=true)</li>
+        <li>✅ Fragment (#comentarios)</li>
+        <li>✅ State (datos en memoria)</li>
+        <li>✅ Query params handling (merge)</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- INFORMACIÓN RECIBIDA -->
+  <section *ngIf="parametrosRuta || queryParams || fragment || estadoRecibido" class="nav-demo__section">
+    <h2 class="nav-demo__section-title">📥 Información Recibida (ActivatedRoute)</h2>
+
+    <div *ngIf="parametrosRuta?.id" class="nav-demo__info">
+      <div class="nav-demo__info-title">Parámetros de Ruta:</div>
+      <div class="nav-demo__code">{{ parametrosRuta | json }}</div>
+    </div>
+
+    <div *ngIf="queryParams?.categoria" class="nav-demo__info">
+      <div class="nav-demo__info-title">Query Params:</div>
+      <div class="nav-demo__code">{{ queryParams | json }}</div>
+    </div>
+
+    <div *ngIf="fragment" class="nav-demo__info">
+      <div class="nav-demo__info-title">Fragment:</div>
+      <div class="nav-demo__code">#{{ fragment }}</div>
+    </div>
+
+    <div *ngIf="estadoRecibido" class="nav-demo__info">
+      <div class="nav-demo__info-title">State Recibido:</div>
+      <div class="nav-demo__code">{{ estadoRecibido | json }}</div>
+    </div>
+  </section>
+</div>
+

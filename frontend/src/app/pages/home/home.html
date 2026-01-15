@@ -3,25 +3,28 @@
 <!-- ============================================================================ -->
 
 <main class="home">
-  <div class="home__container">
-    <h1 class="home__title">Bienvenido</h1>
-    <p class="home__subtitle">Selecciona una opción para continuar</p>
+  <!-- Hero Section -->
+  <app-hero></app-hero>
 
-    <div class="home__buttons">
-      <!-- Botón para ir a la Guía de Estilos -->
-      <a routerLink="/style-guide" class="home__link">
-        <app-button variant="primary" size="lg">
-          Guía de Estilos
-        </app-button>
-      </a>
+  <!-- Barra de Búsqueda -->
+  <app-search-bar></app-search-bar>
 
-      <!-- Botón para ir al Cliente -->
-      <a routerLink="/client" class="home__link">
-        <app-button variant="secondary" size="lg">
-          Cliente
-        </app-button>
-      </a>
-    </div>
-  </div>
+  <!-- Banner Modo Guía -->
+  <app-guia-mode></app-guia-mode>
+
+  <!-- Sección Lecciones con Fotos -->
+  <app-lecciones-fotos></app-lecciones-fotos>
+
+  <!-- Sección Simuladores -->
+  <app-simuladores></app-simuladores>
+
+  <!-- Lecciones Recomendadas -->
+  <app-lecciones-recomendadas></app-lecciones-recomendadas>
+
+  <!-- Testimonios -->
+  <app-testimonios></app-testimonios>
+
+  <!-- Call to Action -->
+  <app-cta></app-cta>
 </main>
 

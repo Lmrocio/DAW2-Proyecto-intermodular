@@ -1,10 +1,12 @@
 <header class="app-header">
   <div class="app-header__container">
 
+    <!-- Logo -->
     <a href="/" class="app-header__logo" aria-label="Inicio - TecnoMayores">
       <span class="app-header__logo-text">TecnoMayores</span>
     </a>
 
+    <!-- Botón Hamburguesa (Mobile) -->
     <button
       class="app-header__hamburger"
       [class.app-header__hamburger--active]="menuOpen"
@@ -18,6 +20,7 @@
       <span class="app-header__hamburger-line"></span>
     </button>
 
+    <!-- Navegación Principal (Centro) -->
     <nav
       class="app-header__nav"
       [class.app-header__nav--open]="menuOpen"
@@ -37,36 +40,37 @@
       </ul>
     </nav>
 
+    <!-- Acciones Usuario (Derecha) -->
     <div class="app-header__utilities">
+      <!-- Theme Switcher -->
       <app-theme-switcher></app-theme-switcher>
 
+      <!-- Botón Guía -->
       <button
-        class="app-header__utility-btn"
-        aria-label="Activar modo guiado"
-        title="Modo guiado"
+        class="app-header__btn-guia"
+        aria-label="Activar modo guía"
+        title="Modo Guía"
       >
-        <span class="app-header__utility-icon">?</span>
+        <lucide-angular [img]="HelpCircle" [size]="20"></lucide-angular>
+        <span class="app-header__btn-text">Guía</span>
       </button>
 
+      <!-- Botón Usuario -->
       <button
-        class="app-header__utility-btn"
-        aria-label="Ajustes de accesibilidad"
-        title="Accesibilidad"
-      >
-        <span class="app-header__utility-icon">Aa</span>
-      </button>
-
-      <button
-        class="app-header__utility-btn"
+        class="app-header__btn-usuario"
         aria-label="Perfil de usuario"
         title="Mi perfil"
       >
-        <span class="app-header__utility-icon">👤</span>
+        <lucide-angular [img]="User" [size]="20"></lucide-angular>
       </button>
     </div>
 
   </div>
 
+  <!-- Separador amarillo inferior -->
+  <div class="app-header__separator"></div>
+
+  <!-- Overlay para móvil -->
   <div
     class="app-header__overlay"
     [class.app-header__overlay--visible]="menuOpen"

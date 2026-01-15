@@ -1,0 +1,50 @@
+<div class="leccion-detalle">
+  @if (loading()) {
+    <div class="leccion-detalle__loading">
+      🔄 Cargando lección...
+    </div>
+  } @else if (leccion()) {
+    <div class="leccion-detalle__header">
+      <a routerLink="/lecciones" class="leccion-detalle__back">
+        ← Volver a lecciones
+      </a>
+      <div class="leccion-detalle__id">ID: {{ leccion()!.id }}</div>
+      <h1 class="leccion-detalle__title">{{ leccion()!.titulo }}</h1>
+      <div class="leccion-detalle__meta">
+        <div class="leccion-detalle__meta-item">
+          <span>⏱️</span>
+          <span>{{ leccion()!.duracion }}</span>
+        </div>
+        <div class="leccion-detalle__meta-item">
+          <span>📊</span>
+          <span>{{ leccion()!.nivel }}</span>
+        </div>
+        <div class="leccion-detalle__meta-item">
+          <span>🏷️</span>
+          <span>{{ leccion()!.categoria }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="leccion-detalle__content">
+      <h2>Descripción</h2>
+      <p class="leccion-detalle__description">{{ leccion()!.descripcion }}</p>
+
+      @if (leccion()!.contenido) {
+        <h2>Contenido</h2>
+        <div class="leccion-detalle__body">
+          {{ leccion()!.contenido }}
+        </div>
+      }
+    </div>
+  } @else {
+    <div class="leccion-detalle__error">
+      <h2>⚠️ Lección no disponible</h2>
+      <p>No se pudieron cargar los datos de la lección.</p>
+      <a routerLink="/lecciones" class="leccion-detalle__back-button">
+        Volver a lecciones
+      </a>
+    </div>
+  }
+</div>
+

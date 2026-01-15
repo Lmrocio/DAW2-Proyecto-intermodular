@@ -1,0 +1,18 @@
+<header class="page-header">
+  <div class="page-header__content">
+    <div class="page-header__text">
+      <h1 class="page-header__title">{{ title }}</h1>
+      <p class="page-header__subtitle" *ngIf="subtitle">{{ subtitle }}</p>
+    </div>
+    <button
+      *ngIf="showReadingMode"
+      (click)="activateReadingMode()"
+      class="page-header__btn"
+      aria-label="Activar modo lectura"
+    >
+      <lucide-angular [img]="Volume2" [size]="20"></lucide-angular>
+      <span>Modo Lectura</span>
+    </button>
+  </div>
+</header>
+

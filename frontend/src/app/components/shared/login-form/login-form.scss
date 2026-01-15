@@ -1,170 +1,220 @@
 @import '../../../../styles/00-settings/variables';
-@import '../../../../styles/00-settings/css-variables';
+@import '../../../../styles/01-tools/mixins';
+
+// ============================================================================
+// LOGIN FORM
+// ============================================================================
 
 .login-form {
   width: 100%;
-  max-width: 500px;
-
-  margin: 0 auto;
-
-  padding: $spacing-8;
-
-  background-color: var(--bg-secondary);
-  border: $border-thin solid var(--border-color-primary);
-  border-radius: $radius-lg;
-  box-shadow: var(--shadow-lg);
-
-  transition: background-color $transition-base $easing-in-out,
-              border-color $transition-base $easing-in-out;
-
-  @media (max-width: $breakpoint-sm) {
-    padding: $spacing-6;
-    border-radius: $radius-md;
-  }
 }
 
 // ============================================================================
-// TÍTULOS
+// CAMPOS DEL FORMULARIO
 // ============================================================================
-.login-form__title {
-  font-size: $font-size-2xl;
+
+.login-form__field {
+  margin-bottom: $spacing-5;
+}
+
+.login-form__label {
+  display: block;
+  font-size: $font-size-sm;
   font-weight: $font-weight-semibold;
-  color: var(--text-primary);
-  margin: 0 0 $spacing-2 0;
-  text-align: center;
-
-  @media (max-width: $breakpoint-sm) {
-    font-size: $font-size-xl;
-  }
+  color: #374151;
+  margin-bottom: $spacing-2;
 }
 
-.login-form__subtitle {
-  font-size: 0.95rem;
-  color: var(--text-secondary);
-  text-align: center;
-  margin: 0 0 $spacing-8 0;
-  line-height: $line-height-normal;
-}
-
-// ============================================================================
-// FORMULARIO
-// ============================================================================
-.login-form__form {
-  display: flex;
-  flex-direction: column;
-  gap: $spacing-6;
-}
-
-// ============================================================================
-// FIELDSETS Y LEGENDS
-// ============================================================================
-.login-form__fieldset {
-  border: none;
-  padding: 0;
-  margin: 0;
-
-  display: flex;
-  flex-direction: column;
-  gap: $spacing-4;
-}
-
-.login-form__legend {
-  font-size: $font-size-base;
-  font-weight: $font-weight-semibold;
-  color: var(--text-primary);
-
-  padding: 0;
-  margin: 0 0 $spacing-2 0;
-
-  padding-bottom: $spacing-3;
-  border-bottom: $border-medium solid var(--color-primary);
-}
-
-// ============================================================================
-// CHECKBOXES PERSONALIZADAS
-// ============================================================================
-.login-form__checkbox {
+.login-form__input-wrapper {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: $spacing-3;
-
-  cursor: pointer;
-
-  padding: $spacing-2;
-  border-radius: $radius-base;
-
-  transition: background-color $transition-base $easing-in-out;
-
-  &:hover {
-    background-color: rgba(248, 215, 112, 0.1);
-  }
 }
 
-.login-form__checkbox-input {
-  width: 1.25rem;
-  height: 1.25rem;
-  cursor: pointer;
-  accent-color: var(--color-primary);
-
-  // Focus
-  &:focus {
-    outline: 2px solid var(--color-accent);
-    outline-offset: 2px;
-  }
+.login-form__icon {
+  position: absolute;
+  left: $spacing-4;
+  color: $color-accent;
+  pointer-events: none;
+  z-index: 1;
 }
 
-.login-form__checkbox-text {
-  font-size: 0.95rem;
-  color: var(--text-primary);
-  user-select: none;
-
-  @media (max-width: $breakpoint-sm) {
-    font-size: $font-size-sm;
-  }
-}
-
-// ============================================================================
-// SECCIÓN DE ACCIONES (BOTONES)
-// ============================================================================
-.login-form__actions {
-  display: flex;
-  gap: $spacing-4;
-  margin-top: $spacing-2;
-}
-
-.login-form__button {
-  flex: 1;
-
-  padding: $spacing-4 $spacing-6;
-  min-height: $button-height-lg;
-
-  font-size: $font-size-lg;
-  font-weight: $font-weight-semibold;
-  font-family: inherit;
-
-  border: none;
+.login-form__input {
+  width: 100%;
+  height: 48px;
+  border: $border-thin solid $color-gray-300;
   border-radius: $radius-md;
+  padding: $spacing-3 $spacing-4 $spacing-3 44px;
+  font-size: $font-size-sm;
+  color: #111827;
+  background: $color-gray-50;
+  font-family: $font-body;
+  @include transition(all, $transition-fast);
 
-  cursor: pointer;
-
-  transition:
-    background-color $transition-base $easing-in-out,
-    transform $transition-base $easing-in-out,
-    box-shadow $transition-base $easing-in-out;
-
-  &:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-lg);
+  &::placeholder {
+    color: $color-gray-500;
   }
 
   &:focus {
     outline: none;
+    border-color: $color-accent;
+    background: white;
+    box-shadow: 0 0 0 3px rgba($color-accent, 0.1);
   }
 
-  &:focus-visible {
-    box-shadow:
-      0 0 0 4px rgba(248, 215, 112, 0.25),
-      var(--shadow-lg);
+  &--password {
+    padding-right: 44px;
+  }
+
+  &--error {
+    border-color: $color-error;
+  }
+}
+
+.login-form__toggle {
+  position: absolute;
+  right: $spacing-4;
+  background: transparent;
+  border: none;
+  color: $color-gray-500;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  @include transition(color);
+
+  @include hover {
+    color: $color-gray-700;
+  }
+
+  @include focus-visible {
+    outline: 2px solid $color-accent;
+    outline-offset: 2px;
+    border-radius: $radius-sm;
+  }
+}
+
+.login-form__error {
+  display: block;
+  font-size: $font-size-xs;
+  color: $color-error;
+  margin-top: $spacing-1;
+}
+
+// ============================================================================
+// OPCIONES (Checkbox + Forgot Password)
+// ============================================================================
+
+.login-form__options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-6;
+  gap: $spacing-4;
+
+  @media (max-width: $breakpoint-sm) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+// ============================================================================
+// CHECKBOX CUSTOM
+// ============================================================================
+
+.login-form__checkbox {
+  display: flex;
+  align-items: center;
+  gap: $spacing-2;
+  cursor: pointer;
+  user-select: none;
+}
+
+.login-form__checkbox-input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+
+  &:checked + .login-form__checkbox-custom {
+    background: $color-accent;
+    border-color: $color-accent;
+  }
+
+  &:focus + .login-form__checkbox-custom {
+    outline: 2px solid $color-accent;
+    outline-offset: 2px;
+  }
+}
+
+.login-form__checkbox-custom {
+  width: 18px;
+  height: 18px;
+  border: $border-thin solid $color-gray-300;
+  border-radius: $radius-sm;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @include transition(all, $transition-fast);
+  flex-shrink: 0;
+}
+
+.login-form__checkbox-icon {
+  color: white;
+}
+
+.login-form__checkbox-label {
+  font-size: $font-size-sm;
+  color: $color-gray-700;
+}
+
+// ============================================================================
+// LINK "OLVIDASTE CONTRASEÑA"
+// ============================================================================
+
+.login-form__forgot-link {
+  font-size: $font-size-sm;
+  color: $color-accent;
+  font-weight: $font-weight-semibold;
+  text-decoration: none;
+  @include transition(text-decoration);
+
+  @include hover {
+    text-decoration: underline;
+  }
+
+  @include focus-visible {
+    outline: 2px solid $color-accent;
+    outline-offset: 2px;
+    border-radius: $radius-sm;
+  }
+}
+
+// ============================================================================
+// BOTÓN SUBMIT
+// ============================================================================
+
+.login-form__submit {
+  width: 100%;
+  height: 52px;
+  background: $color-accent;
+  color: white;
+  font-size: $font-size-base;
+  font-weight: $font-weight-bold;
+  border: none;
+  border-radius: $radius-md;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-2;
+  @include transition(all, $transition-fast);
+
+  &:not(:disabled) {
+    @include hover {
+      background: darken($color-accent, 10%);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba($color-accent, 0.3);
+    }
   }
 
   &:active:not(:disabled) {
@@ -172,79 +222,12 @@
   }
 
   &:disabled {
-    opacity: 0.6;
+    opacity: 0.5;
     cursor: not-allowed;
   }
 
-  @media (max-width: $breakpoint-sm) {
-    padding: $spacing-3 $spacing-5;
-    min-height: 2.75rem;
-    font-size: $font-size-base;
-  }
-}
-
-.login-form__button--primary {
-  background-color: var(--color-primary);
-  color: var(--text-dark);
-
-  &:hover:not(:disabled) {
-    background-color: var(--color-secondary);
-  }
-}
-
-.login-form__button--secondary {
-  background-color: var(--bg-tertiary);
-  color: var(--text-primary);
-  border: 2px solid var(--border-color-primary);
-
-  &:hover:not(:disabled) {
-    background-color: var(--bg-secondary);
-    border-color: var(--color-primary);
-  }
-}
-
-.login-form__button-text {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-}
-
-// ============================================================================
-// ENLACES (Registro, Recuperación de contraseña)
-// ============================================================================
-.login-form__link-container {
-  font-size: 0.95rem;
-  color: var(--text-secondary);
-  text-align: center;
-  margin: 0;
-  margin-top: 1rem;
-
-  @media (max-width: 640px) {
-    font-size: 0.875rem;
-  }
-}
-
-.login-form__link {
-  color: var(--color-accent);
-  text-decoration: none;
-  font-weight: 500;
-
-  transition: color 300ms ease-in-out, text-decoration 300ms ease-in-out;
-
-  &:hover {
-    color: var(--color-tertiary);
-    text-decoration: underline;
-  }
-
-  &:focus {
-    outline: none;
-  }
-
-  &:focus-visible {
-    outline: 2px solid var(--color-accent);
+  @include focus-visible {
+    outline: 3px solid $color-secondary;
     outline-offset: 2px;
-    border-radius: 0.25rem;
   }
 }
-

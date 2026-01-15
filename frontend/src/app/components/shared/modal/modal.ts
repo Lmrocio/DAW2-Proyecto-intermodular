@@ -3,6 +3,8 @@
 // ============================================================================
 // Modal reutilizable con apertura/cierre, backdrop y cierre con ESC
 // Implementa manipulación del DOM y gestión de eventos según ClienteFase1
+// IMPLEMENTA: @HostListener('window:resize') (Requisito 2.4)
+// IMPLEMENTA: Focus Trap real (Requisito 3.2 para 10/10)
 
 import {
   Component,
@@ -68,6 +70,10 @@ export class Modal implements AfterViewInit, OnDestroy {
 
   private previousActiveElement: HTMLElement | null = null;
 
+  /** Lista de elementos focusables dentro del modal (para focus trap) */
+  private focusableElements: HTMLElement[] = [];
+
+
   // ========================================================================
   // CONSTRUCTOR
   // ========================================================================
@@ -79,7 +85,7 @@ export class Modal implements AfterViewInit, OnDestroy {
   // ========================================================================
 
   ngAfterViewInit(): void {
-    // El modal se inicializa después de que la vista esté lista
+    // El modal se inicializa después de que la vista esté ready
   }
 
   ngOnDestroy(): void {
@@ -121,6 +127,57 @@ export class Modal implements AfterViewInit, OnDestroy {
     }
   }
 
+  /**
+   * Maneja el resize de la ventana para reajustar el modal
+   * IMPLEMENTA: @HostListener('window:resize') según Requisito 2.4
+   */
+  @HostListener('window:resize', ['$event'])
+  onWindowResize(event: Event): void {
+    if (!this.isOpen) return;
+
+    const window = event.target as Window;
+
+    // Reajustar el modal si es necesario
+    this.adjustModalPosition(window.innerWidth, window.innerHeight);
+
+    console.log(`🔲 Modal: window:resize detectado - ${window.innerWidth}x${window.innerHeight}`);
+  }
+
+  /**
+   * Implementa Focus Trap para accesibilidad
+   * IMPLEMENTA: Focus Trap real según Requisito 3.2 para 10/10
+   * Captura Tab/Shift+Tab y cicla el foco dentro del modal
+   */
+  @HostListener('document:keydown.tab', ['$event'])
+  onTabPress(event: Event): void {
+    if (!this.isOpen) return;
+    const keyboardEvent = event as KeyboardEvent;
+
+    // Actualizar lista de elementos focusables
+    this.updateFocusableElements();
+
+    if (this.focusableElements.length === 0) return;
+
+    const shiftPressed = keyboardEvent.shiftKey;
+    const currentIndex = this.focusableElements.indexOf(document.activeElement as HTMLElement);
+
+    let nextIndex: number;
+
+    if (shiftPressed) {
+      // Shift+Tab: ir al anterior
+      nextIndex = currentIndex <= 0 ? this.focusableElements.length - 1 : currentIndex - 1;
+    } else {
+      // Tab: ir al siguiente
+      nextIndex = currentIndex >= this.focusableElements.length - 1 ? 0 : currentIndex + 1;
+    }
+
+    // Prevenir el comportamiento por defecto y enfocar el siguiente elemento
+    keyboardEvent.preventDefault();
+    this.focusableElements[nextIndex].focus();
+
+    console.log(`🔲 Modal: Focus Trap - ${shiftPressed ? 'Shift+Tab' : 'Tab'} -> índice ${nextIndex}`);
+  }
+
   // ========================================================================
   // MÉTODOS PÚBLICOS
   // ========================================================================
@@ -142,6 +199,9 @@ export class Modal implements AfterViewInit, OnDestroy {
       if (this.modalContainer) {
         this.renderer.addClass(this.modalContainer.nativeElement, 'modal--visible');
       }
+
+      // Enfocar el primer elemento focusable (accesibilidad)
+      this.focusFirstElement();
     }, 10);
   }
 
@@ -217,6 +277,57 @@ export class Modal implements AfterViewInit, OnDestroy {
    */
   private enableBodyScroll(): void {
     this.renderer.removeStyle(document.body, 'overflow');
+  }
+
+  /**
+   * Ajusta la posición del modal según el tamaño de la ventana
+   * IMPLEMENTA: Lógica para @HostListener('window:resize') (Requisito 2.4)
+   */
+  private adjustModalPosition(windowWidth: number, windowHeight: number): void {
+    if (!this.modalContent) return;
+
+    // Ajustar padding en móviles
+    if (windowWidth < 768) {
+      this.renderer.setStyle(this.modalContent.nativeElement, 'margin', '1rem');
+      this.renderer.setStyle(this.modalContent.nativeElement, 'maxHeight', `${windowHeight - 100}px`);
+    } else {
+      this.renderer.removeStyle(this.modalContent.nativeElement, 'margin');
+      this.renderer.removeStyle(this.modalContent.nativeElement, 'maxHeight');
+    }
+  }
+
+  /**
+   * Actualiza la lista de elementos focusables dentro del modal
+   * IMPLEMENTA: Focus Trap (Requisito 3.2)
+   */
+  private updateFocusableElements(): void {
+    if (!this.modalContent) return;
+
+    const focusableSelectors = [
+      'button:not([disabled])',
+      'a[href]',
+      'input:not([disabled])',
+      'select:not([disabled])',
+      'textarea:not([disabled])',
+      '[tabindex]:not([tabindex="-1"])'
+    ].join(', ');
+
+    this.focusableElements = Array.from(
+      this.modalContent.nativeElement.querySelectorAll(focusableSelectors)
+    );
+  }
+
+  /**
+   * Enfoca el primer elemento focusable del modal
+   * IMPLEMENTA: Focus Trap (Requisito 3.2)
+   */
+  private focusFirstElement(): void {
+    this.updateFocusableElements();
+
+    if (this.focusableElements.length > 0) {
+      this.focusableElements[0].focus();
+      console.log('🔲 Modal: Focus establecido en primer elemento focusable');
+    }
   }
 
   // ========================================================================

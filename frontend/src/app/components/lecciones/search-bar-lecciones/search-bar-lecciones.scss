@@ -1,0 +1,53 @@
+@import '../../../../styles/00-settings/variables';
+@import '../../../../styles/01-tools/mixins';
+
+.search-bar-lecciones {
+  margin-bottom: $spacing-6;
+}
+
+.search-bar-lecciones__container {
+  background: white;
+  border: $border-medium solid $color-secondary;
+  border-radius: $radius-lg;
+  padding: $spacing-2 $spacing-6;
+  box-shadow: 0 4px 12px rgba($color-secondary, 0.2);
+  @include transition(all, $transition-fast);
+
+  &:focus-within {
+    box-shadow: 0 6px 16px rgba($color-secondary, 0.3);
+    transform: translateY(-2px);
+  }
+}
+
+.search-bar-lecciones__input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-bar-lecciones__icon {
+  position: absolute;
+  left: 0;
+  color: $color-gray-700;
+  pointer-events: none;
+}
+
+.search-bar-lecciones__input {
+  width: 100%;
+  height: $button-height-lg;
+  padding: 0 0 0 $spacing-8;
+  border: none;
+  background: transparent;
+  font-size: $font-size-base;
+  color: $color-text-dark;
+  font-family: $font-body;
+
+  &:focus {
+    outline: none;
+  }
+
+  &::placeholder {
+    color: $color-gray-400;
+  }
+}
+
