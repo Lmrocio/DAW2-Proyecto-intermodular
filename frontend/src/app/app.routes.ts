@@ -10,6 +10,13 @@ import { Login } from './pages/login/login';
 import { About } from './pages/about/about';
 
 // ============================================================================
+// PRODUCTOS (FASE 5 - Sistema HTTP)
+// ============================================================================
+import { ProductListComponent } from './features/products/product-list/product-list.component';
+import { ProductDetailComponent } from './features/products/product-detail/product-detail.component';
+import { ProductFormComponent } from './features/products/product-form/product-form.component';
+
+// ============================================================================
 // ÁREA DE USUARIO (Layout - las rutas hijas se cargan lazy)
 // ============================================================================
 import { UserLayout } from './pages/user/user-layout';
@@ -110,6 +117,54 @@ export const routes: Routes = [
     path: 'about',
     component: About,
     data: { breadcrumb: 'Acerca de' }
+  },
+
+  // =========================================================================
+  // PRODUCTOS - SISTEMA HTTP (FASE 5 - Tareas 1 y 2)
+  // =========================================================================
+
+  /**
+   * Rutas de productos para demostrar sistema HTTP completo
+   *
+   * CRUD COMPLETO:
+   * - GET    /products       - Listado (ProductListComponent)
+   * - GET    /products/:id   - Detalle (ProductDetailComponent)
+   * - POST   /products       - Crear (ProductFormComponent)
+   * - PUT    /products/:id   - Actualizar (ProductFormComponent)
+   * - DELETE /products/:id   - Eliminar (ProductListComponent/DetailComponent)
+   *
+   * BACKEND SIMULADO:
+   * - json-server en puerto 3000
+   * - db.json con datos de productos
+   * - Ejecutar: npm run api
+   */
+
+  // 6. PRODUCTS - Listado de productos
+  {
+    path: 'products',
+    component: ProductListComponent,
+    data: { breadcrumb: 'Productos' }
+  },
+
+  // 7. PRODUCTS NEW - Crear nuevo producto
+  {
+    path: 'products/new',
+    component: ProductFormComponent,
+    data: { breadcrumb: 'Nuevo Producto' }
+  },
+
+  // 8. PRODUCTS DETAIL - Ver detalle de un producto
+  {
+    path: 'products/:id',
+    component: ProductDetailComponent,
+    data: { breadcrumb: 'Detalle de Producto' }
+  },
+
+  // 9. PRODUCTS EDIT - Editar producto existente
+  {
+    path: 'products/:id/edit',
+    component: ProductFormComponent,
+    data: { breadcrumb: 'Editar Producto' }
   },
 
   // =========================================================================

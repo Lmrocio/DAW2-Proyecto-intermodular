@@ -1,0 +1,131 @@
+{
+  "products": [
+    {
+      "id": "1",
+      "name": "Señales de Tráfico - Manual Básico",
+      "description": "Guía completa sobre señales de tráfico y su interpretación",
+      "price": 29.99,
+      "imageUrl": "assets/images/productos/manual-senales.jpg",
+      "category": "Manuales",
+      "stock": 45,
+      "createdAt": "2024-01-15T10:30:00Z"
+    },
+    {
+      "id": "2",
+      "name": "Test DGT 2024 - Permiso B",
+      "description": "1000 preguntas actualizadas para el examen teórico",
+      "price": 19.99,
+      "imageUrl": "assets/images/productos/test-dgt.jpg",
+      "category": "Tests",
+      "stock": 120,
+      "createdAt": "2024-02-01T14:20:00Z"
+    },
+    {
+      "id": "3",
+      "name": "Simulador de Conducción Premium",
+      "description": "Acceso completo al simulador online durante 6 meses",
+      "price": 49.99,
+      "imageUrl": "assets/images/productos/simulador.jpg",
+      "category": "Simuladores",
+      "stock": 999,
+      "createdAt": "2024-01-20T09:15:00Z"
+    },
+    {
+      "id": "4",
+      "name": "Normas de Circulación Avanzadas",
+      "description": "Manual avanzado con casos prácticos y ejemplos reales",
+      "price": 34.99,
+      "imageUrl": "assets/images/productos/normas-avanzadas.jpg",
+      "category": "Manuales",
+      "stock": 30,
+      "createdAt": "2024-02-10T11:45:00Z"
+    },
+    {
+      "id": "5",
+      "name": "Pack Completo Permiso B",
+      "description": "Incluye manual, tests y acceso al simulador",
+      "price": 89.99,
+      "imageUrl": "assets/images/productos/pack-completo.jpg",
+      "category": "Packs",
+      "stock": 25,
+      "createdAt": "2024-01-25T16:00:00Z"
+    },
+    {
+      "id": "6",
+      "name": "Mecánica Básica del Automóvil",
+      "description": "Conceptos esenciales de mecánica para conductores",
+      "price": 24.99,
+      "imageUrl": "assets/images/productos/mecanica-basica.jpg",
+      "category": "Manuales",
+      "stock": 60,
+      "createdAt": "2024-02-05T13:30:00Z"
+    },
+    {
+      "id": "7",
+      "name": "Primeros Auxilios en Carretera",
+      "description": "Manual de primeros auxilios y seguridad vial",
+      "price": 27.99,
+      "imageUrl": "assets/images/productos/primeros-auxilios.jpg",
+      "category": "Manuales",
+      "stock": 40,
+      "createdAt": "2024-01-18T10:00:00Z"
+    },
+    {
+      "id": "8",
+      "name": "Test Psicotécnico",
+      "description": "Preparación completa para el examen psicotécnico",
+      "price": 15.99,
+      "imageUrl": "assets/images/productos/psicotecnico.jpg",
+      "category": "Tests",
+      "stock": 80,
+      "createdAt": "2024-02-12T15:20:00Z"
+    },
+    {
+      "id": "9",
+      "name": "Conducción Eficiente y Ecológica",
+      "description": "Técnicas de conducción sostenible y ahorro de combustible",
+      "price": 21.99,
+      "imageUrl": "assets/images/productos/conduccion-ecologica.jpg",
+      "category": "Manuales",
+      "stock": 35,
+      "createdAt": "2024-01-30T12:10:00Z"
+    },
+    {
+      "id": "10",
+      "name": "Renovación Carnet - Curso Online",
+      "description": "Curso completo para renovación de permisos de conducir",
+      "price": 39.99,
+      "imageUrl": "assets/images/productos/renovacion.jpg",
+      "category": "Cursos",
+      "stock": 100,
+      "createdAt": "2024-02-08T09:45:00Z"
+    }
+  ],
+  "users": [
+    {
+      "id": "1",
+      "email": "admin@autoescuela.com",
+      "password": "admin123",
+      "name": "Administrador",
+      "role": "admin",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.admin"
+    },
+    {
+      "id": "2",
+      "email": "usuario@test.com",
+      "password": "user123",
+      "name": "Usuario Test",
+      "role": "user",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.user"
+    },
+    {
+      "id": "3",
+      "email": "instructor@autoescuela.com",
+      "password": "instructor123",
+      "name": "Instructor Principal",
+      "role": "instructor",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.instructor"
+    }
+  ]
+}
+

@@ -710,6 +710,8 @@ Los componentes principales están organizados en:
 | **LeccionService** | CRUD de lecciones (simulado con delay) | `services/leccion.service.ts` |
 | **BreadcrumbService** | Construcción automática de breadcrumbs | `services/breadcrumb.service.ts` |
 | **ThemeService** | Gestión de temas (claro/oscuro) | `services/theme.service.ts` |
+| **ApiService** | Servicio base HTTP con métodos genéricos | `core/services/api.service.ts` |
+| **ProductService** | CRUD de productos (FASE 5) | `features/products/product.service.ts` |
 
 ### Guards
 
@@ -723,6 +725,167 @@ Los componentes principales están organizados en:
 | Resolver | Tipo | Propósito | Rutas |
 |----------|------|-----------|-------|
 | **leccionResolver** | ResolveFn | Precargar lección por ID | `/lecciones/:id` |
+
+---
+
+## Sistema HTTP (FASE 5)
+
+### Configuración de HttpClient (Tarea 5.1)
+
+El proyecto utiliza `HttpClient` de Angular con una arquitectura basada en:
+
+- **provideHttpClient** en `app.config.ts` con interceptores funcionales
+- **ApiService** como servicio base reutilizable
+- **authInterceptor** para headers comunes en todas las peticiones
+
+#### Configuración Global
+
+```typescript
+// app.config.ts
+provideHttpClient(
+  withInterceptors([authInterceptor])
+)
+```
+
+#### Servicio Base - ApiService
+
+Centraliza la URL base (`http://localhost:3000`) y proporciona métodos genéricos:
+
+```typescript
+// core/services/api.service.ts
+@Injectable({ providedIn: 'root' })
+export class ApiService {
+  get<T>(endpoint: string): Observable<T>
+  post<T>(endpoint: string, body: unknown): Observable<T>
+  put<T>(endpoint: string, body: unknown): Observable<T>
+  patch<T>(endpoint: string, body: unknown): Observable<T>
+  delete<T>(endpoint: string): Observable<T>
+}
+```
+
+#### Interceptor de Autenticación
+
+Añade headers automáticamente a todas las peticiones:
+
+```typescript
+// core/interceptors/auth.interceptor.ts
+export const authInterceptor: HttpInterceptorFn = (req, next) => {
+  // Headers añadidos:
+  // - Content-Type: application/json
+  // - X-App-Client: Angular-DWEC
+  // - Authorization: Bearer <token> (si existe)
+}
+```
+
+### Operaciones CRUD Completas (Tarea 5.2)
+
+El proyecto implementa un CRUD completo de productos consumiendo una API REST simulada con json-server.
+
+#### ProductService
+
+```typescript
+// features/products/product.service.ts
+@Injectable({ providedIn: 'root' })
+export class ProductService {
+  getAll(): Observable<Product[]>           // GET /products
+  getById(id: string): Observable<Product>  // GET /products/:id
+  create(dto: CreateProductDto): Observable<Product>  // POST /products
+  update(id: string, dto: UpdateProductDto): Observable<Product>  // PUT /products/:id
+  patch(id: string, dto: Partial<UpdateProductDto>): Observable<Product>  // PATCH /products/:id
+  delete(id: string): Observable<void>      // DELETE /products/:id
+}
+```
+
+#### Endpoints API
+
+| Método | Endpoint | Descripción | Componente |
+|--------|----------|-------------|------------|
+| GET | `/products` | Listado de productos | ProductListComponent |
+| GET | `/products/:id` | Detalle de producto | ProductDetailComponent |
+| POST | `/products` | Crear producto | ProductFormComponent |
+| PUT | `/products/:id` | Actualizar producto | ProductFormComponent |
+| DELETE | `/products/:id` | Eliminar producto | ProductList/DetailComponent |
+
+#### Backend Simulado
+
+El proyecto usa **json-server** para simular una API REST:
+
+```bash
+# Instalar dependencias
+npm install -D json-server concurrently
+
+# Iniciar solo API
+npm run api
+
+# Iniciar API + Angular simultáneamente
+npm run dev:full
+```
+
+**Base de datos:** `db.json` en raíz del proyecto con:
+- 10 productos variados (categorías: Manuales, Tests, Simuladores, Packs, Cursos)
+- 3 usuarios para autenticación simulada
+
+**Puerto:** 3000  
+**URL base:** `http://localhost:3000`
+
+#### Componentes UI
+
+**ProductListComponent** (`/products`)
+- Muestra grid de productos desde la API
+- Botón "Eliminar" con confirmación (DELETE)
+- Navegación a detalle y edición
+- Estados: carga, error, vacío
+
+**ProductDetailComponent** (`/products/:id`)
+- Muestra detalle completo del producto (GET)
+- Información: precio, stock, categoría, fecha de creación
+- Acciones: editar, eliminar
+
+**ProductFormComponent** (`/products/new` y `/products/:id/edit`)
+- Formulario reactivo con validaciones
+- Modo crear (POST) y editar (PUT)
+- Campos: nombre, descripción, precio, stock, categoría, imagen
+- Preview de imagen
+- Feedback de guardado
+
+#### Modelos de Datos
+
+```typescript
+// features/products/models/product.ts
+
+interface Product {
+  id: string
+  name: string
+  description: string
+  price: number
+  imageUrl: string
+  category: string
+  stock: number
+  createdAt: string
+}
+
+interface CreateProductDto {
+  // Todos los campos excepto id y createdAt
+}
+
+interface UpdateProductDto {
+  // Todos los campos opcionales (actualización parcial)
+}
+```
+
+### Arquitectura HTTP
+
+```
+Component (UI)
+    ↓ usa
+ProductService (CRUD específico)
+    ↓ delega en
+ApiService (HTTP genérico)
+    ↓ usa
+HttpClient + authInterceptor
+    ↓ petición HTTP
+json-server (API REST simulada)
+```
 
 ---
 

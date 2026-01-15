@@ -1,0 +1,75 @@
+<div class="product-detail">
+  <div class="product-detail__header">
+    <a routerLink="/products" class="btn btn--back">
+      ← Volver al catálogo
+    </a>
+  </div>
+
+  <!-- Estado de carga -->
+  <div *ngIf="loading()" class="product-detail__loading">
+    <p>Cargando producto...</p>
+  </div>
+
+  <!-- Estado de error -->
+  <div *ngIf="error()" class="product-detail__error">
+    <h2>Error</h2>
+    <p>{{ error() }}</p>
+    <a routerLink="/products" class="btn btn--primary">
+      Volver al catálogo
+    </a>
+  </div>
+
+  <!-- Detalle del producto -->
+  <div *ngIf="!loading() && product() as product" class="product-detail__content">
+    <div class="product-detail__image">
+      <img [src]="product.imageUrl" [alt]="product.name" />
+    </div>
+
+    <div class="product-detail__info">
+      <span class="product-detail__category">{{ product.category }}</span>
+      <h1 class="product-detail__title">{{ product.name }}</h1>
+
+      <div class="product-detail__meta">
+        <div class="product-detail__price">
+          <span class="product-detail__price-label">Precio:</span>
+          <span class="product-detail__price-value">{{ formatPrice(product.price) }}</span>
+        </div>
+
+        <div class="product-detail__stock">
+          <span class="product-detail__stock-label">Disponibilidad:</span>
+          <span
+            class="product-detail__stock-value"
+            [class.product-detail__stock-value--low]="product.stock < 10"
+            [class.product-detail__stock-value--out]="product.stock === 0">
+            {{ product.stock > 0 ? product.stock + ' unidades' : 'Agotado' }}
+          </span>
+        </div>
+
+        <div class="product-detail__date">
+          <span class="product-detail__date-label">Fecha de alta:</span>
+          <span class="product-detail__date-value">{{ formatDate(product.createdAt) }}</span>
+        </div>
+      </div>
+
+      <div class="product-detail__description">
+        <h2>Descripción</h2>
+        <p>{{ product.description }}</p>
+      </div>
+
+      <div class="product-detail__actions">
+        <a
+          [routerLink]="['/products', product.id, 'edit']"
+          class="btn btn--primary">
+          Editar producto
+        </a>
+        <button
+          (click)="onDelete()"
+          class="btn btn--danger"
+          type="button">
+          Eliminar producto
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
