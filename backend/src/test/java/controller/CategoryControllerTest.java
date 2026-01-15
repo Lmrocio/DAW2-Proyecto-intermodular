@@ -1,6 +1,6 @@
 package controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import dto.request.CreateCategoryRequest;
 import model.Category;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -39,19 +39,16 @@ public class CategoryControllerTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private ObjectMapper objectMapper;
-
-    @Autowired
     private CategoryService categoryService;
 
     private Category testCategory;
 
     @BeforeEach
     public void setUp() {
-        testCategory = new Category();
-        testCategory.setName("Test Category");
-        testCategory.setDescription("Categoría de prueba");
-        testCategory = categoryService.createCategory(testCategory);
+        CreateCategoryRequest request = new CreateCategoryRequest();
+        request.setName("Test Category");
+        request.setDescription("Categoría de prueba");
+        testCategory = categoryService.createCategory(request);
     }
 
     // ============================================
@@ -93,13 +90,11 @@ public class CategoryControllerTest {
     @Test
     @DisplayName("POST /api/categories - Sin autenticación (401 Unauthorized)")
     public void testCreateCategoryUnauthorized() throws Exception {
-        Category request = new Category();
-        request.setName("Nueva Categoría");
-        request.setDescription("Descripción");
+        String request = "{\"name\":\"Nueva Categoría\",\"description\":\"Descripción\"}";
 
         mockMvc.perform(post("/api/categories")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)))
+                .content(request))
                 .andExpect(status().isUnauthorized());
     }
 
@@ -107,13 +102,11 @@ public class CategoryControllerTest {
     @DisplayName("POST /api/categories - Usuario sin rol ADMIN (403 Forbidden)")
     @WithMockUser(roles = "USER")
     public void testCreateCategoryForbidden() throws Exception {
-        Category request = new Category();
-        request.setName("Nueva Categoría");
-        request.setDescription("Descripción");
+        String request = "{\"name\":\"Nueva Categoría\",\"description\":\"Descripción\"}";
 
         mockMvc.perform(post("/api/categories")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)))
+                .content(request))
                 .andExpect(status().isForbidden());
     }
 
@@ -121,13 +114,11 @@ public class CategoryControllerTest {
     @DisplayName("POST /api/categories - Crear categoría exitosamente (201 Created)")
     @WithMockUser(roles = "ADMIN")
     public void testCreateCategorySuccess() throws Exception {
-        Category request = new Category();
-        request.setName("Nueva Categoría Única");
-        request.setDescription("Descripción nueva");
+        String request = "{\"name\":\"Nueva Categoría Única\",\"description\":\"Descripción nueva\"}";
 
         mockMvc.perform(post("/api/categories")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)))
+                .content(request))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id", notNullValue()))
                 .andExpect(jsonPath("$.name", is("Nueva Categoría Única")));
@@ -137,13 +128,11 @@ public class CategoryControllerTest {
     @DisplayName("POST /api/categories - Nombre duplicado (409 Conflict)")
     @WithMockUser(roles = "ADMIN")
     public void testCreateCategoryDuplicate() throws Exception {
-        Category request = new Category();
-        request.setName(testCategory.getName());
-        request.setDescription("Descripción diferente");
+        String request = "{\"name\":\"" + testCategory.getName() + "\",\"description\":\"Descripción diferente\"}";
 
         mockMvc.perform(post("/api/categories")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)))
+                .content(request))
                 .andExpect(status().isConflict())
                 .andExpect(jsonPath("$.code", is("DUPLICATE_RESOURCE")));
     }
@@ -152,12 +141,11 @@ public class CategoryControllerTest {
     @DisplayName("POST /api/categories - Validación fallida (400 Bad Request)")
     @WithMockUser(roles = "ADMIN")
     public void testCreateCategoryValidationFailed() throws Exception {
-        Category request = new Category();
-        request.setName(""); // Vacío
+        String request = "{\"name\":\"\"}";
 
         mockMvc.perform(post("/api/categories")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)))
+                .content(request))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code", is("VALIDATION_ERROR")));
     }
@@ -169,13 +157,11 @@ public class CategoryControllerTest {
     @Test
     @DisplayName("PUT /api/categories/{id} - Sin autenticación (401 Unauthorized)")
     public void testUpdateCategoryUnauthorized() throws Exception {
-        Category request = new Category();
-        request.setName("Actualizado");
-        request.setDescription("Descripción actualizada");
+        String request = "{\"name\":\"Actualizado\",\"description\":\"Descripción actualizada\"}";
 
         mockMvc.perform(put("/api/categories/{id}", testCategory.getId())
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)))
+                .content(request))
                 .andExpect(status().isUnauthorized());
     }
 
@@ -183,13 +169,11 @@ public class CategoryControllerTest {
     @DisplayName("PUT /api/categories/{id} - Actualizar exitosamente (200 OK)")
     @WithMockUser(roles = "ADMIN")
     public void testUpdateCategorySuccess() throws Exception {
-        Category request = new Category();
-        request.setName("Categoría Actualizada");
-        request.setDescription("Nueva descripción");
+        String request = "{\"name\":\"Categoría Actualizada\",\"description\":\"Nueva descripción\"}";
 
         mockMvc.perform(put("/api/categories/{id}", testCategory.getId())
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)))
+                .content(request))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", is("Categoría Actualizada")))
                 .andExpect(jsonPath("$.description", is("Nueva descripción")));
@@ -199,13 +183,11 @@ public class CategoryControllerTest {
     @DisplayName("PUT /api/categories/{id} - Categoría no existe (404 Not Found)")
     @WithMockUser(roles = "ADMIN")
     public void testUpdateCategoryNotFound() throws Exception {
-        Category request = new Category();
-        request.setName("Actualizado");
-        request.setDescription("Descripción");
+        String request = "{\"name\":\"Actualizado\",\"description\":\"Descripción\"}";
 
         mockMvc.perform(put("/api/categories/{id}", 999L)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)))
+                .content(request))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.code", is("RESOURCE_NOT_FOUND")));
     }

@@ -60,6 +60,9 @@ p {
 }
 ```
 
+<img width="939" height="343" alt="Captura de pantalla 2025-12-18 205343" src="https://github.com/user-attachments/assets/1da45e72-3c55-40ac-92b7-7049a1fd4778" />
+
+
 #### Contraste
 
 El contraste es crítico para usuarios con visión reducida, una condición muy común en mayores de 65 años.
@@ -76,6 +79,9 @@ Colores semánticos con alto contraste:
 - Exito: `$color-success: #74eb05` (verde brillante)
 - Advertencia: `$color-warning: #fde800` (amarillo brillante)
 - Informacion: `$color-info: #00cffd` (azul claro brillante)
+
+<img width="926" height="570" alt="Captura de pantalla 2025-12-18 205556" src="https://github.com/user-attachments/assets/fee44471-72c9-40e5-9461-384fadc9f98e" />
+
 
 #### Alineación
 
@@ -100,6 +106,9 @@ Ejemplo de implementación:
   margin-right: auto;
 }
 ```
+
+<img width="1153" height="764" alt="Captura de pantalla 2025-12-18 205738" src="https://github.com/user-attachments/assets/479ca715-4336-40d5-a272-62ee4ef298ec" />
+
 
 #### Proximidad
 
@@ -127,6 +136,9 @@ section + section {
 }
 ```
 
+<img width="978" height="707" alt="Captura de pantalla 2025-12-18 205836" src="https://github.com/user-attachments/assets/db249a66-fd4f-4358-86a2-84d78975b4b4" />
+
+
 #### Repetición
 
 La repetición crea cohesión visual y comunica que los elementos están relacionados entre si.
@@ -150,6 +162,9 @@ button, .card, input { border-radius: $radius-md; }
 
 button, a, input { @include transition; }
 ```
+
+<img width="946" height="724" alt="Captura de pantalla 2025-12-18 205957" src="https://github.com/user-attachments/assets/3ab9f340-628b-4222-a2a7-0c32c824b89f" />
+
 
 ---
 
@@ -1769,10 +1784,35 @@ El Style Guide esta organizado en secciones tematicas:
 - Breakpoints responsive
 - Transiciones
 
+<img width="998" height="723" alt="Captura de pantalla 2025-12-18 210217" src="https://github.com/user-attachments/assets/68708e1f-7af6-44a7-a6f4-5ecf690b087f" />
+
+<img width="1000" height="790" alt="Captura de pantalla 2025-12-18 210251" src="https://github.com/user-attachments/assets/e7c98b67-1d8c-4f4a-b4eb-dbcb43efe927" />
+
+
+<img width="975" height="208" alt="Captura de pantalla 2025-12-18 210352" src="https://github.com/user-attachments/assets/92e81ca1-a161-4830-8351-2368ecf8eef6" />
+
+
+<img width="964" height="799" alt="Captura de pantalla 2025-12-18 210333" src="https://github.com/user-attachments/assets/98c459eb-a779-471f-8a6d-e569e3e89c76" />
+
+
+<img width="975" height="808" alt="Captura de pantalla 2025-12-18 210321" src="https://github.com/user-attachments/assets/6262590c-e0b6-4bf5-9a15-010703cdc995" />
+
+
+<img width="967" height="803" alt="Captura de pantalla 2025-12-18 210308" src="https://github.com/user-attachments/assets/20fad885-4949-4b72-905b-a395c51cdc53" />
+
+
 **Seccion 1: Cards**
 - Cards verticales
 - Cards horizontales
 - Cards sin imagen
+
+<img width="972" height="336" alt="Captura de pantalla 2025-12-18 210459" src="https://github.com/user-attachments/assets/958af86b-e5b6-4917-817e-9e44fc84e0dd" />
+
+<img width="1002" height="654" alt="Captura de pantalla 2025-12-18 210450" src="https://github.com/user-attachments/assets/727f06b3-7d92-4419-ba6e-747e9cef20d2" />
+
+<img width="991" height="765" alt="Captura de pantalla 2025-12-18 210438" src="https://github.com/user-attachments/assets/5268a253-1024-4096-b81c-d874f3126fd0" />
+
+
 
 **Seccion 2: Botones**
 - Variante Primary (3 tamanos + disabled)
@@ -1780,16 +1820,34 @@ El Style Guide esta organizado en secciones tematicas:
 - Variante Ghost (3 tamanos + disabled)
 - Variante Danger (3 tamanos + disabled)
 
+<img width="988" height="538" alt="Captura de pantalla 2025-12-18 210550" src="https://github.com/user-attachments/assets/f5e4aa05-ace8-48dd-a50b-62027f2e500b" />
+
+<img width="977" height="456" alt="Captura de pantalla 2025-12-18 210600" src="https://github.com/user-attachments/assets/2b26938c-a33f-493c-bee1-c597d64d32fd" />
+
+
 **Seccion 3: Formularios**
 - Form Input (normal, con error, con ayuda)
 - Form Textarea (normal, con error)
 - Form Select (con opciones)
+
+
+<img width="980" height="322" alt="Captura de pantalla 2025-12-18 210645" src="https://github.com/user-attachments/assets/7f9bd2ee-9773-42f7-9f86-d22820ccd0e8" />
+
+
+<img width="980" height="680" alt="Captura de pantalla 2025-12-18 210630" src="https://github.com/user-attachments/assets/41612672-3859-4a83-9211-50f948f2bedd" />
+
 
 **Seccion 4: Alertas**
 - Alert Success
 - Alert Error
 - Alert Warning
 - Alert Info
+
+<img width="984" height="392" alt="Captura de pantalla 2025-12-18 210740" src="https://github.com/user-attachments/assets/2d20a4a2-b37f-4930-92ca-da1ed078a512" />
+
+
+<img width="989" height="468" alt="Captura de pantalla 2025-12-18 210731" src="https://github.com/user-attachments/assets/0566b332-129a-4530-8487-cc9ff01fe9f9" />
+
 
 Cada seccion muestra:
 - Titulo descriptivo del componente

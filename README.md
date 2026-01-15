@@ -5,7 +5,12 @@
 
 ## ÍNDICE CON ENLACES DE INTERÉS
 
-[Práctica 1.1 del módulo DAW](./DAW/README.md)
+### [DAW --> Práctica 1.1](./DAW/README.md)
 
-[📦 Entrega del módulo DWES - Plataforma Educativa Backend](./DWES/README.md) - **Proyecto Backend con Spring Boot, JWT, Tests y API REST completa**
+### [DWES --> Documentación entregas](./DWES/README.md)
 
+### [DIW --> Documentación fases](./frontend/docs/design/DOCUMENTACION.md)
+
+### [DWEC --> Documentación fases](./frontend/docs/cliente/DOCUMENTACION.md)
+
+### [Enlace al frontend desplegado](https://lmrocio.github.io/DAW2-Proyecto-intermodular/)

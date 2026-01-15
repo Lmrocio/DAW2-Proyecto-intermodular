@@ -1,10 +1,11 @@
 package controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import dto.request.CreateLessonRequest;
+import dto.request.CreateCategoryRequest;
+import dto.request.CreateStepRequest;
+import dto.request.RegisterRequest;
 import model.Category;
 import model.Lesson;
-import model.Step;
 import model.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -41,8 +42,6 @@ public class ProgressControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
-    private ObjectMapper objectMapper;
 
     @Autowired
     private UserService userService;
@@ -71,9 +70,9 @@ public class ProgressControllerTest {
         testUser = userService.registerUser(registerRequest);
 
         // Crear categoría
-        testCategory = new Category();
-        testCategory.setName("Progress Test Category");
-        testCategory = categoryService.createCategory(testCategory);
+        CreateCategoryRequest categoryRequest = new CreateCategoryRequest();
+        categoryRequest.setName("Progress Test Category");
+        testCategory = categoryService.createCategory(categoryRequest);
 
         // Crear lección
         CreateLessonRequest lessonRequest = new CreateLessonRequest();
@@ -83,12 +82,11 @@ public class ProgressControllerTest {
         publishedLesson = lessonService.createLesson(lessonRequest, testUser.getId());
 
         // Crear paso
-        Step step = new Step();
-        step.setLesson(publishedLesson);
-        step.setStepOrder(1);
-        step.setTitle("Step 1");
-        step.setContent("Content");
-        stepService.createStep(publishedLesson.getId(), step, testUser.getId());
+        CreateStepRequest stepRequest = new CreateStepRequest();
+        stepRequest.setStepOrder(1);
+        stepRequest.setTitle("Step 1");
+        stepRequest.setContent("Content");
+        stepService.createStep(publishedLesson.getId(), stepRequest, testUser.getId());
 
         // Publicar lección
         publishedLesson = lessonService.publishLesson(publishedLesson.getId(), testUser.getId());
