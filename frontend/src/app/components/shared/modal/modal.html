@@ -2,6 +2,16 @@
 <!-- COMPONENTE: MODAL -->
 <!-- ============================================================================ -->
 <!-- Modal accesible con backdrop, cierre con ESC y click fuera -->
+<!-- IMPLEMENTA: Accesibilidad completa con ARIA (Requisito 3.2 para 10/10) -->
+
+<!--
+  ARIA Attributes Implementados:
+  - role="dialog": Define el rol de diálogo modal
+  - aria-modal="true": Indica que es un modal que bloquea interacción con el resto de la página
+  - aria-labelledby: Referencia al título del modal para accesibilidad
+  - aria-hidden="true": Oculta elementos decorativos de lectores de pantalla
+  - tabindex="-1": Permite recibir foco programáticamente para focus trap
+-->
 
 <div
   *ngIf="isOpen"

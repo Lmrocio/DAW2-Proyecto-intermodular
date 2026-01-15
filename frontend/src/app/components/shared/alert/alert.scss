@@ -66,35 +66,78 @@
 }
 
 // ============================================================================
-// ELEMENTO: BOTÓN CERRAR
+// ELEMENTO: TAGS DINÁMICOS (Requisito 1.3 - createElement/removeChild)
 // ============================================================================
-.alert__close {
-  border: none;
-  background: transparent;
+.alert__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-2;
+  margin-top: $spacing-2;
+}
+
+.alert__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-1;
+
+  padding: $spacing-1 $spacing-2;
+  border-radius: $radius-full;
+
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+
+  background-color: rgba(0, 0, 0, 0.1);
+  color: inherit;
+
+  animation: tagSlideIn $transition-fast $easing-out;
+
+  @include transition(all, $transition-fast);
+}
+
+.alert__tag--removing {
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+.alert__tag-remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 16px;
+  height: 16px;
   padding: 0;
-  margin: 0;
+
+  border: none;
+  border-radius: $radius-full;
+  background-color: rgba(0, 0, 0, 0.15);
+
+  font-size: $font-size-xs;
+  line-height: 1;
+  color: inherit;
+
   cursor: pointer;
 
-  flex-shrink: 0;
-  width: $icon-size-sm;
-  height: $icon-size-sm;
-
-  @include flex(center, center);
-
-  font-size: $font-size-lg;
-  font-weight: $font-weight-bold;
-  line-height: 1;
-
-  @include transition(opacity, $transition-fast);
+  @include transition(background-color, $transition-fast);
 
   @include hover {
-    opacity: 0.6;
+    background-color: rgba(0, 0, 0, 0.25);
   }
 
   @include focus-visible {
     outline: 2px solid currentColor;
-    outline-offset: 2px;
-    border-radius: $radius-sm;
+    outline-offset: 1px;
+  }
+}
+
+@keyframes tagSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 }
 
@@ -238,4 +281,3 @@
     animation: none;
   }
 }
-
