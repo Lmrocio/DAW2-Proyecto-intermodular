@@ -1,195 +1,285 @@
-@import '../../../../styles/00-settings/variables';
-@import '../../../../styles/00-settings/css-variables';
+// ============================================================================
+// FOOTER - TecnoMayores
+// ============================================================================
+// Estructura según especificaciones:
+// - Fondo blanco
+// - Grid 4 columnas (Branding, Secciones, Información, Newsletter)
+// - Newsletter card beige con border amarillo
+// - Copyright con badges derecha
 
+// ============================================================================
+// CONTENEDOR PRINCIPAL
+// ============================================================================
 .app-footer {
-  background-color: var(--bg-tertiary);
-  border-top: $border-medium solid var(--border-color-primary);
-  color: var(--text-primary);
-
-  margin-top: $spacing-16;
-  padding: $spacing-12 $spacing-6;
-
-  transition: background-color $transition-base $easing-in-out,
-              border-color $transition-base $easing-in-out;
-
-  @media (max-width: $breakpoint-md) {
-    padding: $spacing-8 $spacing-4;
-    margin-top: $spacing-8;
-  }
+  background: white;
+  border-top: 1px solid #E0E0E0;
 }
 
 .app-footer__container {
-  max-width: $max-width-container;
+  max-width: 1200px;
   margin: 0 auto;
+  padding: 80px 60px 60px;
 
-  display: flex;
-  flex-direction: column;
-  gap: $spacing-8;
+  @media (max-width: 768px) {
+    padding: 60px 24px 40px;
+  }
 }
 
 // ============================================================================
-// CONTENIDO PRINCIPAL DEL FOOTER
+// GRID PRINCIPAL (4 COLUMNAS)
 // ============================================================================
-.app-footer__content {
+.app-footer__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: $spacing-8;
+  grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
+  gap: 48px;
+  margin-bottom: 48px;
 
-  @media (max-width: $breakpoint-md) {
+  @media (max-width: 1024px) {
     grid-template-columns: repeat(2, 1fr);
-    gap: $spacing-6;
+    gap: 40px;
   }
 
-  @media (max-width: $breakpoint-sm) {
+  @media (max-width: 640px) {
     grid-template-columns: 1fr;
-    gap: 1rem;
+    gap: 32px;
   }
 }
 
-// ============================================================================
-// SECCIONES DEL FOOTER
-// ============================================================================
 .app-footer__section {
-  display: flex;
-  flex-direction: column;
-  gap: $spacing-3;
-}
-
-.app-footer__section-title {
-  font-size: 1.125rem;
-  font-weight: $font-weight-semibold;
-  color: var(--text-primary);
-  margin: 0;
-
-  padding-bottom: $spacing-2;
-  border-bottom: $border-medium solid var(--color-primary);
-
-  @media (max-width: $breakpoint-sm) {
-    font-size: $font-size-base;
-  }
-}
-
-.app-footer__description {
-  font-size: $font-size-sm;
-  color: var(--text-secondary);
-  margin: 0;
-  line-height: $line-height-normal;
-  max-width: 250px;
+  // Estilos base para secciones
 }
 
 // ============================================================================
-// NAVEGACIÓN EN FOOTER
+// COLUMNA 1: BRANDING
 // ============================================================================
-
-.app-footer__nav-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+.app-footer__logo {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1E5FBE;
+  margin: 0 0 16px 0;
 }
 
-.app-footer__link {
-  display: inline-block;
-  color: var(--text-secondary);
-  text-decoration: none;
-  font-size: 0.875rem;
-
-  padding: 0.35rem 0.5rem;
-
-  transition: color 300ms ease-in-out, padding-left 300ms ease-in-out;
-  border-radius: 0.25rem;
-
-  &:hover {
-    color: var(--color-primary);
-    padding-left: 0.75rem;
-  }
-
-  &:focus {
-    outline: none;
-  }
-
-  &:focus-visible {
-    outline: 2px solid var(--color-accent);
-    outline-offset: 2px;
-    border-radius: 0.25rem;
-  }
+.app-footer__tagline {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #6B7280;
+  margin: 0 0 24px 0;
+  max-width: 280px;
 }
 
-// ============================================================================
-// REDES SOCIALES
-// ============================================================================
 .app-footer__social {
   display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
+  gap: 12px;
 }
 
 .app-footer__social-link {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
-
-  width: 2.5rem;
-  height: 2.5rem;
-
-  background-color: var(--color-primary);
-  color: var(--text-dark);
+  width: 40px;
+  height: 40px;
+  border: 1px solid #D1D5DB;
+  border-radius: 8px;
+  color: #6B7280;
   text-decoration: none;
-  font-size: 1rem;
-  font-weight: 600;
-
-  border-radius: 50%;
-  border: 2px solid transparent;
-
-  transition:
-    background-color 300ms ease-in-out,
-    transform 300ms ease-in-out,
-    border-color 300ms ease-in-out;
+  transition: all 0.3s ease;
 
   &:hover {
-    background-color: var(--color-secondary);
-    transform: translateY(-3px);
-  }
-
-  &:focus {
-    outline: none;
+    background: #F3F4F6;
+    border-color: #1E5FBE;
+    color: #1E5FBE;
   }
 
   &:focus-visible {
-    border-color: var(--color-accent);
-    box-shadow: 0 0 0 3px rgba(4, 84, 177, 0.1);
-  }
-
-  &:active {
-    transform: translateY(-1px);
+    outline: 3px solid #FFD166;
+    outline-offset: 2px;
   }
 }
 
 // ============================================================================
-// BARRA INFERIOR CON COPYRIGHT
+// COLUMNAS 2 Y 3: SECCIONES E INFORMACIÓN
 // ============================================================================
-.app-footer__bottom {
-  border-top: 1px solid var(--border-color-primary);
-  padding-top: 1.5rem;
+.app-footer__section-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #111827;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0 0 20px 0;
+}
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.app-footer__nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.app-footer__link {
+  display: block;
+  font-size: 14px;
+  color: #6B7280;
+  text-decoration: none;
+  line-height: 2;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: #1E5FBE;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #FFD166;
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+}
+
+// ============================================================================
+// COLUMNA 4: NEWSLETTER
+// ============================================================================
+.app-footer__newsletter {
+  background: #FFF4D6;
+  border: 2px solid #FFD166;
+  border-radius: 16px;
+  padding: 30px;
 
   @media (max-width: 640px) {
-    padding-top: 1rem;
+    padding: 24px;
+  }
+}
+
+.app-footer__newsletter-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 8px 0;
+}
+
+.app-footer__newsletter-subtitle {
+  font-size: 14px;
+  color: #6B7280;
+  margin: 0 0 20px 0;
+  line-height: 1.5;
+}
+
+.app-footer__newsletter-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.app-footer__newsletter-input {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #D1D5DB;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+
+  &:focus {
+    outline: none;
+    border-color: #1E5FBE;
+    box-shadow: 0 0 0 3px rgba(30, 95, 190, 0.1);
+  }
+
+  &::placeholder {
+    color: #9CA3AF;
+  }
+}
+
+.app-footer__newsletter-btn {
+  width: 100%;
+  padding: 12px 24px;
+  background: #1E5FBE;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: #164A9B;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(30, 95, 190, 0.3);
+  }
+
+  &:focus-visible {
+    outline: 3px solid #FFD166;
+    outline-offset: 2px;
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+// ============================================================================
+// SEPARADOR
+// ============================================================================
+.app-footer__separator {
+  height: 1px;
+  background: #E5E7EB;
+  margin-bottom: 32px;
+}
+
+// ============================================================================
+// COPYRIGHT Y BADGES
+// ============================================================================
+.app-footer__bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+
+  @media (max-width: 640px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
   }
 }
 
 .app-footer__copyright {
-  font-size: 0.75rem;
-  color: var(--text-tertiary);
+  font-size: 14px;
+  color: #6B7280;
   margin: 0;
-  text-align: center;
+}
 
-  padding: 0 1rem;
+.app-footer__badges {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+
+  @media (max-width: 640px) {
+    width: 100%;
+  }
+}
+
+.app-footer__badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border: 1px solid #D1D5DB;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #6B7280;
+  background: white;
+  white-space: nowrap;
+
+  &:first-child {
+    font-weight: 600;
+  }
+}
+
+// ============================================================================
+// REDUCCIÓN DE MOVIMIENTO
+// ============================================================================
+@media (prefers-reduced-motion: reduce) {
+  .app-footer__social-link,
+  .app-footer__link,
+  .app-footer__newsletter-input,
+  .app-footer__newsletter-btn {
+    transition: none;
+  }
 }
 

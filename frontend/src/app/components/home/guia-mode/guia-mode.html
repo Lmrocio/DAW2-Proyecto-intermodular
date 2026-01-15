@@ -1,0 +1,23 @@
+<div class="guia-mode">
+  <div class="guia-mode__container">
+    <div class="guia-mode__card">
+      <div class="guia-mode__icon">
+        <lucide-angular [img]="Sparkles" [size]="60"></lucide-angular>
+      </div>
+
+      <div class="guia-mode__content">
+        <h2 class="guia-mode__title">¿Te sientes un poco perdido?</h2>
+        <p class="guia-mode__description">
+          Activa el Modo Guía y te ayudaremos paso a paso en todo lo que necesites.
+          Es como tener un profesor personal a tu lado.
+        </p>
+      </div>
+
+      <button (click)="activateGuiaMode()" class="guia-mode__btn">
+        <lucide-angular [img]="Circle" [size]="20" class="guia-mode__btn-icon"></lucide-angular>
+        Activar Modo Guía ahora
+      </button>
+    </div>
+  </div>
+</div>
+

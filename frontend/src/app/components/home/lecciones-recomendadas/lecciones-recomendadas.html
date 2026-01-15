@@ -1,0 +1,55 @@
+<section class="lecciones-recomendadas">
+  <div class="lecciones-recomendadas__container">
+    <!-- Header -->
+    <div class="lecciones-recomendadas__header">
+      <div>
+        <h2 class="lecciones-recomendadas__title">Lecciones recomendadas</h2>
+        <p class="lecciones-recomendadas__subtitle">
+          Empieza por aquí si es tu primera vez
+        </p>
+      </div>
+      <a routerLink="/lecciones" class="lecciones-recomendadas__link">
+        Ver todas las lecciones
+        <lucide-angular [img]="ArrowRight" [size]="16"></lucide-angular>
+      </a>
+    </div>
+
+    <!-- Grid de Cards -->
+    <div class="lecciones-recomendadas__grid">
+      <article *ngFor="let leccion of lecciones" class="lecciones-recomendadas__card">
+        <!-- Imagen/Icono -->
+        <div class="lecciones-recomendadas__icon-wrapper">
+          <img
+            [src]="leccion.imagen"
+            [alt]="leccion.titulo"
+            class="lecciones-recomendadas__icon"
+          />
+        </div>
+
+        <!-- Badge Nivel -->
+        <span
+          class="lecciones-recomendadas__badge"
+          [class]="'lecciones-recomendadas__badge--' + leccion.nivelColor"
+        >
+          {{ leccion.nivel }}
+        </span>
+
+        <!-- Título -->
+        <h3 class="lecciones-recomendadas__card-title">
+          {{ leccion.titulo }}
+        </h3>
+
+        <!-- Descripción -->
+        <p class="lecciones-recomendadas__card-description">
+          {{ leccion.descripcion }}
+        </p>
+
+        <!-- Botón -->
+        <button class="lecciones-recomendadas__btn">
+          Empezar lección
+        </button>
+      </article>
+    </div>
+  </div>
+</section>
+

@@ -1,0 +1,54 @@
+<section class="testimonios">
+  <div class="testimonios__container">
+    <h2 class="testimonios__title">Lo que dicen nuestros alumnos</h2>
+
+    <div class="testimonios__carousel">
+      <!-- Navigation Button Left -->
+      <button
+        (click)="prevTestimonial()"
+        class="testimonios__nav testimonios__nav--prev"
+        aria-label="Testimonio anterior"
+      >
+        ‹
+      </button>
+
+      <!-- Testimonial Card -->
+      <div class="testimonios__card">
+        <div class="testimonios__quote-icon">
+          <lucide-angular [img]="Quote" [size]="40"></lucide-angular>
+        </div>
+
+        <p class="testimonios__text">{{ currentTestimonial.text }}</p>
+
+        <div class="testimonios__author">
+          <div class="testimonios__avatar">{{ currentTestimonial.avatar }}</div>
+          <div class="testimonios__author-info">
+            <div class="testimonios__author-name">{{ currentTestimonial.name }}</div>
+            <div class="testimonios__author-age">{{ currentTestimonial.age }}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Button Right -->
+      <button
+        (click)="nextTestimonial()"
+        class="testimonios__nav testimonios__nav--next"
+        aria-label="Siguiente testimonio"
+      >
+        ›
+      </button>
+    </div>
+
+    <!-- Dots Indicator -->
+    <div class="testimonios__dots">
+      <button
+        *ngFor="let testimonial of testimonials; let i = index"
+        (click)="goToTestimonial(i)"
+        class="testimonios__dot"
+        [class.testimonios__dot--active]="i === currentIndex"
+        [attr.aria-label]="'Ir a testimonio ' + (i + 1)"
+      ></button>
+    </div>
+  </div>
+</section>
+

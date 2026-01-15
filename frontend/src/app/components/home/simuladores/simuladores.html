@@ -1,0 +1,43 @@
+<section class="simuladores">
+  <div class="simuladores__container">
+    <span class="simuladores__tag">Practica seguro</span>
+
+    <h2 class="simuladores__title">
+      Practica sin miedo a equivocarte
+    </h2>
+
+    <p class="simuladores__description">
+      Nuestros simuladores son como juegos educativos. Aquí puedes practicar
+      todas las veces que quieras sin romper nada.
+    </p>
+
+    <!-- Imagen -->
+    <div class="simuladores__image">
+      <img
+        src="assets/images/imagen-2.svg"
+        alt="Pantalla de práctica del simulador"
+        class="simuladores__image-real"
+      />
+    </div>
+
+    <!-- Features grid -->
+    <div class="simuladores__features">
+      <div *ngFor="let feature of features" class="simuladores__feature">
+        <div class="simuladores__feature-icon">
+          <lucide-angular [img]="feature.icon" [size]="32"></lucide-angular>
+        </div>
+        <div class="simuladores__feature-content">
+          <h3 class="simuladores__feature-title">{{ feature.title }}</h3>
+          <p class="simuladores__feature-description">{{ feature.description }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA Button -->
+    <a routerLink="/simuladores" class="simuladores__btn">
+      Probar los simuladores
+      <lucide-angular [img]="Gamepad2" [size]="20" class="simuladores__btn-icon"></lucide-angular>
+    </a>
+  </div>
+</section>
+
