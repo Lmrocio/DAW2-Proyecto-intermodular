@@ -1418,6 +1418,138 @@ Lazy chunk files:
 
 ## Pruebas
 
+### Probar Sistema HTTP (FASE 5)
+
+#### Paso 1: Iniciar Backend Simulado
+
+```bash
+# Terminal 1: Iniciar json-server
+cd frontend
+npm run api
+
+# Debe mostrar:
+# Resources
+# http://localhost:3000/products
+# http://localhost:3000/users
+#
+# Home
+# http://localhost:3000
+```
+
+#### Paso 2: Iniciar Angular (Terminal 2)
+
+```bash
+npm start
+# Abre http://localhost:4200
+```
+
+#### Paso 3: Probar Operaciones CRUD
+
+**1. GET Listado (ProductListComponent)**
+- Navega a: `http://localhost:4200/products`
+- Espera a ver spinner
+- Debe mostrar grid con 10 productos
+- Verifica DevTools → Network → /products (GET 200)
+
+**2. GET Detalle (ProductDetailComponent)**
+- Click en "Ver detalle" de cualquier producto
+- Debe cargar página: `/products/:id`
+- Muestra: nombre, descripción, precio, stock, categoría
+- Verifica: precio con IVA calculado, indicador lowStock
+
+**3. POST Crear Nuevo**
+- Click en botón "Nuevo Producto"
+- Navega a: `/products/new`
+- Llena formulario:
+  - Nombre: "Test Producto"
+  - Descripción: "Descripción de prueba"
+  - Precio: 50
+  - Stock: 20
+  - Categoría: "Manuales"
+  - Imagen URL: válida
+- Click "Crear Producto"
+- Debe aparecer toast verde: "Producto creado correctamente"
+- Redirige a detalle del nuevo producto
+- Verifica DevTools → Network → POST /products (201)
+
+**4. PUT Actualizar**
+- En detalle de producto, click "Editar"
+- Navega a: `/products/:id/edit`
+- Formulario debe precargarse con datos
+- Modifica un campo (ej: precio)
+- Click "Actualizar Producto"
+- Toast verde: "Producto actualizado correctamente"
+- Verifica DevTools → Network → PUT /products/:id (200)
+
+**5. DELETE Eliminar**
+- En lista o detalle, click "Eliminar"
+- Pide confirmación: "¿Estás seguro?"
+- Confirma
+- Producto desaparece de la lista
+- Toast o actualización visual
+- Verifica DevTools → Network → DELETE /products/:id (200)
+
+#### Paso 4: Probar Estados y Errores
+
+**Estado Loading:**
+1. Ir a `/products`
+2. Observar spinner CSS mientras carga
+3. Debe desaparecer cuando termina
+
+**Estado Error:**
+1. Apagar json-server (`Ctrl+C` en Terminal 1)
+2. Recargar `/products`
+3. Debe mostrar mensaje de error
+4. Botón "Reintentar" debe funcionar
+5. Reiniciar json-server y click "Reintentar"
+
+**Estado Empty:**
+1. Eliminar todos los productos de db.json
+2. Apagar y reiniciar json-server
+3. Navegar a `/products`
+4. Debe mostrar: "No hay productos disponibles"
+5. Botón "Crear primer producto"
+
+**Toasts:**
+1. Crear producto → toast verde ✅
+2. Actualizar producto → toast verde ✅
+3. Eliminar producto → desaparece de lista
+4. Error (json-server apagado) → toast rojo ❌
+
+#### Paso 5: Probar Interceptores
+
+**Headers Comunes (authInterceptor):**
+1. DevTools → Network
+2. GET /products
+3. Click en petición
+4. Headers → Request Headers:
+   - ✓ Content-Type: application/json
+   - ✓ X-App-Client: Angular-DWEC
+
+**Logging (loggingInterceptor):**
+1. DevTools → Console
+2. Hacer cualquier petición HTTP
+3. Debe aparecer:
+   ```
+   🚀 HTTP Request: GET /products
+   ✅ HTTP Response: 200 OK (45ms)
+   ```
+
+**Error Mapping (errorInterceptor):**
+1. Apagar json-server
+2. Intentar cargar `/products`
+3. Debe mostrar: "No hay conexión con el servidor"
+4. (No: "Network Error" o "undefined")
+
+#### Paso 6: Probar Filtrados y Paginación
+
+**Aunque la UI no lo implemente, el endpoint existe:**
+```
+http://localhost:3000/products?_page=1&_limit=5&q=manual
+```
+
+Verifica en DevTools que los parámetros se envían correctamente si llamas desde el navegador.
+
 ### Probar Guards
 
 1. **authGuard:**
