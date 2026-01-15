@@ -1,7 +1,21 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { Leccion } from '../../services/leccion.service';
 
+/**
+ * Componente de detalle de lección
+ *
+ * FUNCIONALIDAD RESOLVER (FASE 4 - Tarea 5):
+ * - Los datos de la lección se precargan con leccionResolver
+ * - Se leen desde route.data en lugar de cargarlos aquí
+ * - Si el resolver falla, redirige a /lecciones automáticamente
+ *
+ * VENTAJAS:
+ * - No se muestra vista vacía mientras carga
+ * - Manejo centralizado de errores en resolver
+ * - Mejor UX: datos listos al activar componente
+ */
 @Component({
   selector: 'app-leccion-detalle',
   standalone: true,
@@ -12,46 +26,31 @@ import { CommonModule } from '@angular/common';
 export class LeccionDetalle implements OnInit {
   private route = inject(ActivatedRoute);
 
-  leccionId = signal<string | null>(null);
-  loading = signal<boolean>(true);
-
-  // Datos de ejemplo - en producción vendrían de un servicio
-  leccion = signal<any>(null);
+  // Datos precargados por resolver
+  leccion = signal<Leccion | null>(null);
+  loading = signal<boolean>(false);
 
   ngOnInit() {
-    // Opción 1: Lectura snapshot (valor actual)
-    const id = this.route.snapshot.paramMap.get('id');
-    this.leccionId.set(id);
+    // Leer datos PRECARGADOS desde route.data (resolver)
+    this.route.data.subscribe(data => {
+      const leccionData = data['leccion'] as Leccion | null;
 
-    // Opción 2: Suscripción a cambios de parámetro (recomendado)
-    this.route.paramMap.subscribe(params => {
-      const leccionId = params.get('id');
-      this.leccionId.set(leccionId);
-      this.cargarLeccion(leccionId);
+      if (leccionData) {
+        console.log('✅ LeccionDetalle: Datos recibidos del resolver:', leccionData);
+        this.leccion.set(leccionData);
+      } else {
+        console.warn('⚠️ LeccionDetalle: No hay datos (resolver falló o redirigió)');
+        // El resolver ya redirigió a /lecciones con mensaje de error
+      }
     });
 
-    // Leer query params si existen
+    // Ejemplo de lectura de query params (si se usan para filtros)
     this.route.queryParamMap.subscribe(queryParams => {
-      const categoria = queryParams.get('categoria');
-      const nivel = queryParams.get('nivel');
-      console.log('Filtros aplicados:', { categoria, nivel });
+      const destacado = queryParams.get('destacado');
+      if (destacado) {
+        console.log('🌟 Lección destacada:', destacado);
+      }
     });
-  }
-
-  private cargarLeccion(id: string | null) {
-    this.loading.set(true);
-
-    // Simulación de carga de datos
-    setTimeout(() => {
-      this.leccion.set({
-        id,
-        titulo: `Lección ${id}`,
-        descripcion: 'Descripción detallada de la lección',
-        duracion: '45 min',
-        nivel: 'Intermedio'
-      });
-      this.loading.set(false);
-    }, 500);
   }
 }
 

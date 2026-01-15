@@ -1,17 +1,84 @@
 <div class="user-perfil">
   <div class="user-perfil__header">
-    <div class="user-perfil__avatar">{{ usuario.avatar }}</div>
+    <div class="user-perfil__avatar">👤</div>
     <div class="user-perfil__info">
-      <h2 class="user-perfil__name">{{ usuario.nombre }}</h2>
-      <p class="user-perfil__email">{{ usuario.email }}</p>
+      <h2 class="user-perfil__name">{{ form.value.name || 'Usuario' }}</h2>
+      <p class="user-perfil__email">{{ form.value.email }}</p>
     </div>
   </div>
 
-  <div class="user-perfil__body">
+  <form [formGroup]="form" (ngSubmit)="onSave()" class="user-perfil__form">
+    <!-- Campo Nombre -->
     <div class="user-perfil__field">
-      <label class="user-perfil__label">Fecha de registro</label>
-      <div class="user-perfil__value">{{ usuario.fechaRegistro }}</div>
+      <label class="user-perfil__label" for="name">Nombre completo</label>
+      <input
+        type="text"
+        id="name"
+        formControlName="name"
+        class="user-perfil__input"
+        [class.user-perfil__input--error]="form.get('name')?.invalid && form.get('name')?.touched"
+      />
+      <span *ngIf="form.get('name')?.hasError('required') && form.get('name')?.touched" class="user-perfil__error">
+        El nombre es obligatorio
+      </span>
     </div>
-  </div>
+
+    <!-- Campo Email -->
+    <div class="user-perfil__field">
+      <label class="user-perfil__label" for="email">Email</label>
+      <input
+        type="email"
+        id="email"
+        formControlName="email"
+        class="user-perfil__input"
+        [class.user-perfil__input--error]="form.get('email')?.invalid && form.get('email')?.touched"
+      />
+      <span *ngIf="form.get('email')?.hasError('required') && form.get('email')?.touched" class="user-perfil__error">
+        El email es obligatorio
+      </span>
+      <span *ngIf="form.get('email')?.hasError('email') && form.get('email')?.touched" class="user-perfil__error">
+        Formato de email inválido
+      </span>
+    </div>
+
+    <!-- Campo Bio -->
+    <div class="user-perfil__field">
+      <label class="user-perfil__label" for="bio">Biografía</label>
+      <textarea
+        id="bio"
+        formControlName="bio"
+        class="user-perfil__textarea"
+        rows="4"
+        placeholder="Cuéntanos algo sobre ti..."
+      ></textarea>
+    </div>
+
+    <!-- Campo Teléfono -->
+    <div class="user-perfil__field">
+      <label class="user-perfil__label" for="phone">Teléfono</label>
+      <input
+        type="tel"
+        id="phone"
+        formControlName="phone"
+        class="user-perfil__input"
+        placeholder="+34 600 000 000"
+      />
+    </div>
+
+    <!-- Indicador de cambios sin guardar -->
+    <div *ngIf="form.dirty" class="user-perfil__warning">
+      ⚠️ Tienes cambios sin guardar
+    </div>
+
+    <!-- Botones de acción -->
+    <div class="user-perfil__actions">
+      <button type="submit" class="user-perfil__button user-perfil__button--primary" [disabled]="form.invalid">
+        💾 Guardar cambios
+      </button>
+      <button type="button" class="user-perfil__button user-perfil__button--secondary" (click)="onCancel()">
+        ❌ Cancelar
+      </button>
+    </div>
+  </form>
 </div>
 

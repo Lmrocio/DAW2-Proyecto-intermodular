@@ -1,0 +1,87 @@
+// ============================================================================
+// BREADCRUMB NAVIGATION (Dinámico desde rutas)
+// ============================================================================
+// Nota: Sin importar SCSS para evitar conflictos de módulos.
+// Usa CSS custom properties en lugar de variables SCSS.
+
+.breadcrumb-nav {
+  background: #fafafa;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1.25rem;
+
+  @media (min-width: 768px) {
+    padding: 1rem 2rem;
+  }
+}
+
+.breadcrumb-nav__list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.breadcrumb-nav__item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+
+  &--active {
+    font-weight: 600;
+  }
+}
+
+.breadcrumb-nav__link {
+  color: var(--color-accent, #0454b1);
+  text-decoration: none;
+  transition: color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      color: #033a8a;
+      text-decoration: underline;
+    }
+  }
+
+  &:focus-visible,
+  &:focus {
+    outline: 2px solid var(--color-accent, #0454b1);
+    outline-offset: 2px;
+    border-radius: 0.375rem;
+  }
+}
+
+.breadcrumb-nav__current {
+  color: #404040;
+  font-weight: 600;
+}
+
+.breadcrumb-nav__separator {
+  color: #a3a3a3;
+  user-select: none;
+  font-weight: 400;
+}
+
+// Responsive: ocultar separadores en móvil muy pequeño
+@media (max-width: 400px) {
+  .breadcrumb-nav__separator {
+    display: none;
+  }
+
+  .breadcrumb-nav__item {
+    &::after {
+      content: '›';
+      color: #a3a3a3;
+      margin-left: 0.25rem;
+    }
+
+    &:last-child::after {
+      display: none;
+    }
+  }
+}

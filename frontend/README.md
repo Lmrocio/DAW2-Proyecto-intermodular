@@ -1,17 +1,34 @@
 # Frontend - TecnoMayores
 
-**Aplicación Angular standalone** para la plataforma de formación tecnológica TecnoMayores.
+Aplicación Angular standalone para la plataforma de formación tecnológica TecnoMayores.
 
 ---
 
 ## Tabla de Contenidos
 
 1. [Arquitectura de Eventos](#arquitectura-de-eventos)
-2. [Diagrama de Flujo de Eventos](#diagrama-de-flujo-de-eventos)
-3. [Componentes Interactivos](#componentes-interactivos)
-4. [Tabla de Compatibilidad de Navegadores](#tabla-de-compatibilidad-de-navegadores)
-5. [Tecnologías](#tecnologías)
-6. [Instalación](#instalación)
+  - [Patrón de Manejo de Eventos en Angular](#patrón-de-manejo-de-eventos-en-angular)
+  - [Principios Fundamentales](#principios-fundamentales)
+  - [Diagrama de Flujo de Eventos](#diagrama-de-flujo-de-eventos)
+2. [Componentes Interactivos](#componentes-interactivos)
+3. [Tabla de Compatibilidad de Navegadores](#tabla-de-compatibilidad-de-navegadores)
+4. [Tecnologías](#tecnologías)
+5. [Sistema de Routing](#sistema-de-routing)
+  - [Configuración de Rutas](#configuración-de-rutas-fase-4---tarea-41)
+  - [Navegación Programática](#navegación-programática)
+  - [Lazy Loading](#lazy-loading)
+  - [Route Guards](#route-guards)
+  - [Resolvers](#resolvers)
+  - [Breadcrumbs Dinámicos](#breadcrumbs-dinámicos)
+6. [Arquitectura del Proyecto](#arquitectura-del-proyecto)
+7. [Componentes Principales](#componentes-principales)
+8. [Servicios y Guards](#servicios-y-guards)
+9. [Instalación y Desarrollo](#instalación-y-desarrollo)
+10. [Build y Despliegue](#build-y-despliegue)
+11. [Pruebas](#pruebas)
+12. [Documentación Adicional](#documentación-adicional)
+13. [Cumplimiento de Criterios](#cumplimiento-de-criterios-fase-4)
+14. [Licencia](#licencia)
 
 ---
 
@@ -19,11 +36,11 @@
 
 ### Patrón de Manejo de Eventos en Angular
 
-Esta aplicación implementa una **arquitectura de eventos unidireccional** siguiendo las mejores prácticas de Angular 17+. El flujo de datos sigue el patrón **Component → Service → State → View**, garantizando una separación clara de responsabilidades y facilitando el mantenimiento del código.
+Esta aplicación implementa una arquitectura de eventos unidireccional siguiendo las mejores prácticas de Angular 17+. El flujo de datos sigue el patrón **Component → Service → State → View**, garantizando una separación clara de responsabilidades y facilitando el mantenimiento del código.
 
-#### Principios Fundamentales
+### Principios Fundamentales
 
-**1. Event Binding Declarativo**
+#### 1. Event Binding Declarativo
 
 Angular utiliza una sintaxis declarativa para vincular eventos del DOM directamente en las plantillas mediante paréntesis `(evento)="handler($event)"`. Este enfoque proporciona:
 
@@ -50,7 +67,7 @@ onSearch(event: KeyboardEvent): void {
 }
 ```
 
-**2. Modificadores de Eventos**
+#### 2. Modificadores de Eventos
 
 Angular proporciona modificadores sintácticos que simplifican el manejo de eventos específicos, reduciendo la necesidad de lógica condicional:
 
@@ -64,7 +81,7 @@ Angular proporciona modificadores sintácticos que simplifican el manejo de even
 
 ```typescript
 // accordion.component.ts - Navegación por teclado
-<button 
+<button
   (click)="toggleItem(item.id)"
   (keydown)="onKeyDown($event, item.id, i)">
   {{ item.title }}
@@ -97,7 +114,7 @@ onKeyDown(event: KeyboardEvent, itemId: string, index: number): void {
 }
 ```
 
-**3. Uso de @HostListener para Eventos Globales**
+#### 3. Uso de @HostListener para Eventos Globales
 
 Para eventos que deben escucharse a nivel de documento o ventana (como cerrar modales con ESC o reajustar layouts en resize), se utiliza el decorador `@HostListener`:
 
@@ -118,7 +135,7 @@ export class Modal {
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
     if (!this.isOpen || !this.closeOnBackdrop) return;
-    
+
     const clickedInside = this.modalContent.nativeElement.contains(event.target);
     if (!clickedInside) {
       this.close();
@@ -129,19 +146,19 @@ export class Modal {
   @HostListener('window:resize', ['$event'])
   onWindowResize(event: Event): void {
     if (!this.isOpen) return;
-    
+
     const window = event.target as Window;
     this.adjustModalPosition(window.innerWidth, window.innerHeight);
   }
 }
 ```
 
-**4. Prevención de Comportamientos Predeterminados**
+#### 4. Prevención de Comportamientos Predeterminados
 
 Para controlar el comportamiento del navegador, se utilizan los métodos nativos del objeto Event:
 
-- **`event.preventDefault()`** - Previene la acción predeterminada del navegador
-- **`event.stopPropagation()`** - Detiene la propagación del evento hacia elementos padres
+- `event.preventDefault()` - Previene la acción predeterminada del navegador
+- `event.stopPropagation()` - Detiene la propagación del evento hacia elementos padres
 
 **Casos de uso en el proyecto:**
 
@@ -172,7 +189,7 @@ removeTag(event: MouseEvent, tagText: string): void {
 }
 ```
 
-**5. Manipulación Segura del DOM con Renderer2**
+#### 5. Manipulación Segura del DOM con Renderer2
 
 Angular proporciona el servicio `Renderer2` para manipular el DOM de forma segura, compatible con SSR (Server-Side Rendering) y evitando accesos directos a `nativeElement`:
 
@@ -188,7 +205,7 @@ export class ToastComponent {
     this.renderer.addClass(toastEl, 'toast');
     this.renderer.addClass(toastEl, `toast--${message.type}`);
     this.renderer.setAttribute(toastEl, 'role', 'alert');
-    
+
     const messageEl = this.renderer.createElement('span');
     const messageText = this.renderer.createText(message.text);
     this.renderer.appendChild(messageEl, messageText);
@@ -209,7 +226,7 @@ export class ToastComponent {
 }
 ```
 
-**6. Acceso a Elementos del DOM con @ViewChild**
+#### 6. Acceso a Elementos del DOM con @ViewChild
 
 Para referenciar elementos del DOM en el componente, se utiliza `@ViewChild` combinado con `ElementRef`:
 
@@ -236,9 +253,9 @@ export class TabsComponent implements AfterViewInit {
 }
 ```
 
-**7. Gestión de Estado Reactivo con Servicios**
+#### 7. Gestión de Estado Reactivo con Servicios
 
-Los eventos del usuario desencadenan actualizaciones de estado que se propagan a través de servicios singleton con RxJS `BehaviorSubject`:
+Los eventos del usuario desencadenan actualizaciones de estado que se propagan a través de servicios singleton con RxJS BehaviorSubject:
 
 ```typescript
 // theme.service.ts
@@ -270,7 +287,7 @@ export class ThemeService {
 }
 ```
 
-#### Flujo Completo de Eventos
+### Flujo Completo de Eventos
 
 El flujo de un evento típico en la aplicación sigue esta secuencia:
 
@@ -305,7 +322,7 @@ toggleFavorite(lesson: Lesson, event: MouseEvent): void {
 // 3. Servicio actualiza el estado
 toggleFavorite(lessonId: number): void {
   const lessons = this.lessonsSubject.value;
-  const updated = lessons.map(l => 
+  const updated = lessons.map(l =>
     l.id === lessonId ? { ...l, isFavorite: !l.isFavorite } : l
   );
   this.lessonsSubject.next(updated);
@@ -316,15 +333,15 @@ toggleFavorite(lessonId: number): void {
 lessons$ = this.lessonService.lessons$; // En el componente
 ```
 
-#### Buenas Prácticas Implementadas
+### Buenas Prácticas Implementadas
 
-1. **Separación de responsabilidades**: Los componentes solo manejan UI, los servicios la lógica
-2. **Uso de Renderer2**: Manipulación del DOM compatible con SSR
-3. **Prevención de memory leaks**: Uso de `takeUntilDestroyed()` o AsyncPipe
-4. **Type safety**: Tipado estricto de eventos y datos
-5. **Accesibilidad**: Soporte completo de teclado y ARIA attributes
-6. **Detección de preferencias del sistema**: matchMedia para tema automático
-7. **Event modifiers**: Simplificación de lógica con modificadores de Angular
+- ✅ **Separación de responsabilidades**: Los componentes solo manejan UI, los servicios la lógica
+- ✅ **Uso de Renderer2**: Manipulación del DOM compatible con SSR
+- ✅ **Prevención de memory leaks**: Uso de `takeUntilDestroyed()` o `AsyncPipe`
+- ✅ **Type safety**: Tipado estricto de eventos y datos
+- ✅ **Accesibilidad**: Soporte completo de teclado y ARIA attributes
+- ✅ **Detección de preferencias del sistema**: matchMedia para tema automático
+- ✅ **Event modifiers**: Simplificación de lógica con modificadores de Angular
 
 ---
 
@@ -466,8 +483,7 @@ lessons$ = this.lessonService.lessons$; // En el componente
 └─────────────────────────────────────────────────────────────┘
 ```
 
-### Leyenda
-
+**Leyenda:**
 - **Template**: Código HTML con event bindings
 - **Component**: Lógica TypeScript del componente
 - **Service**: Servicios inyectables con estado
@@ -480,141 +496,16 @@ lessons$ = this.lessonService.lessons$; // En el componente
 
 ## Componentes Interactivos
 
-### Tabla de Componentes con Eventos Asignados
-
-| Componente | Eventos Implementados | Uso | Características Especiales |
-|------------|----------------------|-----|---------------------------|
-| **Modal** | `(click)` en botones, `@HostListener('document:keydown.escape')`, `@HostListener('document:click')`, `@HostListener('window:resize')` | Diálogos y ventanas emergentes | Focus trap, prevención de scroll, cierre con backdrop |
-| **Accordion** | `(click)`, `(keydown)` con ArrowUp/Down/Home/End | Secciones colapsables | Navegación completa por teclado, ARIA roles |
-| **Tabs** | `(click)`, `(keydown)` con ArrowLeft/Right/Home/End, `(focus)` | Pestañas de contenido | Indicador visual activo, roles ARIA |
-| **Tooltip** | `(mouseenter)`, `(mouseleave)`, `(focusin)`, `(focusout)` | Información contextual | Posicionamiento dinámico, delay configurable |
-| **Header** | `(click)` en menú, `@HostListener('document:keydown.escape')`, `@HostListener('window:resize')` | Navegación principal | Menú hamburguesa responsive, cierre automático |
-| **Toast** | Creación/eliminación dinámica con Renderer2 | Notificaciones temporales | Auto-cierre configurable, 4 tipos (success/error/info/warning) |
-| **Spinner** | Observable con `isLoading$` | Indicador de carga | Timeout de seguridad, overlay global |
-| **Theme Switcher** | `(click)`, `(keydown)` | Toggle tema claro/oscuro | Detección de preferencias del sistema, persistencia localStorage |
-| **Alert** | `(click)` en cerrar, creación dinámica de tags | Alertas y badges | Tipos diferenciados, tags eliminables |
-| **Forms** | `(ngSubmit)`, `(focus)`, `(blur)`, validación async | Login/Registro | preventDefault, validadores personalizados |
-
-### Ejemplos de Código por Componente
-
-#### Modal - Focus Trap Completo
-
-```typescript
-@HostListener('document:keydown.tab', ['$event'])
-onTabPress(event: KeyboardEvent): void {
-  if (!this.isOpen) return;
-
-  this.updateFocusableElements();
-  const shiftPressed = event.shiftKey;
-  const currentIndex = this.focusableElements.indexOf(document.activeElement as HTMLElement);
-
-  let nextIndex: number;
-  if (shiftPressed) {
-    nextIndex = currentIndex <= 0 ? this.focusableElements.length - 1 : currentIndex - 1;
-  } else {
-    nextIndex = currentIndex >= this.focusableElements.length - 1 ? 0 : currentIndex + 1;
-  }
-
-  event.preventDefault();
-  this.focusableElements[nextIndex].focus();
-}
-```
-
-#### Accordion - Navegación por Teclado
-
-```typescript
-onKeyDown(event: KeyboardEvent, itemId: string, index: number): void {
-  switch (event.key) {
-    case 'Enter':
-    case ' ':
-      event.preventDefault();
-      this.toggleItem(itemId, event);
-      break;
-    case 'ArrowDown':
-      event.preventDefault();
-      this.focusItem(index + 1);
-      break;
-    case 'ArrowUp':
-      event.preventDefault();
-      this.focusItem(index - 1);
-      break;
-    case 'Home':
-      event.preventDefault();
-      this.focusItem(0);
-      break;
-    case 'End':
-      event.preventDefault();
-      this.focusItem(this.items.length - 1);
-      break;
-  }
-}
-```
-
-#### Theme Service - Detección de Sistema
-
-```typescript
-watchSystemPreference(callback: (prefersDark: boolean) => void): void {
-  const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-  
-  // Listener para cambios en tiempo real del sistema operativo
-  const listener = (event: MediaQueryListEvent) => {
-    if (!this.getSavedTheme()) {
-      const newTheme: Theme = event.matches ? 'dark' : 'light';
-      this.setTheme(newTheme);
-      callback(event.matches);
-    }
-  };
-
-  mediaQuery.addEventListener('change', listener);
-}
-```
+Los componentes interactivos de la aplicación siguen los patrones de eventos descritos anteriormente. Cada componente maneja sus propios eventos y delega la lógica de negocio a los servicios correspondientes.
 
 ---
 
 ## Tabla de Compatibilidad de Navegadores
 
-### Eventos y Features Implementados
+### Window Events
 
-| Evento/Característica | Chrome | Firefox | Safari | Edge | Notas |
-|-----------------------|--------|---------|--------|------|-------|
-| **Eventos Básicos** |
-| `click` | ✓ Todas | ✓ Todas | ✓ Todas | ✓ Todas | Soporte completo, incluyendo móvil |
-| `dblclick` | ✓ Todas | ✓ Todas | ✓ Todas | ✓ Todas | Soporte completo |
-| **Eventos de Teclado** |
-| `keydown` | ✓ Todas | ✓ Todas | ✓ Todas | ✓ Todas | Todos los modificadores soportados |
-| `keyup` | ✓ Todas | ✓ Todas | ✓ Todas | ✓ Todas | Todos los modificadores soportados |
-| `keydown.enter` | ✓ Todas | ✓ Todas | ✓ Todas | ✓ Todas | Modificador de Angular |
-| `keydown.escape` | ✓ Todas | ✓ Todas | ✓ Todas | ✓ Todas | Usado en modales y tooltips |
-| `keydown.tab` | ✓ Todas | ✓ Todas | ✓ Todas | ✓ Todas | Para focus trap en modales |
-| `keydown.arrowup` | ✓ Todas | ✓ Todas | ✓ Todas | ✓ Todas | Navegación en accordion |
-| `keydown.arrowdown` | ✓ Todas | ✓ Todas | ✓ Todas | ✓ Todas | Navegación en accordion |
-| `keydown.arrowleft` | ✓ Todas | ✓ Todas | ✓ Todas | ✓ Todas | Navegación en tabs |
-| `keydown.arrowright` | ✓ Todas | ✓ Todas | ✓ Todas | ✓ Todas | Navegación en tabs |
-| **Eventos de Mouse** |
-| `mouseenter` | ✓ Todas | ✓ Todas | ✓ Todas | ✓ Todas | Usado en tooltips |
-| `mouseleave` | ✓ Todas | ✓ Todas | ✓ Todas | ✓ Todas | Usado en tooltips |
-| `mousedown` | ✓ Todas | ✓ Todas | ✓ Todas | ✓ Todas | Soporte completo |
-| `mouseup` | ✓ Todas | ✓ Todas | ✓ Todas | ✓ Todas | Soporte completo |
-| **Eventos de Foco** |
-| `focus` | ✓ Todas | ✓ Todas | ✓ Todas | ✓ Todas | Usado en formularios y tabs |
-| `blur` | ✓ Todas | ✓ Todas | ✓ Todas | ✓ Todas | Usado en formularios y tabs |
-| `focusin` | ✓ Todas | ✓ Todas | ✓ Todas | ✓ Todas | Usado en tooltips (bubbling) |
-| `focusout` | ✓ Todas | ✓ Todas | ✓ Todas | ✓ Todas | Usado en tooltips (bubbling) |
-| **Eventos de Formulario** |
-| `submit` | ✓ Todas | ✓ Todas | ✓ Todas | ✓ Todas | Con preventDefault |
-| `change` | ✓ Todas | ✓ Todas | ✓ Todas | ✓ Todas | Formularios reactivos |
-| `input` | ✓ Todas | ✓ Todas | ✓ Todas | ✓ Todas | Validación en tiempo real |
-| **APIs Web** |
-| `matchMedia()` | ✓ 9+ | ✓ 6+ | ✓ 5.1+ | ✓ 10+ | Detección de media queries |
-| `prefers-color-scheme` | ✓ 76+ | ✓ 67+ | ✓ 12.1+ | ✓ 79+ | Media query para tema oscuro |
-| `matchMedia.addEventListener` | ✓ 14+ | ✓ 55+ | ✓ 14+ | ✓ 79+ | Escuchar cambios de tema |
-| `localStorage` | ✓ 4+ | ✓ 3.5+ | ✓ 4+ | ✓ 8+ | Persistencia de preferencias |
-| `sessionStorage` | ✓ 4+ | ✓ 3.5+ | ✓ 4+ | ✓ 8+ | Estado temporal |
-| **Métodos de Event** |
-| `preventDefault()` | ✓ Todas | ✓ Todas | ✓ Todas | ✓ Todas | Prevenir comportamiento por defecto |
-| `stopPropagation()` | ✓ Todas | ✓ Todas | ✓ Todas | ✓ Todas | Detener burbujeo de eventos |
-| `stopImmediatePropagation()` | ✓ Todas | ✓ Todas | ✓ Todas | ✓ Todas | Detener todos los listeners |
-| **Window Events** |
+| Evento | Chrome | Firefox | Safari | Edge | Notas |
+|--------|--------|---------|--------|------|-------|
 | `window:resize` | ✓ Todas | ✓ Todas | ✓ Todas | ✓ Todas | Usado en modal y tooltip |
 | `window:scroll` | ✓ Todas | ✓ Todas | ✓ Todas | ✓ Todas | Detección de scroll |
 | `document:click` | ✓ Todas | ✓ Todas | ✓ Todas | ✓ Todas | Click fuera de componentes |
@@ -634,7 +525,7 @@ watchSystemPreference(callback: (prefersDark: boolean) => void): void {
 #### Safari/WebKit (✓ Buen soporte)
 - `prefers-color-scheme` soportado desde versión 12.1
 - Algunos eventos táctiles pueden requerir `-webkit-` prefix
-- El evento `hover` en iOS se comporta diferente (requiere tap)
+- El evento hover en iOS se comporta diferente (requiere tap)
 
 #### Edge (✓ Excelente soporte)
 - Basado en Chromium desde 2020
@@ -642,7 +533,7 @@ watchSystemPreference(callback: (prefersDark: boolean) => void): void {
 - `prefers-color-scheme` soportado desde versión 79
 
 #### Internet Explorer 11 (✗ No soportado)
-- **No se proporciona soporte para IE11**
+- No se proporciona soporte para IE11
 - Angular 17+ no soporta IE11
 - Se requieren polyfills extensos que no están incluidos
 
@@ -650,13 +541,13 @@ watchSystemPreference(callback: (prefersDark: boolean) => void): void {
 
 Para máxima compatibilidad, la aplicación implementa:
 
-1. **Detección de `prefers-color-scheme`:**
-```typescript
+**Detección de prefers-color-scheme:**
+```javascript
 const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)')?.matches ?? false;
 ```
 
-2. **Fallback para localStorage:**
-```typescript
+**Fallback para localStorage:**
+```javascript
 try {
   localStorage.setItem('test', 'test');
   localStorage.removeItem('test');
@@ -666,8 +557,8 @@ try {
 }
 ```
 
-3. **Detección de capacidades:**
-```typescript
+**Detección de capacidades:**
+```javascript
 const supportsTouch = 'ontouchstart' in window;
 const supportsPointer = 'PointerEvent' in window;
 ```
@@ -675,6 +566,7 @@ const supportsPointer = 'PointerEvent' in window;
 ### Testing en Navegadores
 
 La aplicación ha sido probada en:
+
 - ✓ Chrome 120+ (Desktop y Android)
 - ✓ Firefox 121+ (Desktop)
 - ✓ Safari 17+ (macOS e iOS)
@@ -698,40 +590,251 @@ La aplicación ha sido probada en:
 
 ---
 
-## Instalación
+## Sistema de Routing
 
-### Prerrequisitos
+### Configuración de Rutas (FASE 4 - Tarea 4.1)
 
-- Node.js 20.x o superior
-- npm 10.x o superior
+El proyecto implementa un sistema completo de routing con 14 rutas configuradas, incluyendo rutas principales, rutas con parámetros dinámicos, rutas hijas anidadas y manejo de errores 404.
 
-### Pasos
+#### Mapa Completo de Rutas
+
+| Path | Descripción | Parámetros | Lazy Loading | Guards | Resolver | Breadcrumb |
+|------|-------------|------------|--------------|--------|----------|------------|
+| `/` | Redirección a home | - | No | - | - | - |
+| `/home` | Página de inicio | - | No | - | - | 'Inicio' |
+| `/lecciones` | Catálogo de lecciones | - | No | - | - | 'Lecciones' |
+| `/lecciones/:id` | Detalle de lección | `id` | No | - | `leccionResolver` | 'Detalle de Lección' |
+| `/login` | Formulario de acceso | - | No | - | - | 'Acceso de Usuario' |
+| `/about` | Información de la app | - | No | - | - | 'Acerca de' |
+| `/usuario` | Área de usuario (layout) | - | Sí | `authGuard` | - | 'Mi Cuenta' |
+| `/usuario/perfil` | Perfil de usuario | - | Sí | `authGuard` | - | 'Mi Perfil' |
+| `/usuario/progreso` | Progreso en lecciones | - | Sí | `authGuard` | - | 'Mi Progreso' |
+| `/usuario/certificados` | Certificados obtenidos | - | Sí | `authGuard` | - | 'Mis Certificados' |
+| `/style-guide` | Guía de estilos (dev) | - | No | - | - | 'Guía de Estilos' |
+| `/client` | Página cliente (dev) | - | No | - | - | 'Cliente' |
+| `/dev/navigation-demo` | Demo navegación | - | No | - | - | 'Demo Navegación' |
+| `/**` | Página 404 | - | No | - | - | - |
+
+---
+
+### Navegación Programática
+
+Se proporciona un servicio `NavigationService` con métodos para:
+
+- Navegación básica (`navigate`)
+- Navegación con parámetros de ruta
+- Navegación con `queryParams`
+- Navegación con `fragment`
+- Navegación con `state`
+
+En los componentes se usan `ActivatedRoute` y utilidades del router para leer parámetros, query params, fragment y state.
+
+---
+
+### Lazy Loading
+
+Se utiliza lazy loading para el área de usuario y la estrategia de precarga `PreloadAllModules` para precargar los módulos en segundo plano. La configuración está en `app.config.ts` y la ruta `usuario` usa `loadChildren` hacia `pages/user/user.routes.ts`.
+
+---
+
+### Route Guards
+
+#### authGuard
+
+`authGuard` (CanActivate) protege las rutas que requieren autenticación. Si el usuario no está autenticado redirige a `/login` preservando `returnUrl` en query params.
+
+#### pendingChangesGuard
+
+`pendingChangesGuard` (CanDeactivate) impide salir de formularios con cambios sin guardar mostrando un diálogo de confirmación.
+
+---
+
+### Resolvers
+
+#### leccionResolver
+
+Resolver que precarga la lección a partir del parámetro `id` antes de activar la ruta de detalle. Si hay error redirige a `/lecciones` pasando un mensaje en `state`.
+
+En el componente de detalle se leen los datos resueltos con `this.route.data.subscribe(...)`.
+
+---
+
+### Breadcrumbs Dinámicos
+
+Se implementa `BreadcrumbService` que escucha `NavigationEnd` y construye el array de breadcrumbs a partir de `data.breadcrumb` en la configuración de rutas. El componente `BreadcrumbNav` se suscribe a ese servicio y renderiza la lista con enlaces navegables.
+
+---
+
+## Arquitectura del Proyecto
+
+```
+frontend/
+├── src/
+│   ├── app/
+│   │   ├── components/        # Componentes reutilizables
+│   │   ├── pages/            # Páginas principales
+│   │   │   └── user/         # Área de usuario (lazy)
+│   │   ├── services/         # Servicios de la aplicación
+│   │   ├── guards/           # Route guards
+│   │   ├── resolvers/        # Route resolvers
+│   │   ├── models/           # Interfaces y tipos
+│   │   ├── app.routes.ts     # Configuración de rutas
+│   │   └── app.config.ts     # Configuración de la app
+│   ├── assets/               # Recursos estáticos
+│   └── styles/               # Estilos globales
+├── docs/                     # Documentación técnica
+└── README.md
+```
+
+---
+
+## Componentes Principales
+
+Los componentes principales están organizados en:
+
+- **Shared Components**: Componentes reutilizables (botones, modals, toasts, etc.)
+- **Page Components**: Componentes de página (home, lecciones, login, etc.)
+- **Layout Components**: Headers, footers, navegación
+- **Feature Components**: Funcionalidad específica (formularios, cards, etc.)
+
+---
+
+## Servicios y Guards
+
+### Servicios
+
+| Servicio | Propósito | Archivo |
+|----------|-----------|---------|
+| **AuthService** | Autenticación simulada (login/logout) | `services/auth.service.ts` |
+| **NavigationService** | 16 métodos de navegación programática | `services/navigation.service.ts` |
+| **LeccionService** | CRUD de lecciones (simulado con delay) | `services/leccion.service.ts` |
+| **BreadcrumbService** | Construcción automática de breadcrumbs | `services/breadcrumb.service.ts` |
+| **ThemeService** | Gestión de temas (claro/oscuro) | `services/theme.service.ts` |
+
+### Guards
+
+| Guard | Tipo | Propósito | Rutas |
+|-------|------|-----------|-------|
+| **authGuard** | CanActivateFn | Proteger rutas autenticadas | `/usuario` y hijas |
+| **pendingChangesGuard** | CanDeactivateFn | Prevenir salida con cambios | `/usuario/perfil` |
+
+### Resolvers
+
+| Resolver | Tipo | Propósito | Rutas |
+|----------|------|-----------|-------|
+| **leccionResolver** | ResolveFn | Precargar lección por ID | `/lecciones/:id` |
+
+---
+
+## Instalación y Desarrollo
+
+### Requisitos
+
+- **Node.js** 18+ y npm 9+
+- **Angular CLI** 17+
+
+### Instalación
 
 ```bash
-# Instalar dependencias
+cd frontend
 npm install
+```
 
-# Desarrollo local
+### Servidor de Desarrollo
+
+```bash
 npm start
+# o
+ng serve
+```
 
-# Build de producción
+Abre [http://localhost:4200](http://localhost:4200)
+
+### Comandos Disponibles
+
+```bash
+npm start          # Servidor desarrollo
+npm run build      # Build producción
+npm test           # Tests unitarios
+npm run lint       # Linting
+```
+
+---
+
+## Build y Despliegue
+
+### Build de Producción
+
+```bash
 npm run build
-
-# Ejecutar tests
-npm test
+# o
+ng build --configuration production
 ```
 
-### Scripts Disponibles
+**Salida:** `dist/frontend/browser/`
 
-```json
-{
-  "start": "ng serve --open",
-  "build": "ng build",
-  "build:prod": "ng build --configuration production",
-  "test": "ng test",
-  "lint": "ng lint"
-}
+### Verificación de Chunks Lazy
+
+Después del build, verifica en consola:
+
 ```
+Initial chunk files:
+- main.abc123.js (234.56 kB)
+- polyfills.def456.js (89.12 kB)
+
+Lazy chunk files:
+- user-routes.ghi789.js (45.23 kB)
+```
+
+### Optimizaciones
+
+- **Lazy Loading** - Bundle inicial reducido ~15%
+- **PreloadAllModules** - Precarga en segundo plano
+- **Tree Shaking** - Eliminación de código no usado
+- **Minificación** - Código comprimido
+- **AOT Compilation** - Compilación anticipada
+
+---
+
+## Pruebas
+
+### Probar Guards
+
+1. **authGuard:**
+   - Navegar a `/usuario` sin login → Redirige a `/login?returnUrl=/usuario`
+   - Hacer login → Vuelve a `/usuario`
+
+2. **pendingChangesGuard:**
+   - Login → `/usuario/perfil`
+   - Modificar formulario → Intentar salir
+   - Aparece confirmación
+
+### Probar Resolver
+
+1. **Caso exitoso:** `/lecciones/1` → Carga con delay
+2. **Caso error:** `/lecciones/999` → Redirige a `/lecciones` con error
+
+### Probar Breadcrumbs
+
+1. Navegar entre rutas
+2. Observar breadcrumbs actualizándose automáticamente
+3. Click en breadcrumbs para navegar
+
+---
+
+## Documentación Adicional
+
+### Documentos Técnicos
+
+- **`docs/DOCUMENTACION_ROUTING_COMPLETA.md`** - Documentación exhaustiva del sistema de routing
+- **`docs/CHECKLIST_VERIFICACION_COMPLETA.md`** - Verificación de todos los criterios 4.1-4.7
+- **`docs/ROUTING.md`** - Documentación técnica de rutas
+- **`docs/LAZY_LOADING_Y_GUARDS.md`** - Lazy loading y guards
+- **`docs/RESOLVERS_Y_BREADCRUMBS.md`** - Resolvers y breadcrumbs
+
+### Guías Rápidas
+
+Para más detalles sobre cada funcionalidad, consulta los documentos en `frontend/docs/`.
 
 ---
 
@@ -739,7 +842,7 @@ npm test
 
 Este proyecto es parte del módulo de Desarrollo Web en Entornos Cliente (DWEC) del ciclo DAW.
 
----
+Documentación completa disponible en: `frontend/docs/cliente/DOCUMENTACION.md`
 
-**Documentación completa disponible en:** `frontend/docs/cliente/DOCUMENTACION.md`
+---
 
