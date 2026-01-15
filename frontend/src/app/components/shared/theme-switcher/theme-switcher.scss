@@ -1,6 +1,3 @@
-@use '../../../../styles/00-settings/variables' as *;
-@use '../../../../styles/01-tools/mixins' as *;
-
 // ============================================================================
 // BOTÓN PRINCIPAL
 // ============================================================================
@@ -8,30 +5,30 @@
 .theme-switcher {
   display: inline-flex;
   align-items: center;
-  gap: $spacing-3;
-  padding: $spacing-2;
+  gap: 0.75rem;
+  padding: 0.5rem;
   background-color: transparent;
-  border: 2px solid $color-gray-300;
-  border-radius: $radius-full;
+  border: 2px solid #d4d4d4;
+  border-radius: 9999px;
   cursor: pointer;
   transition: all 0.3s ease;
 
   &:hover {
-    border-color: $color-accent;
-    background-color: rgba($color-accent, 0.05);
+    border-color: #0454b1;
+    background-color: rgba(4, 84, 177, 0.05);
   }
 
   &:focus {
-    outline: 3px solid $color-accent;
+    outline: 3px solid #0454b1;
     outline-offset: 2px;
   }
 
   &--dark {
-    border-color: $color-gray-600;
+    border-color: #525252;
 
     &:hover {
-      border-color: $color-primary;
-      background-color: rgba($color-primary, 0.1);
+      border-color: #f8d770;
+      background-color: rgba(248, 215, 112, 0.1);
     }
   }
 }
@@ -47,13 +44,13 @@
   justify-content: space-between;
   width: 64px;
   height: 32px;
-  padding: $spacing-1;
-  background-color: $color-gray-200;
-  border-radius: $radius-full;
+  padding: 0.25rem;
+  background-color: #e5e5e5;
+  border-radius: 9999px;
   transition: background-color 0.3s ease;
 
   .theme-switcher--dark & {
-    background-color: $color-gray-700;
+    background-color: #404040;
   }
 }
 
@@ -68,13 +65,13 @@
   width: 28px;
   height: 28px;
   background-color: white;
-  border-radius: $radius-full;
+  border-radius: 9999px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease, background-color 0.3s ease;
 
   .theme-switcher--dark & {
     transform: translateX(32px);
-    background-color: $color-gray-800;
+    background-color: #262626;
   }
 }
 
@@ -107,14 +104,14 @@
 // ============================================================================
 
 .theme-switcher__label {
-  font-family: $font-body;
-  font-size: $font-size-sm;
-  font-weight: $font-weight-medium;
-  color: $color-text-dark;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #030303;
   min-width: 50px;
 
   .theme-switcher--dark & {
-    color: $color-text-light;
+    color: #fdfdfd;
   }
 }
 
@@ -122,10 +119,9 @@
 // RESPONSIVE
 // ============================================================================
 
-@media (max-width: $breakpoint-sm) {
+@media (max-width: 640px) {
   .theme-switcher__label {
     // Ocultar texto en móvil para ahorrar espacio
     display: none;
   }
 }
-

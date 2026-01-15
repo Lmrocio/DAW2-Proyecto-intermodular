@@ -1,0 +1,21 @@
+<nav class="breadcrumb-nav" aria-label="breadcrumb" *ngIf="breadcrumbs.length">
+  <ol class="breadcrumb-nav__list">
+    <!-- Siempre mostrar Inicio como primer breadcrumb -->
+    <li class="breadcrumb-nav__item">
+      <a routerLink="/home" class="breadcrumb-nav__link">🏠 Inicio</a>
+      <span class="breadcrumb-nav__separator">›</span>
+    </li>
+
+    <!-- Breadcrumbs dinámicos desde rutas -->
+    <li *ngFor="let crumb of breadcrumbs; let last = last" class="breadcrumb-nav__item" [class.breadcrumb-nav__item--active]="last">
+      <ng-container *ngIf="!last">
+        <a [routerLink]="crumb.url" class="breadcrumb-nav__link">{{ crumb.label }}</a>
+        <span class="breadcrumb-nav__separator">›</span>
+      </ng-container>
+
+      <ng-container *ngIf="last">
+        <span class="breadcrumb-nav__current" aria-current="page">{{ crumb.label }}</span>
+      </ng-container>
+    </li>
+  </ol>
+</nav>

@@ -1,0 +1,73 @@
+@import '../../../styles/00-settings/variables';
+@import '../../../styles/01-tools/mixins';
+
+// ============================================================================
+// USER CERTIFICADOS PAGE
+// ============================================================================
+
+.user-certificados {
+  background: white;
+  border-radius: $radius-lg;
+  padding: $spacing-6;
+  @include elevation(md);
+}
+
+.user-certificados__title {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+  color: $color-gray-900;
+  margin-bottom: $spacing-6;
+}
+
+.user-certificados__list {
+  display: grid;
+  gap: $spacing-4;
+}
+
+.user-certificados__card {
+  border: $border-thin solid $color-gray-200;
+  border-radius: $radius-md;
+  padding: $spacing-4;
+  @include transition(all, $transition-fast);
+
+  @include hover {
+    @include elevation(sm);
+  }
+}
+
+.user-certificados__card-title {
+  font-weight: $font-weight-semibold;
+  color: $color-gray-900;
+  margin-bottom: $spacing-2;
+}
+
+.user-certificados__card-date {
+  font-size: $font-size-sm;
+  color: $color-gray-600;
+  margin-bottom: $spacing-3;
+}
+
+.user-certificados__badge {
+  display: inline-block;
+  padding: $spacing-1 $spacing-3;
+  border-radius: $radius-full;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+
+  &--completado {
+    background: #dcfce7;
+    color: #166534;
+  }
+
+  &--en-progreso {
+    background: #fef3c7;
+    color: #92400e;
+  }
+}
+
+.user-certificados__empty {
+  text-align: center;
+  padding: $spacing-8;
+  color: $color-gray-500;
+}
+

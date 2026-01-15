@@ -1,0 +1,87 @@
+@import '../../../styles/00-settings/variables';
+@import '../../../styles/01-tools/mixins';
+
+// ============================================================================
+// NAVIGATION DEMO COMPONENT (para desarrollo/testing)
+// ============================================================================
+
+.nav-demo {
+  @include container;
+  padding-top: $spacing-8;
+  padding-bottom: $spacing-8;
+}
+
+.nav-demo__title {
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  color: $color-gray-900;
+  margin-bottom: $spacing-6;
+}
+
+.nav-demo__section {
+  background: white;
+  border-radius: $radius-lg;
+  padding: $spacing-6;
+  margin-bottom: $spacing-4;
+  @include elevation(sm);
+}
+
+.nav-demo__section-title {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-gray-800;
+  margin-bottom: $spacing-4;
+}
+
+.nav-demo__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-3;
+}
+
+.nav-demo__button {
+  padding: $spacing-3 $spacing-5;
+  background: $color-accent;
+  color: white;
+  border: none;
+  border-radius: $radius-md;
+  font-weight: $font-weight-medium;
+  cursor: pointer;
+  @include transition(all, $transition-fast);
+
+  @include hover {
+    background: darken($color-accent, 10%);
+    transform: translateY(-2px);
+    @include elevation(md);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.nav-demo__info {
+  background: $color-gray-50;
+  border-left: 4px solid $color-accent;
+  padding: $spacing-4;
+  border-radius: $radius-md;
+  margin-top: $spacing-4;
+}
+
+.nav-demo__info-title {
+  font-weight: $font-weight-semibold;
+  color: $color-gray-900;
+  margin-bottom: $spacing-2;
+}
+
+.nav-demo__code {
+  background: $color-gray-900;
+  color: #10b981;
+  padding: $spacing-3;
+  border-radius: $radius-sm;
+  font-family: 'Courier New', monospace;
+  font-size: $font-size-sm;
+  overflow-x: auto;
+  margin-top: $spacing-2;
+}
+

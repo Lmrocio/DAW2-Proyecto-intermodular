@@ -1,0 +1,145 @@
+@import '../../../styles/00-settings/variables';
+@import '../../../styles/01-tools/mixins';
+
+// ============================================================================
+// USER PERFIL PAGE
+// ============================================================================
+
+.user-perfil {
+  background: white;
+  border-radius: $radius-lg;
+  padding: $spacing-6;
+  @include elevation(md);
+}
+
+.user-perfil__header {
+  display: flex;
+  align-items: center;
+  gap: $spacing-4;
+  margin-bottom: $spacing-6;
+  padding-bottom: $spacing-6;
+  border-bottom: $border-thin solid $color-gray-200;
+}
+
+.user-perfil__avatar {
+  width: 80px;
+  height: 80px;
+  background: $color-accent;
+  border-radius: 50%;
+  @include flex(center, center);
+  font-size: 40px;
+}
+
+.user-perfil__info {
+  flex: 1;
+}
+
+.user-perfil__name {
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  color: $color-gray-900;
+  margin-bottom: $spacing-1;
+}
+
+.user-perfil__email {
+  color: $color-gray-600;
+  font-size: $font-size-base;
+}
+
+// Formulario
+.user-perfil__form {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-5;
+}
+
+.user-perfil__field {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2;
+}
+
+.user-perfil__label {
+  font-weight: $font-weight-semibold;
+  color: $color-gray-700;
+  font-size: $font-size-sm;
+}
+
+.user-perfil__input,
+.user-perfil__textarea {
+  width: 100%;
+  padding: $spacing-3 $spacing-4;
+  border: $border-thin solid $color-gray-300;
+  border-radius: $radius-md;
+  font-size: $font-size-base;
+  font-family: $font-body;
+  @include transition(all, $transition-fast);
+
+  &:focus {
+    outline: none;
+    border-color: $color-accent;
+    box-shadow: 0 0 0 3px rgba($color-accent, 0.1);
+  }
+
+  &--error {
+    border-color: $color-error;
+  }
+}
+
+.user-perfil__textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.user-perfil__error {
+  color: $color-error;
+  font-size: $font-size-xs;
+}
+
+.user-perfil__warning {
+  background: #fef3c7;
+  border-left: 4px solid #f59e0b;
+  padding: $spacing-3;
+  border-radius: $radius-sm;
+  color: #92400e;
+  font-size: $font-size-sm;
+}
+
+.user-perfil__actions {
+  display: flex;
+  gap: $spacing-3;
+  padding-top: $spacing-4;
+}
+
+.user-perfil__button {
+  padding: $spacing-3 $spacing-6;
+  border-radius: $radius-md;
+  font-weight: $font-weight-semibold;
+  font-size: $font-size-base;
+  cursor: pointer;
+  @include transition(all, $transition-fast);
+  border: none;
+
+  &--primary {
+    background: $color-accent;
+    color: white;
+
+    @include hover {
+      background: darken($color-accent, 10%);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  &--secondary {
+    background: $color-gray-100;
+    color: $color-gray-700;
+
+    @include hover {
+      background: $color-gray-200;
+    }
+  }
+}

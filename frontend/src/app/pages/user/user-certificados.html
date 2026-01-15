@@ -1,0 +1,24 @@
+<div class="user-certificados">
+  <h2 class="user-certificados__title">Mis Certificados</h2>
+
+  @if (certificados().length > 0) {
+    <div class="user-certificados__list">
+      @for (cert of certificados(); track cert.id) {
+        <div class="user-certificados__card">
+          <h3 class="user-certificados__card-title">{{ cert.curso }}</h3>
+          <div class="user-certificados__card-date">Fecha: {{ cert.fecha }}</div>
+          <span
+            class="user-certificados__badge"
+            [ngClass]="'user-certificados__badge--' + cert.estado">
+            {{ cert.estado === 'completado' ? 'Completado' : 'En progreso' }}
+          </span>
+        </div>
+      }
+    </div>
+  } @else {
+    <div class="user-certificados__empty">
+      No tienes certificados todavía
+    </div>
+  }
+</div>
+
