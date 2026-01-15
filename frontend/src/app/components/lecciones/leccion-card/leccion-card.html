@@ -1,0 +1,57 @@
+<article class="leccion-card">
+  <a [routerLink]="['/lecciones', leccion.id]" class="leccion-card__link">
+    <!-- Imagen -->
+    <div class="leccion-card__image-wrapper">
+      <img
+        [src]="leccion.imagen"
+        [alt]="leccion.titulo"
+        class="leccion-card__image"
+      />
+      <div
+        class="leccion-card__badge"
+        [class]="'leccion-card__badge--' + nivelColor"
+      >
+        {{ leccion.nivel }}
+      </div>
+      <div
+        *ngIf="leccion.completado"
+        class="leccion-card__completado"
+      >
+        ✓ Completado
+      </div>
+    </div>
+
+    <!-- Contenido -->
+    <div class="leccion-card__content">
+      <!-- Categoría -->
+      <span class="leccion-card__categoria">{{ leccion.categoria }}</span>
+
+      <!-- Título -->
+      <h3 class="leccion-card__titulo">{{ leccion.titulo }}</h3>
+
+      <!-- Descripción -->
+      <p class="leccion-card__descripcion">{{ leccion.descripcion }}</p>
+
+      <!-- Metadata -->
+      <div class="leccion-card__metadata">
+        <div class="leccion-card__meta-item">
+          <lucide-angular [img]="Clock" [size]="16"></lucide-angular>
+          <span>{{ leccion.duracion }}</span>
+        </div>
+        <div
+          *ngIf="leccion.valoracion"
+          class="leccion-card__meta-item"
+        >
+          <lucide-angular [img]="Star" [size]="16"></lucide-angular>
+          <span>{{ leccion.valoracion }}/5</span>
+        </div>
+      </div>
+
+      <!-- Botón -->
+      <button class="leccion-card__btn">
+        {{ leccion.completado ? 'Repasar lección' : 'Empezar lección' }}
+      </button>
+    </div>
+  </a>
+</article>
+

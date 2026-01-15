@@ -1,0 +1,44 @@
+<nav class="pagination" aria-label="Paginación">
+  <div class="pagination__info">
+    Mostrando {{ startItem }}-{{ endItem }} de {{ totalItems }} lecciones
+  </div>
+
+  <div class="pagination__controls">
+    <!-- Botón Anterior -->
+    <button
+      (click)="previousPage()"
+      [disabled]="currentPage === 1"
+      class="pagination__btn pagination__btn--arrow"
+      aria-label="Página anterior"
+    >
+      <lucide-angular [img]="ChevronLeft" [size]="20"></lucide-angular>
+    </button>
+
+    <!-- Números de página -->
+    <div class="pagination__pages">
+      <button
+        *ngFor="let page of pages"
+        (click)="page > 0 && goToPage(page)"
+        [disabled]="page < 0"
+        [class.pagination__btn--active]="page === currentPage"
+        [class.pagination__btn--ellipsis]="page < 0"
+        class="pagination__btn"
+        [attr.aria-label]="page > 0 ? 'Ir a página ' + page : null"
+        [attr.aria-current]="page === currentPage ? 'page' : null"
+      >
+        {{ page > 0 ? page : '...' }}
+      </button>
+    </div>
+
+    <!-- Botón Siguiente -->
+    <button
+      (click)="nextPage()"
+      [disabled]="currentPage === totalPages"
+      class="pagination__btn pagination__btn--arrow"
+      aria-label="Página siguiente"
+    >
+      <lucide-angular [img]="ChevronRight" [size]="20"></lucide-angular>
+    </button>
+  </div>
+</nav>
+

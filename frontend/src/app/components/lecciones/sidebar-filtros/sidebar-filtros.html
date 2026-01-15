@@ -1,0 +1,57 @@
+<aside class="sidebar-filtros">
+  <div class="sidebar-filtros__header">
+    <h2 class="sidebar-filtros__title">Filtros</h2>
+    <button
+      *ngIf="hasActiveFilters"
+      (click)="clearAllFilters()"
+      class="sidebar-filtros__clear"
+    >
+      Limpiar todo
+    </button>
+  </div>
+
+  <div class="sidebar-filtros__categories">
+    <div
+      *ngFor="let category of categories"
+      class="sidebar-filtros__category"
+    >
+      <button
+        (click)="toggleCategory(category.id)"
+        class="sidebar-filtros__category-header"
+        [attr.aria-expanded]="category.expanded"
+      >
+        <span class="sidebar-filtros__category-title">{{ category.title }}</span>
+        <lucide-angular
+          [img]="category.expanded ? ChevronUp : ChevronDown"
+          [size]="20"
+          class="sidebar-filtros__category-icon"
+        ></lucide-angular>
+      </button>
+
+      <div
+        class="sidebar-filtros__options"
+        [class.sidebar-filtros__options--collapsed]="!category.expanded"
+      >
+        <label
+          *ngFor="let option of category.options"
+          class="sidebar-filtros__option"
+        >
+          <input
+            type="checkbox"
+            [checked]="isFilterSelected(category.id, option.id)"
+            (change)="toggleFilter(category.id, option.id)"
+            class="sidebar-filtros__checkbox"
+          />
+          <span class="sidebar-filtros__option-label">{{ option.label }}</span>
+          <span
+            *ngIf="option.count"
+            class="sidebar-filtros__option-count"
+          >
+            ({{ option.count }})
+          </span>
+        </label>
+      </div>
+    </div>
+  </div>
+</aside>
+
