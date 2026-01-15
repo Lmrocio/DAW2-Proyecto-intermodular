@@ -1,6 +1,7 @@
 package service;
 
 import model.User;
+import model.UserRole;
 import repository.UserRepository;
 import dto.request.RegisterRequest;
 import exception.DuplicateResourceException;
@@ -42,7 +43,8 @@ class UserServiceTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
+        @SuppressWarnings("resource")
+        var mocks = MockitoAnnotations.openMocks(this);
     }
 
     // ============================================================================
@@ -64,7 +66,7 @@ class UserServiceTest {
         expectedUser.setUsername("testuser");
         expectedUser.setEmail("test@example.com");
         expectedUser.setPassword("hashedPassword");
-        expectedUser.setRole(User.UserRole.USER);
+        expectedUser.setRole(UserRole.USER);
         expectedUser.setIsActive(true);
 
         when(userRepository.existsByUsername("testuser")).thenReturn(false);

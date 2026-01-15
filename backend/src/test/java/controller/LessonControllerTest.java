@@ -2,7 +2,6 @@ package controller;
 
 import model.Lesson;
 import model.Category;
-import model.User;
 import service.LessonService;
 import dto.response.LessonResponse;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,7 +17,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.security.test.context.support.WithMockUser;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,39 +39,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @DisplayName("LessonController Tests")
-class LessonControllerTest {
+public class LessonControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
-    private ObjectMapper objectMapper;
-
     @MockBean
     private LessonService lessonService;
 
-    private Lesson testLesson;
-    private User testAdmin;
-    private Category testCategory;
-
     @BeforeEach
     void setUp() {
-        testAdmin = new User();
-        testAdmin.setId(1L);
-        testAdmin.setUsername("admin");
-        testAdmin.setRole(User.UserRole.ADMIN);
-
-        testCategory = new Category();
-        testCategory.setId(1L);
-        testCategory.setName("Test Category");
-
-        testLesson = new Lesson();
-        testLesson.setId(1L);
-        testLesson.setTitle("Cómo usar WhatsApp");
-        testLesson.setDescription("Tutorial de WhatsApp");
-        testLesson.setCategory(testCategory);
-        testLesson.setCreatedBy(testAdmin);
-        testLesson.setIsPublished(true);
+        // Mock setup will be done per test method
     }
 
     // ============================================================================
@@ -84,14 +60,32 @@ class LessonControllerTest {
     @DisplayName("GET /api/lessons - Debe listar lecciones publicadas")
     void testListLessonsSuccess() throws Exception {
         // Arrange
+        Lesson lesson = new Lesson();
+        lesson.setId(1L);
+        lesson.setTitle("Cómo usar WhatsApp");
+        lesson.setDescription("Tutorial de WhatsApp");
+
+        Category category = new Category();
+        category.setId(1L);
+        category.setName("Test Category");
+
+        lesson.setCategory(category);
+        lesson.setIsPublished(true);
+
         List<Lesson> lessons = new ArrayList<>();
-        lessons.add(testLesson);
+        lessons.add(lesson);
         Page<Lesson> page = new PageImpl<>(lessons, PageRequest.of(0, 20), 1);
 
         when(lessonService.getAllPublishedLessons(any())).thenReturn(page);
-        when(lessonService.convertToResponse(testLesson)).thenReturn(
-                new LessonResponse(1L, "Cómo usar WhatsApp", "Tutorial de WhatsApp",
-                        1L, "Test Category", true, null)
+        when(lessonService.convertToResponse(lesson)).thenReturn(
+                LessonResponse.builder()
+                        .id(1L)
+                        .title("Cómo usar WhatsApp")
+                        .description("Tutorial de WhatsApp")
+                        .categoryId(1L)
+                        .categoryName("Test Category")
+                        .isPublished(true)
+                        .build()
         );
 
         // Act & Assert
@@ -104,10 +98,28 @@ class LessonControllerTest {
     @DisplayName("GET /api/lessons/{id} - Debe obtener lección por ID")
     void testGetLessonByIdSuccess() throws Exception {
         // Arrange
-        when(lessonService.findById(1L)).thenReturn(testLesson);
-        when(lessonService.convertToResponse(testLesson)).thenReturn(
-                new LessonResponse(1L, "Cómo usar WhatsApp", "Tutorial de WhatsApp",
-                        1L, "Test Category", true, null)
+        Lesson lesson = new Lesson();
+        lesson.setId(1L);
+        lesson.setTitle("Cómo usar WhatsApp");
+        lesson.setDescription("Tutorial de WhatsApp");
+
+        Category category = new Category();
+        category.setId(1L);
+        category.setName("Test Category");
+
+        lesson.setCategory(category);
+        lesson.setIsPublished(true);
+
+        when(lessonService.findById(1L)).thenReturn(lesson);
+        when(lessonService.convertToResponse(lesson)).thenReturn(
+                LessonResponse.builder()
+                        .id(1L)
+                        .title("Cómo usar WhatsApp")
+                        .description("Tutorial de WhatsApp")
+                        .categoryId(1L)
+                        .categoryName("Test Category")
+                        .isPublished(true)
+                        .build()
         );
 
         // Act & Assert
@@ -121,14 +133,32 @@ class LessonControllerTest {
     @DisplayName("GET /api/lessons/search?text=WhatsApp - Debe buscar lecciones")
     void testSearchLessonsSuccess() throws Exception {
         // Arrange
+        Lesson lesson = new Lesson();
+        lesson.setId(1L);
+        lesson.setTitle("Cómo usar WhatsApp");
+        lesson.setDescription("Tutorial de WhatsApp");
+
+        Category category = new Category();
+        category.setId(1L);
+        category.setName("Test Category");
+
+        lesson.setCategory(category);
+        lesson.setIsPublished(true);
+
         List<Lesson> lessons = new ArrayList<>();
-        lessons.add(testLesson);
+        lessons.add(lesson);
         Page<Lesson> page = new PageImpl<>(lessons, PageRequest.of(0, 20), 1);
 
         when(lessonService.searchLessons("WhatsApp", PageRequest.of(0, 20))).thenReturn(page);
-        when(lessonService.convertToResponse(testLesson)).thenReturn(
-                new LessonResponse(1L, "Cómo usar WhatsApp", "Tutorial de WhatsApp",
-                        1L, "Test Category", true, null)
+        when(lessonService.convertToResponse(lesson)).thenReturn(
+                LessonResponse.builder()
+                        .id(1L)
+                        .title("Cómo usar WhatsApp")
+                        .description("Tutorial de WhatsApp")
+                        .categoryId(1L)
+                        .categoryName("Test Category")
+                        .isPublished(true)
+                        .build()
         );
 
         // Act & Assert
@@ -141,14 +171,32 @@ class LessonControllerTest {
     @DisplayName("GET /api/lessons/category/{categoryId} - Debe obtener lecciones por categoría")
     void testGetLessonsByCategorySuccess() throws Exception {
         // Arrange
+        Lesson lesson = new Lesson();
+        lesson.setId(1L);
+        lesson.setTitle("Cómo usar WhatsApp");
+        lesson.setDescription("Tutorial de WhatsApp");
+
+        Category category = new Category();
+        category.setId(1L);
+        category.setName("Test Category");
+
+        lesson.setCategory(category);
+        lesson.setIsPublished(true);
+
         List<Lesson> lessons = new ArrayList<>();
-        lessons.add(testLesson);
+        lessons.add(lesson);
         Page<Lesson> page = new PageImpl<>(lessons, PageRequest.of(0, 20), 1);
 
         when(lessonService.getLessonsByCategory(1L, PageRequest.of(0, 20))).thenReturn(page);
-        when(lessonService.convertToResponse(testLesson)).thenReturn(
-                new LessonResponse(1L, "Cómo usar WhatsApp", "Tutorial de WhatsApp",
-                        1L, "Test Category", true, null)
+        when(lessonService.convertToResponse(lesson)).thenReturn(
+                LessonResponse.builder()
+                        .id(1L)
+                        .title("Cómo usar WhatsApp")
+                        .description("Tutorial de WhatsApp")
+                        .categoryId(1L)
+                        .categoryName("Test Category")
+                        .isPublished(true)
+                        .build()
         );
 
         // Act & Assert
@@ -171,10 +219,18 @@ class LessonControllerTest {
         Lesson newLesson = new Lesson();
         newLesson.setId(2L);
         newLesson.setTitle("New Lesson");
+        newLesson.setDescription("Description");
 
         when(lessonService.createLesson(any(), eq(1L))).thenReturn(newLesson);
         when(lessonService.convertToResponse(newLesson)).thenReturn(
-                new LessonResponse(2L, "New Lesson", "Description", 1L, "Test Category", false, null)
+                LessonResponse.builder()
+                        .id(2L)
+                        .title("New Lesson")
+                        .description("Description")
+                        .categoryId(1L)
+                        .categoryName("Test Category")
+                        .isPublished(false)
+                        .build()
         );
 
         // Act & Assert
@@ -197,12 +253,19 @@ class LessonControllerTest {
         Lesson publishedLesson = new Lesson();
         publishedLesson.setId(1L);
         publishedLesson.setTitle("Cómo usar WhatsApp");
+        publishedLesson.setDescription("Tutorial de WhatsApp");
         publishedLesson.setIsPublished(true);
 
         when(lessonService.publishLesson(1L, 1L)).thenReturn(publishedLesson);
         when(lessonService.convertToResponse(publishedLesson)).thenReturn(
-                new LessonResponse(1L, "Cómo usar WhatsApp", "Tutorial de WhatsApp",
-                        1L, "Test Category", true, null)
+                LessonResponse.builder()
+                        .id(1L)
+                        .title("Cómo usar WhatsApp")
+                        .description("Tutorial de WhatsApp")
+                        .categoryId(1L)
+                        .categoryName("Test Category")
+                        .isPublished(true)
+                        .build()
         );
 
         // Act & Assert
@@ -219,12 +282,19 @@ class LessonControllerTest {
         Lesson unpublishedLesson = new Lesson();
         unpublishedLesson.setId(1L);
         unpublishedLesson.setTitle("Cómo usar WhatsApp");
+        unpublishedLesson.setDescription("Tutorial de WhatsApp");
         unpublishedLesson.setIsPublished(false);
 
         when(lessonService.unpublishLesson(1L, 1L)).thenReturn(unpublishedLesson);
         when(lessonService.convertToResponse(unpublishedLesson)).thenReturn(
-                new LessonResponse(1L, "Cómo usar WhatsApp", "Tutorial de WhatsApp",
-                        1L, "Test Category", false, null)
+                LessonResponse.builder()
+                        .id(1L)
+                        .title("Cómo usar WhatsApp")
+                        .description("Tutorial de WhatsApp")
+                        .categoryId(1L)
+                        .categoryName("Test Category")
+                        .isPublished(false)
+                        .build()
         );
 
         // Act & Assert

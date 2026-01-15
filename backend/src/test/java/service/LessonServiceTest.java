@@ -3,6 +3,7 @@ package service;
 import model.Lesson;
 import model.Category;
 import model.User;
+import model.UserRole;
 import repository.LessonRepository;
 import repository.StepRepository;
 import repository.UserRepository;
@@ -58,13 +59,14 @@ class LessonServiceTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
+        @SuppressWarnings("resource")
+        var mocks = MockitoAnnotations.openMocks(this);
 
         // Setup usuario admin
         testAdmin = new User();
         testAdmin.setId(1L);
         testAdmin.setUsername("admin");
-        testAdmin.setRole(User.UserRole.ADMIN);
+        testAdmin.setRole(UserRole.ADMIN);
 
         // Setup categoría
         testCategory = new Category();

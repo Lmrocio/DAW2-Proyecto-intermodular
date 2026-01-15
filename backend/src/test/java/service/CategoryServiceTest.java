@@ -1,6 +1,7 @@
 package service;
 
 import model.Category;
+import model.Lesson;
 import repository.CategoryRepository;
 import repository.LessonRepository;
 import dto.request.CreateCategoryRequest;
@@ -19,6 +20,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,7 +52,8 @@ class CategoryServiceTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
+        @SuppressWarnings("resource")
+        var mocks = MockitoAnnotations.openMocks(this);
     }
 
     // ============================================================================
@@ -230,7 +233,7 @@ class CategoryServiceTest {
         // Arrange
         Category category = new Category();
         category.setId(1L);
-        category.setLessons(new ArrayList<>());
+        category.setLessons(new HashSet<>());
 
         when(categoryRepository.findById(1L)).thenReturn(Optional.of(category));
 
@@ -247,8 +250,12 @@ class CategoryServiceTest {
         // Arrange
         Category category = new Category();
         category.setId(1L);
-        category.setLessons(new ArrayList<>());
-        category.getLessons().add(new Object()); // Simular que tiene lecciones
+        category.setLessons(new HashSet<>());
+
+        Lesson lesson = new Lesson();
+        lesson.setId(1L);
+        lesson.setTitle("Test Lesson");
+        category.getLessons().add(lesson);
 
         when(categoryRepository.findById(1L)).thenReturn(Optional.of(category));
 
