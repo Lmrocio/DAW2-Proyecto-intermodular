@@ -889,6 +889,463 @@ json-server (API REST simulada)
 
 ---
 
+## Documentación API (FASE 5 - Tarea 7)
+
+### Catálogo de Endpoints
+
+Todos los endpoints están consumidos desde `ProductService` y apuntan a la URL base `http://localhost:3000`.
+
+| Método | URL | Parámetros | Descripción | Servicio/Método | Componente |
+|--------|-----|------------|-------------|-----------------|------------|
+| **GET** | `/products` | - | Listado completo de productos con transformación (priceWithTax, lowStock) | `ProductService.getAll()` | ProductListComponent |
+| **GET** | `/products/:id` | `id`: string | Detalle de un producto específico | `ProductService.getById(id)` | ProductDetailComponent |
+| **POST** | `/products` | Body: CreateProductDto | Crear nuevo producto | `ProductService.create(dto)` | ProductFormComponent |
+| **PUT** | `/products/:id` | `id`: string<br>Body: UpdateProductDto | Actualizar producto completo | `ProductService.update(id, dto)` | ProductFormComponent |
+| **PATCH** | `/products/:id` | `id`: string<br>Body: Partial<UpdateProductDto> | Actualizar producto parcial | `ProductService.patch(id, dto)` | - |
+| **DELETE** | `/products/:id` | `id`: string | Eliminar producto | `ProductService.delete(id)` | ProductList/Detail |
+| **GET** | `/products?_page=N&_limit=M&q=X&category=Y` | `_page`: number<br>`_limit`: number<br>`q`: string (opcional)<br>`category`: string (opcional) | Filtrado con paginación y búsqueda | `ProductService.getFiltered(page, pageSize, search?, category?)` | - |
+| **POST** | `/products/:id/image` | `id`: string<br>FormData: { image, productId } | Subir imagen de producto | `ProductService.uploadImage(productId, file)` | - |
+| **GET** | `/products/report` | Headers:<br>`X-Report-Format`: 'pdf' \| 'csv'<br>`Accept`: application/pdf \| text/csv | Generar reporte de productos | `ProductService.getReport(format)` | - |
+
+### Interfaces TypeScript
+
+#### Product (Modelo Principal)
+
+```typescript
+/**
+ * Modelo completo de Producto
+ * Representa un producto en el catálogo
+ */
+interface Product {
+  /** Identificador único */
+  id: string;
+  
+  /** Nombre del producto */
+  name: string;
+  
+  /** Descripción detallada */
+  description: string;
+  
+  /** Precio en euros (sin IVA) */
+  price: number;
+  
+  /** URL de la imagen */
+  imageUrl: string;
+  
+  /** Categoría: Manuales, Tests, Simuladores, Packs, Cursos */
+  category: string;
+  
+  /** Unidades disponibles */
+  stock: number;
+  
+  /** Fecha de creación (ISO 8601) */
+  createdAt: string;
+}
+```
+
+#### ProductWithTax (Extendido con Campos Calculados)
+
+```typescript
+/**
+ * Producto con campos calculados automáticamente
+ * FASE 5 - Tarea 3: Operador map transforma Product → ProductWithTax
+ */
+interface ProductWithTax extends Product {
+  /** Precio con IVA 21% calculado */
+  priceWithTax: number;
+  
+  /** true si stock < 10 unidades */
+  lowStock: boolean;
+}
+```
+
+#### CreateProductDto
+
+```typescript
+/**
+ * DTO para crear producto
+ * No incluye id ni createdAt (generados por servidor)
+ */
+interface CreateProductDto {
+  name: string;
+  description: string;
+  price: number;
+  imageUrl: string;
+  category: string;
+  stock: number;
+}
+```
+
+#### UpdateProductDto
+
+```typescript
+/**
+ * DTO para actualizar producto
+ * Todos los campos opcionales (actualización parcial)
+ */
+interface UpdateProductDto {
+  name?: string;
+  description?: string;
+  price?: number;
+  imageUrl?: string;
+  category?: string;
+  stock?: number;
+}
+```
+
+#### ApiListResponse<T> (Paginación)
+
+```typescript
+/**
+ * Respuesta genérica para listas paginadas
+ * FASE 5 - Tarea 3: Interface para respuestas estructuradas
+ */
+interface ApiListResponse<T> {
+  data: T[];
+  pagination: {
+    currentPage: number;
+    pageSize: number;
+    totalItems: number;
+    totalPages: number;
+  };
+}
+```
+
+#### ErrorResponse
+
+```typescript
+/**
+ * Respuesta estructurada de error
+ * FASE 5 - Tarea 3: Manejo consistente de errores
+ */
+interface ErrorResponse {
+  statusCode: number;
+  message: string;
+  timestamp: string;
+  path?: string;
+  details?: Record<string, any>;
+}
+```
+
+#### UploadResponse
+
+```typescript
+/**
+ * Respuesta de subida de imagen
+ * FASE 5 - Tarea 4: FormData para archivos
+ */
+interface UploadResponse {
+  imageUrl: string;
+  message: string;
+}
+```
+
+### Estrategia de Manejo de Errores
+
+El manejo de errores está implementado en **3 capas** con responsabilidades específicas:
+
+#### Capa 1: Interceptor Global (errorInterceptor)
+
+**Responsabilidad:** Mapear códigos HTTP a mensajes de usuario comprensibles
+
+```typescript
+// core/interceptors/error.interceptor.ts
+
+export const errorInterceptor: HttpInterceptorFn = (req, next) => {
+  return next(req).pipe(
+    catchError((error: HttpErrorResponse) => {
+      let userMessage = 'Ha ocurrido un error inesperado';
+
+      switch (error.status) {
+        case 0:
+          userMessage = 'No hay conexión con el servidor...';
+          break;
+        case 401:
+          userMessage = 'Sesión caducada. Vuelve a iniciar sesión.';
+          break;
+        case 403:
+          userMessage = 'No tienes permisos para esta acción.';
+          break;
+        case 404:
+          userMessage = 'El recurso solicitado no existe.';
+          break;
+        case 500:
+        case 502:
+        case 503:
+        case 504:
+          userMessage = 'Error interno del servidor...';
+          break;
+      }
+
+      console.error('❌ HTTP Error Interceptor:', {
+        status: error.status,
+        url: error.url,
+        message: userMessage
+      });
+
+      return throwError(() => ({
+        ...error,
+        message: userMessage,
+        userMessage
+      }));
+    })
+  );
+};
+```
+
+**Códigos manejados:**
+- `0` → Sin conexión
+- `401` → Sesión caducada
+- `403` → Sin permisos
+- `404` → Recurso no encontrado
+- `409` → Conflicto
+- `413` → Payload demasiado grande
+- `415` → Formato no soportado
+- `5xx` → Error del servidor
+
+#### Capa 2: Service catchError (Lógica de Negocio)
+
+**Responsabilidad:** Mensajes específicos según contexto de negocio
+
+```typescript
+// features/products/product.service.ts
+
+getById(id: string): Observable<ProductWithTax> {
+  return this.api.get<Product>(`products/${id}`).pipe(
+    map(product => this.transformProduct(product)),
+    catchError(error => {
+      const message = error.status === 404
+        ? `El producto con ID ${id} no existe`
+        : 'No se pudo cargar el producto...';
+      return throwError(() => new Error(message));
+    })
+  );
+}
+
+delete(id: string): Observable<void> {
+  return this.api.delete<void>(`products/${id}`).pipe(
+    catchError(error => {
+      const message = error.status === 404
+        ? `El producto con ID ${id} no existe`
+        : error.status === 409
+        ? 'No se puede eliminar porque tiene dependencias'
+        : 'No se pudo eliminar el producto...';
+      return throwError(() => new Error(message));
+    })
+  );
+}
+
+uploadImage(productId: string, file: File): Observable<UploadResponse> {
+  // ...
+  catchError(error => {
+    const message = error.status === 413
+      ? 'Imagen demasiado grande. Máximo: 5MB'
+      : error.status === 415
+      ? 'Formato no soportado. Usa JPG, PNG o WEBP'
+      : 'No se pudo subir la imagen...';
+    return throwError(() => new Error(message));
+  })
+}
+```
+
+**Mensajes específicos por operación:**
+- getById: "El producto con ID X no existe"
+- delete: "No se puede eliminar porque tiene dependencias"
+- uploadImage: "Imagen demasiado grande" / "Formato no soportado"
+
+#### Capa 3: Component State (UI)
+
+**Responsabilidad:** Gestionar estados visuales y feedback al usuario
+
+```typescript
+// features/products/product-list/product-list.component.ts
+
+interface ProductState {
+  loading: boolean;
+  error: string | null;
+  data: Product[] | null;
+}
+
+loadProducts(): void {
+  // 1. Iniciar carga
+  this.state.set({
+    loading: true,
+    error: null,
+    data: null
+  });
+
+  // 2. Petición HTTP
+  this.productService.getAll().subscribe({
+    // 3a. Éxito
+    next: (products) => {
+      this.state.set({
+        loading: false,
+        error: null,
+        data: products
+      });
+    },
+    // 3b. Error
+    error: (err) => {
+      this.state.set({
+        loading: false,
+        error: err.message || 'Error al cargar productos',
+        data: null
+      });
+    }
+  });
+}
+```
+
+**Estados UI gestionados:**
+- **Loading:** Spinner CSS animado
+- **Error:** Mensaje + botón "Reintentar"
+- **Empty:** Mensaje + acción sugerida
+- **Success:** Lista de datos + toasts de confirmación
+
+#### Flujo Completo de una Petición HTTP
+
+```
+1. COMPONENTE UI
+   └─ Llama a ProductService.getAll()
+      │
+2. PRODUCT SERVICE
+   └─ Llama a ApiService.get<Product[]>('products')
+      │ pipe(
+      │   retry(2),                    ← Reintenta hasta 2 veces
+      │   map(products => transform),  ← Añade priceWithTax, lowStock
+      │   catchError(err => mensaje)   ← Mensaje específico
+      │ )
+      │
+3. API SERVICE
+   └─ Llama a HttpClient.get<Product[]>('http://localhost:3000/products')
+      │
+4. HTTP CLIENT + INTERCEPTORES (request)
+   │
+   ├─ authInterceptor
+   │  └─ Añade headers: Content-Type, X-App-Client, Authorization
+   │
+   ├─ errorInterceptor
+   │  └─ (no actúa en request)
+   │
+   └─ loggingInterceptor
+      └─ console.log('🚀 HTTP Request: GET /products')
+      │
+      ▼ HTTP REQUEST al servidor
+      │
+5. JSON-SERVER (puerto 3000)
+   └─ Responde con JSON: [{ id, name, ... }, ...]
+      │
+      ▼ HTTP RESPONSE
+      │
+6. HTTP CLIENT + INTERCEPTORES (response - orden inverso)
+   │
+   ├─ loggingInterceptor
+   │  └─ console.log('✅ HTTP Response: 200 OK (45ms)')
+   │
+   ├─ errorInterceptor
+   │  └─ Si error: mapea código → mensaje usuario
+   │
+   └─ authInterceptor
+      └─ (no actúa en response)
+      │
+7. API SERVICE
+   └─ Retorna Observable<Product[]>
+      │
+8. PRODUCT SERVICE
+   └─ pipe(
+      │   retry(2),           ← Reintentos si falla
+      │   map(transform),     ← Transforma a ProductWithTax[]
+      │   catchError(mensaje) ← Mensaje de negocio
+      │ )
+      │
+9. COMPONENTE UI
+   └─ subscribe({
+        next: (products) => {
+          state.set({ loading: false, data: products, error: null })
+          // Actualiza UI con lista de productos
+        },
+        error: (err) => {
+          state.set({ loading: false, data: null, error: err.message })
+          // Muestra mensaje de error + botón "Reintentar"
+        }
+      })
+```
+
+### Configuración del Sistema HTTP
+
+#### URL Base de la API
+
+```typescript
+// core/services/api.service.ts
+private readonly baseUrl = 'http://localhost:3000';
+```
+
+#### Comandos para Desarrollo
+
+```bash
+# 1. Instalar dependencias (una sola vez)
+npm install -D json-server concurrently
+
+# 2. Iniciar solo la API simulada
+npm run api
+
+# 3. Iniciar Angular (otra terminal)
+npm start
+
+# 4. Iniciar API + Angular simultáneamente
+npm run dev:full
+```
+
+#### Estructura de db.json
+
+```json
+{
+  "products": [
+    {
+      "id": "1",
+      "name": "Señales de Tráfico - Manual Básico",
+      "description": "Guía completa sobre señales...",
+      "price": 29.99,
+      "imageUrl": "assets/images/productos/manual-senales.jpg",
+      "category": "Manuales",
+      "stock": 45,
+      "createdAt": "2024-01-15T10:30:00Z"
+    }
+    // ... 9 productos más
+  ],
+  "users": [
+    {
+      "id": "1",
+      "email": "admin@autoescuela.com",
+      "password": "admin123",
+      "name": "Administrador",
+      "role": "admin",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.admin"
+    }
+    // ... 2 usuarios más
+  ]
+}
+```
+
+#### Interceptores Registrados (Orden)
+
+```typescript
+// app.config.ts
+provideHttpClient(
+  withInterceptors([
+    authInterceptor,      // 1º Añade headers de autenticación
+    errorInterceptor,     // 2º Maneja errores globalmente
+    loggingInterceptor    // 3º Loggea peticiones (solo desarrollo)
+  ])
+)
+```
+
+**Orden de ejecución:**
+- **Request:** auth → error → logging → HTTP
+- **Response:** HTTP → logging → error → auth
+
+---
+
 ## Instalación y Desarrollo
 
 ### Requisitos
