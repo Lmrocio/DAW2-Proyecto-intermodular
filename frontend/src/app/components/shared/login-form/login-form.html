@@ -1,74 +1,86 @@
-<section class="login-form">
-  <h2 class="login-form__title">Iniciar Sesión</h2>
-  <p class="login-form__subtitle">
-    Accede a tu cuenta para guardar tus lecciones favoritas y ver tu historial.
-  </p>
+<form class="login-form" [formGroup]="loginFormGroup" (ngSubmit)="onSubmit()">
+  <!-- Campo Email -->
+  <div class="login-form__field">
+    <label for="email" class="login-form__label">Correo electrónico</label>
+    <div class="login-form__input-wrapper">
+      <lucide-angular [img]="Mail" [size]="18" class="login-form__icon"></lucide-angular>
+      <input
+        id="email"
+        type="email"
+        class="login-form__input"
+        formControlName="email"
+        placeholder="ejemplo@correo.com"
+        [class.login-form__input--error]="isFieldInvalid('email')"
+      />
+    </div>
+    <span *ngIf="isFieldInvalid('email')" class="login-form__error">
+      {{ getEmailErrorMessage() }}
+    </span>
+  </div>
 
-  <form class="login-form__form" [formGroup]="loginFormGroup" (ngSubmit)="onSubmit()">
-
-    <fieldset class="login-form__fieldset">
-      <legend class="login-form__legend">Credenciales de Acceso</legend>
-
-      <app-form-input
-        [label]="'Correo Electrónico'"
-        [inputType]="'email'"
-        [inputName]="'email'"
-        [placeholder]="'tu@email.com'"
-        [required]="true"
-        [value]="loginFormGroup.get('email')?.value || ''"
-        [errorMessage]="getEmailErrorMessage()"
-        [hasError]="isFieldInvalid('email')"
-        [helpText]="'Introduce tu correo electrónico registrado'"
-        (valueChange)="onEmailChange($event)">
-      </app-form-input>
-
-      <app-form-input
-        [label]="'Contraseña'"
-        [inputType]="'password'"
-        [inputName]="'password'"
-        [placeholder]="'Tu contraseña'"
-        [required]="true"
-        [value]="loginFormGroup.get('password')?.value || ''"
-        [errorMessage]="'La contraseña es obligatoria'"
-        [hasError]="isFieldInvalid('password')"
-        [helpText]="'Contraseña de al menos 8 caracteres'"
-        (valueChange)="onPasswordChange($event)">
-      </app-form-input>
-
-    </fieldset>
-
-    <fieldset class="login-form__fieldset">
-      <legend class="login-form__legend">Recuerda Tu Cuenta</legend>
-
-      <label class="login-form__checkbox">
-        <input
-          type="checkbox"
-          class="login-form__checkbox-input"
-          formControlName="rememberMe">
-        <span class="login-form__checkbox-text">Recuerda mis datos en este dispositivo</span>
-      </label>
-    </fieldset>
-
-    <div class="login-form__actions">
+  <!-- Campo Contraseña -->
+  <div class="login-form__field">
+    <label for="password" class="login-form__label">Contraseña</label>
+    <div class="login-form__input-wrapper">
+      <lucide-angular [img]="Lock" [size]="18" class="login-form__icon"></lucide-angular>
+      <input
+        id="password"
+        [type]="showPassword ? 'text' : 'password'"
+        class="login-form__input login-form__input--password"
+        formControlName="password"
+        placeholder="Tu contraseña secreta"
+        [class.login-form__input--error]="isFieldInvalid('password')"
+      />
       <button
-        type="submit"
-        class="login-form__button login-form__button--primary"
-        [disabled]="loginFormGroup.invalid">
-        <span class="login-form__button-text">Iniciar Sesión</span>
+        type="button"
+        class="login-form__toggle"
+        (click)="togglePasswordVisibility()"
+        [attr.aria-label]="showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+      >
+        <lucide-angular
+          [img]="showPassword ? EyeOff : Eye"
+          [size]="18"
+        ></lucide-angular>
       </button>
     </div>
+    <span *ngIf="isFieldInvalid('password')" class="login-form__error">
+      La contraseña es obligatoria
+    </span>
+  </div>
 
-    <p class="login-form__link-container">
-      ¿No tienes cuenta?
-      <a href="/registro" class="login-form__link">Regístrate aquí</a>
-    </p>
+  <!-- Opciones: Mostrar contraseña + Olvidaste contraseña -->
+  <div class="login-form__options">
+    <label class="login-form__checkbox">
+      <input
+        type="checkbox"
+        class="login-form__checkbox-input"
+        [(ngModel)]="showPassword"
+        [ngModelOptions]="{standalone: true}"
+      />
+      <span class="login-form__checkbox-custom">
+        <lucide-angular
+          *ngIf="showPassword"
+          [img]="Check"
+          [size]="12"
+          class="login-form__checkbox-icon"
+        ></lucide-angular>
+      </span>
+      <span class="login-form__checkbox-label">Mostrar contraseña</span>
+    </label>
 
-    <p class="login-form__link-container">
-      ¿Olvidaste tu contraseña?
-      <a href="/recuperar-contrasena" class="login-form__link">Recuperarla aquí</a>
-    </p>
+    <a routerLink="/recuperar-contrasena" class="login-form__forgot-link">
+      ¿Has olvidado tu contraseña?
+    </a>
+  </div>
 
-  </form>
-
-</section>
+  <!-- Botón Submit -->
+  <button
+    type="submit"
+    class="login-form__submit"
+    [disabled]="loginFormGroup.invalid"
+  >
+    <span>Entrar ahora</span>
+    <lucide-angular [img]="ArrowRight" [size]="20"></lucide-angular>
+  </button>
+</form>
 

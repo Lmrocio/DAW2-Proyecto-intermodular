@@ -1,0 +1,113 @@
+@import '../../../../styles/00-settings/variables';
+@import '../../../../styles/01-tools/mixins';
+
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: $spacing-12;
+  padding-top: $spacing-6;
+  border-top: $border-thin solid $color-gray-200;
+  flex-wrap: wrap;
+  gap: $spacing-4;
+}
+
+.pagination__info {
+  font-size: $font-size-sm;
+  color: $color-gray-700;
+}
+
+.pagination__controls {
+  display: flex;
+  align-items: center;
+  gap: $spacing-1;
+}
+
+.pagination__pages {
+  display: flex;
+  gap: $spacing-1;
+}
+
+.pagination__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+  padding: 0 $spacing-3;
+  background: white;
+  border: $border-thin solid $color-gray-200;
+  border-radius: $radius-md;
+  color: $color-text-dark;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  cursor: pointer;
+  @include transition(all, $transition-fast);
+
+  &:not(:disabled):not(.pagination__btn--ellipsis) {
+    @include hover {
+      background: $color-gray-100;
+      border-color: $color-accent;
+      color: $color-accent;
+    }
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.4;
+  }
+
+  &--active {
+    background: $color-accent;
+    border-color: $color-accent;
+    color: white;
+
+    @include hover {
+      background: $color-accent;
+      color: white;
+    }
+  }
+
+  &--arrow {
+    &:not(:disabled) {
+      @include hover {
+        background: $color-accent;
+        color: white;
+      }
+    }
+  }
+
+  &--ellipsis {
+    cursor: default;
+    border: none;
+    background: transparent;
+
+    @include hover {
+      background: transparent;
+      border: none;
+    }
+  }
+}
+
+/* Responsive */
+@media (max-width: $breakpoint-md) {
+  .pagination {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .pagination__info {
+    order: 2;
+    margin-top: $spacing-4;
+  }
+
+  .pagination__controls {
+    order: 1;
+  }
+
+  .pagination__btn {
+    min-width: 36px;
+    height: 36px;
+    font-size: $font-size-xs;
+  }
+}

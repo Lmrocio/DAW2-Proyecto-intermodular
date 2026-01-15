@@ -1,0 +1,20 @@
+<div class="search-bar-lecciones">
+  <div class="search-bar-lecciones__container">
+    <div class="search-bar-lecciones__input-wrapper">
+      <lucide-angular
+        [img]="Search"
+        [size]="20"
+        class="search-bar-lecciones__icon"
+      ></lucide-angular>
+      <input
+        type="text"
+        class="search-bar-lecciones__input"
+        placeholder="Buscar lecciones (ej: WhatsApp, fotos...)"
+        [(ngModel)]="searchQuery"
+        (keyup)="onKeyUp($event)"
+        aria-label="Buscar lecciones"
+      />
+    </div>
+  </div>
+</div>
+

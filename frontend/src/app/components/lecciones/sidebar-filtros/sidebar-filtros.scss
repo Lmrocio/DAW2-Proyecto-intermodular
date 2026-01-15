@@ -1,0 +1,170 @@
+@import '../../../../styles/00-settings/variables';
+@import '../../../../styles/01-tools/mixins';
+
+.sidebar-filtros {
+  background: white;
+  border: $border-thin solid $color-gray-200;
+  border-radius: $radius-md;
+  padding: $spacing-6;
+  position: sticky;
+  top: 90px;
+
+  /* Ensure the sidebar doesn't expand beyond its column and keeps box-sizing */
+  width: 100%;
+  max-width: 280px;
+  box-sizing: border-box;
+}
+
+.sidebar-filtros__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-6;
+  padding-bottom: $spacing-4;
+  border-bottom: $border-thin solid $color-gray-200;
+}
+
+.sidebar-filtros__title {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  color: $color-text-dark;
+  margin: 0;
+}
+
+.sidebar-filtros__clear {
+  background: none;
+  border: none;
+  color: $color-accent;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  cursor: pointer;
+  padding: $spacing-1 $spacing-2;
+  border-radius: $radius-sm;
+  @include transition(all, $transition-fast);
+
+  @include hover {
+    background: #EFF6FF;
+  }
+}
+
+.sidebar-filtros__categories {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-5;
+}
+
+.sidebar-filtros__category {
+  border-bottom: $border-thin solid $color-gray-100;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.sidebar-filtros__category-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $spacing-3 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  @include transition(all, $transition-fast);
+
+  @include hover {
+    .sidebar-filtros__category-title {
+      color: $color-accent;
+    }
+  }
+}
+
+.sidebar-filtros__category-title {
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  color: $color-text-dark;
+  @include transition(color);
+}
+
+.sidebar-filtros__category-icon {
+  color: $color-gray-700;
+  @include transition(transform);
+}
+
+.sidebar-filtros__options {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-3;
+  padding-bottom: $spacing-4;
+  max-height: 400px;
+  overflow: hidden;
+  @include transition(max-height opacity, $transition-fast);
+
+  &--collapsed {
+    max-height: 0;
+    opacity: 0;
+    padding-bottom: 0;
+  }
+}
+
+.sidebar-filtros__option {
+  display: flex;
+  align-items: center;
+  gap: $spacing-3;
+  cursor: pointer;
+  padding: $spacing-1 0;
+  user-select: none;
+
+  @include hover {
+    .sidebar-filtros__option-label {
+      color: $color-accent;
+    }
+  }
+}
+
+.sidebar-filtros__checkbox {
+  width: 18px;
+  height: 18px;
+  border: $border-thin solid $color-gray-300;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  accent-color: $color-accent;
+
+  @include focus-visible {
+    outline: 2px solid $color-secondary;
+    outline-offset: 2px;
+  }
+}
+
+.sidebar-filtros__option-label {
+  flex: 1;
+  font-size: $font-size-sm;
+  color: $color-gray-800;
+  @include transition(color);
+}
+
+.sidebar-filtros__option-count {
+  font-size: $font-size-xs;
+  color: $color-gray-500;
+}
+
+/* Responsive */
+@media (max-width: $breakpoint-lg) {
+  .sidebar-filtros {
+    position: static;
+    margin-bottom: $spacing-6;
+    max-width: none; /* allow full width in stacked layout */
+  }
+}
+
+@media (max-width: $breakpoint-md) {
+  .sidebar-filtros {
+    padding: $spacing-5;
+  }
+
+  .sidebar-filtros__header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $spacing-3;
+  }
+}

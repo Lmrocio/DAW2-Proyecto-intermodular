@@ -1,32 +1,35 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { FormInput } from '../form-input/form-input';
+import { ReactiveFormsModule, FormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { LucideAngularModule, Mail, Lock, Eye, EyeOff, Check, ArrowRight } from 'lucide-angular';
 
 @Component({
   selector: 'app-login-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormInput],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, RouterModule, LucideAngularModule],
   templateUrl: './login-form.html',
   styleUrl: './login-form.scss',
 })
 export class LoginForm implements OnInit {
-  // ========================================================================
-  // PROPIEDADES
-  // ========================================================================
+  // Iconos de Lucide
+  readonly Mail = Mail;
+  readonly Lock = Lock;
+  readonly Eye = Eye;
+  readonly EyeOff = EyeOff;
+  readonly Check = Check;
+  readonly ArrowRight = ArrowRight;
 
   /** Formulario reactivo para login */
   loginFormGroup: FormGroup;
 
+  /** Mostrar/ocultar contraseña */
+  showPassword: boolean = false;
+
   /** Emite los datos del formulario cuando se envía */
   @Output() loginSubmit = new EventEmitter<{ email: string; password: string; rememberMe: boolean }>();
 
-  // ========================================================================
-  // INYECCIÓN DE DEPENDENCIAS
-  // ========================================================================
-
   constructor(private formBuilder: FormBuilder) {
-    // Crear el formulario con validadores
     this.loginFormGroup = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]],
@@ -34,17 +37,16 @@ export class LoginForm implements OnInit {
     });
   }
 
-  // ========================================================================
-  // CICLO DE VIDA
-  // ========================================================================
-
   ngOnInit(): void {
     // Inicialización si es necesaria
   }
 
-  // ========================================================================
-  // MÉTODOS DE VALIDACIÓN
-  // ========================================================================
+  /**
+   * Alterna la visibilidad de la contraseña
+   */
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
+  }
 
   /**
    * Verifica si un campo es inválido y ha sido tocado
@@ -68,27 +70,8 @@ export class LoginForm implements OnInit {
     return '';
   }
 
-  // ========================================================================
-  // MANEJADORES DE EVENTOS
-  // ========================================================================
-
-  /**
-   * Actualiza el valor del email en el formulario
-   */
-  onEmailChange(value: string): void {
-    this.loginFormGroup.patchValue({ email: value });
-  }
-
-  /**
-   * Actualiza el valor de la contraseña en el formulario
-   */
-  onPasswordChange(value: string): void {
-    this.loginFormGroup.patchValue({ password: value });
-  }
-
   /**
    * Maneja el envío del formulario
-   * Solo se ejecuta si el formulario es válido
    */
   onSubmit(): void {
     if (this.loginFormGroup.valid) {
@@ -98,19 +81,8 @@ export class LoginForm implements OnInit {
         rememberMe: this.loginFormGroup.get('rememberMe')?.value || false,
       };
 
-      // Emitir los datos del formulario al componente padre
       this.loginSubmit.emit(formData);
-
-      // Aquí se llamaría a un servicio para autenticar al usuario
-      console.log('Formulario válido. Datos:', formData);
-    } else {
-      console.log('Formulario inválido');
-      // Marcar todos los campos como tocados para mostrar los errores
-      Object.keys(this.loginFormGroup.controls).forEach((key) => {
-        this.loginFormGroup.get(key)?.markAsTouched();
-      });
     }
   }
 }
-
 
