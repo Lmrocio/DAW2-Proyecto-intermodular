@@ -1,0 +1,23 @@
+<div class="user-progreso">
+  <h2 class="user-progreso__title">Mi Progreso</h2>
+
+  <div class="user-progreso__summary">
+    <div class="user-progreso__total">{{ progresoTotal }}%</div>
+    <div class="user-progreso__label">Progreso total</div>
+  </div>
+
+  <ul class="user-progreso__list">
+    @for (leccion of lecciones(); track leccion.id) {
+      <li class="user-progreso__item">
+        <div class="user-progreso__item-title">{{ leccion.titulo }}</div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <div class="user-progreso__bar">
+            <div class="user-progreso__fill" [style.width.%]="leccion.progreso"></div>
+          </div>
+          <span class="user-progreso__percentage">{{ leccion.progreso }}%</span>
+        </div>
+      </li>
+    }
+  </ul>
+</div>
+

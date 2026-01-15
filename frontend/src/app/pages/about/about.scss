@@ -1,0 +1,72 @@
+@import '../../../styles/00-settings/variables';
+@import '../../../styles/01-tools/mixins';
+
+// ============================================================================
+// ABOUT PAGE
+// ============================================================================
+
+.about {
+  @include container;
+  padding-top: $spacing-8;
+  padding-bottom: $spacing-8;
+}
+
+.about__header {
+  text-align: center;
+  margin-bottom: $spacing-8;
+}
+
+.about__title {
+  font-size: $font-size-3xl;
+  font-weight: $font-weight-bold;
+  color: $color-gray-900;
+  margin-bottom: $spacing-4;
+
+  @include respond-to(md) {
+    font-size: $font-size-4xl;
+  }
+}
+
+.about__subtitle {
+  font-size: $font-size-xl;
+  color: $color-gray-600;
+  line-height: 1.6;
+}
+
+.about__content {
+  background: white;
+  border-radius: $radius-lg;
+  padding: $spacing-6;
+  @include elevation(md);
+
+  @include respond-to(md) {
+    padding: $spacing-8;
+  }
+}
+
+.about__section {
+  margin-bottom: $spacing-6;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.about__section-title {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+  color: $color-gray-900;
+  margin-bottom: $spacing-3;
+}
+
+.about__text {
+  color: $color-gray-700;
+  font-size: $font-size-base;
+  line-height: 1.7;
+  margin-bottom: $spacing-3;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+

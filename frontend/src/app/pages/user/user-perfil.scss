@@ -1,0 +1,65 @@
+@import '../../../styles/00-settings/variables';
+@import '../../../styles/01-tools/mixins';
+
+// ============================================================================
+// USER PERFIL PAGE
+// ============================================================================
+
+.user-perfil {
+  background: white;
+  border-radius: $radius-lg;
+  padding: $spacing-6;
+  @include elevation(md);
+}
+
+.user-perfil__header {
+  display: flex;
+  align-items: center;
+  gap: $spacing-4;
+  margin-bottom: $spacing-6;
+  padding-bottom: $spacing-6;
+  border-bottom: $border-thin solid $color-gray-200;
+}
+
+.user-perfil__avatar {
+  width: 80px;
+  height: 80px;
+  background: $color-accent;
+  border-radius: 50%;
+  @include flex(center, center);
+  font-size: 40px;
+}
+
+.user-perfil__info {
+  flex: 1;
+}
+
+.user-perfil__name {
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  color: $color-gray-900;
+  margin-bottom: $spacing-1;
+}
+
+.user-perfil__email {
+  color: $color-gray-600;
+  font-size: $font-size-base;
+}
+
+.user-perfil__field {
+  margin-bottom: $spacing-4;
+}
+
+.user-perfil__label {
+  display: block;
+  font-weight: $font-weight-semibold;
+  color: $color-gray-700;
+  margin-bottom: $spacing-1;
+  font-size: $font-size-sm;
+}
+
+.user-perfil__value {
+  color: $color-gray-600;
+  font-size: $font-size-base;
+}
+

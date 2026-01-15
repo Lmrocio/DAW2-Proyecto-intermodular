@@ -1,0 +1,30 @@
+<div class="leccion-detalle">
+  @if (loading()) {
+    <div class="leccion-detalle__loading">
+      Cargando lección...
+    </div>
+  } @else if (leccion()) {
+    <div class="leccion-detalle__header">
+      <a routerLink="/lecciones" class="leccion-detalle__back">
+        ← Volver a lecciones
+      </a>
+      <div class="leccion-detalle__id">ID: {{ leccionId() }}</div>
+      <h1 class="leccion-detalle__title">{{ leccion().titulo }}</h1>
+      <div class="leccion-detalle__meta">
+        <div class="leccion-detalle__meta-item">
+          <span>⏱️</span>
+          <span>{{ leccion().duracion }}</span>
+        </div>
+        <div class="leccion-detalle__meta-item">
+          <span>📊</span>
+          <span>{{ leccion().nivel }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="leccion-detalle__content">
+      <p class="leccion-detalle__description">{{ leccion().descripcion }}</p>
+    </div>
+  }
+</div>
+

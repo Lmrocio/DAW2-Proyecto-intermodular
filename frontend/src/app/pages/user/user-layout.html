@@ -1,0 +1,23 @@
+<div class="user-layout">
+  <header class="user-layout__header">
+    <h1 class="user-layout__title">Mi Cuenta</h1>
+
+    <nav class="user-layout__nav">
+      <a routerLink="perfil" routerLinkActive="active" class="user-layout__nav-link">
+        Mi Perfil
+      </a>
+      <a routerLink="progreso" routerLinkActive="active" class="user-layout__nav-link">
+        Mi Progreso
+      </a>
+      <a routerLink="certificados" routerLinkActive="active" class="user-layout__nav-link">
+        Certificados
+      </a>
+    </nav>
+  </header>
+
+  <div class="user-layout__content">
+    <!-- Aquí se renderizan las rutas hijas -->
+    <router-outlet></router-outlet>
+  </div>
+</div>
+
