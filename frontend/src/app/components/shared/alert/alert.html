@@ -5,6 +5,14 @@
     <h3 class="alert__message">{{ message }}</h3>
 
     <p class="alert__description" *ngIf="description">{{ description }}</p>
+
+    <!-- Contenedor para tags dinámicos (Requisito 1.3 - createElement/appendChild) -->
+    <div
+      #tagContainer
+      class="alert__tags"
+      *ngIf="tags.length > 0"
+      aria-label="Etiquetas de la alerta"
+    ></div>
   </div>
 
   <button

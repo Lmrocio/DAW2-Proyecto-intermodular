@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ThemeSwitcher } from '../../shared/theme-switcher/theme-switcher';
 
@@ -13,19 +13,23 @@ export class Header {
   // Estado del menú hamburguesa
   menuOpen = false;
 
+  constructor(private renderer: Renderer2) {}
+
   toggleMenu(): void {
     this.menuOpen = !this.menuOpen;
 
+    // Usar Renderer2 para manipulación segura del DOM (SSR-safe)
     if (this.menuOpen) {
-      document.body.style.overflow = 'hidden';
+      this.renderer.setStyle(document.body, 'overflow', 'hidden');
     } else {
-      document.body.style.overflow = '';
+      this.renderer.removeStyle(document.body, 'overflow');
     }
   }
 
   closeMenu(): void {
     this.menuOpen = false;
-    document.body.style.overflow = '';
+    // Usar Renderer2 para manipulación segura del DOM
+    this.renderer.removeStyle(document.body, 'overflow');
   }
 
   @HostListener('document:keydown.escape')

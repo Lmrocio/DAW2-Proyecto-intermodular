@@ -2,6 +2,7 @@
 <!-- COMPONENTE: TOOLTIP -->
 <!-- ============================================================================ -->
 <!-- Tooltip accesible con soporte para mouse y teclado -->
+<!-- IMPLEMENTA: focusin/focusout events (Requisito 2.2 y 3.5) -->
 
 <div
   class="tooltip"
@@ -13,8 +14,8 @@
     #tooltipTrigger
     class="tooltip__trigger"
     [attr.aria-describedby]="showTooltip ? tooltipId : null"
-    (focus)="onFocus()"
-    (blur)="onBlur()"
+    (focusin)="onFocusIn()"
+    (focusout)="onFocusOut()"
   >
     <ng-content></ng-content>
   </div>
