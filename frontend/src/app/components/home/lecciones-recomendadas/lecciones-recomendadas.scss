@@ -1,0 +1,168 @@
+.lecciones-recomendadas {
+  background: #FFF9E6;
+  padding: 80px 0;
+}
+
+.lecciones-recomendadas__container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 60px;
+}
+
+.lecciones-recomendadas__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 48px;
+  gap: 24px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.lecciones-recomendadas__title {
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 8px 0;
+}
+
+.lecciones-recomendadas__subtitle {
+  font-size: 16px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.lecciones-recomendadas__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-primary);
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+
+  &:hover {
+    gap: 10px;
+    color: #164A9B;
+  }
+}
+
+.lecciones-recomendadas__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.lecciones-recomendadas__card {
+  background: white;
+  border: 1px solid #E5E7EB;
+  border-radius: 16px;
+  padding: 30px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    transform: translateY(-4px);
+  }
+}
+
+.lecciones-recomendadas__icon-wrapper {
+  width: 80px;
+  height: 80px;
+  background: #E8E8E8;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+
+.lecciones-recomendadas__icon {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.lecciones-recomendadas__badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 12px;
+
+  &--green {
+    background: #4CAF50;
+  }
+
+  &--blue {
+    background: #2196F3;
+  }
+
+  &--orange {
+    background: #FF9800;
+  }
+}
+
+.lecciones-recomendadas__card-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 12px 0;
+  line-height: 1.3;
+}
+
+.lecciones-recomendadas__card-description {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin: 0 0 24px 0;
+}
+
+.lecciones-recomendadas__btn {
+  width: 100%;
+  padding: 12px 24px;
+  background: white;
+  color: black;
+  border: 2px solid black;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: black;
+    color: white;
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .lecciones-recomendadas {
+    padding: 60px 0;
+  }
+
+  .lecciones-recomendadas__container {
+    padding: 0 24px;
+  }
+
+  .lecciones-recomendadas__title {
+    font-size: 28px;
+  }
+}
+

@@ -1,0 +1,35 @@
+<section class="hero">
+  <div class="hero__container">
+    <!-- Breadcrumb -->
+    <nav class="hero__breadcrumb" aria-label="Ruta de navegación">
+      <lucide-angular [img]="Home" [size]="16" class="hero__breadcrumb-icon"></lucide-angular>
+      <span class="hero__breadcrumb-text">Inicio en</span>
+      <span class="hero__breadcrumb-separator">></span>
+      <span class="hero__breadcrumb-current">Inicio</span>
+    </nav>
+
+    <!-- Título principal -->
+    <h1 class="hero__title">
+      Aprende tecnología<br>
+      <span class="hero__title-highlight">paso a paso y sin prisas</span>
+    </h1>
+
+    <!-- Subtítulo -->
+    <p class="hero__subtitle">
+      Descubre cómo usar tu móvil, tablet u ordenador de forma sencilla y segura.
+      Aquí encontrarás lecciones pensadas para ti, con explicaciones claras y a tu ritmo.
+    </p>
+
+    <!-- Botones de acción -->
+    <div class="hero__actions">
+      <a href="/nosotros" class="hero__btn hero__btn--primary">
+        Saber más sobre nosotros
+      </a>
+      <button (click)="playAudio()" class="hero__btn hero__btn--secondary">
+        <lucide-angular [img]="Headphones" [size]="20" class="hero__btn-icon"></lucide-angular>
+        Escuchar esta página
+      </button>
+    </div>
+  </div>
+</section>
+

@@ -1,15 +1,20 @@
 import { Component, HostListener, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { LucideAngularModule, HelpCircle, User } from 'lucide-angular';
 import { ThemeSwitcher } from '../../shared/theme-switcher/theme-switcher';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, ThemeSwitcher],
+  imports: [CommonModule, LucideAngularModule, ThemeSwitcher],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
 export class Header {
+  // Iconos de Lucide
+  readonly HelpCircle = HelpCircle;
+  readonly User = User;
+
   // Estado del menú hamburguesa
   menuOpen = false;
 
