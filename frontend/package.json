@@ -9,7 +9,9 @@
     "test": "ng test",
     "build:prod": "ng build --configuration production --base-href /DAW2-Proyecto-intermodular/",
     "deploy": "ng deploy --base-href=/DAW2-Proyecto-intermodular/",
-    "deploy:full": "npm run build:prod && ng deploy --no-build --base-href=/DAW2-Proyecto-intermodular/"
+    "deploy:full": "npm run build:prod && ng deploy --no-build --base-href=/DAW2-Proyecto-intermodular/",
+    "api": "json-server --watch ../db.json --port 3000",
+    "dev:full": "concurrently \"npm run api\" \"ng serve\""
   },
   "prettier": {
     "printWidth": 100,
