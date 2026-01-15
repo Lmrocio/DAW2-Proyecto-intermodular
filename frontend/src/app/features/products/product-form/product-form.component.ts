@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ProductService } from '../product.service';
 import { CreateProductDto, UpdateProductDto } from '../models/product';
+import { ToastService } from '../../../services/toast.service';
 
 /**
  * Componente de formulario de producto
@@ -15,6 +16,7 @@ import { CreateProductDto, UpdateProductDto } from '../models/product';
  * - Feedback de guardado
  *
  * FASE 5 - Tarea 2: Implementa operaciones POST y PUT
+ * FASE 5 - Tarea 5: Estados isSaving y mensajes de éxito con toast
  */
 @Component({
   selector: 'app-product-form',
@@ -28,6 +30,7 @@ export class ProductFormComponent implements OnInit {
   private productService = inject(ProductService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+  private toast = inject(ToastService);
 
   // Form group
   form!: FormGroup;
@@ -123,11 +126,12 @@ export class ProductFormComponent implements OnInit {
 
     this.productService.create(dto).subscribe({
       next: (product) => {
-        console.log('Producto creado:', product);
+        this.toast.success('Producto creado correctamente');
         this.router.navigate(['/products', product.id]);
       },
       error: (err) => {
-        this.error.set('Error al crear el producto');
+        this.error.set(err.message || 'Error al crear el producto');
+        this.toast.error(err.message || 'Error al crear el producto');
         this.isSaving.set(false);
         console.error('Error creating product:', err);
       }
@@ -145,11 +149,12 @@ export class ProductFormComponent implements OnInit {
 
     this.productService.update(id, dto).subscribe({
       next: (product) => {
-        console.log('Producto actualizado:', product);
+        this.toast.success('Producto actualizado correctamente');
         this.router.navigate(['/products', product.id]);
       },
       error: (err) => {
-        this.error.set('Error al actualizar el producto');
+        this.error.set(err.message || 'Error al actualizar el producto');
+        this.toast.error(err.message || 'Error al actualizar el producto');
         this.isSaving.set(false);
         console.error('Error updating product:', err);
       }

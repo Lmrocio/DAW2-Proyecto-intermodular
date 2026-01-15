@@ -5,6 +5,15 @@ import { ProductService } from '../product.service';
 import { Product } from '../models/product';
 
 /**
+ * Estado de carga de productos
+ */
+interface ProductState {
+  loading: boolean;
+  error: string | null;
+  data: Product[] | null;
+}
+
+/**
  * Componente de listado de productos
  *
  * Funcionalidades:
@@ -13,6 +22,7 @@ import { Product } from '../models/product';
  * - Navegación a detalle y formulario de edición
  *
  * FASE 5 - Tarea 2: Implementa operaciones GET y DELETE
+ * FASE 5 - Tarea 5: Estados de carga, error y vacío con signal
  */
 @Component({
   selector: 'app-product-list',
@@ -24,14 +34,12 @@ import { Product } from '../models/product';
 export class ProductListComponent implements OnInit {
   private productService = inject(ProductService);
 
-  // Signal para almacenar la lista de productos
-  products = signal<Product[]>([]);
-
-  // Signal para estado de carga
-  loading = signal(true);
-
-  // Signal para errores
-  error = signal<string | null>(null);
+  // Signal para estado completo (loading, error, data)
+  state = signal<ProductState>({
+    loading: false,
+    error: null,
+    data: null
+  });
 
   ngOnInit(): void {
     this.loadProducts();
@@ -39,19 +47,32 @@ export class ProductListComponent implements OnInit {
 
   /**
    * Carga el listado de productos desde la API
+   * Gestiona estados: loading, error, success
    */
   loadProducts(): void {
-    this.loading.set(true);
-    this.error.set(null);
+    // Iniciar carga
+    this.state.set({
+      loading: true,
+      error: null,
+      data: null
+    });
 
     this.productService.getAll().subscribe({
       next: (products) => {
-        this.products.set(products);
-        this.loading.set(false);
+        // Éxito: actualizar con datos
+        this.state.set({
+          loading: false,
+          error: null,
+          data: products
+        });
       },
       error: (err) => {
-        this.error.set('Error al cargar productos');
-        this.loading.set(false);
+        // Error: mostrar mensaje
+        this.state.set({
+          loading: false,
+          error: err.message || 'Error al cargar productos',
+          data: null
+        });
         console.error('Error loading products:', err);
       }
     });
@@ -69,13 +90,17 @@ export class ProductListComponent implements OnInit {
     this.productService.delete(product.id).subscribe({
       next: () => {
         // Eliminar del estado local
-        this.products.update(products =>
-          products.filter(p => p.id !== product.id)
-        );
+        const currentData = this.state().data;
+        if (currentData) {
+          this.state.update(state => ({
+            ...state,
+            data: currentData.filter(p => p.id !== product.id)
+          }));
+        }
         console.log('Producto eliminado correctamente');
       },
       error: (err) => {
-        alert('Error al eliminar el producto');
+        alert(err.message || 'Error al eliminar el producto');
         console.error('Error deleting product:', err);
       }
     });

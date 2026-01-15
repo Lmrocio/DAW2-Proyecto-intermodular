@@ -1,8 +1,19 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, retry } from 'rxjs/operators';
+import { HttpParams } from '@angular/common/http';
 import { ApiService } from '../../core/services/api.service';
 import { Product, CreateProductDto, UpdateProductDto } from './models/product';
+
+/**
+ * Interfaz para respuesta de subida de imagen
+ */
+interface UploadResponse {
+  /** URL de la imagen subida */
+  imageUrl: string;
+  /** Mensaje de confirmación */
+  message: string;
+}
 
 /**
  * Interfaz extendida de Product con campos calculados
@@ -160,6 +171,99 @@ export class ProductService {
           ? 'No se puede eliminar el producto porque tiene dependencias'
           : 'No se pudo eliminar el producto. Por favor, inténtalo de nuevo.';
         console.error('Error deleting product:', error);
+        return throwError(() => new Error(message));
+      })
+    );
+  }
+
+  /**
+   * Obtiene productos filtrados con paginación
+   *
+   * FASE 5 - Tarea 4: Uso de HttpParams para query params
+   *
+   * @param page - Número de página (base 1)
+   * @param pageSize - Tamaño de página
+   * @param search - Término de búsqueda (opcional)
+   * @param category - Filtro por categoría (opcional)
+   * @returns Observable con array de productos filtrados
+   */
+  getFiltered(
+    page: number,
+    pageSize: number,
+    search?: string,
+    category?: string
+  ): Observable<ProductWithTax[]> {
+    // Construir parámetros de consulta
+    let params = new HttpParams()
+      .set('_page', page.toString())
+      .set('_limit', pageSize.toString());
+
+    if (search) {
+      params = params.set('q', search);
+    }
+
+    if (category) {
+      params = params.set('category', category);
+    }
+
+    return this.api.get<Product[]>(this.endpoint, { params }).pipe(
+      map(products => products.map(p => this.transformProduct(p))),
+      catchError(error => {
+        const message = 'No se pudieron cargar los productos filtrados.';
+        console.error('Error loading filtered products:', error);
+        return throwError(() => new Error(message));
+      })
+    );
+  }
+
+  /**
+   * Sube una imagen para un producto
+   *
+   * FASE 5 - Tarea 4: Uso de FormData para subida de archivos
+   *
+   * @param productId - ID del producto
+   * @param file - Archivo de imagen a subir
+   * @returns Observable con respuesta de subida
+   */
+  uploadImage(productId: string, file: File): Observable<UploadResponse> {
+    const formData = new FormData();
+    formData.append('image', file, file.name);
+    formData.append('productId', productId);
+
+    return this.api.post<UploadResponse>(`${this.endpoint}/${productId}/image`, formData).pipe(
+      catchError(error => {
+        const message = error.status === 413
+          ? 'La imagen es demasiado grande. Tamaño máximo: 5MB'
+          : error.status === 415
+          ? 'Formato de imagen no soportado. Usa JPG, PNG o WEBP'
+          : 'No se pudo subir la imagen. Por favor, inténtalo de nuevo.';
+        console.error('Error uploading image:', error);
+        return throwError(() => new Error(message));
+      })
+    );
+  }
+
+  /**
+   * Genera un reporte de productos
+   *
+   * FASE 5 - Tarea 4: Headers personalizados
+   *
+   * @param format - Formato del reporte ('pdf' o 'csv')
+   * @returns Observable con el blob del reporte
+   */
+  getReport(format: 'pdf' | 'csv'): Observable<Blob> {
+    const headers = {
+      'X-Report-Format': format,
+      'Accept': format === 'pdf' ? 'application/pdf' : 'text/csv'
+    };
+
+    return this.api.get<Blob>(`${this.endpoint}/report`, {
+      headers,
+      responseType: 'blob' as 'json' // Workaround para tipado
+    }).pipe(
+      catchError(error => {
+        const message = 'No se pudo generar el reporte. Por favor, inténtalo de nuevo.';
+        console.error('Error generating report:', error);
         return throwError(() => new Error(message));
       })
     );

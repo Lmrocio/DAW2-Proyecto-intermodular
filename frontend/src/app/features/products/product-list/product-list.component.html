@@ -7,64 +7,67 @@
   </div>
 
   <!-- Estado de carga -->
-  <div *ngIf="loading()" class="product-list__loading">
+  <div *ngIf="state().loading" class="product-list__loading">
+    <div class="loading-spinner"></div>
     <p>Cargando productos...</p>
   </div>
 
   <!-- Estado de error -->
-  <div *ngIf="error()" class="product-list__error">
-    <p>{{ error() }}</p>
+  <div *ngIf="state().error && !state().loading" class="product-list__error">
+    <p class="error-message">{{ state().error }}</p>
     <button (click)="loadProducts()" class="btn btn--secondary">
       Reintentar
     </button>
   </div>
 
   <!-- Listado de productos -->
-  <div *ngIf="!loading() && !error()" class="product-list__grid">
+  <div *ngIf="!state().loading && !state().error && state().data" class="product-list__content">
     <!-- Estado vacío -->
-    <div *ngIf="products().length === 0" class="product-list__empty">
-      <p>No hay productos disponibles</p>
+    <div *ngIf="state().data!.length === 0" class="product-list__empty">
+      <p class="empty-message">No hay productos disponibles</p>
       <a routerLink="/products/new" class="btn btn--primary">
         Crear primer producto
       </a>
     </div>
 
-    <!-- Cards de productos -->
-    <div *ngFor="let product of products()" class="product-card">
-      <div class="product-card__image">
-        <img [src]="product.imageUrl" [alt]="product.name" />
-      </div>
-
-      <div class="product-card__content">
-        <span class="product-card__category">{{ product.category }}</span>
-        <h3 class="product-card__title">{{ product.name }}</h3>
-        <p class="product-card__description">{{ product.description }}</p>
-
-        <div class="product-card__footer">
-          <div class="product-card__price">
-            <span class="product-card__price-label">Precio:</span>
-            <span class="product-card__price-value">{{ formatPrice(product.price) }}</span>
-          </div>
-
-          <div class="product-card__stock">
-            <span class="product-card__stock-label">Stock:</span>
-            <span class="product-card__stock-value">{{ product.stock }} uds.</span>
-          </div>
+    <!-- Grid de productos -->
+    <div *ngIf="state().data!.length > 0" class="product-list__grid">
+      <div *ngFor="let product of state().data" class="product-card">
+        <div class="product-card__image">
+          <img [src]="product.imageUrl" [alt]="product.name" />
         </div>
 
-        <div class="product-card__actions">
-          <a [routerLink]="['/products', product.id]" class="btn btn--small btn--secondary">
-            Ver detalle
-          </a>
-          <a [routerLink]="['/products', product.id, 'edit']" class="btn btn--small btn--primary">
-            Editar
-          </a>
-          <button
-            (click)="onDelete(product)"
-            class="btn btn--small btn--danger"
-            type="button">
-            Eliminar
-          </button>
+        <div class="product-card__content">
+          <span class="product-card__category">{{ product.category }}</span>
+          <h3 class="product-card__title">{{ product.name }}</h3>
+          <p class="product-card__description">{{ product.description }}</p>
+
+          <div class="product-card__footer">
+            <div class="product-card__price">
+              <span class="product-card__price-label">Precio:</span>
+              <span class="product-card__price-value">{{ formatPrice(product.price) }}</span>
+            </div>
+
+            <div class="product-card__stock">
+              <span class="product-card__stock-label">Stock:</span>
+              <span class="product-card__stock-value">{{ product.stock }} uds.</span>
+            </div>
+          </div>
+
+          <div class="product-card__actions">
+            <a [routerLink]="['/products', product.id]" class="btn btn--small btn--secondary">
+              Ver detalle
+            </a>
+            <a [routerLink]="['/products', product.id, 'edit']" class="btn btn--small btn--primary">
+              Editar
+            </a>
+            <button
+              (click)="onDelete(product)"
+              class="btn btn--small btn--danger"
+              type="button">
+              Eliminar
+            </button>
+          </div>
         </div>
       </div>
     </div>
