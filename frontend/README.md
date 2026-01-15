@@ -29,7 +29,7 @@ Aplicación Angular standalone para la plataforma de formación tecnológica Tec
 12. [Documentación Adicional](#documentación-adicional)
 13. [Cumplimiento de Criterios](#cumplimiento-de-criterios-fase-4)
 14. [Licencia](#licencia)
-15. 
+15. [Documentación de fases anteriores](docs/cliente/DOCUMENTACION.md)
 ---
 
 ## Arquitectura de Eventos
@@ -1594,7 +1594,7 @@ Para más detalles sobre cada funcionalidad, consulta los documentos en `fronten
 
 Este proyecto es parte del módulo de Desarrollo Web en Entornos Cliente (DWEC) del ciclo DAW.
 
-Más documentación de fases anteriores en: [Documentación previa](frontend/docs/cliente/DOCUMENTACION.md)
+Más documentación de fases anteriores en: [Documentación previa](docs/cliente/DOCUMENTACION.md)
 
 ---
 
