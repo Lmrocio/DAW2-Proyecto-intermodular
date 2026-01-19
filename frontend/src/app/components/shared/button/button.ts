@@ -1,17 +1,21 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 /**
  * Componente Button reutilizable
  *
  * Variantes: primary | secondary | ghost | danger
  * Tamaños: sm | md (por defecto) | lg
+ * Estilos: elevated (con sombra) | flat (sin sombra, por defecto)
  * Estados: normal, hover, focus, active, disabled
+ *
+ * Puede ser botón (<button>) o enlace (<a> con routerLink)
  */
 @Component({
   selector: 'app-button',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './button.html',
   styleUrl: './button.scss'
 })
@@ -20,9 +24,14 @@ export class Button {
 
   @Input() size: 'sm' | 'md' | 'lg' = 'md';
 
+  // Renombrado para evitar colisión con el atributo HTML 'style'
+  @Input() btnStyle: 'elevated' | 'flat' = 'flat';
+
   @Input() disabled: boolean = false;
 
   @Input() type: 'button' | 'submit' | 'reset' = 'button';
+
+  @Input() routerLink: string | any[] | null = null;
 
   @Output() click = new EventEmitter<void>();
 
@@ -39,6 +48,8 @@ export class Button {
 
     classes.push(`button--${this.size}`);
 
+    classes.push(`button--${this.btnStyle}`);
+
     if (this.disabled) {
       classes.push('button--disabled');
     }
@@ -46,4 +57,3 @@ export class Button {
     return classes.join(' ');
   }
 }
-

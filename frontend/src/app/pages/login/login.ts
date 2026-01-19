@@ -1,7 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute, RouterModule } from '@angular/router';
-import { Breadcrumb, BreadcrumbItem } from '../../components/shared/breadcrumb/breadcrumb';
 import { LoginForm } from '../../components/shared/login-form/login-form';
 import { LucideAngularModule, Info } from 'lucide-angular';
 import { AuthService } from '../../services/auth.service';
@@ -15,6 +14,9 @@ import { AuthService } from '../../services/auth.service';
  * FUNCIONALIDAD ROUTE GUARD (FASE 4 - Tarea 4):
  * - Maneja returnUrl desde queryParams cuando authGuard redirige aquí
  * - Después del login exitoso, redirige a la URL original o a /home
+ *
+ * NOTA: El breadcrumb es gestionado globalmente por BreadcrumbNav en app.html
+ * y se genera automáticamente desde route.data.breadcrumb
  */
 @Component({
   selector: 'app-login',
@@ -22,7 +24,6 @@ import { AuthService } from '../../services/auth.service';
   imports: [
     CommonModule,
     RouterModule,
-    Breadcrumb,
     LoginForm,
     LucideAngularModule
   ],
@@ -38,11 +39,6 @@ export class Login implements OnInit {
 
   // URL a la que volver después del login (desde authGuard)
   private returnUrl: string = '/home';
-
-  breadcrumbItems: BreadcrumbItem[] = [
-    { label: 'Inicio', url: '/' },
-    { label: 'Acceso de Usuario' }
-  ];
 
   ngOnInit(): void {
     // Leer returnUrl desde queryParams (puesto por authGuard)

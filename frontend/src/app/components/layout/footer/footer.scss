@@ -107,7 +107,7 @@
 
   &:hover {
     background: $color-text-dark;
-    color: $color-text-light;
+    color: $color-bg-light;
   }
 
   &:focus-visible {
@@ -195,7 +195,8 @@
   border-radius: $radius-sm;
   font-size: $font-size-sm;
   transition: border-color $transition-base $easing-in-out;
-  background: $color-bg-dark;
+  background: $color-bg-light;
+  color: $color-text-dark;
 
   &:focus {
     outline: none;
@@ -211,7 +212,7 @@
   width: 100%;
   padding: $spacing-3 $spacing-4;
   background: $color-text-dark;
-  color: $color-text-light;
+  color: $color-bg-light;
   border: none;
   border-radius: $radius-sm;
   font-size: $font-size-sm;
@@ -222,7 +223,7 @@
   transition: background $transition-base $easing-in-out;
 
   &:hover {
-    background: #333;
+    opacity: 0.9;
   }
 
   &:focus-visible {
@@ -281,10 +282,10 @@
 }
 
 .app-footer__accessibility-btn {
-  color: #f97316;
+  color: var(--color-tertiary);
 
   &:hover {
-    color: #ea580c;
+    opacity: 0.8;
   }
 
   &:focus-visible {
@@ -294,10 +295,10 @@
 }
 
 .app-footer__language-btn {
-  color: #3b82f6;
+  color: $color-primary;
 
   &:hover {
-    color: #2563eb;
+    opacity: 0.8;
   }
 
   &:focus-visible {

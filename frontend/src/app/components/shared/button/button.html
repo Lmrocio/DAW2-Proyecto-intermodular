@@ -1,4 +1,17 @@
+<!-- Botón como enlace (con routerLink) -->
+<a
+  *ngIf="routerLink"
+  [routerLink]="routerLink"
+  [class]="getButtonClasses()"
+  role="button"
+  tabindex="0"
+>
+  <ng-content></ng-content>
+</a>
+
+<!-- Botón normal -->
 <button
+  *ngIf="!routerLink"
   [class]="getButtonClasses()"
   [disabled]="disabled"
   [type]="type"
@@ -6,5 +19,3 @@
 >
   <ng-content></ng-content>
 </button>
-
-

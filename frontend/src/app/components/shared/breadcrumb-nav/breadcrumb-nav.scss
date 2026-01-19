@@ -1,87 +1,114 @@
 // ============================================================================
 // BREADCRUMB NAVIGATION (Dinámico desde rutas)
 // ============================================================================
-// Nota: Sin importar SCSS para evitar conflictos de módulos.
-// Usa CSS custom properties en lugar de variables SCSS.
+// Componente de migas de pan que se renderiza como primer elemento dentro
+// de <main> y muestra el camino de navegación actual.
+// Las migas se generan automáticamente desde BreadcrumbService.
+//
+// Actualizado a 2023-10-10
+// - Estilos generales simplificados
+// - Prefijo "Estás en:" agregado
+// - Uso de variables del proyecto para colores, espaciados y tipografía
+
+@use '../../../../styles/01-tools/mixins' as *;
 
 .breadcrumb-nav {
-  background: #fafafa;
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
-  margin-bottom: 1.25rem;
+  background: $color-bg-dark;
+  padding: $spacing-3 $spacing-12;
+  border-bottom: $border-thin solid $color-gray-300;
+  margin: 0;
 
-  @media (min-width: 768px) {
-    padding: 1rem 2rem;
+  @media (max-width: $breakpoint-md) {
+    padding: $spacing-3 $spacing-6;
   }
 }
 
 .breadcrumb-nav__list {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  gap: 0.5rem;
+  gap: $spacing-2;
   list-style: none;
   padding: 0;
   margin: 0;
+  font-size: $font-size-sm;
+  font-family: $font-body;
+  color: $color-text-dark;
+}
+
+// Prefijo "Estás en:" (oculto en móvil para ahorrar espacio)
+.breadcrumb-nav__prefix {
+  font-weight: $font-weight-medium;
+  color: $color-text-dark;
+  margin-right: $spacing-2;
+
+  @media (max-width: $breakpoint-md) {
+    display: none;
+  }
 }
 
 .breadcrumb-nav__item {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 0.875rem;
+  gap: $spacing-2;
 
   &--active {
-    font-weight: 600;
+    font-weight: $font-weight-semibold;
   }
 }
 
 .breadcrumb-nav__link {
-  color: var(--color-accent, #0454b1);
+  color: $color-accent;
   text-decoration: none;
-  transition: color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition: color $transition-fast $easing-in-out;
+  font-weight: $font-weight-medium;
 
-  @media (hover: hover) and (pointer: fine) {
-    &:hover {
-      color: #033a8a;
-      text-decoration: underline;
-    }
+  @include hover {
+    color: darken($color-accent, 10%);
+    text-decoration: underline;
   }
 
-  &:focus-visible,
-  &:focus {
-    outline: 2px solid var(--color-accent, #0454b1);
+  &:focus-visible {
+    outline: 2px solid $color-accent;
     outline-offset: 2px;
-    border-radius: 0.375rem;
+    border-radius: $radius-sm;
+  }
+}
+
+// Enlace 'plain' para el caso solo Inicio: apariencia neutral
+.breadcrumb-nav__link--plain {
+  color: $color-text-dark;
+  text-decoration: none;
+  font-weight: $font-weight-medium;
+
+  @include hover {
+    color: $color-text-dark; // no change on hover
   }
 }
 
 .breadcrumb-nav__current {
-  color: #404040;
-  font-weight: 600;
+  color: $color-text-dark;
+  font-weight: $font-weight-semibold;
 }
 
 .breadcrumb-nav__separator {
-  color: #a3a3a3;
+  color: $color-gray-400;
   user-select: none;
-  font-weight: 400;
+  font-weight: $font-weight-regular;
+  margin: 0 $spacing-1;
 }
 
-// Responsive: ocultar separadores en móvil muy pequeño
-@media (max-width: 400px) {
-  .breadcrumb-nav__separator {
-    display: none;
+// Responsive: ajustes para pantallas pequeñas
+@media (max-width: $breakpoint-sm) {
+  .breadcrumb-nav {
+    padding: $spacing-2 $spacing-4;
   }
 
-  .breadcrumb-nav__item {
-    &::after {
-      content: '›';
-      color: #a3a3a3;
-      margin-left: 0.25rem;
-    }
+  .breadcrumb-nav__list {
+    gap: $spacing-1;
+    font-size: $font-size-xs;
+  }
 
-    &:last-child::after {
-      display: none;
-    }
+  .breadcrumb-nav__separator {
+    margin: 0;
   }
 }

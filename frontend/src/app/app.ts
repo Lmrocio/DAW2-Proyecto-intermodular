@@ -10,6 +10,7 @@ import { RouterOutlet } from '@angular/router';
 // Componentes de layout (siempre visibles)
 import { Header } from './components/layout/header/header';
 import { Footer } from './components/layout/footer/footer';
+import { BreadcrumbNav } from './components/shared/breadcrumb-nav/breadcrumb-nav';
 
 // Componentes globales - ClienteFase2
 import { Toast } from './components/shared/toast/toast.component';
@@ -25,6 +26,7 @@ import { ThemeService } from './services/theme.service';
     RouterOutlet,
     Header,
     Footer,
+    BreadcrumbNav,
     Toast,
     Spinner,
   ],
@@ -41,4 +43,3 @@ export class App implements OnInit {
     console.log('App iniciada - Tema actual:', this.themeService.currentTheme);
   }
 }
-

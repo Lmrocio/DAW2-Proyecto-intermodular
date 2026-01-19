@@ -1,20 +1,16 @@
 import { Component, HostListener, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LucideAngularModule, HelpCircle, User } from 'lucide-angular';
 import { ThemeSwitcher } from '../../shared/theme-switcher/theme-switcher';
+import { HeaderIcon } from '../../shared/header-icon/header-icon';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, LucideAngularModule, ThemeSwitcher],
+  imports: [CommonModule, ThemeSwitcher, HeaderIcon],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
 export class Header {
-  // Iconos de Lucide
-  readonly HelpCircle = HelpCircle;
-  readonly User = User;
-
   // Estado del menú hamburguesa
   menuOpen = false;
 
@@ -36,6 +32,7 @@ export class Header {
     // Usar Renderer2 para manipulación segura del DOM
     this.renderer.removeStyle(document.body, 'overflow');
   }
+
 
   @HostListener('document:keydown.escape')
   onEscapePress(): void {

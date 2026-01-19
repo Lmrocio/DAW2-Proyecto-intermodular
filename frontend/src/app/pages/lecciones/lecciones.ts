@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Breadcrumb, BreadcrumbItem } from '../../components/shared/breadcrumb/breadcrumb';
 import { PageHeader } from '../../components/lecciones/page-header/page-header';
 import { SearchBarLecciones } from '../../components/lecciones/search-bar-lecciones/search-bar-lecciones';
 import { QuickFilters } from '../../components/lecciones/quick-filters/quick-filters';
@@ -8,12 +7,18 @@ import { SidebarFiltros } from '../../components/lecciones/sidebar-filtros/sideb
 import { LeccionCard, Leccion } from '../../components/lecciones/leccion-card/leccion-card';
 import { Pagination } from '../../components/lecciones/pagination/pagination';
 
+/**
+ * Página de Lecciones - Catálogo de Lecciones
+ *
+ * Muestra un catálogo de lecciones con filtros, búsqueda y paginación.
+ * El breadcrumb es gestionado globalmente por BreadcrumbNav en app.html
+ * y se genera automáticamente desde route.data.breadcrumb
+ */
 @Component({
   selector: 'app-lecciones',
   standalone: true,
   imports: [
     CommonModule,
-    Breadcrumb,
     PageHeader,
     SearchBarLecciones,
     QuickFilters,
@@ -25,11 +30,6 @@ import { Pagination } from '../../components/lecciones/pagination/pagination';
   styleUrl: './lecciones.scss',
 })
 export class Lecciones implements OnInit {
-  breadcrumbItems: BreadcrumbItem[] = [
-    { label: 'Inicio', url: '/' },
-    { label: 'Catálogo de Lecciones' }
-  ];
-
   // Datos de ejemplo
   allLecciones: Leccion[] = [
     {

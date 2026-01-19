@@ -2,10 +2,10 @@
 @import '../../../../styles/01-tools/mixins';
 
 // ============================================================================
-// ESTILOS BASE DEL BOTÓN
+// ESTILOS BASE DEL BOTÓN (NUEVO: esquina cuadrada y borde fino negro)
 // ============================================================================
 .button {
-  border: none;
+  border: $border-thin solid $color-text-dark; // borde fino negro por defecto
   font-family: $font-primary;
   cursor: pointer;
   text-decoration: none;
@@ -18,11 +18,19 @@
   font-weight: $font-weight-semibold;
   line-height: $line-height-tight;
 
-  border-radius: $radius-md;
+  border-radius: 0; // esquinas cuadradas
+  padding: 0; // reset padding para que tamaño lo defina
 
   @include transition(all, $transition-fast);
 
   user-select: none;
+
+  // Permitir que <a> sea un botón válido
+  &[role="button"] {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
 
   &:focus {
     outline: none;
@@ -36,7 +44,33 @@
 }
 
 // ============================================================================
-// TAMAÑOS
+// UTILITY MODIFIERS: elevated (sombra derecha/abajo) y flat (sin sombra)
+// ============================================================================
+
+// Botón elevado: sombra desplazada a la derecha y abajo
+.button--elevated {
+  box-shadow: 4px 4px 0 0 $color-text-dark !important;
+  transform: translateY(0);
+
+  @include hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 0 $color-text-dark !important;
+  }
+}
+
+// Botón plano: sin sombra, interacción suave sin desplazamiento
+.button--flat {
+  box-shadow: none;
+
+  @include hover {
+    transform: none;
+    box-shadow: none;
+    filter: brightness(0.98);
+  }
+}
+
+// ============================================================================
+// TAMAÑOS (sin cambios)
 // ============================================================================
 
 .button--sm {
@@ -61,58 +95,51 @@
 }
 
 // ============================================================================
-// VARIANTE: PRIMARY
+// VARIANTE: PRIMARY (ahora con borde negro por defecto)
 // ============================================================================
 .button--primary {
-  background-color: $color-primary;
-  color: $color-text-dark;
-  border: $border-thin solid $color-primary;
+  background-color: $color-tertiary; // naranja por defecto
+  color: $color-text-light;
+  border-color: $color-text-dark; // borde negro
 
+  // Por defecto aplicamos la versión elevated si se desea por clase
   @include hover {
-    background-color: $color-secondary;
-    border-color: $color-secondary;
-    box-shadow: $shadow-md;
-    transform: translateY(-2px);
+    background-color: darken($color-tertiary, 10%);
+    border-color: $color-text-dark;
   }
 
   &:active:not(:disabled):not(.button--disabled) {
-    background-color: $color-tertiary;
-    border-color: $color-tertiary;
     transform: translateY(0);
     box-shadow: $shadow-sm;
   }
 }
 
 // ============================================================================
-// VARIANTE: SECONDARY
+// VARIANTE: SECONDARY (azul o accent) - mantiene borde negro
 // ============================================================================
 .button--secondary {
   background-color: $color-accent;
   color: $color-text-light;
-  border: $border-thin solid $color-accent;
+  border-color: $color-text-dark; // borde negro
 
   @include hover {
     background-color: darken($color-accent, 10%);
-    border-color: darken($color-accent, 10%);
-    box-shadow: $shadow-md;
-    transform: translateY(-2px);
+    border-color: $color-text-dark;
   }
 
   &:active:not(:disabled):not(.button--disabled) {
-    background-color: darken($color-accent, 15%);
-    border-color: darken($color-accent, 15%);
     transform: translateY(0);
     box-shadow: $shadow-sm;
   }
 }
 
 // ============================================================================
-// VARIANTE: GHOST
+// VARIANTE: GHOST (plano con borde claro)
 // ============================================================================
 .button--ghost {
   background-color: transparent;
   color: $color-text-dark;
-  border: $border-medium solid $color-gray-300;
+  border: $border-medium solid $color-gray-300; // mantiene border claro
 
   @include hover {
     background-color: $color-gray-100;
@@ -128,23 +155,23 @@
 }
 
 // ============================================================================
-// VARIANTE: DANGER
+// VARIANTE: DANGER (mantiene borde negro)
 // ============================================================================
 .button--danger {
   background-color: $color-error;
   color: $color-text-light;
-  border: $border-thin solid $color-error;
+  border-color: $color-text-dark;
 
   @include hover {
     background-color: darken($color-error, 10%);
-    border-color: darken($color-error, 10%);
+    border-color: $color-text-dark;
     box-shadow: $shadow-md;
-    transform: translateY(-2px);
+    transform: translate(-2px, -2px);
   }
 
   &:active:not(:disabled):not(.button--disabled) {
     background-color: darken($color-error, 15%);
-    border-color: darken($color-error, 15%);
+    border-color: $color-text-dark;
     transform: translateY(0);
     box-shadow: $shadow-sm;
   }
@@ -155,7 +182,7 @@
 }
 
 // ============================================================================
-// ESTADO: DISABLED
+// ESTADO: DISABLED (sin cambios)
 // ============================================================================
 .button--disabled,
 .button:disabled {
@@ -178,4 +205,3 @@
     width: 100%;
   }
 }
-
