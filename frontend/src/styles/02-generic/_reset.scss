@@ -26,7 +26,6 @@ body {
   font-weight: $font-weight-regular;
   line-height: $line-height-normal;
   color: var(--text-primary);
-  background-color: var(--bg-primary);
   min-height: 100vh;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
@@ -117,11 +116,6 @@ small {
 
 ul, ol {
   margin-bottom: $spacing-4;
-  padding-left: $spacing-6;
-}
-
-li {
-  margin-bottom: $spacing-2;
 }
 
 dl {

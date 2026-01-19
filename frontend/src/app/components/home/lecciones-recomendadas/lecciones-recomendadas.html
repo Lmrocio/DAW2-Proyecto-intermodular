@@ -1,53 +1,56 @@
-<section class="lecciones-recomendadas">
-  <div class="lecciones-recomendadas__container">
+<section class="lecciones-section">
+  <div class="lecciones-container">
     <!-- Header -->
-    <div class="lecciones-recomendadas__header">
-      <div>
-        <h2 class="lecciones-recomendadas__title">Lecciones recomendadas</h2>
-        <p class="lecciones-recomendadas__subtitle">
-          Empieza por aquí si es tu primera vez
+    <div class="lecciones-header">
+      <div class="lecciones-header-content">
+        <h2 class="lecciones-title">Lecciones sugeridas</h2>
+        <p class="lecciones-subtitle">
+          Comienza tu viaje digital por aquí.
         </p>
       </div>
-      <a routerLink="/lecciones" class="lecciones-recomendadas__link">
-        Ver todas las lecciones
-        <lucide-angular [img]="ArrowRight" [size]="16"></lucide-angular>
+      <a routerLink="/lecciones" class="lecciones-link">
+        Ver todo el catálogo
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" [attr.stroke-width]="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12"/>
+          <polyline points="12 5 19 12 12 19"/>
+        </svg>
       </a>
     </div>
 
     <!-- Grid de Cards -->
-    <div class="lecciones-recomendadas__grid">
-      <article *ngFor="let leccion of lecciones" class="lecciones-recomendadas__card">
-        <!-- Imagen/Icono -->
-        <div class="lecciones-recomendadas__icon-wrapper">
-          <img
-            [src]="leccion.imagen"
-            [alt]="leccion.titulo"
-            class="lecciones-recomendadas__icon"
-          />
+    <div class="lecciones-grid">
+      <article *ngFor="let leccion of lecciones" class="leccion-card">
+        <!-- Icono con fondo orgánico -->
+        <div class="leccion-icon-wrapper">
+          <div class="leccion-icon-fondo" [ngClass]="'fondo-' + leccion.iconoFondo">
+            <span class="material-symbols-outlined leccion-icon">{{ leccion.icono }}</span>
+          </div>
+          <!-- Badge Categoría -->
+          <span class="leccion-badge" [ngClass]="'badge-' + leccion.categoriaColor">
+            {{ leccion.categoria }}
+          </span>
         </div>
 
-        <!-- Badge Nivel -->
-        <span
-          class="lecciones-recomendadas__badge"
-          [class]="'lecciones-recomendadas__badge--' + leccion.nivelColor"
-        >
-          {{ leccion.nivel }}
-        </span>
-
         <!-- Título -->
-        <h3 class="lecciones-recomendadas__card-title">
+        <h3 class="leccion-card-title">
           {{ leccion.titulo }}
         </h3>
 
         <!-- Descripción -->
-        <p class="lecciones-recomendadas__card-description">
+        <p class="leccion-card-description">
           {{ leccion.descripcion }}
         </p>
 
-        <!-- Botón -->
-        <button class="lecciones-recomendadas__btn">
-          Empezar lección
-        </button>
+        <!-- Botón usando app-button -->
+        <app-button
+          type="secondary"
+          variant="white"
+          size="medium"
+          text="EMPEZAR"
+          [fullWidth]="true"
+          [routerLink]="['/lecciones', leccion.id]"
+          class="leccion-button">
+        </app-button>
       </article>
     </div>
   </div>

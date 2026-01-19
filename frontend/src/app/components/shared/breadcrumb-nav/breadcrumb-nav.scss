@@ -13,10 +13,12 @@
 @use '../../../../styles/01-tools/mixins' as *;
 
 .breadcrumb-nav {
+  width: 96%;
   background: $color-bg-dark;
-  padding: $spacing-3 $spacing-12;
+  padding: $spacing-3;
   border-bottom: $border-thin solid $color-gray-300;
-  margin: 0;
+  align-self: center;
+  justify-self: center;
 
   @media (max-width: $breakpoint-md) {
     padding: $spacing-3 $spacing-6;
@@ -27,9 +29,8 @@
   display: flex;
   flex-wrap: wrap;
   gap: $spacing-2;
-  list-style: none;
-  padding: 0;
   margin: 0;
+  list-style: none;
   font-size: $font-size-sm;
   font-family: $font-body;
   color: $color-text-dark;

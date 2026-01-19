@@ -7,9 +7,11 @@
 // Título serif grande, botones con sombra negra, responsive
 
 .hero {
+  width: 96%;
   background: $color-bg-dark;
   padding: $spacing-16 0 $spacing-12; // 80px 0 60px
   border-bottom: solid $color-text-dark; // 2px border
+  justify-self: center;
 }
 
 .hero__container {
@@ -105,9 +107,11 @@
 }
 
 .hero__image-container {
-  width: 50%;
+  width: 60%;
   max-width: 500px;
   position: relative;
+  border: solid $color-text-dark;
+  box-shadow: 4px 4px 0 0 $color-text-dark;
 
   img {
     width: 100%;

@@ -21,7 +21,6 @@
 }
 
 .app-header__container {
-  max-width: 1400px;
   margin: 0;
   height: auto;
   display: flex;
@@ -54,6 +53,10 @@
     outline-offset: 4px;
     border-radius: $radius-sm;
   }
+
+  @media (max-width: $breakpoint-md) {
+    margin-right: 0; // En móvil eliminamos el margen para mejor uso del espacio
+  }
 }
 
 .app-header__logo-text {
@@ -74,8 +77,8 @@
 .app-header__nav--desktop {
   flex: 1;
   display: flex;
-  justify-content: center;
-
+  justify-content: end;
+  padding-right: $spacing-8;
   @media (max-width: $breakpoint-md) {
     display: none;
   }
@@ -87,11 +90,11 @@
   margin: 0;
   display: flex;
   align-items: center;
-  gap: $spacing-10;
+  gap: $spacing-6;
 }
 
 .app-header__nav-link {
-  font-family: $font-body;
+  font-family: $font-secondary; /* usar la tipografía de títulos (serif) */
   font-size: $font-size-base;
   font-weight: $font-weight-semibold;
   color: $color-text-dark;
@@ -100,6 +103,8 @@
   border-radius: $radius-sm;
   transition: color $transition-base $easing-in-out;
   display: block;
+  text-transform: uppercase; /* igual que los títulos del footer */
+  letter-spacing: 0.5px; /* igual que los títulos del footer */
 
   &:hover {
     color: $color-gray-600;
@@ -223,6 +228,7 @@
   @extend %separator-base;
   width: $border-medium;
   height: 40px;
+  margin-left: $spacing-4;
 }
 
 // Separador horizontal inferior del header
@@ -247,8 +253,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
+  width: 50px;
+  height: 50px;
   background: transparent;
   border: none;
   color: $color-text-dark;
@@ -256,7 +262,7 @@
   transition: all $transition-base $easing-in-out;
   flex-shrink: 0;
   padding: $spacing-2;
-
+  margin-right: $spacing-8;
   svg {
     width: 24px;
     height: 24px;
@@ -468,4 +474,3 @@
     transition: none;
   }
 }
-

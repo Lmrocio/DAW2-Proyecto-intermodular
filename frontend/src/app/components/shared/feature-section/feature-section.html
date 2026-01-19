@@ -1,0 +1,52 @@
+<div class="feature-section">
+  <!-- Título -->
+  <h2 class="section-title">{{ title }}</h2>
+
+  <!-- Descripción -->
+  <p class="section-description">{{ description }}</p>
+
+  <!-- Lista de características (solo para lecciones) -->
+  <ul class="feature-list" *ngIf="isLecciones && features.length > 0">
+    <li class="feature-item" *ngFor="let feature of features">
+      <div class="check-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" [attr.stroke-width]="3" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+      </div>
+      <span>{{ feature }}</span>
+    </li>
+  </ul>
+
+  <!-- Tarjetas de simuladores (solo para simuladores) -->
+  <div class="simulator-cards" *ngIf="isSimuladores && cards.length > 0">
+    <div class="simulator-card"
+         *ngFor="let card of cards"
+         (click)="onCardClick(card.label)">
+      <div class="card-icon-container">
+        <div [innerHTML]="card.icon"></div>
+      </div>
+      <span class="card-label">{{ card.label }}</span>
+    </div>
+  </div>
+
+  <!-- Botón usando app-button -->
+  <app-button
+    *ngIf="routerLink"
+    type="primary"
+    [variant]="variant === 'lecciones' ? 'orange' : 'blue'"
+    size="medium"
+    [text]="buttonText"
+    [routerLink]="routerLink"
+    class="section-button-wrapper">
+  </app-button>
+
+  <app-button
+    *ngIf="!routerLink"
+    type="primary"
+    [variant]="variant === 'lecciones' ? 'orange' : 'blue'"
+    size="medium"
+    [text]="buttonText"
+    (btnClick)="onButtonClick()"
+    class="section-button-wrapper">
+  </app-button>
+</div>

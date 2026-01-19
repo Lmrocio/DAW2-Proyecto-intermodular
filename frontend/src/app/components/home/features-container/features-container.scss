@@ -1,0 +1,41 @@
+@use '../../../../styles/00-settings/variables' as v;
+@use '../../../../styles/01-tools/mixins' as m;
+
+.features-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: v.$spacing-16;
+  margin: 0 auto;
+  padding: v.$spacing-4 v.$spacing-16;
+  position: relative;
+  background: v.$color-bg-light;
+  border-bottom: 2px solid;
+  width: 96%;
+
+  @media (max-width: v.$breakpoint-md) {
+    grid-template-columns: 1fr;
+    gap: v.$spacing-10;
+    padding: v.$spacing-10 v.$spacing-5;
+  }
+}
+
+.vertical-divider {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: v.$color-text-dark;
+  transform: translateX(-50%);
+
+  @media (max-width: v.$breakpoint-md) {
+    display: none;
+  }
+}
+
+/* MODO OSCURO */
+:root[data-theme='dark'] {
+  .vertical-divider {
+    background: v.$color-gray-700;
+  }
+}
