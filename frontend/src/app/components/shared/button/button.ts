@@ -3,12 +3,13 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 /**
- * Componente Button reutilizable
+ * Componente Button reutilizable - Rediseñado
  *
- * Variantes: primary | secondary | ghost | danger
- * Tamaños: sm | md (por defecto) | lg
- * Estilos: elevated (con sombra) | flat (sin sombra, por defecto)
- * Estados: normal, hover, focus, active, disabled
+ * Type: primary (con sombra) | secondary (sin sombra)
+ * Variant: blue | orange | yellow | white | google | start | custom
+ * Size: small | medium | large
+ * Icon: left-arrow | right-arrow | google | user | null
+ * Estados: normal, hover, active, disabled
  *
  * Puede ser botón (<button>) o enlace (<a> con routerLink)
  */
@@ -20,38 +21,49 @@ import { RouterModule } from '@angular/router';
   styleUrl: './button.scss'
 })
 export class Button {
-  @Input() variant: 'primary' | 'secondary' | 'ghost' | 'danger' = 'primary';
+  @Input() text: string = '';
 
-  @Input() size: 'sm' | 'md' | 'lg' = 'md';
+  @Input() type: 'primary' | 'secondary' | 'tertiary' = 'primary';
 
-  // Renombrado para evitar colisión con el atributo HTML 'style'
-  @Input() btnStyle: 'elevated' | 'flat' = 'flat';
+  @Input() variant: 'blue' | 'orange' | 'yellow' | 'white' | 'google' | 'start' | 'previous' | 'next' | 'custom' = 'custom';
 
   @Input() disabled: boolean = false;
 
-  @Input() type: 'button' | 'submit' | 'reset' = 'button';
+  @Input() fullWidth: boolean = false;
+
+  @Input() icon?: 'left-arrow' | 'right-arrow' | 'google' | 'user' | null = null;
+
+  @Input() iconPosition: 'left' | 'right' = 'left';
+
+  @Input() label?: string;
+
+  @Input() size: 'small' | 'medium' | 'large' = 'medium';
+
+  @Input() buttonType: 'button' | 'submit' | 'reset' = 'button';
 
   @Input() routerLink: string | any[] | null = null;
 
-  @Output() click = new EventEmitter<void>();
+  @Output() btnClick = new EventEmitter<void>();
 
   onClick(): void {
     if (!this.disabled) {
-      this.click.emit();
+      this.btnClick.emit();
     }
   }
 
   getButtonClasses(): string {
     const classes = ['button'];
 
+    classes.push(`button--${this.type}`);
     classes.push(`button--${this.variant}`);
-
     classes.push(`button--${this.size}`);
-
-    classes.push(`button--${this.btnStyle}`);
 
     if (this.disabled) {
       classes.push('button--disabled');
+    }
+
+    if (this.fullWidth) {
+      classes.push('button--full-width');
     }
 
     return classes.join(' ');

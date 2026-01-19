@@ -1,18 +1,17 @@
 import { Component, ChangeDetectorRef, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { LucideAngularModule, Play } from 'lucide-angular';
 import { Button } from '../../shared/button/button';
 
 @Component({
   selector: 'app-hero',
   standalone: true,
-  imports: [CommonModule, RouterModule, LucideAngularModule, Button],
+  imports: [CommonModule, RouterModule, Button],
   templateUrl: './hero.html',
   styleUrl: './hero.scss',
 })
 export class Hero {
-  readonly Play = Play;
+  // ...existing code...
 
   // Texto a leer (ligado al contenido del hero)
   description: string = `Una plataforma diseñada como un cuaderno de notas, con explicaciones claras y dibujos sencillos para disfrutar aprendiendo.`;
@@ -120,7 +119,7 @@ export class Hero {
     if (voices.length === 0) {
       console.log('⏳ Cargando voces...');
 
-      const handleVoicesLoaded = () => {
+      synth.onvoiceschanged = () => {
         synth.onvoiceschanged = null;
         const loadedVoices = synth.getVoices();
 
@@ -134,7 +133,6 @@ export class Hero {
         trySpeak();
       };
 
-      synth.onvoiceschanged = handleVoicesLoaded;
 
       // Fallback con timeout
       setTimeout(() => {

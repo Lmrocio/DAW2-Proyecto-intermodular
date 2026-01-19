@@ -1,207 +1,270 @@
-@import '../../../../styles/00-settings/variables';
-@import '../../../../styles/01-tools/mixins';
+@use '../../../../styles/00-settings/variables' as v;
+@use '../../../../styles/01-tools/mixins' as m;
 
 // ============================================================================
-// ESTILOS BASE DEL BOTÓN (NUEVO: esquina cuadrada y borde fino negro)
+// ESTILOS BASE DEL BOTÓN
 // ============================================================================
 .button {
-  border: $border-thin solid $color-text-dark; // borde fino negro por defecto
-  font-family: $font-primary;
-  cursor: pointer;
-  text-decoration: none;
-
+  // Layout
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: $spacing-2;
+  gap: v.$spacing-2;
 
-  font-weight: $font-weight-semibold;
-  line-height: $line-height-tight;
+  // Tipografía
+  font-family: v.$font-body;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-weight: v.$font-weight-bold;
+  line-height: v.$line-height-tight;
 
+  // Borde y forma
+  border: 2px solid v.$color-text-dark;
   border-radius: 0; // esquinas cuadradas
-  padding: 0; // reset padding para que tamaño lo defina
 
-  @include transition(all, $transition-fast);
-
+  // Interacción
+  cursor: pointer;
   user-select: none;
 
-  // Permitir que <a> sea un botón válido
-  &[role="button"] {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-  }
+  // Transición
+  transition: all v.$transition-fast v.$easing-in-out;
+
+  // Reset
+  background: none;
 
   &:focus {
     outline: none;
   }
 
-  @include focus-visible {
-    outline: 3px solid $color-accent;
+  &:focus-visible {
+    outline: 3px solid v.$color-accent;
     outline-offset: 2px;
-    box-shadow: $shadow-focus;
   }
 }
 
 // ============================================================================
-// UTILITY MODIFIERS: elevated (sombra derecha/abajo) y flat (sin sombra)
+// ICONOS
+// ============================================================================
+.button__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    display: block;
+  }
+}
+
+// ============================================================================
+// TEXTO
+// ============================================================================
+.button__text {
+  display: inline-block;
+}
+
+// ============================================================================
+// LABEL DEBAJO DEL BOTÓN
+// ============================================================================
+.button__label {
+  margin-top: v.$spacing-2;
+  font-size: v.$font-size-xs;
+  text-align: center;
+  color: v.$color-gray-600;
+  text-transform: uppercase;
+  font-weight: v.$font-weight-semibold;
+}
+
+// ============================================================================
+// TAMAÑOS
+// ============================================================================
+.button--small {
+  padding: 10px 20px;
+  font-size: v.$font-size-sm;
+}
+
+.button--medium {
+  padding: 14px 32px;
+  font-size: v.$font-size-base;
+}
+
+.button--large {
+  padding: 18px 40px;
+  font-size: v.$font-size-lg;
+}
+
+// ============================================================================
+// TIPOS: PRIMARY (con sombra) vs SECONDARY (sin sombra)
 // ============================================================================
 
-// Botón elevado: sombra desplazada a la derecha y abajo
-.button--elevated {
-  box-shadow: 4px 4px 0 0 $color-text-dark !important;
-  transform: translateY(0);
+// PRIMARY: Botones con sombra (efecto 3D)
+.button--primary {
+  box-shadow: 4px 4px 0 0 v.$color-text-dark;
 
-  @include hover {
+  &:hover:not(:disabled):not(.button--disabled) {
     transform: translate(-2px, -2px);
-    box-shadow: 6px 6px 0 0 $color-text-dark !important;
+    box-shadow: 6px 6px 0 0 v.$color-text-dark;
+  }
+
+  &:active:not(:disabled):not(.button--disabled) {
+    transform: scale(0.98);
   }
 }
 
-// Botón plano: sin sombra, interacción suave sin desplazamiento
-.button--flat {
+// SECONDARY: Botones sin sombra
+.button--secondary {
   box-shadow: none;
 
-  @include hover {
-    transform: none;
-    box-shadow: none;
-    filter: brightness(0.98);
-  }
-}
-
-// ============================================================================
-// TAMAÑOS (sin cambios)
-// ============================================================================
-
-.button--sm {
-  height: $button-height-sm;
-  min-width: $button-height-sm;
-  padding: $spacing-1 $spacing-3;
-  font-size: $font-size-sm;
-}
-
-.button--md {
-  height: $button-height-md;
-  min-width: $button-height-md;
-  padding: $spacing-2 $spacing-5;
-  font-size: $font-size-base;
-}
-
-.button--lg {
-  height: $button-height-lg;
-  min-width: $button-height-lg;
-  padding: $spacing-3 $spacing-6;
-  font-size: $font-size-lg;
-}
-
-// ============================================================================
-// VARIANTE: PRIMARY (ahora con borde negro por defecto)
-// ============================================================================
-.button--primary {
-  background-color: $color-tertiary; // naranja por defecto
-  color: $color-text-light;
-  border-color: $color-text-dark; // borde negro
-
-  // Por defecto aplicamos la versión elevated si se desea por clase
-  @include hover {
-    background-color: darken($color-tertiary, 10%);
-    border-color: $color-text-dark;
+  &:hover:not(:disabled):not(.button--disabled) {
+    filter: brightness(0.95);
   }
 
   &:active:not(:disabled):not(.button--disabled) {
-    transform: translateY(0);
-    box-shadow: $shadow-sm;
+    transform: scale(0.98);
   }
 }
 
 // ============================================================================
-// VARIANTE: SECONDARY (azul o accent) - mantiene borde negro
+// VARIANTES DE COLOR - BOTONES PRINCIPALES
 // ============================================================================
-.button--secondary {
-  background-color: $color-accent;
-  color: $color-text-light;
-  border-color: $color-text-dark; // borde negro
 
-  @include hover {
-    background-color: darken($color-accent, 10%);
-    border-color: $color-text-dark;
+// Botón Azul
+.button--blue {
+  background-color: v.$color-accent;
+  color: v.$color-text-light;
+
+  &:hover:not(:disabled):not(.button--disabled) {
+    background-color: #2563eb;
   }
+}
 
-  &:active:not(:disabled):not(.button--disabled) {
-    transform: translateY(0);
-    box-shadow: $shadow-sm;
+// Botón Naranja
+.button--orange {
+  background-color: v.$color-tertiary;
+  color: v.$color-text-light;
+
+  &:hover:not(:disabled):not(.button--disabled) {
+    background-color: #ea580c;
+  }
+}
+
+// Botón Amarillo
+.button--yellow {
+  background-color: v.$color-primary;
+  color: v.$color-text-dark;
+
+  &:hover:not(:disabled):not(.button--disabled) {
+    background-color: #f59e0b;
   }
 }
 
 // ============================================================================
-// VARIANTE: GHOST (plano con borde claro)
+// VARIANTES DE COLOR - BOTONES SECUNDARIOS
 // ============================================================================
-.button--ghost {
-  background-color: transparent;
-  color: $color-text-dark;
-  border: $border-medium solid $color-gray-300; // mantiene border claro
 
-  @include hover {
-    background-color: $color-gray-100;
-    border-color: $color-accent;
-    color: $color-accent;
-    box-shadow: $shadow-sm;
-  }
+// Botón Blanco (ANTERIOR/SIGUIENTE)
+.button--white,
+.button--previous,
+.button--next {
+  background-color: v.$color-text-light;
+  color: v.$color-text-dark;
+  font-weight: v.$font-weight-regular;
+  text-transform: none;
 
-  &:active:not(:disabled):not(.button--disabled) {
-    background-color: $color-gray-200;
-    transform: translateY(0);
+  &:hover:not(:disabled):not(.button--disabled) {
+    background-color: #f5f5f5;
   }
 }
 
 // ============================================================================
-// VARIANTE: DANGER (mantiene borde negro)
+// VARIANTES ESPECIALES
 // ============================================================================
-.button--danger {
-  background-color: $color-error;
-  color: $color-text-light;
-  border-color: $color-text-dark;
 
-  @include hover {
-    background-color: darken($color-error, 10%);
-    border-color: $color-text-dark;
-    box-shadow: $shadow-md;
-    transform: translate(-2px, -2px);
-  }
+// Botón Google
+.button--google {
+  background-color: v.$color-text-light;
+  color: v.$color-text-dark;
+  border: 2px solid #e5e7eb;
+  font-weight: v.$font-weight-regular;
+  text-transform: none;
 
-  &:active:not(:disabled):not(.button--disabled) {
-    background-color: darken($color-error, 15%);
-    border-color: $color-text-dark;
-    transform: translateY(0);
-    box-shadow: $shadow-sm;
-  }
-
-  @include focus-visible {
-    outline-color: $color-error;
+  &:hover:not(:disabled):not(.button--disabled) {
+    background-color: #f9fafb;
   }
 }
 
+// Botón "EMPEZAR AHORA"
+.button--start {
+  background-color: v.$color-accent;
+  color: v.$color-text-light;
+
+  &:hover:not(:disabled):not(.button--disabled) {
+    background-color: #2563eb;
+  }
+}
+
+// Botón Custom (sin estilos predefinidos)
+.button--custom {
+  // Sin estilos específicos, se pueden añadir desde fuera
+}
+
 // ============================================================================
-// ESTADO: DISABLED (sin cambios)
+// ESTADOS
 // ============================================================================
+
+// Estado deshabilitado
 .button--disabled,
 .button:disabled {
-  opacity: 0.5;
+  background-color: #e5e7eb;
+  color: #9ca3af;
+  border-color: #d1d5db;
   cursor: not-allowed;
-  pointer-events: none;
+  opacity: 0.6;
+  box-shadow: none;
 
   &:hover,
   &:active {
     transform: none;
     box-shadow: none;
+    filter: none;
   }
 }
 
 // ============================================================================
-// RESPONSIVE
+// MODIFICADORES
 // ============================================================================
-@include respond-to('sm') {
-  .button--full-mobile {
-    width: 100%;
+
+// Full width
+.button--full-width {
+  width: 100%;
+}
+
+// ============================================================================
+// MODO OSCURO
+// ============================================================================
+:root[data-theme="dark"] {
+  .button {
+    border-color: v.$color-text-light;
+  }
+
+  .button--primary {
+    box-shadow: 4px 4px 0 0 v.$color-text-light;
+
+    &:hover:not(:disabled):not(.button--disabled) {
+      box-shadow: 6px 6px 0 0 v.$color-text-light;
+    }
+  }
+
+  .button--white,
+  .button--previous,
+  .button--next,
+  .button--google {
+    background-color: v.$color-gray-800;
+    color: v.$color-text-light;
+    border-color: v.$color-text-light;
+
+    &:hover:not(:disabled):not(.button--disabled) {
+      background-color: v.$color-gray-700;
+    }
   }
 }
+

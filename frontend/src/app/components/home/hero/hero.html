@@ -10,26 +10,22 @@
 
       <!-- Botones de acción -->
       <div class="hero__actions">
-        <!-- Botón Primario: Elevated (con sombra) -->
+        <!-- Botón Primario Naranja: Saber sobre nosotros -->
         <app-button
-          variant="primary"
-          size="md"
-          btnStyle="elevated"
-          routerLink="/about"
-        >
-          Saber más
+          type="primary"
+          variant="orange"
+          size="medium"
+          text="Saber sobre nosotros"
+          routerLink="/about">
         </app-button>
 
-        <!-- Botón Secundario: Flat (sin sombra) -->
+        <!-- Botón Secundario Azul: Escuchar texto -->
         <app-button
-          variant="secondary"
-          size="md"
-          btnStyle="flat"
-          (click)="playAudio()"
-          [attr.aria-pressed]="isSpeaking"
-        >
-          <lucide-angular [img]="Play" [size]="20"></lucide-angular>
-          {{ isSpeaking ? 'Detener' : 'Escuchar página' }}
+          type="primary"
+          variant="blue"
+          size="medium"
+          [text]="isSpeaking ? 'Detener' : 'Escuchar texto'"
+          (btnClick)="playAudio()">
         </app-button>
       </div>
     </div>
