@@ -6,16 +6,21 @@
 // Diseño: Grid 2 columnas (contenido + imagen)
 // Título serif grande, botones con sombra negra, responsive
 
-.hero {
+:host {
+  display: block;
+}
+
+:host .hero {
   width: 96%;
+  justify-self: center;
   background: $color-bg-dark;
   padding: $spacing-16 0 $spacing-12; // 80px 0 60px
   border-bottom: solid $color-text-dark; // 2px border
-  justify-self: center;
+  box-sizing: border-box;
 }
 
 .hero__container {
-  max-width: 1400px;
+  max-width: 100%;
   margin: 0 auto;
   padding: 0 $spacing-16; // 80px horizontal
   display: grid;
@@ -77,6 +82,26 @@
   }
 }
 
+.hero__description-actions {
+  display: flex;
+  align-items: center;
+  gap: $spacing-4;
+
+  .hero__description {
+    margin: 0;
+  }
+
+  .hero__inline-listen {
+    .button {
+      /* tamaño pequeño y centrado */
+      height: 40px !important;
+      min-width: 44px !important;
+      padding: 0 $spacing-3 !important;
+      border-radius: $radius-sm !important;
+    }
+  }
+}
+
 // ============================================================================
 // BOTONES DE ACCIÓN (usando componente app-button)
 // ============================================================================
@@ -117,6 +142,15 @@
     width: 100%;
     height: auto;
     display: block;
+  }
+
+  &.hero__image-container--large {
+    width: 90%;
+    max-width: 720px;
+  }
+
+  &.hero__image-container--no-shadow {
+    box-shadow: none;
   }
 }
 

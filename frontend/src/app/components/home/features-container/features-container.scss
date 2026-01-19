@@ -4,9 +4,8 @@
 .features-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: v.$spacing-16;
   margin: 0 auto;
-  padding: v.$spacing-4 v.$spacing-16;
+  padding: v.$spacing-8;
   position: relative;
   background: v.$color-bg-light;
   border-bottom: 2px solid;

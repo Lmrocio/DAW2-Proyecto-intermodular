@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { Hero } from '../../components/home/hero/hero';
 import { PageHeader } from '../../components/lecciones/page-header/page-header';
-import { SearchBarLecciones } from '../../components/lecciones/search-bar-lecciones/search-bar-lecciones';
+import { SearchBar } from '../../components/home/search-bar/search-bar';
 import { QuickFilters } from '../../components/lecciones/quick-filters/quick-filters';
 import { SidebarFiltros } from '../../components/lecciones/sidebar-filtros/sidebar-filtros';
 import { LeccionCard, Leccion } from '../../components/lecciones/leccion-card/leccion-card';
 import { Pagination } from '../../components/lecciones/pagination/pagination';
+import { Button } from '../../components/shared/button/button';
 
 /**
  * Página de Lecciones - Catálogo de Lecciones
@@ -19,17 +22,31 @@ import { Pagination } from '../../components/lecciones/pagination/pagination';
   standalone: true,
   imports: [
     CommonModule,
+    RouterModule,
+    Hero,
     PageHeader,
-    SearchBarLecciones,
+    SearchBar,
     QuickFilters,
     SidebarFiltros,
     LeccionCard,
-    Pagination
+    Pagination,
+    Button
   ],
   templateUrl: './lecciones.html',
   styleUrl: './lecciones.scss',
 })
 export class Lecciones implements OnInit {
+  // Lección destacada
+  featuredLesson: Leccion | null = null;
+
+  // Progreso del usuario
+  userProgress = {
+    completedLessons: 4,
+    level: 4,
+    points: 650,
+    percentage: 65
+  };
+
   // Datos de ejemplo
   allLecciones: Leccion[] = [
     {
@@ -44,12 +61,12 @@ export class Lecciones implements OnInit {
     },
     {
       id: 2,
-      titulo: 'WhatsApp para principiantes',
-      descripcion: 'Envía mensajes, fotos y videollamadas a tus seres queridos de forma sencilla.',
+      titulo: 'WhatsApp para ver a la familia',
+      descripcion: 'Domina las videollamadas paso a paso. Aprende a llamar a tus hijos y nietos de forma segura y sencilla.',
       categoria: 'Comunicación',
       nivel: 'Principiante',
       duracion: '8 min',
-      imagen: 'assets/images/imagen-4.svg',
+      imagen: 'assets/images/whatsapp.svg',
       valoracion: 4.9,
       completado: true
     },
@@ -105,17 +122,34 @@ export class Lecciones implements OnInit {
 
   ngOnInit(): void {
     this.filteredLecciones = [...this.allLecciones];
+    // Establecer la lección destacada (la segunda)
+    this.featuredLesson = this.allLecciones[1];
     this.updatePagination();
   }
 
-  onSearch(query: string): void {
-    if (!query.trim()) {
+  // Aceptar string | Event y normalizar a string para compatibilidad con bindings
+  onSearch(query: string | Event | any): void {
+    let q = '';
+    if (typeof query === 'string') {
+      q = query;
+    } else if (query && typeof query === 'object') {
+      // Si es un CustomEvent con detail
+      if ('detail' in query && typeof query.detail === 'string') {
+        q = query.detail;
+      } else if (query.target && query.target.value) {
+        q = String(query.target.value);
+      } else {
+        q = '';
+      }
+    }
+
+    if (!q.trim()) {
       this.filteredLecciones = [...this.allLecciones];
     } else {
       this.filteredLecciones = this.allLecciones.filter(leccion =>
-        leccion.titulo.toLowerCase().includes(query.toLowerCase()) ||
-        leccion.descripcion.toLowerCase().includes(query.toLowerCase()) ||
-        leccion.categoria.toLowerCase().includes(query.toLowerCase())
+        leccion.titulo.toLowerCase().includes(q.toLowerCase()) ||
+        leccion.descripcion.toLowerCase().includes(q.toLowerCase()) ||
+        leccion.categoria.toLowerCase().includes(q.toLowerCase())
       );
     }
     this.currentPage = 1;
@@ -175,4 +209,3 @@ export class Lecciones implements OnInit {
     return this.filteredLecciones.length;
   }
 }
-

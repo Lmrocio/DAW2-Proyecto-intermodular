@@ -1,27 +1,31 @@
-<div class="search-section">
-  <div class="search-header">
+<div class="search-section" [class.search-section--no-padding]="noPadding">
+  <div class="search-header" *ngIf="!hideTitle">
     <h2 class="search-title">{{ title }}</h2>
-    <app-button
-      type="primary"
-      variant="blue"
-      size="medium"
-      [text]="isSpeaking ? 'Detener' : ''"
-      [icon]="isSpeaking ? null : 'play'"
-      (btnClick)="playAudio()"
-      [title]="isSpeaking ? 'Detener reproducción' : ('Escuchar: ' + helpText)"
-      [attr.aria-label]="isSpeaking ? 'Detener reproducción' : 'Escuchar descripción de búsqueda'"
-      class="search-listen-btn-wrapper">
-    </app-button>
+    <ng-container *ngIf="showListen">
+      <app-button
+        type="primary"
+        variant="blue"
+        size="medium"
+        [text]="isSpeaking ? 'Detener' : ''"
+        [icon]="isSpeaking ? null : 'play'"
+        (btnClick)="playAudio()"
+        [title]="isSpeaking ? 'Detener reproducción' : ('Escuchar: ' + helpText)"
+        [attr.aria-label]="isSpeaking ? 'Detener reproducción' : 'Escuchar descripción de búsqueda'"
+        class="search-listen-btn-wrapper">
+      </app-button>
+    </ng-container>
   </div>
 
-  <p class="search-help-text">{{ helpText }}</p>
+  <ng-container *ngIf="showHelpText">
+    <p class="search-help-text">{{ helpText }}</p>
+  </ng-container>
 
   <div class="search-container">
     <!-- Icono de búsqueda -->
     <div class="search-icon">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" [attr.stroke-width]="2" stroke-linecap="round" stroke-linejoin="round">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="11" cy="11" r="8"/>
-        <path d="m21 21-4.35-4.35"/>
+        <path d="M21 21l-4.35-4.35"/>
       </svg>
     </div>
 

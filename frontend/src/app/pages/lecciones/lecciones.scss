@@ -1,5 +1,5 @@
 // ============================================================================
-// ESTILOS PÁGINA DE LECCIONES - v2.0
+// ESTILOS PÁGINA DE LECCIONES - v3.0 (Rediseño)
 // ============================================================================
 
 @import '../../../styles/00-settings/variables';
@@ -7,14 +7,14 @@
 
 .lecciones-page {
   min-height: 100vh;
-  background: $color-gray-50;
-  padding: $spacing-12 0 $spacing-20;
+  background: $color-bg-dark;
+  padding: 0; /* quitado padding del main según petición */
   box-sizing: border-box;
 }
 
 .lecciones-page__container {
   width: 100%;
-  max-width: $breakpoint-xl;
+  max-width: 1440px;
   margin: 0 auto;
   padding: 0 $spacing-12;
   box-sizing: border-box;
@@ -24,12 +24,131 @@
   }
 }
 
-.lecciones-page__layout {
+/* (Removed previous hero compensation hack. The hero itself now manages its width/padding.) */
+
+// ============================================================================
+// HERO SECTION
+// ============================================================================
+
+
+// ============================================================================
+// LECCIÓN DESTACADA
+// ============================================================================
+
+.featured-lesson {
+  position: relative;
+  background: $color-text-light;
+  border: $border-medium solid $color-text-dark;
+  border-radius: 2.5rem;
+  padding: $spacing-12;
+  display: flex;
+  flex-direction: row;
+  gap: $spacing-12;
+  box-shadow: 8px 8px 0 0 $color-text-dark;
+  overflow: hidden;
+  margin-bottom: $spacing-20;
+
+  @media (max-width: $breakpoint-lg) {
+    flex-direction: column;
+  }
+}
+
+.featured-badge {
+  position: absolute;
+  top: $spacing-8;
+  right: $spacing-8;
+  padding: $spacing-2 $spacing-6;
+  background: $color-primary;
+  border: $border-medium solid $color-text-dark;
+  border-radius: 9999px;
+  font-weight: $font-weight-bold;
+  font-size: $font-size-lg;
+  transform: rotate(3deg);
+  z-index: 2;
+}
+
+.featured-image {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: $radius-2xl;
+  overflow: hidden;
+  border: $border-medium solid $color-text-dark;
+  aspect-ratio: 16 / 9;
+  position: relative;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.05);
+  }
+}
+
+.featured-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: $spacing-6;
+}
+
+.featured-category {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-2;
+  color: $color-accent;
+  font-weight: $font-weight-bold;
+  font-size: $font-size-sm;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.category-dot {
+  width: 12px;
+  height: 12px;
+  background: $color-accent;
+  border: $border-medium solid $color-text-dark;
+  border-radius: 50% 50% 40% 60% / 60% 40% 60% 40%;
+}
+
+.featured-title {
+  font-family: $font-primary;
+  font-size: 3rem;
+  font-weight: $font-weight-bold;
+  line-height: $line-height-tight;
+  color: $color-text-dark;
+  margin: 0;
+
+  @media (max-width: $breakpoint-md) {
+    font-size: 2.25rem;
+  }
+}
+
+.featured-description {
+  font-family: $font-body;
+  font-size: $font-size-xl;
+  line-height: $line-height-relaxed;
+  color: $color-gray-600;
+  font-weight: $font-weight-medium;
+  margin: 0;
+}
+
+// ============================================================================
+// LAYOUT PRINCIPAL
+// ============================================================================
+
+.lecciones-layout {
   display: grid;
-  /* Use minmax(0,1fr) to allow the second column to shrink and prevent the first from growing */
-  grid-template-columns: 280px minmax(0, 1fr);
-  gap: $spacing-8;
-  margin-top: $spacing-8;
+  grid-template-columns: 288px minmax(0, 1fr);
+  gap: $spacing-16;
   align-items: start;
 
   @media (max-width: $breakpoint-lg) {
@@ -37,42 +156,172 @@
   }
 }
 
-.lecciones-page__content {
-  min-height: 400px;
-  box-sizing: border-box;
+// ============================================================================
+// SIDEBAR
+// ============================================================================
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-12;
+  flex-shrink: 0;
 }
 
-.lecciones-page__results-count {
-  font-size: $font-size-sm;
-  color: $color-gray-700;
-  margin-bottom: $spacing-6;
-  font-weight: $font-weight-medium;
+.filters-section {
+  display: flex;
+  flex-direction: column;
 }
 
-.lecciones-page__grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: $spacing-6;
-  align-items: start;
+.filters-title {
+  font-family: $font-primary;
+  font-size: 2rem;
+  font-weight: $font-weight-bold;
+  color: $color-text-dark;
+  margin: 0 0 $spacing-8 0;
+  padding-bottom: $spacing-2;
+  border-bottom: $border-medium solid $color-text-dark;
+  display: flex;
+  align-items: center;
+  gap: $spacing-3;
 
-  @media (max-width: $breakpoint-md) {
-    grid-template-columns: 1fr;
+  .material-symbols-outlined {
+    font-size: 2rem;
   }
 }
 
-.lecciones-page__no-results {
+.progress-card {
+  background: $color-accent;
+  border: $border-medium solid $color-text-dark;
+  padding: $spacing-8;
+  border-radius: 2rem;
+  color: $color-text-light;
+  box-shadow: 8px 8px 0 0 $color-text-dark;
+}
+
+.progress-header {
+  display: flex;
+  align-items: center;
+  gap: $spacing-3;
+  margin-bottom: $spacing-6;
+
+  .material-symbols-outlined {
+    font-size: 2rem;
+  }
+
+  h4 {
+    font-family: $font-primary;
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+    margin: 0;
+  }
+}
+
+.progress-text {
+  font-weight: $font-weight-bold;
+  margin-bottom: $spacing-6;
+  font-size: $font-size-lg;
+}
+
+.progress-bar-container {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.2);
+  border: $border-medium solid $color-text-dark;
+  border-radius: 9999px;
+  height: 16px;
+  margin-bottom: $spacing-4;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background: $color-primary;
+  border-right: $border-medium solid $color-text-dark;
+  border-radius: 9999px;
+  transition: width 0.3s ease;
+}
+
+.progress-stats {
+  display: flex;
+  justify-content: space-between;
+  font-weight: $font-weight-bold;
+  font-size: $font-size-sm;
+  text-transform: uppercase;
+}
+
+// ============================================================================
+// CONTENIDO PRINCIPAL
+// ============================================================================
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-10;
+}
+
+.lecciones-grid {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-10;
+}
+
+.no-results {
   text-align: center;
   padding: $spacing-20 $spacing-5;
   color: $color-gray-700;
+}
 
-  p {
-    font-size: $font-size-base;
-    margin: 0 0 $spacing-3 0;
+.no-results-title {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-semibold;
+  color: $color-text-dark;
+  margin: 0 0 $spacing-3 0;
+}
 
-    &:first-child {
-      font-size: $font-size-lg;
-      font-weight: $font-weight-semibold;
-      color: $color-text-dark;
-    }
+.no-results-text {
+  font-size: $font-size-base;
+  margin: 0;
+}
+
+// ============================================================================
+// MODO OSCURO
+// ============================================================================
+
+:root[data-theme='dark'] {
+  .lecciones-page {
+    background: $color-gray-900;
+  }
+
+  .hero-title,
+  .featured-title,
+  .filters-title {
+    color: $color-text-light;
+  }
+
+  .hero-subtitle,
+  .featured-description {
+    color: $color-gray-400;
+  }
+
+  .featured-lesson {
+    background: $color-gray-800;
+    border-color: $color-text-light;
+    box-shadow: 8px 8px 0 0 $color-text-light;
+  }
+
+  .featured-badge,
+  .category-dot {
+    border-color: $color-text-light;
+  }
+
+  .progress-card {
+    box-shadow: 8px 8px 0 0 $color-text-light;
+  }
+
+  .filters-title {
+    border-bottom-color: $color-text-light;
+  }
+
+  .no-results-title {
+    color: $color-text-light;
   }
 }

@@ -20,10 +20,9 @@
     <!-- Grid de Cards -->
     <div class="lecciones-grid">
       <article *ngFor="let leccion of lecciones" class="leccion-card">
-        <!-- Icono con fondo orgánico -->
         <div class="leccion-icon-wrapper">
           <div class="leccion-icon-fondo" [ngClass]="'fondo-' + leccion.iconoFondo">
-            <span class="material-symbols-outlined leccion-icon">{{ leccion.icono }}</span>
+            <img [src]="leccion.imagen" [alt]="leccion.titulo" class="leccion-imagen" />
           </div>
           <!-- Badge Categoría -->
           <span class="leccion-badge" [ngClass]="'badge-' + leccion.categoriaColor">
@@ -36,23 +35,35 @@
           {{ leccion.titulo }}
         </h3>
 
-        <!-- Descripción -->
-        <p class="leccion-card-description">
-          {{ leccion.descripcion }}
-        </p>
+        <!-- Descripción + botón de reproducción -->
+        <div class="leccion-description-row">
+          <p class="leccion-card-description">
+            {{ leccion.descripcion }}
+          </p>
 
-        <!-- Botón usando app-button -->
+          <app-button
+            type="primary"
+            variant="blue"
+            size="small"
+            [text]="speakingId === leccion.id ? 'Detener' : ''"
+            [icon]="speakingId === leccion.id ? 'stop' : 'play'"
+            [iconPosition]="'left'"
+            (btnClick)="toggleSpeak(leccion)"
+            [extraClass]="speakingId === leccion.id ? 'leccion-play-button' : 'leccion-play-button leccion-play-button--custom'">
+          </app-button>
+        </div>
+
+        <!-- Botón usando app-button para ir a la lección -->
         <app-button
           type="secondary"
-          variant="white"
+          variant="yellow"
           size="medium"
           text="EMPEZAR"
           [fullWidth]="true"
           [routerLink]="['/lecciones', leccion.id]"
-          class="leccion-button">
+          [extraClass]="'leccion-button'">
         </app-button>
       </article>
     </div>
   </div>
 </section>
-

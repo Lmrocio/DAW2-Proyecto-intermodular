@@ -2,39 +2,72 @@
   <div class="hero__container">
     <!-- Contenido Hero (Columna izquierda) -->
     <div class="hero__content">
-      <h1 class="hero__title">Aprende tecnología paso a paso</h1>
+      <h1 class="hero__title">{{ title }}</h1>
 
-      <p class="hero__description">
-        Una plataforma diseñada como un cuaderno de notas, con explicaciones claras y dibujos sencillos para disfrutar aprendiendo.
-      </p>
+      <ng-container *ngIf="showInlineListen; else plainDescription">
+        <div class="hero__description-actions">
+          <p class="hero__description">{{ subtitle }}</p>
+          <app-button
+            type="primary"
+            variant="blue"
+            size="small"
+            [text]="isSpeaking ? 'Detener' : 'Escuchar'"
+            [icon]="isSpeaking ? null : 'play'"
+            (btnClick)="playAudio(audioText || subtitle)"
+            class="hero__inline-listen">
+          </app-button>
+        </div>
+      </ng-container>
+
+      <ng-template #plainDescription>
+        <p class="hero__description">{{ subtitle }}</p>
+      </ng-template>
+
+      <!-- Búsqueda (si showSearch es true) -->
+      <ng-container *ngIf="showSearch">
+        <div class="hero__search">
+          <app-search-bar
+            [placeholder]="searchPlaceholder"
+            (searchChange)="$any(this).onSearch($event)"
+            [showHelpText]="false"
+            [showListen]="false"
+            [hideTitle]="true"
+            [noPadding]="true"
+          ></app-search-bar>
+        </div>
+      </ng-container>
 
       <!-- Botones de acción -->
-      <div class="hero__actions">
-        <!-- Botón Primario Naranja: Saber sobre nosotros -->
-        <app-button
-          type="primary"
-          variant="orange"
-          size="medium"
-          text="Saber sobre nosotros"
-          routerLink="/about">
-        </app-button>
+      <div class="hero__actions" *ngIf="showButton1 || showButton2">
+        <!-- Botón 1 -->
+        <ng-container *ngIf="showButton1">
+          <app-button
+            type="primary"
+            [variant]="button1Variant"
+            size="medium"
+            [text]="button1Text"
+            [routerLink]="button1Link">
+          </app-button>
+        </ng-container>
 
-        <!-- Botón Secundario Azul: Escuchar texto -->
-        <app-button
-          type="primary"
-          variant="blue"
-          size="medium"
-          [text]="isSpeaking ? 'Detener' : 'Escuchar texto'"
-          (btnClick)="playAudio()">
-        </app-button>
+        <!-- Botón 2 (puede ser enlace o acción) -->
+        <ng-container *ngIf="showButton2">
+          <app-button
+            type="primary"
+            [variant]="button2Variant"
+            size="medium"
+            [text]="isSpeaking ? 'Detener' : button2Text"
+            (btnClick)="playAudio(audioText || subtitle)">
+          </app-button>
+        </ng-container>
       </div>
     </div>
 
     <!-- Imagen Hero (Columna derecha) -->
     <div class="hero__image">
-      <div class="hero__image-container">
-        <img src="assets/images/imagen-6.svg" alt="Ilustración de dispositivo con TecnoMayores" />
-      </div>
-    </div>
-  </div>
-</section>
+      <div class="hero__image-container" [class.hero__image-container--large]="$any(imageLarge)" [class.hero__image-container--no-shadow]="!$any(imageHasShadow)">
+         <img [src]="imageUrl" [alt]="imageAlt" />
+       </div>
+     </div>
+   </div>
+ </section>

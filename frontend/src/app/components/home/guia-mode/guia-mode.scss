@@ -45,6 +45,9 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  position: relative;
+  overflow: visible;
+  z-index: 10;
 
   @media (max-width: v.$breakpoint-md) {
     width: 70px;
@@ -55,13 +58,51 @@
     width: 70px;
     height: 70px;
   }
+
+  /* Óvalo irregular pequeño (layer 1) - fondo decorativo muy sutil */
+  &::before {
+    content: '';
+    position: absolute;
+    z-index: 0;
+    width: 60%;
+    height: 60%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-12deg);
+    background-color: mix(v.$color-primary, #fff, 10%);
+    border-radius: 45% 55% 60% 40% / 50% 40% 60% 50%;
+    filter: blur(0.3px);
+    opacity: 0.25;
+  }
+
+  /* Segunda capa sutil (layer 2) - muy pequeña textura */
+  &::after {
+    content: '';
+    position: absolute;
+    z-index: 0;
+    width: 45%;
+    height: 40%;
+    top: 52%;
+    left: 48%;
+    transform: translate(-48%, -52%) rotate(8deg);
+    background-color: mix(v.$color-primary, #000, 2%);
+    border-radius: 55% 45% 45% 55% / 45% 55% 45% 55%;
+    opacity: 0.08;
+  }
 }
 
 .guide-icon {
   color: v.$color-text-dark;
+  position: relative;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   svg {
     display: block;
+    width: 40px;
+    height: 40px;
   }
 
   @media (max-width: v.$breakpoint-md) {
@@ -179,12 +220,21 @@
   }
 }
 
+/* Add SVG styling for guide-svg-icon */
+.guide-svg-icon {
+  stroke: v.$color-text-dark;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: currentColor;
+}
+
 /* MODO OSCURO */
 :root[data-theme='dark'] {
   .guide-mode-card {
     background: v.$color-gray-800;
     border-color: v.$color-text-light;
-    box-shadow: 8px 8px 0 0 v.$color-text-light;
+    box-shadow: 8px 8px 0 0 v.$color-text_light;
 
     @media (max-width: 480px) {
       box-shadow: 4px 4px 0 0 v.$color-text-light;
@@ -192,7 +242,11 @@
   }
 
   .guide-icon-container {
-    background: v.$color-primary;
+    background: transparent;
     border-color: v.$color-text-light;
+  }
+
+  .guide-icon {
+    color: v.$color-text-light;
   }
 }

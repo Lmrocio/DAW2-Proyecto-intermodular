@@ -3,15 +3,16 @@
 
 .lecciones-section {
   padding: v.$spacing-20 v.$spacing-6;
+  margin-bottom: v.$spacing-4;
   background: v.$color-bg-dark;
 
   @media (max-width: v.$breakpoint-md) {
-    padding: v.$spacing-16 v.$spacing-5;
+    padding: v.$spacing-12 v.$spacing-5;
   }
 }
 
 .lecciones-container {
-  max-width: 1200px;
+  width: 96%;
   margin: 0 auto;
 }
 
@@ -23,13 +24,13 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: flex-end;
-  margin-bottom: v.$spacing-16;
+  margin-bottom: v.$spacing-12;
   gap: v.$spacing-6;
 
   @media (max-width: v.$breakpoint-md) {
     flex-direction: column;
     align-items: flex-start;
-    margin-bottom: v.$spacing-12;
+    margin-bottom: v.$spacing-8;
   }
 }
 
@@ -38,50 +39,50 @@
 }
 
 .lecciones-title {
-  font-family: v.$font-secondary;
+  font-family: v.$font-primary;
   font-size: v.$font-size-2xl;
-  font-weight: 900;
-  font-style: italic;
+  font-weight: v.$font-weight-bold;
   color: v.$color-text-dark;
   margin-bottom: v.$spacing-4;
-  line-height: 1.1;
+  line-height: v.$line-height-tight;
 
   @media (max-width: v.$breakpoint-md) {
-    font-size: 42px;
+    font-size: v.$font-size-xl;
   }
 
   @media (max-width: 480px) {
-    font-size: 36px;
+    font-size: v.$font-size-lg;
   }
 }
 
 .lecciones-subtitle {
   font-family: v.$font-body;
-  font-size: 20px;
+  font-size: v.$font-size-base;
   color: v.$color-gray-600;
   margin: 0;
+  line-height: v.$line-height-normal;
 
   @media (max-width: v.$breakpoint-md) {
-    font-size: 18px;
+    font-size: v.$font-size-sm;
   }
 }
 
 .lecciones-link {
   font-family: v.$font-body;
-  font-size: 18px;
-  font-weight: 900;
+  font-size: v.$font-size-base;
+  font-weight: v.$font-weight-bold;
   color: v.$color-text-dark;
   text-decoration: none;
   display: flex;
   align-items: center;
   gap: v.$spacing-2;
-  border-bottom: 3px solid v.$color-tertiary;
+  border-bottom: v.$border-medium solid v.$color-tertiary;
   padding-bottom: v.$spacing-1;
   transition: transform v.$transition-base v.$easing-in-out;
 
   svg {
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
     display: block;
   }
 
@@ -90,7 +91,7 @@
   }
 
   @media (max-width: v.$breakpoint-md) {
-    font-size: 16px;
+    font-size: v.$font-size-sm;
   }
 }
 
@@ -100,16 +101,16 @@
 .lecciones-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: v.$spacing-12;
+  gap: v.$spacing-20;
 
   @media (max-width: v.$breakpoint-lg) {
     grid-template-columns: repeat(2, 1fr);
-    gap: v.$spacing-8;
+    gap: v.$spacing-6;
   }
 
   @media (max-width: v.$breakpoint-md) {
     grid-template-columns: 1fr;
-    gap: v.$spacing-10;
+    gap: v.$spacing-8;
   }
 }
 
@@ -119,7 +120,7 @@
 .leccion-card {
   display: flex;
   flex-direction: column;
-  gap: v.$spacing-6;
+  gap: v.$spacing-4;
 }
 
 // ============================================================================
@@ -129,20 +130,18 @@
   aspect-ratio: 16 / 9;
   border: v.$border-medium solid v.$color-text-dark;
   background: v.$color-text-light;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block;
   position: relative;
   overflow: hidden;
 }
 
 .leccion-icon-fondo {
-  position: relative;
+  position: absolute;
+  inset: 0;
+  display: block;
   width: 100%;
   height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  pointer-events: none; /* decorativo */
 
   &::before {
     content: '';
@@ -181,17 +180,15 @@
   }
 }
 
-.leccion-icon {
-  font-size: 70px;
-  color: v.$color-text-dark;
-  position: relative;
-  z-index: 10;
-  font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 40;
-  user-select: none;
 
-  @media (max-width: v.$breakpoint-md) {
-    font-size: 60px;
-  }
+.leccion-imagen {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 10;
+  user-select: none;
 }
 
 // ============================================================================
@@ -202,12 +199,12 @@
   top: v.$spacing-4;
   left: v.$spacing-4;
   padding: v.$spacing-1 v.$spacing-3;
-  border: 1.5px solid v.$color-text-dark;
+  border: v.$border-thin solid v.$color-text-dark;
   font-family: v.$font-body;
-  font-size: 11px;
-  font-weight: 900;
+  font-size: v.$font-size-xs;
+  font-weight: v.$font-weight-bold;
   text-transform: uppercase;
-  letter-spacing: 1.5px;
+  letter-spacing: 0.05em;
   z-index: 20;
 
   &.badge-yellow {
@@ -231,29 +228,41 @@
 // ============================================================================
 .leccion-card-title {
   font-family: v.$font-secondary;
-  font-size: 32px;
-  font-weight: 700;
-  font-style: italic;
+  font-size: v.$font-size-xl;
   color: v.$color-text-dark;
   margin: 0;
-  line-height: 1.2;
+  line-height: v.$line-height-tight;
 
   @media (max-width: v.$breakpoint-md) {
-    font-size: 28px;
+    font-size: v.$font-size-lg;
   }
 }
 
 .leccion-card-description {
   font-family: v.$font-body;
-  font-size: 16px;
-  font-weight: 500;
+  font-size: v.$font-size-base;
   color: v.$color-gray-600;
-  line-height: 1.6;
+  line-height: v.$line-height-relaxed;
   margin: 0;
 
   @media (max-width: v.$breakpoint-md) {
-    font-size: 15px;
+    font-size: v.$font-size-sm;
   }
+}
+
+.leccion-description-row {
+  display: flex;
+  align-items: center;
+  gap: v.$spacing-3;
+}
+
+.leccion-card-description {
+  flex: 1 1 auto;
+  margin: 0;
+}
+
+.leccion-play-button {
+  flex: 0 0 auto;
 }
 
 // ============================================================================
@@ -261,6 +270,18 @@
 // ============================================================================
 .leccion-button {
   margin-top: auto;
+}
+
+// custom class para el play button para ajustar tamaño y que use button--icon-only
+.leccion-play-button--custom {
+  /* Forzar que sea square y sin padding, respetando icon-only */
+  width: 44px !important;
+  height: 44px !important;
+  padding: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0 !important;
 }
 
 // ============================================================================

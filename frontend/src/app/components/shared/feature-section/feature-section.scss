@@ -81,7 +81,7 @@
   background: v.$color-text-light;
   border: v.$border-medium solid v.$color-text-dark;
   border-radius: v.$radius-base;
-  padding: v.$spacing-6 v.$spacing-4;
+  padding: v.$spacing-6 v.$spacing-20;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -98,15 +98,56 @@
 
 .card-icon-container {
   width: 80px;
-  height: 60px;
-  background: #dbeafe;
+  height: 80px; /* cuadrado más grande para contener icono y texto */
   border-radius: v.$radius-base;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: v.$spacing-2;
+  position: relative;
+  overflow: hidden;
+  background: v.$color-text-light;
+  border: v.$border-medium solid v.$color-text-dark;
 
-  svg {
-    display: block;
+  /* Fondo orgánico azul (similar a illustration-fill-teal) */
+  &::before {
+    content: '';
+    position: absolute;
+    width: 75%;
+    height: 75%;
+    background-color: v.$color-accent;
+    top: 10%;
+    left: 20%;
+    border-radius: 30% 70% 50% 50% / 50% 50% 30% 70%;
+    z-index: 0;
+    opacity: 0.5;
+  }
+
+  svg.card-svg-icon {
+    position: relative;
+    z-index: 12;
+    width: 40px;
+    height: 40px;
+    color: white; /* fallback color */
+    stroke: white;
+    flex-shrink: 0;
+  }
+
+  .card-svg-fallback {
+    position: relative;
+    z-index: 12;
+  }
+
+  .card-icon-text {
+    position: relative;
+    z-index: 11;
+    font-size: v.$font-size-xs;
+    color: v.$color-text-light;
+    font-weight: v.$font-weight-bold;
+    text-align: center;
+    text-transform: capitalize;
+    line-height: 1;
   }
 }
 
@@ -133,7 +174,8 @@
   }
 
   .card-icon-container {
-    background: #1e3a8a;
+    background: v.$color-gray-800;
+    border-color: v.$color-text-light;
   }
 
   .card-label {

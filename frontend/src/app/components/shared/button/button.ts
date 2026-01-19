@@ -49,6 +49,8 @@ export class Button implements OnInit {
 
   @Input() btnStyle?: 'elevated' | 'flat'; // Compatibilidad antigua
 
+  @Input() extraClass?: string; // Permite pasar clases adicionales desde el componente padre
+
   @Output() btnClick = new EventEmitter<void>();
 
   // Propiedades internas normalizadas
@@ -129,6 +131,11 @@ export class Button implements OnInit {
     // Si no hay texto visible (string vacío o solo espacios), marcamos como icon-only
     if (!this.text || this.text.toString().trim() === '') {
       classes.push('button--icon-only');
+    }
+
+    // Añadir clases extra si se proporcionan
+    if (this.extraClass) {
+      classes.push(this.extraClass);
     }
 
     return classes.join(' ');

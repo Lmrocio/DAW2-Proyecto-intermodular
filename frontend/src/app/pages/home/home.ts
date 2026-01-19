@@ -39,4 +39,3 @@ import { FeaturesContainerComponent } from '../../components/home/features-conta
 export class Home {
 
 }
-
