@@ -7,8 +7,11 @@ import { Home } from './pages/home/home';
 import { Lecciones } from './pages/lecciones/lecciones';
 import { Simuladores } from './pages/simuladores/simuladores';
 import { LeccionDetalle } from './pages/leccion-detalle/leccion-detalle';
+import { SimuladorDetalle } from './pages/simulador-detalle/simulador-detalle';
 import { Login } from './pages/login/login';
+import { Register } from './pages/register/register.component';
 import { About } from './pages/about/about';
+import { Ayuda } from './pages/ayuda/ayuda';
 
 // ============================================================================
 // PRODUCTOS (FASE 5 - Sistema HTTP)
@@ -112,6 +115,14 @@ export const routes: Routes = [
     data: { breadcrumb: 'Detalle de Lección' }
   },
 
+  // 3.5 SIMULADOR DETALLE - Ruta con parámetro dinámico :id
+  // Ejemplo: /simuladores/1
+  {
+    path: 'simuladores/:id',
+    component: SimuladorDetalle,
+    data: { breadcrumb: 'Simulador Interactivo' }
+  },
+
   // 4. LOGIN - Formulario de inicio de sesión (pública)
   // Recibe returnUrl desde authGuard cuando redirige aquí
   {
@@ -120,11 +131,25 @@ export const routes: Routes = [
     data: { breadcrumb: 'Acceso de Usuario' }
   },
 
+  // 4.5 REGISTER - Crear nueva cuenta (pública)
+  {
+    path: 'register',
+    component: Register,
+    data: { breadcrumb: 'Crear Cuenta' }
+  },
+
   // 5. ABOUT - Información sobre la plataforma (pública)
   {
     path: 'about',
     component: About,
     data: { breadcrumb: 'Acerca de' }
+  },
+
+  // 5.5 AYUDA - Página de ayuda (pública)
+  {
+    path: 'ayuda',
+    component: Ayuda,
+    data: { breadcrumb: 'Ayuda' }
   },
 
   // =========================================================================

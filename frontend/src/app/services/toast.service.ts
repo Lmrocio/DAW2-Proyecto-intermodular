@@ -15,6 +15,7 @@ export interface ToastMessage {
   message: string;
   type: 'success' | 'error' | 'info' | 'warning';
   duration: number;
+  title?: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -39,12 +40,13 @@ export class ToastService {
   /**
    * Muestra un toast genérico
    */
-  show(message: string, type: ToastMessage['type'], duration = 5000): void {
+  show(message: string, type: ToastMessage['type'], duration = 5000, title?: string): void {
     const toast: ToastMessage = {
       id: ++this.idCounter,
       message,
       type,
-      duration
+      duration,
+      title
     };
     console.log('🔔 ToastService.show() - Emitiendo toast:', toast);
     this.toastSubject.next(toast);
@@ -53,29 +55,29 @@ export class ToastService {
   /**
    * Toast de éxito (verde)
    */
-  success(message: string, duration = 4000): void {
-    this.show(message, 'success', duration);
+  success(message: string, duration = 4000, title?: string): void {
+    this.show(message, 'success', duration, title);
   }
 
   /**
    * Toast de error (rojo)
    */
-  error(message: string, duration = 8000): void {
-    this.show(message, 'error', duration);
+  error(message: string, duration = 8000, title?: string): void {
+    this.show(message, 'error', duration, title);
   }
 
   /**
    * Toast informativo (azul)
    */
-  info(message: string, duration = 3000): void {
-    this.show(message, 'info', duration);
+  info(message: string, duration = 3000, title?: string): void {
+    this.show(message, 'info', duration, title);
   }
 
   /**
    * Toast de advertencia (amarillo)
    */
-  warning(message: string, duration = 6000): void {
-    this.show(message, 'warning', duration);
+  warning(message: string, duration = 6000, title?: string): void {
+    this.show(message, 'warning', duration, title);
   }
 
   /**
@@ -85,4 +87,3 @@ export class ToastService {
     this.toastSubject.next(null);
   }
 }
-

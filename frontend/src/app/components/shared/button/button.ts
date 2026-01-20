@@ -35,7 +35,7 @@ export class Button implements OnInit {
 
   @Input() fullWidth: boolean = false;
 
-  @Input() icon?: 'left-arrow' | 'right-arrow' | 'google' | 'user' | 'play' | 'stop' | 'pause' | null = null;
+  @Input() icon?: 'left-arrow' | 'right-arrow' | 'google' | 'user' | 'play' | 'stop' | 'pause' | 'mail' | 'lock_reset' | null = null;
 
   @Input() iconPosition: 'left' | 'right' = 'left';
 

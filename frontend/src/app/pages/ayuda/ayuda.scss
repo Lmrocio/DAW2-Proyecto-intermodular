@@ -1,0 +1,333 @@
+@use '../../../styles/00-settings/variables' as v;
+@use '../../../styles/01-tools/mixins' as m;
+
+.ayuda {
+  min-height: 100vh;
+  background: v.$color-bg-light;
+
+  // ============================================================================
+  // HERO SECTION CON BUSCADOR
+  // ============================================================================
+  &__hero {
+    background: v.$color-text-light;
+    padding: v.$spacing-20 v.$spacing-6 v.$spacing-16;
+    border-bottom: v.$border-thick solid v.$color-text-dark;
+  }
+
+  &__hero-container {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: v.$spacing-12;
+  }
+
+  &__hero-content {
+    text-align: center;
+    position: relative;
+  }
+
+  &__title {
+    font-size: v.$font-size-5xl;
+    font-weight: v.$font-weight-bold;
+    font-family: v.$font-primary;
+    color: v.$color-text-dark;
+    line-height: v.$line-height-tight;
+    margin: 0;
+
+    @media (max-width: v.$breakpoint-md) {
+      font-size: v.$font-size-4xl;
+    }
+  }
+
+  &__title-decoration {
+    width: 6rem;
+    height: 0.5rem;
+    background: v.$color-primary;
+    margin: v.$spacing-4 auto 0;
+    border: v.$border-medium solid v.$color-text-dark;
+  }
+
+  &__search-wrapper {
+    width: 100%;
+  }
+
+  &__search-box {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  &__search-icon {
+    position: absolute;
+    left: v.$spacing-6;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: v.$font-size-3xl;
+    color: v.$color-gray-400;
+    pointer-events: none;
+  }
+
+  &__search-input {
+    width: 100%;
+    padding: v.$spacing-6 v.$spacing-6 v.$spacing-6 v.$spacing-20;
+    font-size: v.$font-size-lg;
+    border: v.$border-thick solid v.$color-text-dark;
+    border-radius: v.$spacing-12;
+    background: v.$color-text-light;
+    box-shadow: 6px 6px 0 v.$color-text-dark;
+    transition: all v.$transition-base v.$easing-in-out;
+
+    &:focus {
+      outline: none;
+      transform: translate(-2px, -2px);
+      box-shadow: 8px 8px 0 v.$color-text-dark;
+    }
+
+    &::placeholder {
+      color: v.$color-gray-400;
+    }
+  }
+
+  // ============================================================================
+  // CATEGORÍAS DE AYUDA
+  // ============================================================================
+  &__categories {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: v.$spacing-20 v.$spacing-6;
+  }
+
+  &__categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: v.$spacing-10;
+
+    @media (max-width: v.$breakpoint-md) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__category-card {
+    position: relative;
+    background: v.$color-text-light;
+    border: v.$border-thick solid v.$color-text-dark;
+    border-radius: v.$spacing-8;
+    padding: v.$spacing-8;
+    display: flex;
+    flex-direction: column;
+    gap: v.$spacing-6;
+    text-decoration: none;
+    color: v.$color-text-dark;
+    transition: all v.$transition-base v.$easing-in-out;
+    cursor: pointer;
+
+    &:hover {
+      transform: translate(-4px, -4px);
+      box-shadow: 8px 8px 0 v.$color-text-dark;
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      width: 100%;
+      height: 100%;
+      border: v.$border-thick solid v.$color-text-dark;
+      border-radius: v.$spacing-8;
+      z-index: -1;
+      transition: all v.$transition-base v.$easing-in-out;
+    }
+
+    &--yellow::before {
+      background: v.$color-primary;
+    }
+
+    &--blue::before {
+      background: v.$color-accent;
+    }
+
+    &--orange::before {
+      background: v.$color-tertiary;
+    }
+  }
+
+  &__category-icon-wrapper {
+    position: relative;
+    width: 5rem;
+    height: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__category-blob {
+    position: absolute;
+    inset: 0;
+    border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+    opacity: 0.3;
+
+    &--yellow {
+      background: v.$color-primary;
+    }
+
+    &--blue {
+      background: v.$color-accent;
+    }
+
+    &--orange {
+      background: v.$color-tertiary;
+    }
+  }
+
+  &__category-icon {
+    position: relative;
+    z-index: 1;
+    font-size: v.$font-size-5xl;
+    font-weight: v.$font-weight-bold;
+    color: v.$color-text-dark;
+  }
+
+  &__category-content {
+    flex: 1;
+  }
+
+  &__category-title {
+    font-size: v.$font-size-2xl;
+    font-weight: v.$font-weight-bold;
+    margin: 0 0 v.$spacing-2 0;
+    color: v.$color-text-dark;
+  }
+
+  &__category-description {
+    font-size: v.$font-size-base;
+    color: v.$color-gray-600;
+    margin: 0;
+  }
+
+  // ============================================================================
+  // PREGUNTAS FRECUENTES
+  // ============================================================================
+  &__faq-section {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: v.$spacing-20 v.$spacing-6;
+  }
+
+  &__faq-title {
+    font-size: v.$font-size-4xl;
+    font-weight: v.$font-weight-bold;
+    font-family: v.$font-primary;
+    color: v.$color-text-dark;
+    text-align: center;
+    margin: 0 0 v.$spacing-12 0;
+  }
+
+  &__faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: v.$spacing-6;
+  }
+
+  &__faq-item {
+    background: v.$color-text-light;
+    border: v.$border-thick solid v.$color-text-dark;
+    border-radius: v.$spacing-6;
+    overflow: hidden;
+    transition: all v.$transition-base v.$easing-in-out;
+
+    &--expanded {
+      box-shadow: 4px 4px 0 v.$color-text-dark;
+    }
+  }
+
+  &__faq-header {
+    padding: v.$spacing-6;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: v.$spacing-4;
+    cursor: pointer;
+    transition: background v.$transition-base;
+
+    &:hover {
+      background: v.$color-gray-50;
+    }
+  }
+
+  &__faq-question {
+    font-size: v.$font-size-xl;
+    font-weight: v.$font-weight-bold;
+    color: v.$color-text-dark;
+    margin: 0;
+    flex: 1;
+  }
+
+  &__faq-toggle {
+    font-size: v.$font-size-3xl;
+    color: v.$color-text-dark;
+    flex-shrink: 0;
+    font-weight: v.$font-weight-bold;
+  }
+
+  &__faq-answer {
+    padding: 0 v.$spacing-6 v.$spacing-6;
+    display: flex;
+    flex-direction: column;
+    gap: v.$spacing-6;
+    border-top: v.$border-thin solid v.$color-gray-200;
+    background: v.$color-gray-50;
+  }
+
+  &__faq-text {
+    font-size: v.$font-size-lg;
+    line-height: v.$line-height-relaxed;
+    color: v.$color-gray-700;
+    margin: v.$spacing-4 0 0 0;
+  }
+
+  // ============================================================================
+  // SECCIÓN DE CONTACTO
+  // ============================================================================
+  &__contact {
+    background: v.$color-text-light;
+    border-top: v.$border-thick solid v.$color-text-dark;
+    padding: v.$spacing-20 v.$spacing-6;
+  }
+
+  &__contact-container {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  &__contact-title {
+    font-size: v.$font-size-4xl;
+    font-weight: v.$font-weight-bold;
+    font-family: v.$font-primary;
+    color: v.$color-text-dark;
+    margin: 0 0 v.$spacing-4 0;
+  }
+
+  &__contact-description {
+    font-size: v.$font-size-xl;
+    color: v.$color-gray-700;
+    margin: 0 0 v.$spacing-12 0;
+    line-height: v.$line-height-relaxed;
+  }
+
+  &__contact-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: v.$spacing-6;
+    align-items: center;
+
+    @media (min-width: v.$breakpoint-sm) {
+      flex-direction: row;
+      justify-content: center;
+    }
+  }
+}

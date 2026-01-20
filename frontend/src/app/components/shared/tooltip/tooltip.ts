@@ -44,6 +44,12 @@ export class Tooltip implements OnDestroy {
   /** Si el tooltip está deshabilitado */
   @Input() disabled: boolean = false;
 
+  /** Variant para estilos tipo burbuja: 'bubble' usa dimensiones y punta */
+  @Input() bubble: boolean = false;
+
+  /** Tipo semántico para burbujas (success/error/info/warning) */
+  @Input() variant: 'success' | 'error' | 'info' | 'warning' | null = null;
+
   // ========================================================================
   // VIEWCHILD - Acceso al DOM
   // ========================================================================
@@ -312,6 +318,13 @@ export class Tooltip implements OnDestroy {
 
     if (this.showTooltip) {
       classes.push('tooltip__content--visible');
+    }
+
+    if (this.bubble) {
+      classes.push('tooltip__content--bubble');
+      if (this.variant) {
+        classes.push(`tooltip--${this.variant}`);
+      }
     }
 
     return classes.join(' ');

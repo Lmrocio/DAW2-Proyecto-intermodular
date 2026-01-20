@@ -1,0 +1,113 @@
+<div class="ayuda">
+  <!-- Hero Section con Buscador -->
+  <section class="ayuda__hero">
+    <div class="ayuda__hero-container">
+      <div class="ayuda__hero-content">
+        <h1 class="ayuda__title">
+          ¿En qué podemos<br/>ayudarte?
+        </h1>
+        <div class="ayuda__title-decoration"></div>
+      </div>
+
+      <div class="ayuda__search-wrapper">
+        <div class="ayuda__search-box">
+          <span class="material-symbols-outlined ayuda__search-icon">search</span>
+          <input
+            type="text"
+            class="ayuda__search-input"
+            placeholder="Busca una duda (ej: WhatsApp, contraseñas...)"
+            (input)="onSearch($event)"
+            [value]="searchQuery()" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Categorías de Ayuda -->
+  <section class="ayuda__categories">
+    <div class="ayuda__categories-grid">
+      <a
+        *ngFor="let category of categories"
+        [routerLink]="category.link"
+        class="ayuda__category-card"
+        [class.ayuda__category-card--yellow]="category.color === 'yellow'"
+        [class.ayuda__category-card--blue]="category.color === 'blue'"
+        [class.ayuda__category-card--orange]="category.color === 'orange'">
+        <div class="ayuda__category-icon-wrapper">
+          <div class="ayuda__category-blob"
+               [class.ayuda__category-blob--yellow]="category.color === 'yellow'"
+               [class.ayuda__category-blob--blue]="category.color === 'blue'"
+               [class.ayuda__category-blob--orange]="category.color === 'orange'">
+          </div>
+          <span class="material-symbols-outlined ayuda__category-icon">{{ category.icon }}</span>
+        </div>
+        <div class="ayuda__category-content">
+          <h3 class="ayuda__category-title">{{ category.title }}</h3>
+          <p class="ayuda__category-description">{{ category.description }}</p>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- Preguntas Frecuentes -->
+  <section class="ayuda__faq-section">
+    <h2 class="ayuda__faq-title">Preguntas frecuentes</h2>
+
+    <div class="ayuda__faq-list">
+      <div
+        *ngFor="let faq of faqs()"
+        class="ayuda__faq-item"
+        [class.ayuda__faq-item--expanded]="faq.isExpanded">
+
+        <div class="ayuda__faq-header" (click)="toggleFAQ(faq.id)">
+          <h3 class="ayuda__faq-question">{{ faq.question }}</h3>
+          <span class="material-symbols-outlined ayuda__faq-toggle">
+            {{ faq.isExpanded ? 'remove' : 'add' }}
+          </span>
+        </div>
+
+        <div class="ayuda__faq-answer" *ngIf="faq.isExpanded">
+          <p class="ayuda__faq-text">{{ faq.answer }}</p>
+          <app-button
+            [text]="'Escuchar respuesta'"
+            [variant]="'yellow'"
+            [type]="'primary'"
+            [icon]="'play'"
+            [iconPosition]="'left'"
+            (btnClick)="playAnswer(faq.answer)">
+          </app-button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sección de Contacto -->
+  <section class="ayuda__contact">
+    <div class="ayuda__contact-container">
+      <h2 class="ayuda__contact-title">¿Aún tienes dudas?</h2>
+      <p class="ayuda__contact-description">
+        Estamos aquí para ayudarte personalmente. Si no encuentras lo que buscas, contáctanos directamente.
+      </p>
+      <div class="ayuda__contact-buttons">
+        <app-button
+          [text]="'Enviar Correo'"
+          [variant]="'orange'"
+          [type]="'primary'"
+          [size]="'large'"
+          [icon]="'right-arrow'"
+          [iconPosition]="'right'"
+          (btnClick)="sendEmail()">
+        </app-button>
+        <app-button
+          [text]="'WhatsApp'"
+          [variant]="'blue'"
+          [type]="'primary'"
+          [size]="'large'"
+          [icon]="'right-arrow'"
+          [iconPosition]="'right'"
+          (btnClick)="openWhatsApp()">
+        </app-button>
+      </div>
+    </div>
+  </section>
+</div>

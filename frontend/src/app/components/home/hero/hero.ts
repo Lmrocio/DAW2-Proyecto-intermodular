@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectorRef, NgZone } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectorRef, NgZone, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Button } from '../../shared/button/button';
@@ -12,7 +12,7 @@ import { SpeechService } from '../../../core/services/speech.service';
   templateUrl: './hero.html',
   styleUrls: ['./hero.scss'],
 })
-export class Hero {
+export class Hero implements OnChanges {
   // Identificador único por instancia para depuración
   private _instanceId: string = Math.random().toString(36).slice(2, 8);
 
@@ -59,6 +59,19 @@ export class Hero {
   private userCancelled = false;
 
   constructor(private cdr: ChangeDetectorRef, private ngZone: NgZone, private speech: SpeechService) {}
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['title']) {
+      console.log('Hero: title input changed ->', changes['title'].currentValue);
+    }
+    if (changes['subtitle']) {
+      console.log('Hero: subtitle input changed ->', changes['subtitle'].currentValue);
+    }
+  }
+
+  ngOnInit() {
+    console.log('Hero initialized with title=', this.title, ' subtitle=', this.subtitle);
+  }
 
   onSearch(query: string): void {
     this.searchChange.emit(query);

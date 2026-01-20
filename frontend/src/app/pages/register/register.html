@@ -1,0 +1,148 @@
+<div class="register-page">
+  <!-- Main: Formulario Central -->
+  <main class="register-page__main">
+    <div class="register-page__card">
+      <!-- Header con icono de usuario -->
+      <div class="register-page__header">
+        <div class="register-page__icon-wrapper">
+          <div class="register-page__icon-blob"></div>
+          <span class="material-symbols-outlined register-page__user-icon">person_add</span>
+        </div>
+        <h1 class="register-page__title">¡Bienvenido!</h1>
+        <p class="register-page__subtitle">Crea tu cuenta y comienza a aprender hoy</p>
+      </div>
+
+      <!-- Mensaje de error -->
+      <div class="register-page__error" *ngIf="errorMessage">
+        <span class="material-symbols-outlined">error</span>
+        <p>{{ errorMessage }}</p>
+      </div>
+
+      <!-- Formulario -->
+      <form class="register-page__form" (ngSubmit)="onSubmit()">
+        <!-- Nombres -->
+        <div class="register-page__form-row">
+          <div class="register-page__form-group">
+            <label class="register-page__label" for="firstName">Nombre</label>
+            <app-tooltip [text]="'¡Qué bien! Tu nombre está perfecto.'" [bubble]="true" [variant]="'success'">
+              <input
+                class="register-page__input"
+                id="firstName"
+                type="text"
+                placeholder="Tu nombre"
+                [(ngModel)]="firstName"
+                name="firstName"
+                required />
+            </app-tooltip>
+          </div>
+
+          <div class="register-page__form-group">
+            <label class="register-page__label" for="lastName">Apellido</label>
+            <input
+              class="register-page__input"
+              id="lastName"
+              type="text"
+              placeholder="Tu apellido"
+              [(ngModel)]="lastName"
+              name="lastName"
+              required />
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="register-page__form-group">
+          <label class="register-page__label" for="email">Correo electrónico</label>
+          <div class="register-page__input-with-icons">
+            <input
+              class="register-page__input"
+              id="email"
+              type="email"
+              placeholder="nombre@ejemplo.com"
+              [(ngModel)]="email"
+              name="email"
+              required />
+
+            <!-- Icono error (tooltip) -->
+            <app-tooltip [text]="'¡Huy! Parece que falta algo en el correo. No olvides poner el @.'" [bubble]="true" [variant]="'error'">
+              <button type="button" class="register-page__icon-btn" aria-label="Información de error">
+                <span class="material-symbols-outlined">error</span>
+              </button>
+            </app-tooltip>
+
+            <!-- Icono info (tooltip) -->
+            <app-tooltip [text]="'¿Sabías que puedes usar tu móvil si lo prefieres? Es más rápido.'" [bubble]="true" [variant]="'info'">
+              <button type="button" class="register-page__icon-btn" aria-label="Información">
+                <span class="material-symbols-outlined">info</span>
+              </button>
+            </app-tooltip>
+          </div>
+        </div>
+
+        <!-- Contraseña -->
+        <div class="register-page__form-group">
+          <label class="register-page__label" for="password">Contraseña</label>
+          <div class="register-page__password-wrapper">
+            <app-tooltip [text]="'Tu contraseña es un poco corta. ¿Qué tal si añades un par de letras más?'" [bubble]="true" [variant]="'warning'">
+              <input
+                class="register-page__input"
+                id="password"
+                [type]="showPassword ? 'text' : 'password'"
+                placeholder="Elige una contraseña segura"
+                [(ngModel)]="password"
+                name="password"
+                required />
+            </app-tooltip>
+          </div>
+          <button type="button" class="register-page__show-password" (click)="togglePasswordVisibility()">
+            <span class="material-symbols-outlined">{{ showPassword ? 'visibility_off' : 'visibility' }}</span>
+            <span>{{ showPassword ? 'Ocultar' : 'Mostrar' }}</span>
+          </button>
+        </div>
+
+        <!-- Confirmar Contraseña -->
+        <div class="register-page__form-group">
+          <label class="register-page__label" for="confirmPassword">Confirmar contraseña</label>
+          <div class="register-page__password-wrapper">
+            <input
+              class="register-page__input"
+              id="confirmPassword"
+              [type]="showConfirmPassword ? 'text' : 'password'"
+              placeholder="Confirma tu contraseña"
+              [(ngModel)]="confirmPassword"
+              name="confirmPassword"
+              required />
+          </div>
+          <button type="button" class="register-page__show-password" (click)="toggleConfirmPasswordVisibility()">
+            <span class="material-symbols-outlined">{{ showConfirmPassword ? 'visibility_off' : 'visibility' }}</span>
+            <span>{{ showConfirmPassword ? 'Ocultar' : 'Mostrar' }}</span>
+          </button>
+        </div>
+
+        <!-- Terms & Conditions -->
+        <div class="register-page__terms">
+          <input
+            class="register-page__checkbox"
+            id="terms"
+            type="checkbox"
+            [(ngModel)]="acceptTerms"
+            name="terms"
+            required />
+          <label class="register-page__terms-label" for="terms">
+            Acepto los <a href="#" class="register-page__terms-link">términos y condiciones</a>
+          </label>
+        </div>
+
+        <!-- Botón Registrarse -->
+        <button type="submit" class="register-page__submit-btn">
+          <span>Crear cuenta</span>
+        </button>
+      </form>
+
+      <!-- Login -->
+      <div class="register-page__login">
+        <p>¿Ya tienes cuenta?</p>
+        <a routerLink="/login" class="register-page__login-link">Inicia sesión aquí</a>
+      </div>
+    </div>
+  </main>
+</div>
