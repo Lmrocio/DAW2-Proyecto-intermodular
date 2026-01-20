@@ -5,6 +5,7 @@ import { Routes } from '@angular/router';
 // ============================================================================
 import { Home } from './pages/home/home';
 import { Lecciones } from './pages/lecciones/lecciones';
+import { Simuladores } from './pages/simuladores/simuladores';
 import { LeccionDetalle } from './pages/leccion-detalle/leccion-detalle';
 import { Login } from './pages/login/login';
 import { About } from './pages/about/about';
@@ -93,6 +94,13 @@ export const routes: Routes = [
     path: 'lecciones',
     component: Lecciones,
     data: { breadcrumb: 'Lecciones' }
+  },
+
+  // 2.5 SIMULADORES - Catálogo de simuladores (pública)
+  {
+    path: 'simuladores',
+    component: Simuladores,
+    data: { breadcrumb: 'Simuladores' }
   },
 
   // 3. LECCIÓN DETALLE - Ruta con parámetro dinámico :id + RESOLVER

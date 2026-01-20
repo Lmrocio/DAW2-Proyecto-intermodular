@@ -3,8 +3,6 @@
 // ============================================================================
 // HERO SECTION
 // ============================================================================
-// Diseño: Grid 2 columnas (contenido + imagen)
-// Título serif grande, botones con sombra negra, responsive
 
 :host {
   display: block;
@@ -14,29 +12,29 @@
   width: 96%;
   justify-self: center;
   background: $color-bg-dark;
-  padding: $spacing-16 0 $spacing-12; // 80px 0 60px
-  border-bottom: solid $color-text-dark; // 2px border
+  padding: $spacing-16 0 $spacing-12;
+  border-bottom: solid $color-text-dark;
   box-sizing: border-box;
 }
 
 .hero__container {
   max-width: 100%;
   margin: 0 auto;
-  padding: 0 $spacing-16; // 80px horizontal
+  padding: 0 $spacing-16;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: $spacing-16; // 80px gap
+  gap: $spacing-16;
   align-items: center;
 
   @media (max-width: $breakpoint-lg) {
-    gap: $spacing-12; // 60px gap en tablet
-    padding: 0 $spacing-10; // 40px horizontal
+    gap: $spacing-12;
+    padding: 0 $spacing-10;
   }
 
   @media (max-width: $breakpoint-md) {
     grid-template-columns: 1fr;
-    gap: $spacing-8; // 40px gap en móvil
-    padding: 0 $spacing-5; // 20px horizontal
+    gap: $spacing-8;
+    padding: 0 $spacing-5;
   }
 }
 
@@ -46,16 +44,16 @@
 .hero__content {
   display: flex;
   flex-direction: column;
-  gap: $spacing-6; // 24px gap
+  gap: $spacing-6;
   align-content: start;
 }
 
 .hero__title {
-  font-size: 55px; // 3.5rem
+  font-size: 55px;
   font-weight: 700;
   line-height: 1.2;
   color: $color-text-dark;
-  font-family: $font-primary; // Serif font como en el diseño
+  font-family: $font-primary;
   text-align: left;
 
   @media (max-width: $breakpoint-lg) {
@@ -72,13 +70,13 @@
 }
 
 .hero__description {
-  font-size: $font-size-lg; // 18px
+  font-size: $font-size-lg;
   line-height: 1.6;
   color: $color-gray-600;
-  max-width: 520px;
+  text-align: start;
 
   @media (max-width: $breakpoint-md) {
-    font-size: $font-size-base; // 16px
+    font-size: $font-size-base;
   }
 }
 
@@ -93,7 +91,6 @@
 
   .hero__inline-listen {
     .button {
-      /* tamaño pequeño y centrado */
       height: 40px !important;
       min-width: 44px !important;
       padding: 0 $spacing-3 !important;
@@ -103,18 +100,17 @@
 }
 
 // ============================================================================
-// BOTONES DE ACCIÓN (usando componente app-button)
+// BOTONES DE ACCIÓN
 // ============================================================================
 .hero__actions {
   display: flex;
-  gap: $spacing-4; // 16px
-  margin-top: $spacing-4; // 16px
+  gap: $spacing-4;
+  margin-top: $spacing-4;
   flex-wrap: wrap;
 
   @media (max-width: $breakpoint-md) {
     flex-direction: column;
 
-    // Botones full-width en móvil
     app-button {
       width: 100%;
     }
@@ -129,6 +125,7 @@
   justify-content: center;
   align-items: center;
   position: relative;
+  width: 90%;
 }
 
 .hero__image-container {
@@ -159,13 +156,13 @@
 // ============================================================================
 @media (max-width: $breakpoint-lg) {
   .hero {
-    padding: $spacing-12 0 $spacing-10; // 60px 0 40px
+    padding: $spacing-12 0 $spacing-10;
   }
 }
 
 @media (max-width: $breakpoint-md) {
   .hero {
-    padding: $spacing-8 0 $spacing-6; // 40px 0 24px
+    padding: $spacing-8 0 $spacing-6;
   }
 
   .hero__actions {

@@ -22,7 +22,7 @@ import { RouterModule } from '@angular/router';
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './button.html',
-  styleUrl: './button.scss'
+  styleUrls: ['./button.scss']
 })
 export class Button implements OnInit {
   @Input() text: string = '';
@@ -35,7 +35,7 @@ export class Button implements OnInit {
 
   @Input() fullWidth: boolean = false;
 
-  @Input() icon?: 'left-arrow' | 'right-arrow' | 'google' | 'user' | 'play' | 'stop' | null = null;
+  @Input() icon?: 'left-arrow' | 'right-arrow' | 'google' | 'user' | 'play' | 'stop' | 'pause' | null = null;
 
   @Input() iconPosition: 'left' | 'right' = 'left';
 
@@ -55,7 +55,8 @@ export class Button implements OnInit {
 
   // Propiedades internas normalizadas
   private normalizedVariant: 'blue' | 'orange' | 'yellow' | 'white' | 'google' | 'start' | 'previous' | 'next' | 'custom' = 'custom';
-  private normalizedSize: 'small' | 'medium' | 'large' = 'medium';
+  // Expuesto públicamente para permitir bindings de estilo inline desde la plantilla
+  normalizedSize: 'small' | 'medium' | 'large' = 'medium';
   private normalizedType: 'primary' | 'secondary' | 'tertiary' = 'primary';
 
   ngOnInit(): void {

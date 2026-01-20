@@ -1,44 +1,38 @@
 <nav class="pagination" aria-label="Paginación">
-  <div class="pagination__info">
-    Mostrando {{ startItem }}-{{ endItem }} de {{ totalItems }} lecciones
-  </div>
+  <!-- Botón Anterior con texto + flecha -->
+  <app-button
+    (btnClick)="previousPage()"
+    extraClass="pagination-button"
+    type="secondary"
+    variant="previous"
+    size="large"
+    icon="left-arrow"
+    text="ANTERIOR"
+  ></app-button>
 
-  <div class="pagination__controls">
-    <!-- Botón Anterior -->
+  <!-- Números de página -->
+  <div class="page-numbers">
     <button
-      (click)="previousPage()"
-      [disabled]="currentPage === 1"
-      class="pagination__btn pagination__btn--arrow"
-      aria-label="Página anterior"
+      *ngFor="let page of pages"
+      class="page-number"
+      [class.active]="page === currentPage"
+      (click)="page > 0 && goToPage(page)"
+      [attr.aria-label]="page > 0 ? 'Ir a página ' + page : null"
+      [attr.aria-current]="page === currentPage ? 'page' : null"
     >
-      <lucide-angular [img]="ChevronLeft" [size]="20"></lucide-angular>
-    </button>
-
-    <!-- Números de página -->
-    <div class="pagination__pages">
-      <button
-        *ngFor="let page of pages"
-        (click)="page > 0 && goToPage(page)"
-        [disabled]="page < 0"
-        [class.pagination__btn--active]="page === currentPage"
-        [class.pagination__btn--ellipsis]="page < 0"
-        class="pagination__btn"
-        [attr.aria-label]="page > 0 ? 'Ir a página ' + page : null"
-        [attr.aria-current]="page === currentPage ? 'page' : null"
-      >
-        {{ page > 0 ? page : '...' }}
-      </button>
-    </div>
-
-    <!-- Botón Siguiente -->
-    <button
-      (click)="nextPage()"
-      [disabled]="currentPage === totalPages"
-      class="pagination__btn pagination__btn--arrow"
-      aria-label="Página siguiente"
-    >
-      <lucide-angular [img]="ChevronRight" [size]="20"></lucide-angular>
+      {{ page > 0 ? page : '...' }}
     </button>
   </div>
+
+  <!-- Botón Siguiente con texto + flecha -->
+  <app-button
+    (btnClick)="nextPage()"
+    extraClass="pagination-button"
+    type="secondary"
+    variant="previous"
+    size="large"
+    icon="right-arrow"
+    iconPosition="right"
+    text="SIGUIENTE"
+  ></app-button>
 </nav>
-

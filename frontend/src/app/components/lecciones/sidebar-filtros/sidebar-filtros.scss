@@ -2,17 +2,12 @@
 @import '../../../../styles/01-tools/mixins';
 
 .sidebar-filtros {
-  background: white;
-  border: $border-thin solid $color-gray-200;
-  border-radius: $radius-md;
-  padding: $spacing-6;
-  position: sticky;
+  background: $color-bg-dark;
   top: 90px;
-
-  /* Ensure the sidebar doesn't expand beyond its column and keeps box-sizing */
   width: 100%;
   max-width: 280px;
   box-sizing: border-box;
+  overflow: visible; // permitir que elementos visuales salgan del contenedor si es necesario
 }
 
 .sidebar-filtros__header {
@@ -25,10 +20,10 @@
 }
 
 .sidebar-filtros__title {
+  margin: 0;
   font-size: $font-size-lg;
   font-weight: $font-weight-bold;
   color: $color-text-dark;
-  margin: 0;
 }
 
 .sidebar-filtros__clear {
@@ -51,38 +46,44 @@
   display: flex;
   flex-direction: column;
   gap: $spacing-5;
+  overflow: visible;
 }
 
 .sidebar-filtros__category {
   border-bottom: $border-thin solid $color-gray-100;
+  overflow: visible;
 
   &:last-child {
     border-bottom: none;
   }
 }
 
-.sidebar-filtros__category-header {
+.sidebar-filtros__category-header,
+.sidebar-filtros__category-header-static {
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: $spacing-3 0;
   background: none;
-  border: none;
+  border-bottom: $border-thin solid $color-gray-200;
   cursor: pointer;
+  margin-bottom: $spacing-3;
+  padding: $spacing-1;
   @include transition(all, $transition-fast);
-
-  @include hover {
-    .sidebar-filtros__category-title {
-      color: $color-accent;
-    }
-  }
 }
 
 .sidebar-filtros__category-title {
-  font-size: $font-size-base;
+  display: block;
+  width: 100%;
+  font-size: $font-size-lg;
   font-weight: $font-weight-semibold;
+  font-family: $font-secondary;
   color: $color-text-dark;
+  border-bottom: $border-thin solid $color-gray-100;
+
+  @include hover {
+    color: $color-accent;
+  }
   @include transition(color);
 }
 
@@ -99,12 +100,7 @@
   max-height: 400px;
   overflow: hidden;
   @include transition(max-height opacity, $transition-fast);
-
-  &--collapsed {
-    max-height: 0;
-    opacity: 0;
-    padding-bottom: 0;
-  }
+  overflow: visible; // aseguramos que no se recorte la marca del checkbox
 }
 
 .sidebar-filtros__option {
@@ -114,6 +110,8 @@
   cursor: pointer;
   padding: $spacing-1 0;
   user-select: none;
+  position: relative; // para posicionar el input absoluto
+  overflow: visible;
 
   @include hover {
     .sidebar-filtros__option-label {
@@ -122,18 +120,60 @@
   }
 }
 
-.sidebar-filtros__checkbox {
+.sidebar-filtros__checkbox-native {
+  /* Mantener input visible para accesibilidad (pero invisible) y con área clicable */
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
   width: 18px;
   height: 18px;
-  border: $border-thin solid $color-gray-300;
-  border-radius: $radius-sm;
-  cursor: pointer;
-  accent-color: $color-accent;
+  opacity: 0;
+  margin: 0;
+  padding: 0;
+  z-index: 3; /* por encima del visual span para captar clicks */
+}
 
-  @include focus-visible {
-    outline: 2px solid $color-secondary;
-    outline-offset: 2px;
-  }
+.sidebar-filtros__checkbox-custom {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  box-sizing: border-box;
+  border: $border-medium solid $color-gray-300;
+  background: transparent;
+  border-radius: 0; // cuadrado
+  margin-right: $spacing-3;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2; // aparecer debajo del input invisible
+}
+
+/* Mostrar tick cuando el input asociado está checked */
+.sidebar-filtros__checkbox-native:checked + .sidebar-filtros__checkbox-custom {
+  background: $color-accent;
+  border-color: $color-accent;
+}
+
+.sidebar-filtros__checkbox-custom::after {
+  content: '';
+  position: absolute;
+  left: 4px; /* ligeramente desplazado desde el borde izquierdo */
+  top: 2px;  /* un poco desde la parte superior */
+  width: 6px;
+  height: 10px;
+  transform: rotate(45deg);
+  border: solid $color-text-light;
+  border-width: 0 2px 2px 0;
+  display: none;
+}
+
+.sidebar-filtros__checkbox-native:checked + .sidebar-filtros__checkbox-custom::after {
+  display: block;
+}
+
+.sidebar-filtros__checkbox-native:focus + .sidebar-filtros__checkbox-custom {
+  outline: 2px solid $color-secondary;
+  outline-offset: 2px;
 }
 
 .sidebar-filtros__option-label {
@@ -146,6 +186,54 @@
 .sidebar-filtros__option-count {
   font-size: $font-size-xs;
   color: $color-gray-500;
+}
+
+/* Footer acciones */
+.sidebar-filtros__footer {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-3;
+  padding: $spacing-5 0 0 0;
+  margin-top: $spacing-6;
+}
+
+.sidebar-filtros__footer-actions {
+  display: flex;
+  gap: $spacing-6;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.sidebar-filtros__btn--search {
+  min-width: 160px;
+}
+
+.sidebar-filtros__btn--clear {
+  min-width: 140px;
+  font-size: $font-size-sm;
+}
+
+:host ::ng-deep .sidebar-filtros__btn--clear.button--white.button--small {
+  height: 50px !important;
+  padding: 0 20px !important;
+  font-size: $font-size-sm !important;
+  min-width: 140px !important;
+}
+
+/* Asegurar botones en mobile mantengan separación y ancho */
+@media (max-width: $breakpoint-md) {
+  .sidebar-filtros__footer {
+    padding: $spacing-4 0 0 0;
+    gap: $spacing-3;
+  }
+  .sidebar-filtros__footer-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  .sidebar-filtros__btn--search,
+  .sidebar-filtros__btn--clear {
+    width: 100%;
+  }
 }
 
 /* Responsive */

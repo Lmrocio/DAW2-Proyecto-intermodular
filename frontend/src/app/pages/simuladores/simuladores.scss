@@ -1,17 +1,17 @@
 // ============================================================================
-// ESTILOS PÁGINA DE LECCIONES
+// ESTILOS PÁGINA DE SIMULADORES
 // ============================================================================
 
 @import '../../../styles/00-settings/variables';
 @import '../../../styles/01-tools/mixins';
 
-.lecciones-page {
+.simuladores-page {
   min-height: 100vh;
   background: $color-bg-dark;
   box-sizing: border-box;
 }
 
-.lecciones-page__container {
+.simuladores-page__container {
   max-width: 1440px;
   justify-self: center;
   overflow: visible;
@@ -22,7 +22,7 @@
 }
 
 // ============================================================================
-// LECCIÓN DESTACADA
+// SIMULADOR DESTACADO
 // ============================================================================
 
 .featured-lesson {
@@ -153,14 +153,14 @@
 // LAYOUT PRINCIPAL
 // ============================================================================
 
-.lecciones-layout {
+.simuladores-layout {
   display: grid;
   grid-template-columns: 288px minmax(0, 1fr);
   gap: $spacing-24;
   align-items: start;
   margin: $spacing-20 0;
   padding: $spacing-10 0;
-  overflow: visible; // evitar recorte de elementos con z-index
+  overflow: visible;
 
   @media (max-width: $breakpoint-lg) {
     grid-template-columns: 1fr;
@@ -176,7 +176,7 @@
   flex-direction: column;
   gap: $spacing-20;
   flex-shrink: 0;
-  overflow: visible; // asegurar que no recorta checkboxes
+  overflow: visible;
 }
 
 .filters-section {
@@ -268,7 +268,7 @@
   gap: $spacing-10;
 }
 
-.lecciones-grid {
+.simuladores-grid {
   display: flex;
   flex-direction: column;
   gap: $spacing-10;
@@ -298,7 +298,7 @@
 // ============================================================================
 
 :root[data-theme='dark'] {
-  .lecciones-page {
+  .simuladores-page {
     background: $color-gray-900;
   }
 
@@ -356,16 +356,32 @@
     align-items: stretch;
     padding: $spacing-8;
 
-    .featured-content { height: 100%;
-      justify-content: space-between;}
-    .featured-image { height: 100%; max-height: none; }
-    .featured-image img { height: 100%; width: 100%; object-fit: cover; }
+    .featured-content {
+      height: 100%;
+      justify-content: space-between;
+    }
+    .featured-image {
+      height: 100%;
+      max-height: none;
+    }
+    .featured-image img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+    }
   }
 
   @media (max-width: $breakpoint-lg) {
     display: block;
-    .featured-lesson { margin: $spacing-20 0; }
-    .featured-lesson .featured-image { height: auto; max-height: none; }
-    .featured-lesson .featured-content { height: auto; }
-   }
- }
+    .featured-lesson {
+      margin: $spacing-20 0;
+    }
+    .featured-lesson .featured-image {
+      height: auto;
+      max-height: none;
+    }
+    .featured-lesson .featured-content {
+      height: auto;
+    }
+  }
+}

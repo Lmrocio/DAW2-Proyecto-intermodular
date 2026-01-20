@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Hero } from '../../components/home/hero/hero';
@@ -36,8 +36,17 @@ import { Button } from '../../components/shared/button/button';
   styleUrl: './lecciones.scss',
 })
 export class Lecciones implements OnInit {
+  constructor(private ngZone: NgZone, private cd: ChangeDetectorRef) {}
   // Lección destacada
   featuredLesson: Leccion | null = null;
+  // Segunda lección destacada
+  featuredLesson2: Leccion | null = null;
+
+  // Estados de reproducción para lecciones destacadas
+  isSpeakingFeatured1 = false;
+  isSpeakingFeatured2 = false;
+  private currentUtteranceFeatured: SpeechSynthesisUtterance | null = null;
+  private synth = typeof window !== 'undefined' && 'speechSynthesis' in window ? (window as any).speechSynthesis : null;
 
   // Progreso del usuario
   userProgress = {
@@ -52,28 +61,28 @@ export class Lecciones implements OnInit {
     {
       id: 1,
       titulo: 'Mi primer teléfono inteligente',
-      descripcion: 'Aprende lo básico para usar tu smartphone desde cero. Llamadas, mensajes y más.',
+      descripcion: 'Aprende lo básico para usar tu smartphone desde cero: cómo encenderlo, realizar y recibir llamadas, enviar mensajes, gestionar contactos y ajustar las funciones más útiles para tu día a día. Ideal si empiezas desde cero y quieres sentirte seguro usando tu teléfono.',
       categoria: 'Básico',
       nivel: 'Principiante',
       duracion: '5 min',
-      imagen: 'assets/images/imagen-3.svg',
+      imagen: 'assets/images/imagen-5.svg',
       valoracion: 4.8
     },
     {
       id: 2,
       titulo: 'WhatsApp para ver a la familia',
-      descripcion: 'Domina las videollamadas paso a paso. Aprende a llamar a tus hijos y nietos de forma segura y sencilla.',
+      descripcion: 'Domina las videollamadas paso a paso: instalación, configuración, cómo iniciar y atender llamadas y videollamadas, compartir fotos y vídeos y mantener la privacidad. Perfecto para hablar y ver a tus seres queridos con confianza.',
       categoria: 'Comunicación',
       nivel: 'Principiante',
       duracion: '8 min',
-      imagen: 'assets/images/whatsapp.svg',
+      imagen: 'assets/images/whatsapp.jpg',
       valoracion: 4.9,
       completado: true
     },
     {
       id: 3,
       titulo: 'Navega seguro por Internet',
-      descripcion: 'Protege tus datos y aprende a identificar sitios seguros mientras navegas.',
+      descripcion: 'Protege tus datos y aprende a identificar sitios y correos seguros: consejos prácticos para crear contraseñas robustas, detectar fraudes comunes, configurar privacidad en navegadores y evitar riesgos al hacer compras o gestionar tu información online.',
       categoria: 'Seguridad',
       nivel: 'Intermedio',
       duracion: '10 min',
@@ -83,7 +92,7 @@ export class Lecciones implements OnInit {
     {
       id: 4,
       titulo: 'Cómo hacer videollamadas',
-      descripcion: 'Aprende a realizar videollamadas con tu familia usando diferentes aplicaciones.',
+      descripcion: 'Aprende a realizar videollamadas con tu familia usando distintas aplicaciones: pasos para iniciar una llamada, compartir pantalla, ajustar el micrófono y la cámara, y pequeños trucos para que la llamada sea cómoda y estable.',
       categoria: 'Comunicación',
       nivel: 'Principiante',
       duracion: '7 min',
@@ -93,7 +102,7 @@ export class Lecciones implements OnInit {
     {
       id: 5,
       titulo: 'Gestiona tus fotos y videos',
-      descripcion: 'Organiza, edita y comparte tus recuerdos de forma sencilla.',
+      descripcion: 'Organiza, edita y comparte tus fotos y vídeos: aprende a crear álbumes, recortar y mejorar imágenes, enviar recuerdos a la familia y guardar copias de seguridad para no perder tus momentos más valiosos.',
       categoria: 'Multimedia',
       nivel: 'Intermedio',
       duracion: '12 min',
@@ -103,7 +112,7 @@ export class Lecciones implements OnInit {
     {
       id: 6,
       titulo: 'Correo electrónico básico',
-      descripcion: 'Envía y recibe correos, adjunta archivos y organiza tu bandeja de entrada.',
+      descripcion: 'Envía y recibe correos, adjunta archivos, organiza tu bandeja de entrada y aprende buenas prácticas para evitar spam y conservar mensajes importantes. Ideal para usar el correo con seguridad y orden.',
       categoria: 'Comunicación',
       nivel: 'Principiante',
       duracion: '6 min',
@@ -124,6 +133,8 @@ export class Lecciones implements OnInit {
     this.filteredLecciones = [...this.allLecciones];
     // Establecer la lección destacada (la segunda)
     this.featuredLesson = this.allLecciones[1];
+    // Establecer la segunda lección destacada (la tercera si existe)
+    this.featuredLesson2 = this.allLecciones[2] || null;
     this.updatePagination();
   }
 
@@ -205,7 +216,104 @@ export class Lecciones implements OnInit {
     this.displayedLecciones = this.filteredLecciones.slice(startIndex, endIndex);
   }
 
+  // Manejo de error en carga de imagen: poner imagen por defecto
+  onImgError(event: any): void {
+    const img: HTMLImageElement | null = event?.target || null;
+    if (img) {
+      img.src = 'assets/images/imagen-1.svg';
+      img.onerror = null;
+    }
+  }
+
   get totalLecciones(): number {
     return this.filteredLecciones.length;
+  }
+
+  // Método para reproducir/detener audio en lecciones destacadas
+  togglePlayFeatured(featuredIndex: number, text: string): void {
+    if (!this.synth) return;
+
+    if (featuredIndex === 1) {
+      if (this.isSpeakingFeatured1) {
+        // Detener reproducción
+        this.synth.cancel();
+        this.ngZone.run(() => {
+          this.isSpeakingFeatured1 = false;
+          this.cd.detectChanges();
+        });
+      } else {
+        // Iniciar reproducción
+        this.playSpeech(text, 1);
+      }
+    } else if (featuredIndex === 2) {
+      if (this.isSpeakingFeatured2) {
+        // Detener reproducción
+        this.synth.cancel();
+        this.ngZone.run(() => {
+          this.isSpeakingFeatured2 = false;
+          this.cd.detectChanges();
+        });
+      } else {
+        // Iniciar reproducción
+        this.playSpeech(text, 2);
+      }
+    }
+  }
+
+  private playSpeech(text: string, featuredIndex: number): void {
+    if (!this.synth) return;
+
+    // Si ya está hablando algo, cancelarlo para evitar solapamientos
+    if (this.synth.speaking) {
+      this.synth.cancel();
+    }
+
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'es-ES';
+    utterance.rate = 0.9;
+
+    // Buscar una voz en español
+    const voices = this.synth.getVoices();
+    const spanishVoice = voices.find((v: SpeechSynthesisVoice) => v.lang.startsWith('es'));
+    if (spanishVoice) {
+      utterance.voice = spanishVoice;
+    }
+
+    utterance.onstart = () => {
+      this.ngZone.run(() => {
+        if (featuredIndex === 1) this.isSpeakingFeatured1 = true;
+        if (featuredIndex === 2) this.isSpeakingFeatured2 = true;
+        this.currentUtteranceFeatured = utterance;
+        this.cd.detectChanges();
+      });
+    };
+
+    utterance.onend = () => {
+      this.ngZone.run(() => {
+        if (featuredIndex === 1) this.isSpeakingFeatured1 = false;
+        if (featuredIndex === 2) this.isSpeakingFeatured2 = false;
+        this.currentUtteranceFeatured = null;
+        this.cd.detectChanges();
+      });
+    };
+
+    utterance.onerror = () => {
+      this.ngZone.run(() => {
+        if (featuredIndex === 1) this.isSpeakingFeatured1 = false;
+        if (featuredIndex === 2) this.isSpeakingFeatured2 = false;
+        this.currentUtteranceFeatured = null;
+        this.cd.detectChanges();
+      });
+    };
+
+    // Marcar como hablando antes de invocar speak para que el botón cambie inmediatamente
+    this.ngZone.run(() => {
+      if (featuredIndex === 1) this.isSpeakingFeatured1 = true;
+      if (featuredIndex === 2) this.isSpeakingFeatured2 = true;
+      this.currentUtteranceFeatured = utterance;
+      this.cd.detectChanges();
+    });
+
+    this.synth.speak(utterance);
   }
 }

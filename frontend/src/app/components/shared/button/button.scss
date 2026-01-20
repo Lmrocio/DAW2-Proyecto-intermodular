@@ -77,22 +77,22 @@
 // ============================================================================
 // TAMAÑOS - Con altura fija para consistencia
 // ============================================================================
-.button--small {
-  height: 40px;
-  padding: 0 20px;
-  font-size: v.$font-size-sm;
+.button.button--small {
+  height: 40px !important;
+  padding: 0 20px !important;
+  font-size: v.$font-size-sm !important;
 }
 
-.button--medium {
-  height: 48px;
-  padding: 0 32px;
-  font-size: v.$font-size-base;
+.button.button--medium {
+  height: 48px !important;
+  padding: 0 32px !important;
+  font-size: v.$font-size-base !important;
 }
 
-.button--large {
-  height: 56px;
-  padding: 0 40px;
-  font-size: v.$font-size-lg;
+.button.button--large {
+  height: 56px !important;
+  padding: 0 40px !important;
+  font-size: v.$font-size-lg !important;
 }
 
 // ============================================================================
@@ -173,9 +173,40 @@
   font-weight: v.$font-weight-regular;
   text-transform: none;
 
+  // Diseño alargado por defecto para previous/next
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: v.$spacing-3;
+  min-width: 160px;
+  height: 56px;
+  padding: 0 v.$spacing-6;
+  border: v.$border-medium solid v.$color-text-dark;
+  border-radius: v.$radius-sm;
+  font-size: v.$font-size-base;
+  letter-spacing: 0.5px;
+
   &:hover:not(:disabled):not(.button--disabled) {
     background-color: #f5f5f5;
   }
+}
+
+// Ajustes para icon-only: si se usa la variante previous/next pero sin texto
+.button--previous.button--icon-only,
+.button--next.button--icon-only,
+.button--white.button--icon-only {
+  min-width: 48px;
+  height: 48px;
+  padding: 0;
+  gap: 0;
+}
+
+// Asegurar que el icono centre y no cambie tamaño
+.button--previous.button--icon-only .button__icon svg,
+.button--next.button--icon-only .button__icon svg,
+.button--white.button--icon-only .button__icon svg {
+  width: 20px;
+  height: 20px;
 }
 
 // ============================================================================

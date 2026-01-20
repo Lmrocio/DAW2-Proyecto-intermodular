@@ -5,6 +5,8 @@
   [class]="getButtonClasses()"
   role="button"
   tabindex="0"
+  [style.height.px]="normalizedSize === 'small' ? 40 : (normalizedSize === 'medium' ? 48 : 56)"
+  [style.padding]="normalizedSize === 'small' ? '0 20px' : (normalizedSize === 'medium' ? '0 32px' : '0 40px')"
 >
   <!-- Icono izquierda -->
   <span *ngIf="icon && iconPosition === 'left'" class="button__icon button__icon--left">
@@ -29,6 +31,10 @@
       </svg>
       <svg *ngSwitchCase="'play'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <polygon points="5 3 19 12 5 21 5 3"/>
+      </svg>
+      <svg *ngSwitchCase="'pause'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="6" y="5" width="4" height="14"/>
+        <rect x="14" y="5" width="4" height="14"/>
       </svg>
       <svg *ngSwitchCase="'stop'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <rect x="5" y="5" width="14" height="14"/>
@@ -68,6 +74,10 @@
       <svg *ngSwitchCase="'play'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <polygon points="5 3 19 12 5 21 5 3"/>
       </svg>
+      <svg *ngSwitchCase="'pause'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="6" y="5" width="4" height="14"/>
+        <rect x="14" y="5" width="4" height="14"/>
+      </svg>
       <svg *ngSwitchCase="'stop'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <rect x="5" y="5" width="14" height="14"/>
       </svg>
@@ -82,6 +92,8 @@
   [disabled]="disabled"
   [type]="buttonType"
   (click)="onClick()"
+  [style.height.px]="normalizedSize === 'small' ? 40 : (normalizedSize === 'medium' ? 48 : 56)"
+  [style.padding]="normalizedSize === 'small' ? '0 20px' : (normalizedSize === 'medium' ? '0 32px' : '0 40px')"
 >
   <!-- Icono izquierda -->
   <span *ngIf="icon && iconPosition === 'left'" class="button__icon button__icon--left">
@@ -106,6 +118,10 @@
       </svg>
       <svg *ngSwitchCase="'play'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <polygon points="5 3 19 12 5 21 5 3"/>
+      </svg>
+      <svg *ngSwitchCase="'pause'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="6" y="5" width="4" height="14"/>
+        <rect x="14" y="5" width="4" height="14"/>
       </svg>
       <svg *ngSwitchCase="'stop'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <rect x="5" y="5" width="14" height="14"/>
@@ -144,6 +160,10 @@
       </svg>
       <svg *ngSwitchCase="'play'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <polygon points="5 3 19 12 5 21 5 3"/>
+      </svg>
+      <svg *ngSwitchCase="'pause'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="6" y="5" width="4" height="14"/>
+        <rect x="14" y="5" width="4" height="14"/>
       </svg>
       <svg *ngSwitchCase="'stop'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <rect x="5" y="5" width="14" height="14"/>

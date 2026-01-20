@@ -24,12 +24,18 @@
     <!-- Acciones Usuario (Derecha - Desktop) -->
     <div class="app-header__actions app-header__actions--desktop">
       <!-- Botón Guía -->
-      <a href="#" class="app-header__btn-guide" aria-label="Modo Guía">
+      <button
+        type="button"
+        class="app-header__btn-guide"
+        (click)="openGuideModal()"
+        aria-label="Modo Guía"
+        title="Abrir modo guía"
+      >
         <span class="app-header__btn-guide-icon">
           <app-header-icon icon="guide"></app-header-icon>
         </span>
         <span class="app-header__btn-guide-text">Modo Guía</span>
-      </a>
+      </button>
 
       <!-- Botón Modo Oscuro/Claro -->
       <app-theme-switcher></app-theme-switcher>
@@ -50,9 +56,15 @@
     <!-- Acciones Móvil -->
     <div class="app-header__actions app-header__actions--mobile">
       <!-- Solo icono Modo Guía (móvil) -->
-      <a href="#" class="app-header__btn-guide app-header__btn-guide--mobile-icon" aria-label="Modo Guía">
+      <button
+        type="button"
+        class="app-header__btn-guide app-header__btn-guide--mobile-icon"
+        (click)="openGuideModal()"
+        aria-label="Modo Guía"
+        title="Abrir modo guía"
+      >
         <app-header-icon icon="guide"></app-header-icon>
-      </a>
+      </button>
 
       <!-- Botón Usuario (móvil) -->
       <button
@@ -109,12 +121,18 @@
 
       <!-- Botones Modo Guía y Tema (con texto completo) -->
       <div class="app-header__mobile-actions">
-        <a href="#" class="app-header__btn-guide" aria-label="Modo Guía" (click)="closeMenu()">
+        <button
+          type="button"
+          class="app-header__btn-guide"
+          (click)="openGuideModal(); closeMenu()"
+          aria-label="Modo Guía"
+          title="Abrir modo guía"
+        >
           <span class="app-header__btn-guide-icon">
             <app-header-icon icon="guide"></app-header-icon>
           </span>
           <span class="app-header__btn-guide-text">Modo Guía</span>
-        </a>
+        </button>
 
         <app-theme-switcher></app-theme-switcher>
       </div>
@@ -127,5 +145,15 @@
     [class.app-header__overlay--visible]="menuOpen"
     (click)="closeMenu()"
   ></div>
+
+  <!-- Modal de Guía -->
+  <app-modal
+    [isOpen]="isGuideModalOpen"
+    title="¿Sabías que...?"
+    (closed)="onGuideModalClosed()"
+    (next)="onGuideNext()"
+  >
+    <p>Aquí encontrarás guías paso a paso con dibujos muy claros. ¡Ideal para aprender sin prisas!</p>
+  </app-modal>
 </header>
 
