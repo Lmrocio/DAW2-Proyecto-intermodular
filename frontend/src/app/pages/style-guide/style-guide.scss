@@ -607,7 +607,7 @@
   color: var(--text-secondary);
   cursor: pointer;
   transition-property: transform, background-color;
-  transition-timing-function: $easing-out;
+  transition-timing-function: v.$easing-out;
 
   &:hover {
     background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
@@ -676,7 +676,7 @@
     justify-content: space-between;
     width: 100%;
     padding: v.$spacing-3;
-    background-color: $color-gray-50;
+    background-color: var(--bg-tertiary);
     border-radius: v.$radius-md;
   }
 

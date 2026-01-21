@@ -53,24 +53,23 @@
   font-size: v.$font-size-sm;
   font-weight: v.$font-weight-semibold;
   cursor: pointer;
-  @include transition(all, v.$transition-fast);
+  @include m.transition(all, v.$transition-fast);
   white-space: nowrap;
 
-  @include hover {
+  @include m.hover {
     background: var(--color-accent);
     color: var(--bg-primary);
     transform: translateY(-2px);
     box-shadow: v.$shadow-md;
   }
 
-  @include focus-visible {
+  @include m.focus-visible {
     outline: 3px solid var(--color-secondary);
     outline-offset: 2px;
   }
 
-  @media (max-width: v.$breakpoint-md) {
+  @include m.respond-to(md) {
     width: 100%;
     justify-content: center;
   }
 }
-
