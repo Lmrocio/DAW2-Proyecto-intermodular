@@ -1,0 +1,382 @@
+@use '../../../styles/00-settings/variables' as v;
+@use '../../../styles/01-tools/mixins' as m;
+
+// ============================================================================
+// PÁGINA REGISTRO - ESTILO LINE ART
+// ============================================================================
+
+.register-page {
+  min-height: 100vh;
+  background: v.$color-bg-light;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: v.$spacing-6 0;
+  box-sizing: border-box;
+}
+
+.register-page__main {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+// ============================================================================
+// CARD CENTRAL CON SOMBRA OFFSET
+// ============================================================================
+
+.register-page__card {
+  position: relative;
+  width: 100%;
+  max-width: 650px;
+  background: v.$color-text-light;
+  border: v.$border-thick solid v.$color-text-dark;
+  border-radius: v.$spacing-16;
+  padding: v.$spacing-20 v.$spacing-10;
+  box-shadow: 8px 8px 0 v.$color-text-dark;
+  margin: 0 v.$spacing-6;
+
+  @media (max-width: v.$breakpoint-md) {
+    padding: v.$spacing-12 v.$spacing-8;
+    border-radius: v.$spacing-8;
+    box-shadow: 6px 6px 0 v.$color-text-dark;
+  }
+}
+
+// ============================================================================
+// HEADER CON ICONO
+// ============================================================================
+
+.register-page__header {
+  text-align: center;
+  margin-bottom: v.$spacing-12;
+}
+
+.register-page__icon-wrapper {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  margin: 0 auto v.$spacing-6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.register-page__icon-blob {
+  position: absolute;
+  inset: 0;
+  background: v.$color-accent;
+  border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+  opacity: 0.2;
+  z-index: 0;
+}
+
+.register-page__user-icon {
+  position: relative;
+  z-index: 1;
+  font-size: v.$font-size-5xl;
+  color: v.$color-text-dark;
+  font-weight: v.$font-weight-bold;
+}
+
+.register-page__title {
+  font-size: v.$font-size-4xl;
+  font-weight: v.$font-weight-bold;
+  font-family: v.$font-primary;
+  color: v.$color-text-dark;
+  margin: 0 0 v.$spacing-2 0;
+  line-height: v.$line-height-tight;
+
+  @media (max-width: v.$breakpoint-md) {
+    font-size: v.$font-size-3xl;
+  }
+}
+
+.register-page__subtitle {
+  font-size: v.$font-size-lg;
+  color: v.$color-gray-600;
+  margin: 0;
+  line-height: v.$line-height-normal;
+}
+
+// ============================================================================
+// MENSAJE DE ERROR
+// ============================================================================
+
+.register-page__error {
+  display: flex;
+  align-items: flex-start;
+  gap: v.$spacing-3;
+  background: #FEE2E2;
+  border: v.$border-medium solid #DC2626;
+  border-radius: v.$spacing-8;
+  padding: v.$spacing-4;
+  margin-bottom: v.$spacing-6;
+
+  .material-symbols-outlined {
+    color: #DC2626;
+    font-size: v.$font-size-2xl;
+    flex-shrink: 0;
+  }
+
+  p {
+    color: #991B1B;
+    font-size: v.$font-size-base;
+    font-weight: v.$font-weight-medium;
+    margin: 0;
+  }
+}
+
+// ============================================================================
+// FORMULARIO
+// ============================================================================
+
+.register-page__form {
+  display: flex;
+  flex-direction: column;
+  gap: v.$spacing-6;
+  margin-bottom: v.$spacing-8;
+}
+
+.register-page__form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: v.$spacing-4;
+
+  @media (max-width: v.$breakpoint-sm) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.register-page__form-group {
+  display: flex;
+  flex-direction: column;
+  gap: v.$spacing-2;
+}
+
+.register-page__label {
+  font-size: v.$font-size-lg;
+  font-weight: v.$font-weight-bold;
+  color: v.$color-text-dark;
+  display: block;
+}
+
+.register-page__input {
+  width: 100%;
+  padding: v.$spacing-4 v.$spacing-6;
+  font-size: v.$font-size-lg;
+  border: v.$border-thick solid v.$color-text-dark;
+  border-radius: v.$spacing-8;
+  background: v.$color-text-light;
+  color: v.$color-text-dark;
+  font-family: v.$font-secondary;
+  font-weight: v.$font-weight-medium;
+  transition: all v.$transition-base v.$easing-in-out;
+  box-sizing: border-box;
+
+  &:focus {
+    outline: none;
+    border-color: v.$color-accent;
+  }
+
+  &::placeholder {
+    color: v.$color-gray-400;
+  }
+}
+
+.register-page__password-wrapper {
+  position: relative;
+}
+
+.register-page__show-password {
+  display: flex;
+  align-items: center;
+  gap: v.$spacing-2;
+  background: none;
+  border: none;
+  color: v.$color-text-dark;
+  font-size: v.$font-size-base;
+  font-weight: v.$font-weight-bold;
+  cursor: pointer;
+  transition: opacity v.$transition-base;
+  padding: v.$spacing-1 0;
+  margin-top: v.$spacing-1;
+
+  .material-symbols-outlined {
+    font-size: v.$font-size-2xl;
+  }
+
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+// ============================================================================
+// TÉRMINOS Y CONDICIONES
+// ============================================================================
+
+.register-page__terms {
+  display: flex;
+  align-items: flex-start;
+  gap: v.$spacing-3;
+  padding: v.$spacing-4;
+  background: v.$color-gray-50;
+  border-radius: v.$spacing-8;
+}
+
+.register-page__checkbox {
+  width: 24px;
+  height: 24px;
+  margin-top: v.$spacing-1;
+  cursor: pointer;
+  accent-color: v.$color-accent;
+  flex-shrink: 0;
+}
+
+.register-page__terms-label {
+  font-size: v.$font-size-base;
+  color: v.$color-text-dark;
+  cursor: pointer;
+  line-height: v.$line-height-relaxed;
+}
+
+.register-page__terms-link {
+  color: v.$color-accent;
+  font-weight: v.$font-weight-bold;
+  text-decoration: none;
+  border-bottom: v.$border-thin solid v.$color-accent;
+  transition: all v.$transition-base;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+// ============================================================================
+// BOTÓN SUBMIT
+// ============================================================================
+
+.register-page__submit-btn {
+  width: 100%;
+  padding: v.$spacing-6;
+  background: v.$color-tertiary;
+  border: v.$border-thick solid v.$color-text-dark;
+  border-radius: v.$spacing-8;
+  color: v.$color-text-light;
+  font-size: v.$font-size-2xl;
+  font-weight: v.$font-weight-bold;
+  font-family: v.$font-primary;
+  cursor: pointer;
+  box-shadow: 4px 4px 0 v.$color-text-dark;
+  transition: all v.$transition-base v.$easing-in-out;
+
+  &:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 v.$color-text-dark;
+  }
+
+  &:active {
+    transform: translate(2px, 2px);
+    box-shadow: none;
+  }
+}
+
+// ============================================================================
+// SECCIÓN LOGIN
+// ============================================================================
+
+.register-page__login {
+  text-align: center;
+
+  p {
+    font-size: v.$font-size-lg;
+    font-weight: v.$font-weight-medium;
+    color: v.$color-text-dark;
+    margin: 0;
+    display: inline;
+  }
+}
+
+.register-page__login-link {
+  font-size: v.$font-size-lg;
+  font-weight: v.$font-weight-bold;
+  color: v.$color-text-dark;
+  text-decoration: none;
+  border-bottom: v.$border-thick solid v.$color-accent;
+  margin-left: v.$spacing-2;
+  transition: all v.$transition-base;
+
+  &:hover {
+    background: v.$color-accent;
+    color: v.$color-text-light;
+  }
+}
+
+// ============================================================================
+// INPUTS CON ICONOS (ERROR / INFO)
+// ============================================================================
+
+.register-page__input-with-icons {
+  display: flex;
+  align-items: center;
+  gap: v.$spacing-3;
+}
+
+.register-page__input-with-icons .register-page__input {
+  flex: 1 1 auto;
+}
+
+.register-page__icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: v.$radius-full;
+  border: v.$border-thin solid rgba(0,0,0,0.05);
+  background: v.$color-text-light;
+  cursor: pointer;
+  transition: all v.$transition-base;
+  padding: 0;
+  color: v.$color-text-dark;
+  flex-shrink: 0;
+
+  .material-symbols-outlined {
+    font-size: v.$font-size-lg;
+  }
+
+  &:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 3px 3px 0 v.$color-text-dark;
+  }
+}
+
+// ============================================================================
+// RESPONSIVE
+// ============================================================================
+
+@media (max-width: v.$breakpoint-sm) {
+  .register-page__card {
+    padding: v.$spacing-10 v.$spacing-6;
+  }
+
+  .register-page__title {
+    font-size: v.$font-size-2xl;
+  }
+
+  .register-page__input {
+    padding: v.$spacing-3 v.$spacing-4;
+    font-size: v.$font-size-base;
+  }
+
+  .register-page__submit-btn {
+    padding: v.$spacing-4;
+    font-size: v.$font-size-xl;
+  }
+
+  .register-page__form-row {
+    grid-template-columns: 1fr;
+  }
+}

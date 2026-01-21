@@ -1,23 +1,44 @@
-<div class="search-bar">
-  <div class="search-bar__container">
-    <h2 class="search-bar__title">¿Qué necesitas aprender hoy?</h2>
-    <p class="search-bar__subtitle">Busca entre más de 50 lecciones</p>
+<div class="search-section" [class.search-section--no-padding]="noPadding">
+  <div class="search-header" *ngIf="!hideTitle">
+    <h2 class="search-title">{{ title }}</h2>
+    <ng-container *ngIf="showListen">
+      <app-button
+        type="primary"
+        variant="blue"
+        size="medium"
+        [text]="isSpeaking ? 'Detener' : ''"
+        [icon]="isSpeaking ? null : 'play'"
+        (btnClick)="playAudio()"
+        [title]="isSpeaking ? 'Detener reproducción' : ('Escuchar: ' + helpText)"
+        [attr.aria-label]="isSpeaking ? 'Detener reproducción' : 'Escuchar descripción de búsqueda'"
+        class="search-listen-btn-wrapper">
+      </app-button>
+    </ng-container>
+  </div>
 
-    <div class="search-bar__input-wrapper">
-      <lucide-angular
-        [img]="Search"
-        [size]="20"
-        class="search-bar__icon"
-      ></lucide-angular>
-      <input
-        type="text"
-        class="search-bar__input"
-        placeholder="Escribe aquí tu búsqueda..."
-        [(ngModel)]="searchQuery"
-        (keyup.enter)="onSearch()"
-        aria-label="Buscar lecciones"
-      />
+  <ng-container *ngIf="showHelpText">
+    <p class="search-help-text">{{ helpText }}</p>
+  </ng-container>
+
+  <div class="search-container">
+    <!-- Icono de búsqueda -->
+    <div class="search-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"/>
+        <path d="M21 21l-4.35-4.35"/>
+      </svg>
     </div>
+
+    <!-- Input de búsqueda -->
+    <input
+      type="text"
+      class="search-input"
+      [placeholder]="placeholder"
+      [(ngModel)]="searchValue"
+      (ngModelChange)="onSearchChange($event)"
+      (keyup.enter)="onSearchSubmit()"
+      autocomplete="off"
+      aria-label="Campo de búsqueda"
+    />
   </div>
 </div>
-

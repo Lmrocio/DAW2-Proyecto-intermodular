@@ -1,13 +1,19 @@
 <!-- ============================================================================ -->
 <!-- ESTRUCTURA PRINCIPAL DE LA APLICACIÓN -->
 <!-- ============================================================================ -->
-<!-- Layout semántico: Header > Contenido (según ruta) > Footer -->
+<!-- Layout semántico: Header > Main (con Breadcrumb) > Footer -->
 
 <!-- Encabezado de la aplicación -->
 <app-header></app-header>
 
-<!-- Contenido principal (se reemplaza según la ruta actual) -->
-<router-outlet></router-outlet>
+<!-- Contenido principal -->
+<main>
+  <!-- Breadcrumb global: primer elemento dentro de main, se genera desde BreadcrumbService -->
+  <app-breadcrumb-nav></app-breadcrumb-nav>
+
+  <!-- Contenido según ruta (se reemplaza según la ruta actual) -->
+  <router-outlet></router-outlet>
+</main>
 
 <!-- Pie de página -->
 <app-footer></app-footer>
@@ -15,4 +21,3 @@
 <!-- Componentes globales - ClienteFase2 -->
 <app-toast></app-toast>
 <app-spinner></app-spinner>
-

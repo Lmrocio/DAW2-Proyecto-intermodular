@@ -1,9 +1,11 @@
+@use '../../../styles/00-settings/variables' as v;
+@use '../../../styles/01-tools/mixins' as m;
+
 // ============================================================================
 // ESTILOS DE LA PÁGINA HOME
 // ============================================================================
 
 .home {
   min-height: 100vh;
-  background: white;
+  background: v.$color-bg-dark;
 }
-

@@ -1,41 +1,132 @@
 <main class="lecciones-page">
+
+  <!-- Hero Section (fuera del container para que ocupe todo el ancho) -->
+  <app-hero
+    [title]="'Catálogo de Lecciones'"
+    [subtitle]="'Aprende a tu ritmo con guías visuales diseñadas especialmente para que la tecnología sea tu mejor aliada.'"
+    [audioText]="'Aprende a tu ritmo con guías visuales diseñadas especialmente para que la tecnología sea tu mejor aliada.'"
+    [imageUrl]="'assets/images/imagen-3.svg'"
+    [imageAlt]="'Persona mayor aprendiendo'"
+    [showSearch]="true"
+    [showInlineListen]="true"
+    [searchPlaceholder]="'¿Qué quieres aprender hoy?'"
+    [showButton1]="false"
+    [showButton2]="false"
+    [imageLarge]="true"
+    [imageHasShadow]="false"
+    (searchChange)="onSearch($event)"
+  ></app-hero>
+
   <div class="lecciones-page__container">
-    <!-- Breadcrumb -->
-    <app-breadcrumb [items]="breadcrumbItems"></app-breadcrumb>
 
-    <!-- Header -->
-    <app-page-header
-      title="Catálogo de Lecciones"
-      subtitle="Explora todas nuestras lecciones diseñadas para ti. Aprende a tu ritmo y encuentra lo que necesitas."
-      [showReadingMode]="true"
-    ></app-page-header>
+    <!-- Lección Destacada -->
+    <div class="featured-rows">
+    <section class="featured-lesson" *ngIf="featuredLesson">
+      <div class="featured-badge">¡NUEVO!</div>
+      <div class="featured-image">
+        <img [src]="featuredLesson.imagen" [alt]="featuredLesson.titulo" (error)="onImgError($event)" />
+      </div>
+      <div class="featured-content">
+        <div class="featured-category">
+          <span class="category-dot"></span>
+          {{ featuredLesson.categoria }}
+        </div>
+        <h2 class="featured-title">{{ featuredLesson.titulo }}</h2>
+        <p class="featured-description">{{ featuredLesson.descripcion }}</p>
+        <div class="featured-actions">
+          <app-button
+            type="primary"
+            variant="blue"
+            size="small"
+            [icon]="isSpeakingFeatured1 ? 'pause' : 'play'"
+            [extraClass]="isSpeakingFeatured1 ? 'playing' : ''"
+            (click)="$event.stopPropagation(); $event.preventDefault()"
+            (btnClick)="togglePlayFeatured(1, featuredLesson.descripcion)"
+            class="featured-play-btn"
+          ></app-button>
+          <app-button
+            type="primary"
+            variant="orange"
+            size="medium"
+            text="EMPEZAR LECCIÓN"
+            [routerLink]="['/lecciones', featuredLesson.id]"
+          ></app-button>
+        </div>
+      </div>
+    </section>
 
-    <!-- Barra de búsqueda -->
-    <app-search-bar-lecciones
-      (search)="onSearch($event)"
-    ></app-search-bar-lecciones>
-
-    <!-- Filtros rápidos -->
-    <app-quick-filters
-      (filterSelected)="onQuickFilter($event)"
-    ></app-quick-filters>
+    <!-- Segunda Lección Destacada -->
+    <section class="featured-lesson" *ngIf="featuredLesson2">
+      <div class="featured-badge">¡NUEVO!</div>
+      <div class="featured-image">
+        <img [src]="featuredLesson2.imagen" [alt]="featuredLesson2.titulo" (error)="onImgError($event)" />
+      </div>
+      <div class="featured-content">
+        <div class="featured-category">
+          <span class="category-dot"></span>
+          {{ featuredLesson2.categoria }}
+        </div>
+        <h2 class="featured-title">{{ featuredLesson2.titulo }}</h2>
+        <p class="featured-description">{{ featuredLesson2.descripcion }}</p>
+        <div class="featured-actions">
+          <app-button
+            type="primary"
+            variant="blue"
+            size="small"
+            [icon]="isSpeakingFeatured2 ? 'pause' : 'play'"
+            [extraClass]="isSpeakingFeatured2 ? 'playing' : ''"
+            (click)="$event.stopPropagation(); $event.preventDefault()"
+            (btnClick)="togglePlayFeatured(2, featuredLesson2.descripcion)"
+            class="featured-play-btn"
+          ></app-button>
+          <app-button
+            type="primary"
+            variant="orange"
+            size="medium"
+            text="EMPEZAR LECCIÓN"
+            [routerLink]="['/lecciones', featuredLesson2.id]"
+          ></app-button>
+        </div>
+      </div>
+    </section>
+    </div>
 
     <!-- Layout: Sidebar + Grid -->
-    <div class="lecciones-page__layout">
-      <!-- Sidebar de filtros -->
-      <app-sidebar-filtros
-        (filterChange)="onFilterChange($event)"
-      ></app-sidebar-filtros>
+    <div class="lecciones-layout">
 
-      <!-- Contenido principal -->
-      <div class="lecciones-page__content">
-        <!-- Contador de resultados -->
-        <div class="lecciones-page__results-count">
-          Mostrando {{ displayedLecciones.length }} de {{ totalLecciones }} lecciones
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <!-- Filtros -->
+        <div class="filters-section">
+          <h3 class="filters-title">Filtros</h3>
+
+          <app-sidebar-filtros
+            (filterChange)="onFilterChange($event)"
+          ></app-sidebar-filtros>
         </div>
 
-        <!-- Grid de lecciones -->
-        <div class="lecciones-page__grid" *ngIf="displayedLecciones.length > 0">
+        <!-- Progreso -->
+        <div class="progress-card" *ngIf="userProgress">
+          <div class="progress-header">
+            <span class="material-symbols-outlined">emoji_events</span>
+            <h4>Tu Progreso</h4>
+          </div>
+          <p class="progress-text">¡Llevas {{ userProgress.completedLessons }} lecciones!</p>
+          <div class="progress-bar-container">
+            <div class="progress-bar" [style.width.%]="userProgress.percentage"></div>
+          </div>
+          <div class="progress-stats">
+            <span>Nivel {{ userProgress.level }}</span>
+            <span>{{ userProgress.points }} Pts</span>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Contenido Principal -->
+      <div class="main-content">
+
+        <!-- Grid de Lecciones -->
+        <div class="lecciones-grid" *ngIf="displayedLecciones.length > 0">
           <app-leccion-card
             *ngFor="let leccion of displayedLecciones"
             [leccion]="leccion"
@@ -43,9 +134,9 @@
         </div>
 
         <!-- Sin resultados -->
-        <div class="lecciones-page__no-results" *ngIf="displayedLecciones.length === 0">
-          <p>No se encontraron lecciones con los filtros seleccionados.</p>
-          <p>Intenta cambiar los filtros o realizar una búsqueda diferente.</p>
+        <div class="no-results" *ngIf="displayedLecciones.length === 0">
+          <p class="no-results-title">No se encontraron lecciones</p>
+          <p class="no-results-text">Intenta cambiar los filtros o realizar una búsqueda diferente.</p>
         </div>
 
         <!-- Paginación -->
@@ -59,6 +150,7 @@
         ></app-pagination>
       </div>
     </div>
+
   </div>
 </main>
 

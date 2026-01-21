@@ -322,8 +322,7 @@
             [image]="card.image"
             variant="vertical"
           >
-            <app-button variant="primary" size="sm">
-              Ver más
+            <app-button type="primary" variant="blue" size="small" text="Ver más">
             </app-button>
           </app-card>
         </div>
@@ -365,17 +364,14 @@
             title="Información Importante"
             description="Esta tarjeta no tiene imagen y se enfoca únicamente en el contenido textual."
           >
-            <app-button variant="ghost" size="sm">
-              Más info
+            <app-button type="secondary" variant="white" size="small" text="Más info">
             </app-button>
           </app-card>
-
           <app-card
             title="Notificación"
             description="Mensaje breve para el usuario sin necesidad de elementos visuales adicionales."
           >
-            <app-button variant="danger" size="sm">
-              Descartar
+            <app-button type="primary" variant="orange" size="small" text="Descartar">
             </app-button>
           </app-card>
         </div>
@@ -405,19 +401,19 @@
           <div class="style-guide__demo-row">
             <div class="style-guide__demo-item">
               <span class="style-guide__demo-label">Small</span>
-              <app-button variant="primary" size="sm">Guardar</app-button>
+              <app-button type="primary" variant="yellow" size="small" text="Guardar"></app-button>
             </div>
             <div class="style-guide__demo-item">
               <span class="style-guide__demo-label">Medium</span>
-              <app-button variant="primary" size="md">Guardar</app-button>
+              <app-button type="primary" variant="yellow" size="medium" text="Guardar"></app-button>
             </div>
             <div class="style-guide__demo-item">
               <span class="style-guide__demo-label">Large</span>
-              <app-button variant="primary" size="lg">Guardar</app-button>
+              <app-button type="primary" variant="yellow" size="large" text="Guardar"></app-button>
             </div>
             <div class="style-guide__demo-item">
               <span class="style-guide__demo-label">Disabled</span>
-              <app-button variant="primary" size="md" [disabled]="true">Guardar</app-button>
+              <app-button type="primary" variant="yellow" size="medium" text="Guardar" [disabled]="true"></app-button>
             </div>
           </div>
         </div>
@@ -436,19 +432,19 @@
           <div class="style-guide__demo-row">
             <div class="style-guide__demo-item">
               <span class="style-guide__demo-label">Small</span>
-              <app-button variant="secondary" size="sm">Editar</app-button>
+              <app-button type="primary" variant="blue" size="small" text="Editar"></app-button>
             </div>
             <div class="style-guide__demo-item">
               <span class="style-guide__demo-label">Medium</span>
-              <app-button variant="secondary" size="md">Editar</app-button>
+              <app-button type="primary" variant="blue" size="medium" text="Editar"></app-button>
             </div>
             <div class="style-guide__demo-item">
               <span class="style-guide__demo-label">Large</span>
-              <app-button variant="secondary" size="lg">Editar</app-button>
+              <app-button type="primary" variant="blue" size="large" text="Editar"></app-button>
             </div>
             <div class="style-guide__demo-item">
               <span class="style-guide__demo-label">Disabled</span>
-              <app-button variant="secondary" size="md" [disabled]="true">Editar</app-button>
+              <app-button type="primary" variant="blue" size="medium" text="Editar" [disabled]="true"></app-button>
             </div>
           </div>
         </div>
@@ -467,19 +463,19 @@
           <div class="style-guide__demo-row">
             <div class="style-guide__demo-item">
               <span class="style-guide__demo-label">Small</span>
-              <app-button variant="ghost" size="sm">Cancelar</app-button>
+              <app-button type="secondary" variant="white" size="small" text="Cancelar"></app-button>
             </div>
             <div class="style-guide__demo-item">
               <span class="style-guide__demo-label">Medium</span>
-              <app-button variant="ghost" size="md">Cancelar</app-button>
+              <app-button type="secondary" variant="white" size="medium" text="Cancelar"></app-button>
             </div>
             <div class="style-guide__demo-item">
               <span class="style-guide__demo-label">Large</span>
-              <app-button variant="ghost" size="lg">Cancelar</app-button>
+              <app-button type="secondary" variant="white" size="large" text="Cancelar"></app-button>
             </div>
             <div class="style-guide__demo-item">
               <span class="style-guide__demo-label">Disabled</span>
-              <app-button variant="ghost" size="md" [disabled]="true">Cancelar</app-button>
+              <app-button type="secondary" variant="white" size="medium" text="Cancelar" [disabled]="true"></app-button>
             </div>
           </div>
         </div>
@@ -498,19 +494,19 @@
           <div class="style-guide__demo-row">
             <div class="style-guide__demo-item">
               <span class="style-guide__demo-label">Small</span>
-              <app-button variant="danger" size="sm">Eliminar</app-button>
+              <app-button type="primary" variant="custom" size="small" text="Eliminar"></app-button>
             </div>
             <div class="style-guide__demo-item">
               <span class="style-guide__demo-label">Medium</span>
-              <app-button variant="danger" size="md">Eliminar</app-button>
+              <app-button type="primary" variant="custom" size="medium" text="Eliminar"></app-button>
             </div>
             <div class="style-guide__demo-item">
               <span class="style-guide__demo-label">Large</span>
-              <app-button variant="danger" size="lg">Eliminar</app-button>
+              <app-button type="primary" variant="custom" size="large" text="Eliminar"></app-button>
             </div>
             <div class="style-guide__demo-item">
               <span class="style-guide__demo-label">Disabled</span>
-              <app-button variant="danger" size="md" [disabled]="true">Eliminar</app-button>
+              <app-button type="primary" variant="custom" size="medium" text="Eliminar" [disabled]="true"></app-button>
             </div>
           </div>
         </div>
@@ -635,11 +631,13 @@
             (close)="closeAlert('success')"
           ></app-alert>
           <app-button
-            variant="ghost"
-            size="sm"
+            type="secondary"
+            variant="white"
+            size="small"
+            text="Mostrar alerta"
             (click)="showAlert('success')"
             *ngIf="!alertStates['success']"
-          >Mostrar alerta</app-button>
+          ></app-button>
         </div>
       </article>
 
@@ -683,11 +681,13 @@
             (close)="closeAlert('warning')"
           ></app-alert>
           <app-button
-            variant="ghost"
-            size="sm"
+            type="secondary"
+            variant="white"
+            size="small"
+            text="Mostrar alerta"
             (click)="showAlert('warning')"
             *ngIf="!alertStates['warning']"
-          >Mostrar alerta</app-button>
+          ></app-button>
         </div>
       </article>
 
@@ -707,11 +707,13 @@
             (close)="closeAlert('info')"
           ></app-alert>
           <app-button
-            variant="ghost"
-            size="sm"
+            type="secondary"
+            variant="white"
+            size="small"
+            text="Mostrar alerta"
             (click)="showAlert('info')"
             *ngIf="!alertStates['info']"
-          >Mostrar alerta</app-button>
+          ></app-button>
         </div>
       </article>
     </section>

@@ -1,9 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute, RouterModule } from '@angular/router';
-import { Breadcrumb, BreadcrumbItem } from '../../components/shared/breadcrumb/breadcrumb';
-import { LoginForm } from '../../components/shared/login-form/login-form';
-import { LucideAngularModule, Info } from 'lucide-angular';
+import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 
 /**
@@ -22,9 +20,7 @@ import { AuthService } from '../../services/auth.service';
   imports: [
     CommonModule,
     RouterModule,
-    Breadcrumb,
-    LoginForm,
-    LucideAngularModule
+    FormsModule
   ],
   templateUrl: './login.html',
   styleUrl: './login.scss',
@@ -34,15 +30,10 @@ export class Login implements OnInit {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 
-  readonly Info = Info;
-
-  // URL a la que volver después del login (desde authGuard)
+  email: string = '';
+  password: string = '';
+  showPassword: boolean = false;
   private returnUrl: string = '/home';
-
-  breadcrumbItems: BreadcrumbItem[] = [
-    { label: 'Inicio', url: '/' },
-    { label: 'Acceso de Usuario' }
-  ];
 
   ngOnInit(): void {
     // Leer returnUrl desde queryParams (puesto por authGuard)
@@ -56,20 +47,26 @@ export class Login implements OnInit {
     }
   }
 
-  onLoginSubmit(data: { email: string; password: string; rememberMe: boolean }): void {
-    console.log('🔐 Intentando login con:', data.email);
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
+  }
+
+  onSubmit(): void {
+    if (!this.email || !this.password) {
+      alert('Por favor, completa todos los campos');
+      return;
+    }
+
+    console.log('🔐 Intentando login con:', this.email);
 
     // Llamar al servicio de autenticación
-    const success = this.authService.login(data.email, data.password);
+    const success = this.authService.login(this.email, this.password);
 
     if (success) {
       console.log('✅ Login exitoso, redirigiendo a:', this.returnUrl);
-
-      // Redirigir a la URL original (o /home si no hay returnUrl)
       this.router.navigateByUrl(this.returnUrl);
     } else {
       console.error('❌ Login fallido');
-      // En producción: mostrar mensaje de error al usuario
       alert('Credenciales inválidas');
     }
   }
@@ -86,4 +83,6 @@ export class Login implements OnInit {
     }
   }
 }
+
+
 

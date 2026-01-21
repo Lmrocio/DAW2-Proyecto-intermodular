@@ -1,21 +1,32 @@
-<nav class="breadcrumb-nav" aria-label="breadcrumb" *ngIf="breadcrumbs.length">
-  <ol class="breadcrumb-nav__list">
-    <!-- Siempre mostrar Inicio como primer breadcrumb -->
-    <li class="breadcrumb-nav__item">
-      <a routerLink="/home" class="breadcrumb-nav__link">🏠 Inicio</a>
-      <span class="breadcrumb-nav__separator">›</span>
+<nav class="breadcrumb-nav" aria-label="Migas de pan" *ngIf="breadcrumbs.length">
+  <ul class="breadcrumb-nav__list">
+    <!-- Prefijo "Estás en:" (oculto en móvil) -->
+    <span class="breadcrumb-nav__prefix">Estás en:</span>
+
+    <!-- Caso: solo Inicio (mostrar enlace 'Inicio' sin estilo de enlace) -->
+    <li class="breadcrumb-nav__item" *ngIf="isOnlyHome">
+      <a routerLink="/home" class="breadcrumb-nav__link breadcrumb-nav__link--plain">Inicio</a>
     </li>
 
-    <!-- Breadcrumbs dinámicos desde rutas -->
-    <li *ngFor="let crumb of breadcrumbs; let last = last" class="breadcrumb-nav__item" [class.breadcrumb-nav__item--active]="last">
-      <ng-container *ngIf="!last">
-        <a [routerLink]="crumb.url" class="breadcrumb-nav__link">{{ crumb.label }}</a>
-        <span class="breadcrumb-nav__separator">›</span>
-      </ng-container>
+    <!-- Caso: Inicio + otros breadcrumbs -->
+    <ng-container *ngIf="!isOnlyHome">
+      <!-- Inicio como primer enlace - ahora con apariencia neutral también -->
+      <li class="breadcrumb-nav__item">
+        <a routerLink="/home" class="breadcrumb-nav__link breadcrumb-nav__link--plain">Inicio</a>
+        <span class="breadcrumb-nav__separator" aria-hidden="true">&gt;</span>
+      </li>
 
-      <ng-container *ngIf="last">
-        <span class="breadcrumb-nav__current" aria-current="page">{{ crumb.label }}</span>
-      </ng-container>
-    </li>
-  </ol>
+      <!-- Breadcrumbs dinámicos desde rutas (sin /home) -->
+      <li *ngFor="let crumb of displayBreadcrumbs; let last = last" class="breadcrumb-nav__item" [class.breadcrumb-nav__item--active]="last">
+        <ng-container *ngIf="!last">
+          <a [routerLink]="crumb.url" class="breadcrumb-nav__link">{{ crumb.label }}</a>
+          <span class="breadcrumb-nav__separator" aria-hidden="true">&gt;</span>
+        </ng-container>
+
+        <ng-container *ngIf="last">
+          <span class="breadcrumb-nav__current" aria-current="page">{{ crumb.label }}</span>
+        </ng-container>
+      </li>
+    </ng-container>
+  </ul>
 </nav>

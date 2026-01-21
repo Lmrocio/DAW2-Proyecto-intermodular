@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { UserPerfil } from './user-perfil';
+import { UserProfileComponent } from '../user-profile/user-profile.component';
 import { UserProgreso } from './user-progreso';
 import { UserCertificados } from './user-certificados';
 import { pendingChangesGuard } from '../../guards/pending-changes.guard';
@@ -19,7 +19,7 @@ export const USER_ROUTES: Routes = [
   },
   {
     path: 'perfil',
-    component: UserPerfil,
+    component: UserProfileComponent,
     canDeactivate: [pendingChangesGuard], // Protege salida con cambios sin guardar
     data: { breadcrumb: 'Mi Perfil' }
   },

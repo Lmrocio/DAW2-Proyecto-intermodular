@@ -1,0 +1,226 @@
+<div class="user-profile" [class.user-profile--large-text]="textSize() === 'large'" [class.user-profile--extra-large-text]="textSize() === 'extra-large'">
+  <!-- Sidebar izquierdo -->
+  <aside class="user-profile__sidebar">
+    <!-- Tarjeta de perfil -->
+    <div class="user-profile__card user-profile__profile-card">
+      <div class="user-profile__avatar-wrapper">
+        <div class="user-profile__avatar-blob"></div>
+        <img
+          [src]="user()?.avatar || 'assets/images/default-avatar.jpg'"
+          [alt]="user()?.firstName"
+          class="user-profile__avatar" />
+      </div>
+      <h2 class="user-profile__user-name">{{ user()?.firstName }} {{ user()?.lastName }}</h2>
+      <p class="user-profile__user-since">Usuario desde {{ user()?.joinDate }}</p>
+      <app-button
+        [text]="'Editar perfil'"
+        [variant]="'yellow'"
+        [type]="'primary'"
+        [fullWidth]="true"
+        (btnClick)="editProfile()">
+      </app-button>
+    </div>
+
+    <!-- Menu de navegación -->
+    <nav class="user-profile__menu">
+      <a routerLink="." class="user-profile__menu-item user-profile__menu-item--active">
+        <span class="material-symbols-outlined">grid_view</span>
+        <span>Mi Actividad</span>
+      </a>
+      <a href="#" class="user-profile__menu-item">
+        <span class="material-symbols-outlined">settings</span>
+        <span>Configuración</span>
+      </a>
+      <a routerLink="/ayuda" class="user-profile__menu-item">
+        <span class="material-symbols-outlined">help_outline</span>
+        <span>Ayuda</span>
+      </a>
+      <button (click)="logout()" class="user-profile__menu-item user-profile__menu-item--logout">
+        <span class="material-symbols-outlined">logout</span>
+        <span>Cerrar sesión</span>
+      </button>
+    </nav>
+
+    <!-- Insignias -->
+    <div class="user-profile__card user-profile__badges-card">
+      <h3 class="user-profile__badges-title">Mis Insignias</h3>
+      <div class="user-profile__badges-grid">
+        <div
+          *ngFor="let badge of user()?.badges"
+          class="user-profile__badge"
+          [class.user-profile__badge--unlocked]="badge.unlocked"
+          [class.user-profile__badge--yellow]="badge.color === 'yellow'"
+          [class.user-profile__badge--blue]="badge.color === 'blue'"
+          [class.user-profile__badge--orange]="badge.color === 'orange'">
+          <span class="material-symbols-outlined">{{ badge.icon }}</span>
+          <span class="user-profile__badge-label">{{ badge.name }}</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Contenido principal -->
+  <main class="user-profile__main">
+    <!-- Sección de progreso -->
+    <section class="user-profile__card user-profile__progress-section">
+      <div class="user-profile__progress-header">
+        <div>
+          <h2 class="user-profile__section-title">Mi Progreso</h2>
+          <p class="user-profile__progress-text">¡Ya has completado más de la mitad de tus cursos!</p>
+        </div>
+        <div class="user-profile__progress-percentage">{{ user()?.progress }}%</div>
+      </div>
+      <div class="user-profile__progress-bar">
+        <div
+          class="user-profile__progress-fill"
+          [style.width.%]="user()?.progress">
+        </div>
+      </div>
+      <div class="user-profile__progress-info">
+        <span class="material-symbols-outlined user-profile__progress-icon">check_circle</span>
+        <span>{{ user()?.completedLessons }} lecciones de {{ user()?.totalLessons }} completadas</span>
+      </div>
+    </section>
+
+    <!-- Sección de configuración -->
+    <section class="user-profile__card user-profile__settings-section">
+      <h3 class="user-profile__section-title">Configuración y Accesibilidad</h3>
+
+      <div class="user-profile__settings-grid">
+        <!-- Tamaño del texto -->
+        <div class="user-profile__setting-group">
+          <div class="user-profile__setting-header">
+            <span class="material-symbols-outlined">format_size</span>
+            <h4 class="user-profile__setting-title">Tamaño del texto</h4>
+          </div>
+          <p class="user-profile__setting-description">Elige el tamaño de letra con el que leas más cómodamente.</p>
+          <div class="user-profile__size-buttons">
+            <button
+              (click)="changeTextSize('normal')"
+              [class.active]="textSize() === 'normal'"
+              class="user-profile__size-btn">
+              Normal
+            </button>
+            <button
+              (click)="changeTextSize('large')"
+              [class.active]="textSize() === 'large'"
+              class="user-profile__size-btn">
+              Grande
+            </button>
+            <button
+              (click)="changeTextSize('extra-large')"
+              [class.active]="textSize() === 'extra-large'"
+              class="user-profile__size-btn">
+              Muy grande
+            </button>
+          </div>
+        </div>
+
+        <!-- Modo daltónicos -->
+        <div class="user-profile__setting-group">
+          <div class="user-profile__setting-header-with-toggle">
+            <div class="user-profile__setting-header">
+              <span class="material-symbols-outlined">visibility</span>
+              <h4 class="user-profile__setting-title">Colores para daltónicos</h4>
+            </div>
+            <label class="user-profile__toggle">
+              <input
+                type="checkbox"
+                [checked]="colorBlindMode()"
+                (change)="toggleColorBlindMode()"
+                class="user-profile__toggle-input" />
+              <span class="user-profile__toggle-slider"></span>
+            </label>
+          </div>
+          <p class="user-profile__setting-description">Cambia los colores para distinguir mejor los botones y avisos.</p>
+        </div>
+
+        <!-- Cambiar email -->
+        <div class="user-profile__setting-group user-profile__setting-group--full">
+          <app-button
+            [text]="'Cambiar correo'"
+            [variant]="'blue'"
+            [type]="'primary'"
+            [size]="'large'"
+            [fullWidth]="true"
+            [icon]="'user'"
+            [iconPosition]="'right'"
+            (btnClick)="changeEmail()">
+          </app-button>
+          <p class="user-profile__setting-footnote">Usa esta opción si quieres recibir nuestros mensajes en una dirección diferente.</p>
+        </div>
+
+        <!-- Cambiar contraseña -->
+        <div class="user-profile__setting-group user-profile__setting-group--full">
+          <app-button
+            [text]="'Cambiar contraseña'"
+            [variant]="'orange'"
+            [type]="'primary'"
+            [size]="'large'"
+            [fullWidth]="true"
+            [icon]="'stop'"
+            [iconPosition]="'right'"
+            (btnClick)="changePassword()">
+          </app-button>
+          <p class="user-profile__setting-footnote">Te recomendamos cambiarla de vez en cuando para que tu cuenta esté más segura.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lecciones completadas -->
+    <section class="user-profile__courses-section">
+      <div class="user-profile__section-header">
+        <h3 class="user-profile__section-title">Lecciones Completadas</h3>
+        <a href="#" class="user-profile__view-all">Ver todo</a>
+      </div>
+
+      <div class="user-profile__courses-list">
+        <div
+          *ngFor="let course of user()?.completedCourses"
+          class="user-profile__course-card">
+          <div class="user-profile__course-image">
+            <img [src]="course.image" [alt]="course.title" />
+          </div>
+          <div class="user-profile__course-content">
+            <h4 class="user-profile__course-title">{{ course.title }}</h4>
+            <p class="user-profile__course-description">{{ course.description }}</p>
+            <span class="user-profile__course-badge">COMPLETADO</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mis favoritos -->
+    <section class="user-profile__favorites-section">
+      <h3 class="user-profile__section-title">Mis Favoritos</h3>
+
+      <div class="user-profile__courses-list">
+        <div
+          *ngFor="let favorite of user()?.favorites"
+          class="user-profile__course-card">
+          <div class="user-profile__course-image">
+            <img [src]="favorite.image" [alt]="favorite.title" />
+          </div>
+          <div class="user-profile__course-content">
+            <h4 class="user-profile__course-title">{{ favorite.title }}</h4>
+            <p class="user-profile__course-description">{{ favorite.description }}</p>
+            <div class="user-profile__course-actions">
+              <app-button
+                [text]="'Empezar'"
+                [variant]="'yellow'"
+                [type]="'primary'"
+                (btnClick)="editProfile()">
+              </app-button>
+              <button
+                (click)="toggleFavorite(favorite.id)"
+                class="user-profile__favorite-btn"
+                title="Añadir a favoritos">
+                <span class="material-symbols-outlined">favorite</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>

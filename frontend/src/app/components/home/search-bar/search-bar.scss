@@ -1,78 +1,232 @@
-.search-bar {
-  max-width: 1200px;
-  margin: -40px auto 80px;
-  padding: 0 60px;
-  position: relative;
-  z-index: 10;
+@use '../../../../styles/00-settings/variables' as v;
+@use '../../../../styles/01-tools/mixins' as m;
+
+.search-section {
+  padding: v.$spacing-20 v.$spacing-5;
+  background: v.$color-bg-dark;
 }
 
-.search-bar__container {
-  background: white;
-  border: 3px solid var(--color-accent);
-  border-radius: 16px;
-  padding: 40px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+.search-section--no-padding {
+  padding: 0;
+
+  .search-header {
+    margin-bottom: 0;
+  }
+
+  .search-help-text {
+    display: none;
+  }
+
+  .search-container {
+    margin-top: 0;
+  }
 }
 
-.search-bar__title {
-  font-size: 24px;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 8px;
-}
-
-.search-bar__subtitle {
-  font-size: 14px;
-  color: var(--text-secondary);
-  margin-bottom: 24px;
-}
-
-.search-bar__input-wrapper {
-  position: relative;
+.search-header {
   display: flex;
   align-items: center;
+  justify-content: center;
+  gap: v.$spacing-4;
+  margin-bottom: v.$spacing-8;
+
+  @media (max-width: v.$breakpoint-md) {
+    gap: v.$spacing-3;
+  }
 }
 
-.search-bar__icon {
-  position: absolute;
-  left: 15px;
-  color: var(--text-secondary);
-  pointer-events: none;
+.search-title {
+  font-family: v.$font-primary;
+  font-size: 28px;
+  font-weight: 400;
+  font-style: italic;
+  color: v.$color-text-dark;
+  text-align: center;
+  margin: 0;
+  line-height: 1.3;
+
+  @media (max-width: v.$breakpoint-lg) {
+    font-size: 24px;
+  }
+
+  @media (max-width: v.$breakpoint-md) {
+    font-size: 22px;
+  }
 }
 
-.search-bar__input {
+.search-container {
+  position: relative;
   width: 100%;
-  height: 50px;
-  padding: 12px 15px 12px 45px;
-  border: 2px solid var(--border-color-primary);
-  border-radius: 8px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.search-icon {
+  position: absolute;
+  left: v.$spacing-4;
+  top: 50%;
+  transform: translateY(-50%);
+  color: v.$color-tertiary;
+  pointer-events: none;
+  z-index: 1;
+
+  svg {
+    display: block;
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.search-input {
+  width: 100%;
+  padding: v.$spacing-4 v.$spacing-4 v.$spacing-4 v.$spacing-12;
   font-size: 16px;
-  transition: all 0.3s ease;
+  color: v.$color-text-dark;
+  background: v.$color-text-light;
+  border: v.$border-medium solid v.$color-text-dark;
+  border-radius: 0;
+  transition: all v.$transition-base v.$easing-in-out;
+  font-family: v.$font-body;
+
+  &::placeholder {
+    color: v.$color-gray-400;
+    font-style: italic;
+  }
+
+  &:hover:not(:focus) {
+    border-color: v.$color-gray-500;
+  }
 
   &:focus {
     outline: none;
-    border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px rgba(30, 95, 190, 0.1);
-  }
-
-  &::placeholder {
-    color: var(--text-secondary);
+    border-color: v.$color-tertiary;
+    box-shadow: 0 0 0 3px rgba(243, 116, 43, 0.1);
   }
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .search-bar {
-    margin: -30px 24px 60px;
-    padding: 0;
+.search-listen-btn-wrapper {
+  flex-shrink: 0;
+
+  .button {
+    /* For icon-only behavior: make the button square and center the icon */
+    width: 44px !important;
+    height: 44px !important;
+    padding: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0 !important;
+    border-radius: v.$radius-sm !important;
   }
 
-  .search-bar__container {
-    padding: 30px 20px;
+  .button__text {
+    /* hide text when empty (the binding sets empty string) */
+    display: inline-block;
   }
 
-  .search-bar__title {
-    font-size: 20px;
+  .button__icon {
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  .button--primary.button--blue.button--medium.button__text {
+    /* ensure text doesn't push width when present */
+    padding-left: 6px;
+  }
+
+  .button--primary.button--blue.button--medium.button--full-width {
+    /* no-op, just avoid full width for this small button */
+  }
+
+  .button--primary.button--blue.button--medium.button__text:empty {
+    /* when text is empty, hide the text node completely */
+    display: none;
+  }
+
+  /* give visual active state when speaking */
+  .button--primary.button--blue.button--medium.button__text:empty + .button__icon,
+  .button--primary.button--blue.button--medium .button__icon {
+    transition: transform v.$transition-base v.$easing-in-out, opacity v.$transition-base v.$easing-in-out;
+  }
+
+  .button--primary.button--blue.button--medium.button__text:empty ~ .button__icon,
+  .button--primary.button--blue.button--medium .button__icon {
+    /* default color */
   }
 }
 
+.search-help-text {
+  font-family: v.$font-body;
+  font-size: 15px;
+  font-weight: 400;
+  color: v.$color-gray-600;
+  text-align: center;
+  margin: 0 0 v.$spacing-12 0;
+  line-height: 1.6;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+
+  @media (max-width: v.$breakpoint-md) {
+    font-size: 14px;
+    margin-bottom: v.$spacing-8;
+  }
+}
+
+/* RESPONSIVE */
+
+@media (max-width: v.$breakpoint-lg) {
+  .search-title {
+    font-size: 24px;
+  }
+
+  .search-section {
+    padding: v.$spacing-16 v.$spacing-5;
+  }
+}
+
+@media (max-width: v.$breakpoint-md) {
+  .search-title {
+    font-size: 22px;
+  }
+
+  .search-container {
+    max-width: 100%;
+  }
+
+  .search-input {
+    padding: v.$spacing-3 v.$spacing-3 v.$spacing-3 v.$spacing-10;
+    font-size: 16px;
+  }
+
+  .search-icon {
+    left: v.$spacing-3;
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+}
+
+/* MODO OSCURO */
+:root[data-theme='dark'] {
+  .search-input {
+    background: v.$color-gray-800;
+    color: v.$color-text-light;
+    border-color: v.$color-text-light;
+
+    &:hover:not(:focus) {
+      border-color: v.$color-gray-400;
+    }
+
+    &:focus {
+      border-color: v.$color-tertiary;
+      box-shadow: 0 0 0 3px rgba(243, 116, 43, 0.2);
+    }
+
+    &::placeholder {
+      color: v.$color-gray-400;
+    }
+  }
+}

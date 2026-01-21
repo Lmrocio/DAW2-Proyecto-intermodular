@@ -1,0 +1,21 @@
+<div class="features-container">
+  <div class="vertical-divider"></div>
+
+  <app-feature-section
+    variant="lecciones"
+    title="Lecciones Visuales"
+    description="Guías minimalistas con dibujos claros para enseñarte dónde pulsar sin distracciones."
+    [features]="['Paso a paso ilustrado', 'Sin términos complicados']"
+    buttonText="Ver Lecciones"
+    routerLink="/lecciones">
+  </app-feature-section>
+
+  <app-feature-section
+    variant="simuladores"
+    title="Practica sin miedo"
+    description="Simuladores que parecen reales pero son 100% seguros. Toca y explora sin riesgo."
+    [cards]="simulatorCards"
+    buttonText="Ir a Simuladores"
+    routerLink="/simuladores">
+  </app-feature-section>
+</div>

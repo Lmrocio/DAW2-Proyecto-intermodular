@@ -1,0 +1,180 @@
+<div class="simulador-detalle" *ngIf="simulador()">
+  <!-- Breadcrumbs -->
+  <nav class="simulador-detalle__breadcrumbs">
+    <span>Estás en:</span>
+    <a routerLink="/home">Inicio</a>
+    <span class="material-symbols-outlined">chevron_right</span>
+    <a routerLink="/simuladores">Simuladores</a>
+    <span class="material-symbols-outlined">chevron_right</span>
+    <span class="simulador-detalle__breadcrumb-current">{{ simulador()!.titulo }}</span>
+  </nav>
+
+  <!-- Small demo controls -->
+  <div class="simulador-detalle__demo-controls">
+    <app-button [text]="'Mostrar notificaciones'" [variant]="'blue'" [type]="'primary'" (btnClick)="demoShowToasts()"></app-button>
+  </div>
+
+  <!-- Header con progreso -->
+  <div class="simulador-detalle__header">
+    <div class="simulador-detalle__header-content">
+      <h1 class="simulador-detalle__title">Simulador: {{ simulador()!.titulo }}</h1>
+      <span class="simulador-detalle__step-counter">Paso {{ currentStep() }} de {{ simulador()!.totalSteps }}</span>
+    </div>
+    <div class="simulador-detalle__progress-bar">
+      <div
+        class="simulador-detalle__progress-fill"
+        [style.width.%]="getProgressPercentage()">
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenido principal: 3 columnas -->
+  <div class="simulador-detalle__main">
+    <!-- Columna izquierda: Instrucciones -->
+    <aside class="simulador-detalle__instructions">
+      <div class="simulador-detalle__instruction-card">
+        <div class="simulador-detalle__instruction-accent"></div>
+        <h3 class="simulador-detalle__instruction-title">
+          Paso {{ currentStep() }}: {{ getCurrentStepData()?.title }}
+        </h3>
+        <p class="simulador-detalle__instruction-text">
+          {{ getCurrentStepData()?.description }}
+        </p>
+        <app-button
+          [text]="'Escuchar instrucciones'"
+          [variant]="'yellow'"
+          [type]="'primary'"
+          [icon]="'play'"
+          [iconPosition]="'left'"
+          [fullWidth]="true"
+          (btnClick)="playInstructions()">
+        </app-button>
+      </div>
+
+      <!-- Hint opcional -->
+      <div class="simulador-detalle__hint" *ngIf="getCurrentStepData()?.hint">
+        <div class="simulador-detalle__hint-icon">
+          <span class="material-symbols-outlined">help</span>
+        </div>
+        <p [innerHTML]="getCurrentStepData()?.hint"></p>
+      </div>
+    </aside>
+
+    <!-- Columna central: Simulador móvil -->
+    <div class="simulador-detalle__phone">
+      <div class="simulador-detalle__phone-outline">
+        <!-- Notch -->
+        <div class="simulador-detalle__phone-notch"></div>
+
+        <!-- Pantalla -->
+        <div class="simulador-detalle__phone-screen">
+          <!-- Header de la app -->
+          <div class="simulador-detalle__app-header">
+            <span class="material-symbols-outlined">menu</span>
+            <span class="simulador-detalle__app-title">Mi Banco</span>
+            <span class="material-symbols-outlined">notifications</span>
+          </div>
+
+          <!-- Contenido según el paso -->
+          <div class="simulador-detalle__app-content">
+            <!-- Saldo -->
+            <div class="simulador-detalle__balance">
+              <p class="simulador-detalle__balance-label">Saldo disponible</p>
+              <p class="simulador-detalle__balance-amount">1.240,50 €</p>
+            </div>
+
+            <!-- Grid de opciones -->
+            <div class="simulador-detalle__options-grid">
+              <div class="simulador-detalle__option">
+                <span class="material-symbols-outlined">sync_alt</span>
+                <span>Transferencias</span>
+              </div>
+              <div class="simulador-detalle__option">
+                <span class="material-symbols-outlined">credit_card</span>
+                <span>Mis Tarjetas</span>
+              </div>
+
+              <!-- Bizum destacado con animación -->
+              <div class="simulador-detalle__option-wrapper">
+                <div class="simulador-detalle__glow-circle"></div>
+                <button class="simulador-detalle__option simulador-detalle__option--bizum">
+                  <div class="simulador-detalle__bizum-logo">B</div>
+                  <span>Bizum</span>
+                </button>
+              </div>
+
+              <div class="simulador-detalle__option">
+                <span class="material-symbols-outlined">settings</span>
+                <span>Ajustes</span>
+              </div>
+            </div>
+
+            <!-- Últimos movimientos (simulados) -->
+            <div class="simulador-detalle__transactions">
+              <p class="simulador-detalle__transactions-title">Últimos movimientos</p>
+              <div class="simulador-detalle__transaction-placeholder">
+                <div class="simulador-detalle__placeholder-line simulador-detalle__placeholder-line--long"></div>
+                <div class="simulador-detalle__placeholder-line simulador-detalle__placeholder-line--short"></div>
+              </div>
+              <div class="simulador-detalle__transaction-placeholder">
+                <div class="simulador-detalle__placeholder-line simulador-detalle__placeholder-line--medium"></div>
+                <div class="simulador-detalle__placeholder-line simulador-detalle__placeholder-line--tiny"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Home indicator -->
+        <div class="simulador-detalle__phone-indicator"></div>
+      </div>
+    </div>
+
+    <!-- Columna derecha: Tips -->
+    <aside class="simulador-detalle__tips">
+      <!-- Tip informativo -->
+      <div class="simulador-detalle__tip simulador-detalle__tip--blue">
+        <h4 class="simulador-detalle__tip-title">¿Qué es Bizum?</h4>
+        <p class="simulador-detalle__tip-text">
+          Es una forma de enviar dinero rápidamente usando solo el número de teléfono,
+          sin necesidad de saber el número de cuenta.
+        </p>
+      </div>
+
+      <!-- Tip de seguridad -->
+      <div class="simulador-detalle__tip simulador-detalle__tip--orange">
+        <div class="simulador-detalle__tip-header">
+          <span class="material-symbols-outlined">security</span>
+          <h4 class="simulador-detalle__tip-title">Consejo de seguridad</h4>
+        </div>
+        <p class="simulador-detalle__tip-text">
+          Recuerda enviar dinero únicamente a personas que conozcas y en las que confíes totalmente.
+        </p>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Navegación entre pasos -->
+  <div class="simulador-detalle__navigation">
+    <app-button
+      [text]="'Anterior'"
+      [variant]="'white'"
+      [type]="'primary'"
+      [size]="'large'"
+      [icon]="'left-arrow'"
+      [iconPosition]="'left'"
+      [disabled]="currentStep() === 1"
+      (btnClick)="previousStep()">
+    </app-button>
+
+    <app-button
+      [text]="'Siguiente'"
+      [variant]="'yellow'"
+      [type]="'primary'"
+      [size]="'large'"
+      [icon]="'right-arrow'"
+      [iconPosition]="'right'"
+      [disabled]="currentStep() === simulador()!.totalSteps"
+      (btnClick)="nextStep()">
+    </app-button>
+  </div>
+</div>

@@ -34,13 +34,11 @@
 
       <div class="client__header-actions">
         <app-tooltip text="Crea una cuenta nueva" position="bottom">
-          <app-button variant="secondary" size="lg" (click)="openRegisterModal()">
-            Registrarse
+          <app-button type="primary" variant="blue" size="large" text="Registrarse" (click)="openRegisterModal()">
           </app-button>
         </app-tooltip>
         <app-tooltip text="Guarda tu progreso iniciando sesión" position="bottom">
-          <app-button variant="primary" size="lg" (click)="openLoginModal()">
-            Iniciar Sesión
+          <app-button type="primary" variant="yellow" size="large" text="Iniciar Sesión" (click)="openLoginModal()">
           </app-button>
         </app-tooltip>
       </div>
@@ -55,17 +53,13 @@
         Prueba los diferentes tipos de notificaciones (toasts) - ClienteFase2
       </p>
       <div class="client__toast-buttons">
-        <app-button variant="primary" size="sm" (click)="showSuccessToast()">
-          ✓ Éxito
+        <app-button type="primary" variant="yellow" size="small" text="✓ Éxito" (click)="showSuccessToast()">
         </app-button>
-        <app-button variant="danger" size="sm" (click)="showErrorToast()">
-          ✕ Error
+        <app-button type="primary" variant="custom" size="small" text="✕ Error" (click)="showErrorToast()">
         </app-button>
-        <app-button variant="secondary" size="sm" (click)="showInfoToast()">
-          ℹ Info
+        <app-button type="primary" variant="blue" size="small" text="ℹ Info" (click)="showInfoToast()">
         </app-button>
-        <app-button variant="ghost" size="sm" (click)="showWarningToast()">
-          ⚠ Aviso
+        <app-button type="secondary" variant="white" size="small" text="⚠ Aviso" (click)="showWarningToast()">
         </app-button>
       </div>
     </section>
@@ -247,25 +241,25 @@
       </div>
 
       <div modal-footer>
-        <app-button variant="ghost" (click)="closeLessonModal()">
-          Cerrar
-        </app-button>
+        <app-button type="secondary" variant="white" size="medium" text="Cerrar" (click)="closeLessonModal()"></app-button>
         <!-- Botón con loading local - ClienteFase2 -->
         <app-button
           *ngIf="selectedLesson && !selectedLesson.completed"
-          variant="primary"
+          type="primary"
+          variant="blue"
+          size="medium"
+          text="Marcar como Completada ✓"
           [disabled]="isSavingLesson()"
           (click)="completeLesson(selectedLesson)"
-        >
-          {{ isSavingLesson() ? 'Guardando...' : 'Marcar como Completada ✓' }}
-        </app-button>
+        ></app-button>
         <app-button
           *ngIf="selectedLesson?.completed"
-          variant="secondary"
+          type="secondary"
+          variant="white"
+          size="medium"
+          text="Cerrar"
           (click)="closeLessonModal()"
-        >
-          Repasar Lección
-        </app-button>
+        ></app-button>
       </div>
     </app-modal>
 

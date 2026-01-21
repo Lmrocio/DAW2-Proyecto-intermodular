@@ -2,9 +2,10 @@
 <!-- COMPONENTE: TOAST - Auto-cierre automático -->
 <!-- ============================================================================ -->
 
+<!-- Toast general para template (compatibilidad) -->
 <div
   *ngIf="currentToast"
-  class="toast"
+  class="toast toast--template"
   [class.toast--success]="currentToast.type === 'success'"
   [class.toast--error]="currentToast.type === 'error'"
   [class.toast--info]="currentToast.type === 'info'"
@@ -13,20 +14,18 @@
   role="alert"
   aria-live="polite"
 >
-  <!-- Icono -->
-  <span class="toast__icon" aria-hidden="true">{{ getIcon() }}</span>
+  <div class="toast__icon-wrapper">
+    <div class="toast__blob"></div>
+    <span class="material-symbols-outlined toast__line-icon">{{ getIcon() }}</span>
+  </div>
 
-  <!-- Mensaje -->
-  <span class="toast__message">{{ currentToast.message }}</span>
+  <div class="toast__content">
+    <h4 class="toast__title" *ngIf="currentToast?.title">{{ currentToast?.title }}</h4>
+    <p class="toast__message">{{ currentToast?.message }}</p>
+  </div>
 
-  <!-- Botón cerrar (opcional, ya que se cierra solo) -->
-  <button
-    class="toast__close"
-    (click)="close()"
-    aria-label="Cerrar notificación"
-    type="button"
-  >
-    ×
+  <button class="toast__close" (click)="close()" aria-label="Cerrar notificación">
+    <span class="material-symbols-outlined">close</span>
   </button>
 </div>
 

@@ -459,20 +459,22 @@
   <!-- ================================================================== -->
   <div class="register-form__actions">
     <app-button
-      type="button"
-      variant="ghost"
+      buttonType="button"
+      type="secondary"
+      variant="white"
+      size="medium"
       (click)="resetForm()"
-    >
-      Limpiar
-    </app-button>
+      text="Limpiar"
+    ></app-button>
 
     <app-button
-      type="submit"
-      variant="primary"
+      buttonType="submit"
+      type="primary"
+      variant="yellow"
+      size="medium"
       [disabled]="registerForm.invalid || registerForm.pending"
-    >
-      {{ registerForm.pending ? 'Validando...' : 'Crear Cuenta' }}
-    </app-button>
+      [text]="registerForm.pending ? 'Validando...' : 'Crear Cuenta'"
+    ></app-button>
   </div>
 
   <!-- Debug info (solo desarrollo) -->

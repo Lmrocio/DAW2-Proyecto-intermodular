@@ -1,5 +1,5 @@
-@use '../../../../styles/00-settings/variables' as *;
-@use '../../../../styles/01-tools/mixins' as *;
+@use '../../../../styles/00-settings/_variables' as v;
+@use '../../../../styles/01-tools/mixins' as m;
 
 // ============================================================================
 // CONTENEDOR PRINCIPAL
@@ -19,20 +19,20 @@
 }
 
 // ============================================================================
-// CONTENIDO DEL TOOLTIP
+// CONTENIDO DEL TOOLTIP - Estilo por defecto (linea oscura)
 // ============================================================================
 
 .tooltip__content {
   position: absolute;
-  z-index: 1000;
-  padding: $spacing-3 $spacing-4;
-  background-color: $color-gray-800;
-  color: $color-text-light;
-  font-family: $font-body;
-  font-size: $font-size-sm;
-  font-weight: $font-weight-medium;
-  line-height: $line-height-normal;
-  border-radius: $radius-md;
+  z-index: v.$z-tooltip;
+  padding: v.$spacing-3 v.$spacing-4;
+  background-color: v.$color-gray-800;
+  color: v.$color-text-light;
+  font-family: v.$font-body;
+  font-size: v.$font-size-sm;
+  font-weight: v.$font-weight-medium;
+  line-height: v.$line-height-normal;
+  border-radius: v.$radius-md;
   white-space: nowrap;
   pointer-events: none;
   opacity: 0;
@@ -40,8 +40,9 @@
   transform: scale(0.95);
   transition: opacity 0.15s ease, visibility 0.15s ease, transform 0.15s ease;
 
-  // Sombra para mejor visibilidad
-  box-shadow: 0 4px 12px rgba($color-text-dark, 0.15);
+  // Sombra estilo line-art con offset
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 1);
+  border: v.$border-medium solid v.$color-text-dark;
 
   &--visible {
     opacity: 1;
@@ -51,7 +52,73 @@
 }
 
 // ============================================================================
-// POSICIONAMIENTO
+// VARIANTE 'SPEECH BUBBLE' (usada para mensajes en formularios y ayudas)
+// ============================================================================
+
+.tooltip__content--bubble {
+  background: v.$color-text-light;
+  color: v.$color-text-dark;
+  border: v.$border-medium solid v.$color-text-dark;
+  padding: v.$spacing-4 v.$spacing-6;
+  border-radius: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: v.$spacing-4;
+  box-shadow: 4px 4px 0 v.$color-text-dark;
+  white-space: normal;
+  max-width: 320px;
+}
+
+.tooltip__content--bubble::before {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  transform: rotate(45deg);
+  border-top: v.$border-medium solid v.$color-text-dark;
+  border-left: v.$border-medium solid v.$color-text-dark;
+  background: inherit;
+  z-index: 0;
+}
+
+// Tipos de bubble (colores suaves - usar variables de color del proyecto)
+.tooltip__content--bubble.tooltip--success {
+  background: v.$color-success;
+  color: v.$color-text-dark;
+}
+.tooltip__content--bubble.tooltip--error {
+  background: v.$color-error;
+  color: v.$color-text-light;
+}
+.tooltip__content--bubble.tooltip--warning {
+  background: v.$color-warning;
+  color: v.$color-text-dark;
+}
+.tooltip__content--bubble.tooltip--info {
+  background: v.$color-info;
+  color: v.$color-text-dark;
+}
+
+// Ajustar la posición de la punta según la clase de posición
+.tooltip__content--top.tooltip__content--bubble::before {
+  bottom: -8px;
+  left: 32px;
+}
+.tooltip__content--bottom.tooltip__content--bubble::before {
+  top: -8px;
+  left: 32px;
+}
+.tooltip__content--left.tooltip__content--bubble::before {
+  right: -8px;
+  top: 32px;
+}
+.tooltip__content--right.tooltip__content--bubble::before {
+  left: -8px;
+  top: 32px;
+}
+
+// ============================================================================
+// POSICIONAMIENTO (mantener flechas, adaptadas al nuevo estilo)
 // ============================================================================
 
 // TOP (por defecto)
@@ -59,7 +126,7 @@
   bottom: 100%;
   left: 50%;
   transform: translateX(-50%) scale(0.95);
-  margin-bottom: $spacing-2;
+  margin-bottom: v.$spacing-2;
 
   &.tooltip__content--visible {
     transform: translateX(-50%) scale(1);
@@ -71,7 +138,7 @@
     transform: translateX(-50%);
     border-left: 6px solid transparent;
     border-right: 6px solid transparent;
-    border-top: 6px solid $color-gray-800;
+    border-top: 6px solid v.$color-gray-800;
   }
 }
 
@@ -80,7 +147,7 @@
   top: 100%;
   left: 50%;
   transform: translateX(-50%) scale(0.95);
-  margin-top: $spacing-2;
+  margin-top: v.$spacing-2;
 
   &.tooltip__content--visible {
     transform: translateX(-50%) scale(1);
@@ -92,7 +159,7 @@
     transform: translateX(-50%);
     border-left: 6px solid transparent;
     border-right: 6px solid transparent;
-    border-bottom: 6px solid $color-gray-800;
+    border-bottom: 6px solid v.$color-gray-800;
   }
 }
 
@@ -101,7 +168,7 @@
   right: 100%;
   top: 50%;
   transform: translateY(-50%) scale(0.95);
-  margin-right: $spacing-2;
+  margin-right: v.$spacing-2;
 
   &.tooltip__content--visible {
     transform: translateY(-50%) scale(1);
@@ -113,7 +180,7 @@
     transform: translateY(-50%);
     border-top: 6px solid transparent;
     border-bottom: 6px solid transparent;
-    border-left: 6px solid $color-gray-800;
+    border-left: 6px solid v.$color-gray-800;
   }
 }
 
@@ -122,7 +189,7 @@
   left: 100%;
   top: 50%;
   transform: translateY(-50%) scale(0.95);
-  margin-left: $spacing-2;
+  margin-left: v.$spacing-2;
 
   &.tooltip__content--visible {
     transform: translateY(-50%) scale(1);
@@ -134,7 +201,7 @@
     transform: translateY(-50%);
     border-top: 6px solid transparent;
     border-bottom: 6px solid transparent;
-    border-right: 6px solid $color-gray-800;
+    border-right: 6px solid v.$color-gray-800;
   }
 }
 
@@ -163,14 +230,13 @@
 // RESPONSIVE - Tooltips más grandes en móvil para accesibilidad
 // ============================================================================
 
-@media (max-width: $breakpoint-sm) {
+@media (max-width: v.$breakpoint-sm) {
   .tooltip__content {
-    font-size: $font-size-base;
-    padding: $spacing-4 $spacing-5;
+    font-size: v.$font-size-base;
+    padding: v.$spacing-4 v.$spacing-5;
   }
 
   .tooltip__text {
     max-width: 200px;
   }
 }
-

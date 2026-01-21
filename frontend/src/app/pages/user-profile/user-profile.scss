@@ -1,0 +1,712 @@
+@use '../../../styles/00-settings/variables' as v;
+@use '../../../styles/01-tools/mixins' as m;
+
+// ============================================================================
+// PÁGINA PERFIL DE USUARIO
+// ============================================================================
+
+.user-profile {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: v.$spacing-12;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: v.$spacing-12 v.$spacing-6;
+  min-height: 100vh;
+  background: v.$color-bg-light;
+
+  @media (max-width: v.$breakpoint-lg) {
+    grid-template-columns: 1fr;
+    gap: v.$spacing-8;
+  }
+
+  // Text size variants
+  &--large-text {
+    font-size: 1.125rem;
+
+    .user-profile__section-title {
+      font-size: v.$font-size-3xl;
+    }
+
+    .user-profile__label,
+    .user-profile__setting-title {
+      font-size: v.$font-size-lg;
+    }
+  }
+
+  &--extra-large-text {
+    font-size: 1.25rem;
+
+    .user-profile__section-title {
+      font-size: v.$font-size-4xl;
+    }
+
+    .user-profile__label,
+    .user-profile__setting-title {
+      font-size: v.$font-size-xl;
+    }
+  }
+}
+
+// ============================================================================
+// SIDEBAR
+// ============================================================================
+
+.user-profile__sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: v.$spacing-8;
+  position: sticky;
+  top: v.$spacing-6;
+  height: fit-content;
+}
+
+// ============================================================================
+// TARJETA GENERAL
+// ============================================================================
+
+.user-profile__card {
+  background: v.$color-text-light;
+  border: v.$border-thick solid v.$color-text-dark;
+  border-radius: v.$spacing-8;
+  padding: v.$spacing-8;
+  box-shadow: 4px 4px 0 v.$color-text-dark;
+  position: relative;
+  overflow: hidden;
+}
+
+// ============================================================================
+// TARJETA DE PERFIL
+// ============================================================================
+
+.user-profile__profile-card {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: v.$spacing-6;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    width: 100px;
+    height: 100px;
+    background: v.$color-primary;
+    border-radius: 50%;
+    opacity: 0.2;
+    z-index: 0;
+  }
+}
+
+.user-profile__avatar-wrapper {
+  position: relative;
+  width: 128px;
+  height: 128px;
+  z-index: 1;
+}
+
+.user-profile__avatar-blob {
+  position: absolute;
+  inset: 0;
+  background: v.$color-primary;
+  border-radius: 50%;
+  opacity: 0.1;
+  z-index: 0;
+}
+
+.user-profile__avatar {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  border: v.$border-thick solid v.$color-text-dark;
+  border-radius: 50%;
+  object-fit: cover;
+  filter: grayscale(50%);
+  opacity: 0.9;
+}
+
+.user-profile__user-name {
+  font-size: v.$font-size-2xl;
+  font-weight: v.$font-weight-bold;
+  color: v.$color-text-dark;
+  margin: 0;
+  z-index: 1;
+  position: relative;
+}
+
+.user-profile__user-since {
+  font-size: v.$font-size-sm;
+  font-weight: v.$font-weight-bold;
+  color: v.$color-gray-500;
+  margin: 0;
+  text-transform: uppercase;
+  z-index: 1;
+  position: relative;
+}
+
+// ============================================================================
+// MENU DE NAVEGACIÓN
+// ============================================================================
+
+.user-profile__menu {
+  display: flex;
+  flex-direction: column;
+  border: v.$border-thick solid v.$color-text-dark;
+  border-radius: v.$spacing-8;
+  overflow: hidden;
+  box-shadow: 4px 4px 0 v.$color-text-dark;
+}
+
+.user-profile__menu-item {
+  display: flex;
+  align-items: center;
+  gap: v.$spacing-4;
+  padding: v.$spacing-4 v.$spacing-6;
+  font-size: v.$font-size-base;
+  font-weight: v.$font-weight-bold;
+  color: v.$color-text-dark;
+  background: v.$color-text-light;
+  border: none;
+  border-bottom: v.$border-thick solid v.$color-text-dark;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all v.$transition-base;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  .material-symbols-outlined {
+    font-size: v.$font-size-2xl;
+  }
+
+  &--active {
+    background: v.$color-primary;
+  }
+
+  &--logout {
+    color: #DC2626;
+  }
+
+  &:hover {
+    background: v.$color-primary;
+  }
+}
+
+// ============================================================================
+// INSIGNIAS
+// ============================================================================
+
+.user-profile__badges-card {
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: -20px;
+    width: 100px;
+    height: 100px;
+    background: v.$color-accent;
+    border-radius: 50%;
+    opacity: 0.2;
+    z-index: 0;
+  }
+}
+
+.user-profile__badges-title {
+  font-size: v.$font-size-lg;
+  font-weight: v.$font-weight-bold;
+  text-transform: uppercase;
+  color: v.$color-text-dark;
+  margin: 0 0 v.$spacing-6 0;
+  z-index: 1;
+  position: relative;
+}
+
+.user-profile__badges-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: v.$spacing-4;
+  z-index: 1;
+  position: relative;
+}
+
+.user-profile__badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: v.$spacing-3;
+  padding: v.$spacing-4;
+  border: v.$border-thick solid v.$color-text-dark;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  justify-content: center;
+  background: v.$color-text-light;
+  box-shadow: 3px 3px 0 v.$color-text-dark;
+  opacity: 0.3;
+  transition: all v.$transition-base;
+
+  &--unlocked {
+    opacity: 1;
+  }
+
+  &--yellow {
+    background: v.$color-primary;
+  }
+
+  &--blue {
+    background: v.$color-accent;
+  }
+
+  &--orange {
+    background: v.$color-tertiary;
+  }
+
+  .material-symbols-outlined {
+    font-size: v.$font-size-2xl;
+    line-height: 1;
+  }
+}
+
+.user-profile__badge-label {
+  font-size: 8px;
+  font-weight: v.$font-weight-bold;
+  text-align: center;
+  line-height: 1;
+}
+
+// ============================================================================
+// CONTENIDO PRINCIPAL
+// ============================================================================
+
+.user-profile__main {
+  display: flex;
+  flex-direction: column;
+  gap: v.$spacing-12;
+}
+
+// ============================================================================
+// SECCIÓN DE PROGRESO
+// ============================================================================
+
+.user-profile__progress-section {
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 200px;
+    height: 200px;
+    background: v.$color-tertiary;
+    border-radius: 50%;
+    opacity: 0.15;
+    z-index: 0;
+  }
+}
+
+.user-profile__progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: v.$spacing-6;
+  margin-bottom: v.$spacing-8;
+  position: relative;
+  z-index: 1;
+
+  @media (max-width: v.$breakpoint-md) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.user-profile__section-title {
+  font-size: v.$font-size-3xl;
+  font-weight: v.$font-weight-bold;
+  font-family: v.$font-primary;
+  color: v.$color-text-dark;
+  margin: 0 0 v.$spacing-2 0;
+  text-transform: uppercase;
+}
+
+.user-profile__progress-text {
+  font-size: v.$font-size-lg;
+  color: v.$color-gray-600;
+  margin: 0;
+  font-weight: v.$font-weight-medium;
+}
+
+.user-profile__progress-percentage {
+  font-size: v.$font-size-5xl;
+  font-weight: v.$font-weight-bold;
+  color: v.$color-tertiary;
+  line-height: 1;
+}
+
+.user-profile__progress-bar {
+  width: 100%;
+  height: 40px;
+  border: v.$border-thick solid v.$color-text-dark;
+  background: v.$color-text-light;
+  position: relative;
+  z-index: 1;
+  margin-bottom: v.$spacing-4;
+  padding: 4px;
+  box-sizing: border-box;
+}
+
+.user-profile__progress-fill {
+  height: 100%;
+  background: v.$color-tertiary;
+  border-right: v.$border-thick solid v.$color-text-dark;
+  transition: width v.$transition-slow;
+}
+
+.user-profile__progress-info {
+  display: flex;
+  align-items: center;
+  gap: v.$spacing-2;
+  font-weight: v.$font-weight-bold;
+  color: v.$color-gray-700;
+  position: relative;
+  z-index: 1;
+
+  .user-profile__progress-icon {
+    color: #16A34A;
+    font-size: v.$font-size-2xl;
+  }
+}
+
+// ============================================================================
+// SECCIÓN DE CONFIGURACIÓN
+// ============================================================================
+
+.user-profile__settings-section {
+  display: flex;
+  flex-direction: column;
+  gap: v.$spacing-8;
+}
+
+.user-profile__settings-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: v.$spacing-8;
+
+  @media (max-width: v.$breakpoint-md) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.user-profile__setting-group {
+  display: flex;
+  flex-direction: column;
+  gap: v.$spacing-4;
+
+  &--full {
+    grid-column: 1 / -1;
+  }
+}
+
+.user-profile__setting-header {
+  display: flex;
+  align-items: center;
+  gap: v.$spacing-3;
+
+  .material-symbols-outlined {
+    font-size: v.$font-size-2xl;
+    color: v.$color-accent;
+    font-weight: v.$font-weight-bold;
+  }
+}
+
+.user-profile__setting-header-with-toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: v.$spacing-4;
+}
+
+.user-profile__setting-title {
+  font-size: v.$font-size-lg;
+  font-weight: v.$font-weight-bold;
+  text-transform: uppercase;
+  color: v.$color-text-dark;
+  margin: 0;
+}
+
+.user-profile__setting-description {
+  font-size: v.$font-size-base;
+  color: v.$color-gray-600;
+  margin: 0;
+  line-height: v.$line-height-relaxed;
+}
+
+.user-profile__size-buttons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border: v.$border-thick solid v.$color-text-dark;
+  overflow: hidden;
+  box-shadow: 4px 4px 0 v.$color-text-dark;
+}
+
+.user-profile__size-btn {
+  padding: v.$spacing-4;
+  background: v.$color-text-light;
+  border: none;
+  border-right: v.$border-thick solid v.$color-text-dark;
+  font-weight: v.$font-weight-bold;
+  font-size: v.$font-size-base;
+  cursor: pointer;
+  transition: all v.$transition-base;
+
+  &:last-child {
+    border-right: none;
+  }
+
+  &.active {
+    background: v.$color-primary;
+    color: v.$color-text-dark;
+  }
+
+  &:hover {
+    background: v.$color-gray-50;
+  }
+}
+
+// ============================================================================
+// TOGGLE SWITCH
+// ============================================================================
+
+.user-profile__toggle {
+  position: relative;
+  display: inline-flex;
+  width: 56px;
+  height: 32px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.user-profile__toggle-input {
+  display: none;
+}
+
+.user-profile__toggle-slider {
+  position: absolute;
+  inset: 0;
+  background: v.$color-text-light;
+  border: v.$border-thick solid v.$color-text-dark;
+  border-radius: v.$spacing-6;
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  transition: all v.$transition-base;
+  box-shadow: 2px 2px 0 v.$color-text-dark;
+
+  &::after {
+    content: '';
+    width: 20px;
+    height: 20px;
+    background: v.$color-text-dark;
+    border-radius: 4px;
+    transition: transform v.$transition-base;
+  }
+
+  .user-profile__toggle-input:checked + & {
+    background: v.$color-accent;
+
+    &::after {
+      transform: translateX(24px);
+      background: v.$color-text-light;
+    }
+  }
+}
+
+.user-profile__setting-footnote {
+  font-size: v.$font-size-sm;
+  color: v.$color-gray-600;
+  margin: 0;
+  margin-top: v.$spacing-2;
+  font-style: italic;
+}
+
+// ============================================================================
+// SECCIÓN DE CURSOS
+// ============================================================================
+
+.user-profile__courses-section {
+  display: flex;
+  flex-direction: column;
+  gap: v.$spacing-6;
+}
+
+.user-profile__favorites-section {
+  display: flex;
+  flex-direction: column;
+  gap: v.$spacing-6;
+}
+
+.user-profile__section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: v.$spacing-4;
+
+  @media (max-width: v.$breakpoint-md) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.user-profile__view-all {
+  font-weight: v.$font-weight-bold;
+  border-bottom: v.$border-thick solid v.$color-text-dark;
+  color: v.$color-text-dark;
+  text-decoration: none;
+  padding: v.$spacing-1 v.$spacing-2;
+  transition: all v.$transition-base;
+
+  &:hover {
+    background: v.$color-primary;
+  }
+}
+
+.user-profile__courses-list {
+  display: flex;
+  flex-direction: column;
+  gap: v.$spacing-6;
+}
+
+.user-profile__course-card {
+  display: grid;
+  grid-template-columns: 256px 1fr;
+  gap: 0;
+  background: v.$color-text-light;
+  border: v.$border-thick solid v.$color-text-dark;
+  border-radius: v.$spacing-8;
+  overflow: hidden;
+  box-shadow: 4px 4px 0 v.$color-text-dark;
+  transition: all v.$transition-base;
+
+  @media (max-width: v.$breakpoint-md) {
+    grid-template-columns: 1fr;
+  }
+
+  &:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 v.$color-text-dark;
+  }
+}
+
+.user-profile__course-image {
+  position: relative;
+  width: 100%;
+  height: 192px;
+  overflow: hidden;
+  border-right: v.$border-thick solid v.$color-text-dark;
+
+  @media (max-width: v.$breakpoint-md) {
+    border-right: none;
+    border-bottom: v.$border-thick solid v.$color-text-dark;
+    height: 150px;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(80%);
+    opacity: 0.85;
+    transition: all v.$transition-base;
+  }
+
+  &:hover img {
+    filter: grayscale(50%);
+    opacity: 0.95;
+  }
+}
+
+.user-profile__course-content {
+  padding: v.$spacing-6;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.user-profile__course-title {
+  font-size: v.$font-size-xl;
+  font-weight: v.$font-weight-bold;
+  text-transform: uppercase;
+  color: v.$color-text-dark;
+  margin: 0 0 v.$spacing-2 0;
+}
+
+.user-profile__course-description {
+  font-size: v.$font-size-base;
+  color: v.$color-gray-600;
+  margin: 0 0 v.$spacing-4 0;
+  line-height: v.$line-height-relaxed;
+}
+
+.user-profile__course-badge {
+  display: inline-block;
+  padding: v.$spacing-2 v.$spacing-3;
+  background: v.$color-primary;
+  border: v.$border-thin solid v.$color-text-dark;
+  border-radius: v.$spacing-4;
+  font-size: v.$font-size-xs;
+  font-weight: v.$font-weight-bold;
+  text-transform: uppercase;
+  color: v.$color-text-dark;
+  width: fit-content;
+}
+
+.user-profile__course-actions {
+  display: flex;
+  align-items: center;
+  gap: v.$spacing-4;
+  margin-top: v.$spacing-4;
+}
+
+.user-profile__favorite-btn {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: v.$border-thick solid v.$color-text-dark;
+  background: v.$color-text-light;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: v.$spacing-4;
+  transition: all v.$transition-base;
+
+  .material-symbols-outlined {
+    color: #DC2626;
+    font-size: v.$font-size-2xl;
+  }
+
+  &:hover {
+    background: #FEE2E2;
+  }
+}
+
+// ============================================================================
+// RESPONSIVE
+// ============================================================================
+
+@media (max-width: v.$breakpoint-lg) {
+  .user-profile {
+    grid-template-columns: 1fr;
+  }
+
+  .user-profile__sidebar {
+    position: static;
+  }
+}

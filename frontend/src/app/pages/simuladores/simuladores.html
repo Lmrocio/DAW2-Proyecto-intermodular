@@ -1,0 +1,155 @@
+<main class="simuladores-page">
+
+  <!-- Hero Section (fuera del container para que ocupe todo el ancho) -->
+  <app-hero
+    [title]="'Catálogo de Simuladores'"
+    [subtitle]="'Practica aspectos cotidianos de internet en un entorno seguro. Aprende a hacer transferencias, Bizums, compras online y mucho más.'"
+    [audioText]="'Practica aspectos cotidianos de internet en un entorno seguro. Aprende a hacer transferencias, Bizums, compras online y mucho más.'"
+    [imageUrl]="'assets/images/imagen-3.svg'"
+    [imageAlt]="'Persona practicando en el ordenador'"
+    [showSearch]="true"
+    [showInlineListen]="true"
+    [searchPlaceholder]="'¿Qué quieres practicar hoy?'"
+    [showButton1]="false"
+    [showButton2]="false"
+    [imageLarge]="true"
+    [imageHasShadow]="false"
+    (searchChange)="onSearch($event)"
+  ></app-hero>
+
+  <div class="simuladores-page__container">
+
+    <!-- Simulador Destacado -->
+    <div class="featured-rows">
+    <section class="featured-lesson" *ngIf="featuredSimulador">
+      <div class="featured-badge">¡NUEVO!</div>
+      <div class="featured-image">
+        <img [src]="featuredSimulador.imagen" [alt]="featuredSimulador.titulo" (error)="onImgError($event)" />
+      </div>
+      <div class="featured-content">
+        <div class="featured-category">
+          <span class="category-dot"></span>
+          {{ featuredSimulador.categoria }}
+        </div>
+        <h2 class="featured-title">{{ featuredSimulador.titulo }}</h2>
+        <p class="featured-description">{{ featuredSimulador.descripcion }}</p>
+        <div class="featured-actions">
+          <app-button
+            type="primary"
+            variant="blue"
+            size="small"
+            [icon]="isSpeakingFeatured1 ? 'pause' : 'play'"
+            [extraClass]="isSpeakingFeatured1 ? 'playing' : ''"
+            (click)="$event.stopPropagation(); $event.preventDefault()"
+            (btnClick)="togglePlayFeatured(1, featuredSimulador.descripcion)"
+            class="featured-play-btn"
+          ></app-button>
+          <app-button
+            type="primary"
+            variant="orange"
+            size="medium"
+            text="EMPEZAR SIMULADOR"
+            [routerLink]="['/simuladores', featuredSimulador.id]"
+          ></app-button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Segundo Simulador Destacado -->
+    <section class="featured-lesson" *ngIf="featuredSimulador2">
+      <div class="featured-badge">¡NUEVO!</div>
+      <div class="featured-image">
+        <img [src]="featuredSimulador2.imagen" [alt]="featuredSimulador2.titulo" (error)="onImgError($event)" />
+      </div>
+      <div class="featured-content">
+        <div class="featured-category">
+          <span class="category-dot"></span>
+          {{ featuredSimulador2.categoria }}
+        </div>
+        <h2 class="featured-title">{{ featuredSimulador2.titulo }}</h2>
+        <p class="featured-description">{{ featuredSimulador2.descripcion }}</p>
+        <div class="featured-actions">
+          <app-button
+            type="primary"
+            variant="blue"
+            size="small"
+            [icon]="isSpeakingFeatured2 ? 'pause' : 'play'"
+            [extraClass]="isSpeakingFeatured2 ? 'playing' : ''"
+            (click)="$event.stopPropagation(); $event.preventDefault()"
+            (btnClick)="togglePlayFeatured(2, featuredSimulador2.descripcion)"
+            class="featured-play-btn"
+          ></app-button>
+          <app-button
+            type="primary"
+            variant="orange"
+            size="medium"
+            text="EMPEZAR SIMULADOR"
+            [routerLink]="['/simuladores', featuredSimulador2.id]"
+          ></app-button>
+        </div>
+      </div>
+    </section>
+    </div>
+
+    <!-- Layout: Sidebar + Grid -->
+    <div class="simuladores-layout">
+
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <!-- Filtros -->
+        <div class="filters-section">
+          <h3 class="filters-title">Filtros</h3>
+
+          <app-sidebar-filtros
+            (filterChange)="onFilterChange($event)"
+          ></app-sidebar-filtros>
+        </div>
+
+        <!-- Progreso -->
+        <div class="progress-card" *ngIf="userProgress">
+          <div class="progress-header">
+            <span class="material-symbols-outlined">emoji_events</span>
+            <h4>Tu Progreso</h4>
+          </div>
+          <p class="progress-text">¡Llevas {{ userProgress.completedSimuladores }} simuladores!</p>
+          <div class="progress-bar-container">
+            <div class="progress-bar" [style.width.%]="userProgress.percentage"></div>
+          </div>
+          <div class="progress-stats">
+            <span>Nivel {{ userProgress.level }}</span>
+            <span>{{ userProgress.points }} Pts</span>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Contenido Principal -->
+      <div class="main-content">
+
+        <!-- Grid de Simuladores -->
+        <div class="simuladores-grid" *ngIf="displayedSimuladores.length > 0">
+          <app-leccion-card
+            *ngFor="let simulador of displayedSimuladores"
+            [leccion]="simulador"
+          ></app-leccion-card>
+        </div>
+
+        <!-- Sin resultados -->
+        <div class="no-results" *ngIf="displayedSimuladores.length === 0">
+          <p class="no-results-title">No se encontraron simuladores</p>
+          <p class="no-results-text">Intenta cambiar los filtros o realizar una búsqueda diferente.</p>
+        </div>
+
+        <!-- Paginación -->
+        <app-pagination
+          *ngIf="displayedSimuladores.length > 0"
+          [currentPage]="currentPage"
+          [totalPages]="totalPages"
+          [totalItems]="totalSimuladores"
+          [itemsPerPage]="itemsPerPage"
+          (pageChange)="onPageChange($event)"
+        ></app-pagination>
+      </div>
+    </div>
+
+  </div>
+</main>
