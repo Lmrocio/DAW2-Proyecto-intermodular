@@ -1,17 +1,17 @@
-@import '../../../../styles/00-settings/variables';
-@import '../../../../styles/01-tools/mixins';
+@use '../../../../styles/00-settings/variables' as v;
+@use '../../../../styles/01-tools/mixins' as m;
 
 .page-header {
-  margin-bottom: $spacing-8;
+  margin-bottom: v.$spacing-8;
 }
 
 .page-header__content {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: $spacing-6;
+  gap: v.$spacing-6;
 
-  @media (max-width: $breakpoint-md) {
+  @media (max-width: v.$breakpoint-md) {
     flex-direction: column;
     align-items: stretch;
   }
@@ -22,21 +22,21 @@
 }
 
 .page-header__title {
-  font-size: $font-size-5xl;
-  font-weight: $font-weight-bold;
-  color: $color-text-dark;
-  margin: 0 0 $spacing-3 0;
-  line-height: $line-height-tight;
+  font-size: v.$font-size-5xl;
+  font-weight: v.$font-weight-bold;
+  color: var(--text-primary);
+  margin: 0 0 v.$spacing-3 0;
+  line-height: v.$line-height-tight;
 
-  @media (max-width: $breakpoint-md) {
-    font-size: $font-size-3xl;
+  @media (max-width: v.$breakpoint-md) {
+    font-size: v.$font-size-3xl;
   }
 }
 
 .page-header__subtitle {
-  font-size: $font-size-base;
-  color: $color-gray-700;
-  line-height: $line-height-normal;
+  font-size: v.$font-size-base;
+  color: var(--text-secondary);
+  line-height: v.$line-height-normal;
   margin: 0;
   max-width: 600px;
 }
@@ -44,31 +44,31 @@
 .page-header__btn {
   display: inline-flex;
   align-items: center;
-  gap: $spacing-2;
-  padding: $spacing-3 $spacing-6;
-  background: white;
-  border: $border-thin solid $color-accent;
-  border-radius: $radius-md;
-  color: $color-accent;
-  font-size: $font-size-sm;
-  font-weight: $font-weight-semibold;
+  gap: v.$spacing-2;
+  padding: v.$spacing-3 v.$spacing-6;
+  background: var(--text-on-dark);
+  border: v.$border-thin solid var(--color-accent);
+  border-radius: v.$radius-md;
+  color: var(--color-accent);
+  font-size: v.$font-size-sm;
+  font-weight: v.$font-weight-semibold;
   cursor: pointer;
-  @include transition(all, $transition-fast);
+  @include transition(all, v.$transition-fast);
   white-space: nowrap;
 
   @include hover {
-    background: $color-accent;
-    color: $color-text-light;
+    background: var(--color-accent);
+    color: var(--bg-primary);
     transform: translateY(-2px);
-    box-shadow: $shadow-md;
+    box-shadow: v.$shadow-md;
   }
 
   @include focus-visible {
-    outline: 3px solid $color-secondary;
+    outline: 3px solid var(--color-secondary);
     outline-offset: 2px;
   }
 
-  @media (max-width: $breakpoint-md) {
+  @media (max-width: v.$breakpoint-md) {
     width: 100%;
     justify-content: center;
   }

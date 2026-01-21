@@ -1,5 +1,5 @@
-@import '../../../../styles/00-settings/variables';
-@import '../../../../styles/01-tools/mixins';
+@use '../../../../styles/00-settings/variables' as v;
+@use '../../../../styles/01-tools/mixins' as m;
 
 // ============================================================================
 // CONTENEDOR PRINCIPAL
@@ -7,7 +7,7 @@
 .form-input {
   display: flex;
   flex-direction: column;
-  gap: $spacing-2;
+  gap: v.$spacing-2;
   width: 100%;
 }
 
@@ -17,19 +17,19 @@
 .form-input__label {
   display: flex;
   align-items: baseline;
-  gap: $spacing-1;
+  gap: v.$spacing-1;
 
-  font-size: $font-size-base;
-  font-weight: $font-weight-medium;
+  font-size: v.$font-size-base;
+  font-weight: v.$font-weight-medium;
   color: var(--text-primary);
-  line-height: $line-height-normal;
+  line-height: v.$line-height-normal;
 
   cursor: pointer;
 
-  @include transition(color, $transition-fast);
+  @include m.transition(color, v.$transition-fast);
 
   &:hover {
-    color: $color-accent;
+    color: var(--color-accent);
   }
 }
 
@@ -41,9 +41,9 @@
 // ELEMENTO: INDICADOR REQUERIDO
 // ============================================================================
 .form-input__required-indicator {
-  color: $color-error;
-  font-weight: $font-weight-bold;
-  font-size: $font-size-lg;
+  color: var(--color-error);
+  font-weight: v.$font-weight-bold;
+  font-size: v.$font-size-lg;
 }
 
 // ============================================================================
@@ -51,35 +51,35 @@
 // ============================================================================
 .form-input__field {
   width: 100%;
-  height: $button-height-lg;
-  padding: $spacing-3 $spacing-4;
+  height: v.$button-height-lg;
+  padding: v.$spacing-3 v.$spacing-4;
 
-  font-family: $font-primary;
-  font-size: $font-size-base;
-  font-weight: $font-weight-regular;
-  line-height: $line-height-normal;
+  font-family: v.$font-primary;
+  font-size: v.$font-size-base;
+  font-weight: v.$font-weight-regular;
+  line-height: v.$line-height-normal;
   color: var(--text-primary);
 
   background-color: var(--bg-secondary);
-  border: $border-medium solid var(--border-color-primary);
-  border-radius: $radius-md;
+  border: v.$border-medium solid var(--border-color);
+  border-radius: v.$radius-md;
 
-  @include elevation('sm');
+  @include m.elevation('sm');
 
-  @include transition(all, $transition-fast);
+  @include m.transition(all, v.$transition-fast);
 
   &::placeholder {
     color: var(--text-tertiary);
   }
 
-  @include hover {
+  @include m.hover {
     border-color: var(--border-color-dark);
   }
 
   &:focus {
     outline: none;
-    border-color: $color-accent;
-    box-shadow: $shadow-focus;
+    border-color: var(--color-accent);
+    box-shadow: v.$shadow-focus;
   }
 
   &:disabled {
@@ -90,11 +90,11 @@
   }
 
   &--error {
-    border-color: $color-error;
-    background-color: rgba($color-error, 0.03);
+    border-color: var(--color-error);
+    background-color: color-mix(in srgb, var(--color-error) 3%, transparent 97%);
 
     &:focus {
-      box-shadow: 0 0 0 3px rgba($color-error, 0.15);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-error) 15%, transparent 85%);
     }
   }
 
@@ -111,18 +111,18 @@
 .form-input__error {
   display: flex;
   align-items: center;
-  gap: $spacing-1;
+  gap: v.$spacing-1;
 
-  font-size: $font-size-sm;
-  font-weight: $font-weight-medium;
+  font-size: v.$font-size-sm;
+  font-weight: v.$font-weight-medium;
   color: var(--color-error);
-  line-height: $line-height-normal;
+  line-height: v.$line-height-normal;
 
-  animation: formErrorSlideIn $transition-fast $easing-out;
+  animation: formErrorSlideIn v.$transition-fast var(--easing-out);
 
   &::before {
     content: '⚠';
-    font-size: $font-size-base;
+    font-size: v.$font-size-base;
   }
 }
 
@@ -130,9 +130,9 @@
 // ELEMENTO: TEXTO DE AYUDA
 // ============================================================================
 .form-input__help {
-  font-size: $font-size-sm;
+  font-size: v.$font-size-sm;
   color: var(--text-secondary);
-  line-height: $line-height-normal;
+  line-height: v.$line-height-normal;
 
   &::before {
     content: 'ℹ ';
@@ -146,7 +146,7 @@
 @keyframes formErrorSlideIn {
   from {
     opacity: 0;
-    transform: translateY(-$spacing-1);
+    transform: translateY(-#{v.$spacing-1});
   }
   to {
     opacity: 1;
@@ -157,14 +157,13 @@
 // ============================================================================
 // RESPONSIVE
 // ============================================================================
-@media (max-width: $breakpoint-sm) {
+@media (max-width: v.$breakpoint-sm) {
   .form-input__field {
-    height: $button-height-md;
-    padding: $spacing-2 $spacing-3;
+    height: v.$button-height-md;
+    padding: v.$spacing-2 v.$spacing-3;
   }
 
   .form-input__label {
-    font-size: $font-size-sm;
+    font-size: v.$font-size-sm;
   }
 }
-

@@ -1,4 +1,4 @@
-@use '../../../../styles/00-settings/variables' as *;
+@use '../../../../styles/00-settings/variables' as v;
 
 .register-form {
   max-width: 700px;
@@ -10,19 +10,19 @@
 // ============================================================================
 
 .register-form__section {
-  border: 2px solid var(--border-color-secondary);
-  border-radius: $radius-lg;
-  padding: $spacing-5;
-  margin-bottom: $spacing-6;
+  border: v.$border-large solid var(--border-color-secondary);
+  border-radius: v.$radius-lg;
+  padding: v.$spacing-5;
+  margin-bottom: v.$spacing-6;
   background-color: var(--bg-secondary);
 }
 
 .register-form__legend {
-  font-family: $font-secondary;
-  font-size: $font-size-lg;
-  font-weight: $font-weight-semibold;
+  font-family: v.$font-secondary;
+  font-size: v.$font-size-lg;
+  font-weight: v.$font-weight-semibold;
   color: var(--text-primary);
-  padding: 0 $spacing-3;
+  padding: 0 v.$spacing-3;
 }
 
 // ============================================================================
@@ -30,7 +30,7 @@
 // ============================================================================
 
 .register-form__field {
-  margin-bottom: $spacing-4;
+  margin-bottom: v.$spacing-4;
 
   &--large {
     flex: 2;
@@ -44,26 +44,26 @@
 
 .register-form__label {
   display: block;
-  font-family: $font-body;
-  font-size: $font-size-sm;
-  font-weight: $font-weight-medium;
+  font-family: v.$font-body;
+  font-size: v.$font-size-sm;
+  font-weight: v.$font-weight-medium;
   color: var(--text-primary);
-  margin-bottom: $spacing-2;
+  margin-bottom: v.$spacing-2;
 
   .required {
-    color: $color-error;
+    color: var(--color-error);
   }
 }
 
 .register-form__input {
   width: 100%;
-  padding: $spacing-3 $spacing-4;
-  font-family: $font-body;
-  font-size: $font-size-base;
+  padding: v.$spacing-3 v.$spacing-4;
+  font-family: v.$font-body;
+  font-size: v.$font-size-base;
   color: var(--text-primary);
   background-color: var(--bg-primary);
-  border: 2px solid var(--border-color-secondary);
-  border-radius: $radius-md;
+  border: v.$border-large solid var(--border-color-secondary);
+  border-radius: v.$radius-md;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 
   &::placeholder {
@@ -72,29 +72,29 @@
 
   &:focus {
     outline: none;
-    border-color: $color-accent;
-    box-shadow: 0 0 0 3px rgba($color-accent, 0.15);
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent) 15%, transparent 85%);
   }
 
   // Estados de validación
   &.valid {
-    border-color: $color-success;
+    border-color: var(--color-success);
 
     &:focus {
-      box-shadow: 0 0 0 3px rgba($color-success, 0.15);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-success) 15%, transparent 85%);
     }
   }
 
   &.invalid {
-    border-color: $color-error;
+    border-color: var(--color-error);
 
     &:focus {
-      box-shadow: 0 0 0 3px rgba($color-error, 0.15);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-error) 15%, transparent 85%);
     }
   }
 
   &.pending {
-    border-color: $color-warning;
+    border-color: var(--color-warning);
     border-style: dashed;
   }
 
@@ -104,13 +104,13 @@
 }
 
 .register-form__select {
-  padding: $spacing-3 $spacing-4;
-  font-family: $font-body;
-  font-size: $font-size-base;
+  padding: v.$spacing-3 v.$spacing-4;
+  font-family: v.$font-body;
+  font-size: v.$font-size-base;
   color: var(--text-primary);
   background-color: var(--bg-primary);
-  border: 2px solid var(--border-color-secondary);
-  border-radius: $radius-md;
+  border: v.$border-large solid var(--border-color-secondary);
+  border-radius: v.$radius-md;
   cursor: pointer;
   min-width: 100px;
 }
@@ -121,33 +121,33 @@
 
 .register-form__error {
   display: block;
-  font-family: $font-body;
-  font-size: $font-size-sm;
-  color: $color-error;
-  margin-top: $spacing-1;
+  font-family: v.$font-body;
+  font-size: v.$font-size-sm;
+  color: var(--color-error);
+  margin-top: v.$spacing-1;
 
   &--group {
-    margin-top: $spacing-3;
-    padding: $spacing-2 $spacing-3;
-    background-color: rgba($color-error, 0.1);
-    border-radius: $radius-sm;
+    margin-top: v.$spacing-3;
+    padding: v.$spacing-2 v.$spacing-3;
+    background-color: color-mix(in srgb, var(--color-error) 10%, transparent 90%);
+    border-radius: v.$radius-sm;
   }
 }
 
 .register-form__success {
   display: block;
-  font-family: $font-body;
-  font-size: $font-size-sm;
-  color: $color-success;
-  margin-top: $spacing-1;
+  font-family: v.$font-body;
+  font-size: v.$font-size-sm;
+  color: var(--color-success);
+  margin-top: v.$spacing-1;
 }
 
 .register-form__hint {
   display: block;
-  font-family: $font-body;
-  font-size: $font-size-sm;
+  font-family: v.$font-body;
+  font-size: v.$font-size-sm;
   color: var(--text-tertiary);
-  margin-top: $spacing-1;
+  margin-top: v.$spacing-1;
   font-style: italic;
 }
 
@@ -161,18 +161,18 @@
   align-items: center;
 
   .register-form__input {
-    padding-right: $spacing-12;
+    padding-right: v.$spacing-12;
   }
 }
 
 .register-form__toggle-password {
   position: absolute;
-  right: $spacing-3;
+  right: v.$spacing-3;
   background: none;
   border: none;
-  font-size: $font-size-lg;
+  font-size: v.$font-size-lg;
   cursor: pointer;
-  padding: $spacing-2;
+  padding: v.$spacing-2;
   opacity: 0.7;
   transition: opacity 0.2s ease;
 
@@ -182,14 +182,14 @@
 }
 
 .register-form__password-requirements {
-  margin-top: $spacing-2;
-  padding: $spacing-3;
+  margin-top: v.$spacing-2;
+  padding: v.$spacing-3;
   background-color: var(--bg-tertiary);
-  border-radius: $radius-sm;
+  border-radius: v.$radius-sm;
 
   small {
     display: block;
-    margin-bottom: $spacing-1;
+    margin-bottom: v.$spacing-1;
 
     &:last-child {
       margin-bottom: 0;
@@ -202,53 +202,53 @@
 // ============================================================================
 
 .register-form__array {
-  margin-top: $spacing-4;
-  padding: $spacing-4;
+  margin-top: v.$spacing-4;
+  padding: v.$spacing-4;
   background-color: var(--bg-tertiary);
-  border-radius: $radius-md;
+  border-radius: v.$radius-md;
 }
 
 .register-form__array-title {
-  font-family: $font-secondary;
-  font-size: $font-size-base;
-  font-weight: $font-weight-semibold;
+  font-family: v.$font-secondary;
+  font-size: v.$font-size-base;
+  font-weight: v.$font-weight-semibold;
   color: var(--text-primary);
-  margin: 0 0 $spacing-3 0;
+  margin: 0 0 v.$spacing-3 0;
 }
 
 .register-form__array-item {
   display: flex;
-  gap: $spacing-3;
+  gap: v.$spacing-3;
   align-items: center;
-  margin-bottom: $spacing-3;
-  padding: $spacing-3;
+  margin-bottom: v.$spacing-3;
+  padding: v.$spacing-3;
   background-color: var(--bg-secondary);
-  border-radius: $radius-sm;
+  border-radius: v.$radius-sm;
 }
 
 .register-form__btn-add {
   display: inline-flex;
   align-items: center;
-  gap: $spacing-2;
-  padding: $spacing-2 $spacing-4;
-  font-family: $font-body;
-  font-size: $font-size-sm;
-  font-weight: $font-weight-medium;
-  color: $color-accent;
+  gap: v.$spacing-2;
+  padding: v.$spacing-2 v.$spacing-4;
+  font-family: v.$font-body;
+  font-size: v.$font-size-sm;
+  font-weight: v.$font-weight-medium;
+  color: var(--color-accent);
   background: transparent;
-  border: 1px dashed $color-accent;
-  border-radius: $radius-md;
+  border: 1px dashed var(--color-accent);
+  border-radius: v.$radius-md;
   cursor: pointer;
   transition: background-color 0.2s ease;
 
   &:hover {
-    background-color: rgba($color-accent, 0.1);
+    background-color: color-mix(in srgb, var(--color-accent) 10%, transparent 90%);
   }
 }
 
 .register-form__btn-remove {
-  padding: $spacing-2;
-  font-size: $font-size-base;
+  padding: v.$spacing-2;
+  font-size: v.$font-size-base;
   background: transparent;
   border: none;
   cursor: pointer;
@@ -266,7 +266,7 @@
 
 .register-form__row {
   display: flex;
-  gap: $spacing-4;
+  gap: v.$spacing-4;
   flex-wrap: wrap;
 
   .register-form__field {
@@ -282,20 +282,20 @@
 .register-form__checkbox {
   display: flex;
   align-items: flex-start;
-  gap: $spacing-3;
-  margin-bottom: $spacing-3;
+  gap: v.$spacing-3;
+  margin-bottom: v.$spacing-3;
 
   input[type="checkbox"] {
     width: 20px;
     height: 20px;
     margin-top: 2px;
     cursor: pointer;
-    accent-color: $color-accent;
+    accent-color: var(--color-accent);
   }
 
   label {
-    font-family: $font-body;
-    font-size: $font-size-sm;
+    font-family: v.$font-body;
+    font-size: v.$font-size-sm;
     color: var(--text-secondary);
     cursor: pointer;
     line-height: 1.5;
@@ -303,11 +303,11 @@
 }
 
 .register-form__link {
-  color: $color-accent;
+  color: var(--color-accent);
   text-decoration: underline;
 
   &:hover {
-    color: darken($color-accent, 10%);
+    color: color-mix(in srgb, var(--color-accent) 90%, black 10%);
   }
 }
 
@@ -318,8 +318,8 @@
 .register-form__actions {
   display: flex;
   justify-content: flex-end;
-  gap: $spacing-4;
-  padding-top: $spacing-4;
+  gap: v.$spacing-4;
+  padding-top: v.$spacing-4;
   border-top: 1px solid var(--border-color-secondary);
 }
 
@@ -327,9 +327,9 @@
 // RESPONSIVE
 // ============================================================================
 
-@media (max-width: $breakpoint-sm) {
+@media (max-width: v.$breakpoint-sm) {
   .register-form__section {
-    padding: $spacing-4;
+    padding: v.$spacing-4;
   }
 
   .register-form__row {
@@ -352,4 +352,3 @@
     }
   }
 }
-

@@ -6,11 +6,11 @@
   align-items: center;
   gap: v.$spacing-4;
   padding: v.$spacing-4 v.$spacing-5;
-  border: v.$border-medium solid v.$color-text-dark;
-  background: v.$color-text-light;
-  color: v.$color-text-dark;
+  border: v.$border-medium solid var(--text-primary);
+  background: var(--text-on-dark);
+  color: var(--text-primary);
   border-radius: v.$radius-lg;
-  box-shadow: 4px 4px 0 v.$color-text-dark;
+  box-shadow: 4px 4px 0 var(--text-primary);
   min-width: 320px;
   max-width: 420px;
   position: relative;
@@ -41,7 +41,7 @@
   position: relative;
   z-index: 1;
   font-size: v.$font-size-2xl;
-  color: v.$color-text-dark;
+  color: var(--text-primary);
 }
 
 .toast__content {
@@ -57,13 +57,13 @@
 .toast__message {
   margin: 0;
   font-size: v.$font-size-sm;
-  color: v.$color-gray-600;
+  color: var(--text-tertiary);
 }
 
 .toast__close {
   background: transparent;
   border: none;
-  color: v.$color-gray-700;
+  color: var(--text-secondary);
   width: 36px;
   height: 36px;
   display: flex;
@@ -80,22 +80,22 @@
 
 // Tipos con blobs de color
 .toast--success .toast__blob {
-  background: v.$color-success;
+  background: var(--color-success);
 }
 .toast--info .toast__blob {
-  background: v.$color-info;
+  background: var(--color-info);
 }
 .toast--warning .toast__blob {
-  background: v.$color-warning;
+  background: var(--color-warning);
 }
 .toast--error .toast__blob {
-  background: v.$color-error;
-  color: v.$color-text-light;
+  background: var(--color-error);
+  color: var(--text-on-dark);
 }
 
 .toast--error {
-  background: v.$color-error;
-  color: v.$color-text-light;
+  background: var(--color-error);
+  color: var(--text-on-dark);
 }
 
 // Animaciones

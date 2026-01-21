@@ -1,36 +1,28 @@
-@use '../../../../styles/00-settings/variables' as *;
-
-// ============================================================================
-// HEADER - TecnoMayores
-// ============================================================================
-// Diseño responsive:
-// - Desktop: Logo + Navegación + Acciones (Guía, Theme, Perfil)
-// - Móvil: Logo + Guía (solo icono) + Perfil + Hamburguesa
-//   - Desplegable: Navegación + Guía completo + Theme completo
+@use '../../../../styles/00-settings/variables' as v;
 
 // ============================================================================
 // CONTENEDOR PRINCIPAL
 // ============================================================================
 .app-header {
-  background-color: $color-bg-dark;
+  background-color: var(--bg-secondary);
   position: sticky;
   top: 0;
   z-index: 100;
   box-shadow: none;
-  font-family: $font-body;
+  font-family: v.$font-body;
 }
 
 .app-header__container {
   margin: 0;
   height: auto;
   display: flex;
-  padding-left: $spacing-12;
-  padding-top: $spacing-5;
-  padding-bottom: $spacing-5;
+  padding-left: v.$spacing-12;
+  padding-top: v.$spacing-5;
+  padding-bottom: v.$spacing-5;
 
-  @media (max-width: $breakpoint-md) {
-    padding: $spacing-4 $spacing-6;
-    gap: $spacing-3;
+  @media (max-width: v.$breakpoint-md) {
+    padding: v.$spacing-4 v.$spacing-6;
+    gap: v.$spacing-3;
   }
 }
 
@@ -41,7 +33,7 @@
   text-decoration: none;
   display: flex;
   align-items: center;
-  transition: opacity $transition-base $easing-in-out;
+  transition: opacity v.$transition-base v.$easing-in-out;
   flex-shrink: 0;
 
   &:hover {
@@ -49,25 +41,25 @@
   }
 
   &:focus-visible {
-    outline: 3px solid $color-primary;
+    outline: 3px solid var(--color-primary);
     outline-offset: 4px;
-    border-radius: $radius-sm;
+    border-radius: v.$radius-sm;
   }
 
-  @media (max-width: $breakpoint-md) {
-    margin-right: 0; // En móvil eliminamos el margen para mejor uso del espacio
+  @media (max-width: v.$breakpoint-md) {
+    margin-right: 0;
   }
 }
 
 .app-header__logo-text {
-  font-family: $font-primary;
-  font-size: $font-size-3xl;
-  font-weight: $font-weight-semibold;
-  color: $color-text-dark;
+  font-family: v.$font-primary;
+  font-size: v.$font-size-3xl;
+  font-weight: v.$font-weight-semibold;
+  color: var(--text-primary);
   white-space: nowrap;
 
-  @media (max-width: $breakpoint-md) {
-    font-size: $font-size-2xl;
+  @media (max-width: v.$breakpoint-md) {
+    font-size: v.$font-size-2xl;
   }
 }
 
@@ -78,8 +70,8 @@
   flex: 1;
   display: flex;
   justify-content: end;
-  padding-right: $spacing-8;
-  @media (max-width: $breakpoint-md) {
+  padding-right: v.$spacing-8;
+  @media (max-width: v.$breakpoint-md) {
     display: none;
   }
 }
@@ -90,28 +82,28 @@
   margin: 0;
   display: flex;
   align-items: center;
-  gap: $spacing-6;
+  gap: v.$spacing-6;
 }
 
 .app-header__nav-link {
-  font-family: $font-secondary; /* usar la tipografía de títulos (serif) */
-  font-size: $font-size-base;
-  font-weight: $font-weight-semibold;
-  color: $color-text-dark;
+  font-family: v.$font-secondary;
+  font-size: v.$font-size-base;
+  font-weight: v.$font-weight-semibold;
+  color: var(--text-primary);
   text-decoration: none;
-  padding: $spacing-2 $spacing-3;
-  border-radius: $radius-sm;
-  transition: color $transition-base $easing-in-out;
+  padding: v.$spacing-2 v.$spacing-3;
+  border-radius: v.$radius-sm;
+  transition: color v.$transition-base v.$easing-in-out;
   display: block;
-  text-transform: uppercase; /* igual que los títulos del footer */
-  letter-spacing: 0.5px; /* igual que los títulos del footer */
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 
   &:hover {
-    color: $color-gray-600;
+    color: var(--shadow-sm);
   }
 
   &:focus-visible {
-    outline: 2px solid $color-primary;
+    outline: 2px solid var(--color-primary);
     outline-offset: 2px;
   }
 }
@@ -122,10 +114,10 @@
 .app-header__actions--desktop {
   display: flex;
   align-items: center;
-  gap: $spacing-3;
+  gap: v.$spacing-3;
   flex-shrink: 0;
 
-  @media (max-width: $breakpoint-md) {
+  @media (max-width: v.$breakpoint-md) {
     display: none;
   }
 }
@@ -136,10 +128,10 @@
 .app-header__actions--mobile {
   display: none;
 
-  @media (max-width: $breakpoint-md) {
+  @media (max-width: v.$breakpoint-md) {
     display: flex;
     align-items: center;
-    gap: $spacing-2;
+    gap: v.$spacing-2;
     flex-shrink: 0;
   }
 }
@@ -150,48 +142,48 @@
 .app-header__btn-guide {
   display: flex;
   align-items: center;
-  gap: $spacing-2;
-  padding: $spacing-3 $spacing-6;
+  gap: v.$spacing-2;
+  padding: v.$spacing-3 v.$spacing-6;
   background: white;
-  border: $border-medium solid $color-text-dark;
+  border: v.$border-medium solid var(--text-primary);
   border-radius: 50px;
-  color: $color-text-dark;
-  font-family: $font-body;
-  font-size: $font-size-sm;
-  font-weight: $font-weight-semibold;
+  color: var(--text-primary);
+  font-family: v.$font-body;
+  font-size: v.$font-size-sm;
+  font-weight: v.$font-weight-semibold;
   cursor: pointer;
   text-decoration: none;
-  transition: all $transition-base $easing-in-out;
-  box-shadow: 4.5px 2px 0 0 $color-primary;
+  transition: all v.$transition-base v.$easing-in-out;
+  box-shadow: 4.5px 2px 0 0 var(--color-primary);
   position: relative;
 
   &:hover {
-    background: $color-text-dark;
-    color: $color-text-light;
+    background: var(--text-primary);
+    color: var(--text-on-dark);
 
     svg {
-      stroke: $color-text-light;
+      stroke: var(--text-on-dark);
     }
   }
 
   &:focus-visible {
-    outline: 3px solid $color-primary;
+    outline: 3px solid var(--color-primary);
     outline-offset: 2px;
   }
 
   &--mobile-icon {
     width: 44px;
     height: 44px;
-    padding: $spacing-2;
+    padding: v.$spacing-2;
     border: none;
     box-shadow: none;
     background: transparent;
 
     &:hover {
-      background: $color-gray-100;
+      background: var(--bg-tertiary);
 
       svg {
-        stroke: $color-text-dark;
+        stroke: var(--text-primary);
       }
     }
   }
@@ -206,8 +198,8 @@
   flex-shrink: 0;
 
   svg {
-    stroke: $color-text-dark;
-    transition: stroke $transition-base $easing-in-out;
+    stroke: var(--text-primary);
+    transition: stroke v.$transition-base v.$easing-in-out;
   }
 }
 
@@ -218,32 +210,28 @@
 // ============================================================================
 // SEPARADORES
 // ============================================================================
-// Base común para todos los separadores
 %separator-base {
-  background: $color-text-dark;
+  background: var(--text-primary);
 }
 
-// Separador vertical (entre botones desktop)
 .app-header__separator-vertical {
   @extend %separator-base;
-  width: $border-medium;
+  width: v.$border-medium;
   height: 40px;
-  margin-left: $spacing-4;
+  margin-left: v.$spacing-4;
 }
 
-// Separador horizontal inferior del header
 .app-header__bottom-separator {
   @extend %separator-base;
-  height: $border-medium;
+  height: v.$border-medium;
   width: 96%;
   justify-self: center;
 }
 
-// Separador horizontal en menú móvil
 .app-header__mobile-separator {
-  height: $border-thin;
-  background: $color-gray-200;
-  margin: $spacing-6 0;
+  height: v.$border-thin;
+  background: var(--bg-tertiary);
+  margin: v.$spacing-6 0;
 }
 
 // ============================================================================
@@ -257,33 +245,33 @@
   height: 50px;
   background: transparent;
   border: none;
-  color: $color-text-dark;
+  color: var(--text-primary);
   cursor: pointer;
-  transition: all $transition-base $easing-in-out;
+  transition: all v.$transition-base v.$easing-in-out;
   flex-shrink: 0;
-  padding: $spacing-2;
-  margin-right: $spacing-8;
+  padding: v.$spacing-2;
+  margin-right: v.$spacing-8;
   svg {
     width: 24px;
     height: 24px;
-    stroke: $color-text-dark;
+    stroke: var(--text-primary);
     fill: none;
-    transition: stroke $transition-base $easing-in-out, transform $transition-base $easing-in-out;
+    transition: stroke v.$transition-base v.$easing-in-out, transform v.$transition-base v.$easing-in-out;
   }
 
   &:hover {
-    background: $color-gray-100;
-    border-radius: $radius-sm;
+    background: var(--bg-tertiary);
+    border-radius: v.$radius-sm;
 
     svg {
-      stroke: $color-text-dark;
+      stroke: var(--text-primary);
     }
   }
 
   &:focus-visible {
-    outline: 3px solid $color-primary;
+    outline: 3px solid var(--color-primary);
     outline-offset: 2px;
-    border-radius: $radius-sm;
+    border-radius: v.$radius-sm;
   }
 }
 
@@ -294,7 +282,7 @@
   display: flex;
   background: transparent;
   border: none;
-  padding: $spacing-2;
+  padding: v.$spacing-2;
   cursor: pointer;
   flex-direction: column;
   justify-content: center;
@@ -304,14 +292,14 @@
   gap: 5px;
 
   &:hover {
-    background-color: $color-gray-100;
-    border-radius: $radius-sm;
+    background-color: var(--bg-tertiary);
+    border-radius: v.$radius-sm;
   }
 
   &:focus-visible {
-    outline: 3px solid $color-primary;
+    outline: 3px solid var(--color-primary);
     outline-offset: 2px;
-    border-radius: $radius-sm;
+    border-radius: v.$radius-sm;
   }
 }
 
@@ -319,9 +307,9 @@
   display: block;
   width: 24px;
   height: 2px;
-  background-color: $color-text-dark;
-  border-radius: $radius-sm;
-  transition: all $transition-base $easing-in-out;
+  background-color: var(--text-primary);
+  border-radius: v.$radius-sm;
+  transition: all v.$transition-base v.$easing-in-out;
 }
 
 .app-header__hamburger--active {
@@ -343,26 +331,26 @@
 // ============================================================================
 .app-header__mobile-menu {
   position: fixed;
-  top: calc($spacing-16 + $spacing-10); // Altura del header
+  top: calc(4rem + 2.5rem);
   right: 0;
   width: 300px;
   max-width: 85vw;
   background: white;
-  border-left: $border-thin solid $color-gray-200;
+  border-left: v.$border-thin solid var(--bg-tertiary);
   box-shadow: -4px 0 12px rgba(0, 0, 0, 0.1);
   transform: translateX(100%);
   opacity: 0;
   visibility: hidden;
-  transition: all $transition-base $easing-in-out;
+  transition: all v.$transition-base v.$easing-in-out;
   z-index: 99;
-  height: calc(100vh - ($spacing-16 + $spacing-10));
+  height: calc(100vh - (4rem + 2.5rem));
   overflow-y: auto;
 
-  @media (max-width: $breakpoint-md) {
+  @media (max-width: v.$breakpoint-md) {
     display: block;
   }
 
-  @media (min-width: calc($breakpoint-md + 1px)) {
+  @media (min-width: calc(768px + 1px)) {
     display: none;
   }
 
@@ -374,7 +362,7 @@
 }
 
 .app-header__mobile-menu-content {
-  padding: $spacing-6;
+  padding: v.$spacing-6;
 }
 
 // ============================================================================
@@ -390,7 +378,7 @@
 }
 
 .app-header__mobile-nav-item {
-  border-bottom: $border-thin solid $color-gray-100;
+  border-bottom: v.$border-thin solid var(--bg-tertiary);
 
   &:last-child {
     border-bottom: none;
@@ -398,21 +386,21 @@
 }
 
 .app-header__mobile-nav-link {
-  font-family: $font-body;
-  font-size: $font-size-base;
-  font-weight: $font-weight-semibold;
-  color: $color-text-dark;
+  font-family: v.$font-body;
+  font-size: v.$font-size-base;
+  font-weight: v.$font-weight-semibold;
+  color: var(--text-primary);
   text-decoration: none;
-  padding: $spacing-4 $spacing-3;
+  padding: v.$spacing-4 v.$spacing-3;
   display: block;
-  transition: background $transition-base $easing-in-out;
+  transition: background v.$transition-base v.$easing-in-out;
 
   &:hover {
-    background: $color-gray-50;
+    background: var(--bg-tertiary);
   }
 
   &:focus-visible {
-    outline: 2px solid $color-primary;
+    outline: 2px solid var(--color-primary);
     outline-offset: -2px;
   }
 }
@@ -423,7 +411,7 @@
 .app-header__mobile-actions {
   display: flex;
   flex-direction: column;
-  gap: $spacing-3;
+  gap: v.$spacing-3;
 
   .app-header__btn-guide {
     width: 100%;
@@ -446,11 +434,11 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.15); // Sombreado suave
+  background: rgba(0, 0, 0, 0.15);
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition: all $transition-base $easing-in-out;
+  transition: all v.$transition-base v.$easing-in-out;
   z-index: 98;
 
   &--visible {

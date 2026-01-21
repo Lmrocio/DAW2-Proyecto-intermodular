@@ -1,15 +1,15 @@
-@import '../../../../styles/00-settings/variables';
-@import '../../../../styles/00-settings/css-variables';
+@use '../../../../styles/00-settings/variables' as v;
+@use '../../../../styles/00-settings/css-variables' as m;
 
 .app-main {
   width: 100%;
 
   min-height: calc(100vh - 200px);
 
-  padding: $spacing-8 $spacing-6;
+  padding: v.$spacing-8 v.$spacing-6;
 
   margin: 0 auto;
-  max-width: $max-width-container;
+  max-width: v.$max-width-container;
 
   display: flex;
   flex-direction: column;
@@ -17,15 +17,15 @@
   background-color: var(--bg-primary);
   color: var(--text-primary);
 
-  transition: background-color $transition-base $easing-in-out;
+  transition: background-color v.$transition-base v.$easing-in-out;
 
-  @media (max-width: $breakpoint-md) {
-    padding: $spacing-6 $spacing-4;
+  @media (max-width: v.$breakpoint-md) {
+    padding: v.$spacing-6 v.$spacing-4;
     min-height: calc(100vh - 150px);
   }
 
-  @media (max-width: $breakpoint-sm) {
-    padding: $spacing-4 $spacing-3;
+  @media (max-width: v.$breakpoint-sm) {
+    padding: v.$spacing-4 v.$spacing-3;
     min-height: calc(100vh - 120px);
   }
 }

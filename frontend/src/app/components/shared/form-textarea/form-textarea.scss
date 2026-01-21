@@ -1,5 +1,5 @@
-@import '../../../../styles/00-settings/variables';
-@import '../../../../styles/01-tools/mixins';
+@use '../../../../styles/00-settings/variables' as v;
+@use '../../../../styles/01-tools/mixins' as m;
 
 // ============================================================================
 // CONTENEDOR PRINCIPAL
@@ -7,7 +7,7 @@
 .form-textarea {
   display: flex;
   flex-direction: column;
-  gap: $spacing-2;
+  gap: v.$spacing-2;
   width: 100%;
 }
 
@@ -17,19 +17,19 @@
 .form-textarea__label {
   display: flex;
   align-items: baseline;
-  gap: $spacing-1;
+  gap: v.$spacing-1;
 
-  font-size: $font-size-base;
-  font-weight: $font-weight-medium;
-  color: $color-text-dark;
-  line-height: $line-height-normal;
+  font-size: v.$font-size-base;
+  font-weight: v.$font-weight-medium;
+  color: var(--text-primary);
+  line-height: v.$line-height-normal;
 
   cursor: pointer;
 
-  @include transition(color, $transition-fast);
+  @include m.transition(color, v.$transition-fast);
 
   &:hover {
-    color: $color-accent;
+    color: var(--color-accent);
   }
 }
 
@@ -37,9 +37,9 @@
 // ELEMENTO: INDICADOR REQUERIDO
 // ============================================================================
 .form-textarea__required-indicator {
-  color: $color-error;
-  font-weight: $font-weight-bold;
-  font-size: $font-size-lg;
+  color: var(--color-error);
+  font-weight: v.$font-weight-bold;
+  font-size: v.$font-size-lg;
 }
 
 // ============================================================================
@@ -48,51 +48,51 @@
 .form-textarea__field {
   width: 100%;
   min-height: 120px;
-  padding: $spacing-3 $spacing-4;
+  padding: v.$spacing-3 v.$spacing-4;
 
-  font-family: $font-primary;
-  font-size: $font-size-base;
-  font-weight: $font-weight-regular;
-  line-height: $line-height-normal;
-  color: $color-text-dark;
+  font-family: v.$font-primary;
+  font-size: v.$font-size-base;
+  font-weight: v.$font-weight-regular;
+  line-height: v.$line-height-normal;
+  color: var(--text-primary);
 
-  background-color: $color-gray-50;
-  border: $border-medium solid $color-gray-300;
-  border-radius: $radius-md;
+  background-color: var(--bg-secondary);
+  border: v.$border-medium solid var(--border-color);
+  border-radius: v.$radius-md;
 
-  @include elevation('sm');
+  @include m.elevation('sm');
 
   resize: vertical;
 
-  @include transition(all, $transition-fast);
+  @include m.transition(all, v.$transition-fast);
 
   &::placeholder {
-    color: $color-gray-400;
+    color: var(--text-tertiary);
   }
 
-  @include hover {
-    border-color: $color-gray-400;
+  @include m.hover {
+    border-color: var(--border-color-light);
   }
 
   &:focus {
     outline: none;
-    border-color: $color-accent;
-    box-shadow: $shadow-focus;
+    border-color: var(--color-accent);
+    box-shadow: v.$shadow-focus;
   }
 
   &:disabled {
-    background-color: $color-gray-100;
-    color: $color-gray-400;
+    background-color: var(--bg-tertiary);
+    color: var(--text-tertiary);
     cursor: not-allowed;
     opacity: 0.7;
   }
 
   &--error {
-    border-color: $color-error;
-    background-color: rgba($color-error, 0.03);
+    border-color: var(--color-error);
+    background-color: color-mix(in srgb, var(--color-error) 3%, transparent 97%);
 
     &:focus {
-      box-shadow: 0 0 0 3px rgba($color-error, 0.15);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-error) 15%, transparent 85%);
     }
   }
 }
@@ -103,18 +103,18 @@
 .form-textarea__error {
   display: flex;
   align-items: center;
-  gap: $spacing-1;
+  gap: v.$spacing-1;
 
-  font-size: $font-size-sm;
-  font-weight: $font-weight-medium;
-  color: $color-error;
-  line-height: $line-height-normal;
+  font-size: v.$font-size-sm;
+  font-weight: v.$font-weight-medium;
+  color: var(--color-error);
+  line-height: v.$line-height-normal;
 
-  animation: formErrorSlideIn $transition-fast $easing-out;
+  animation: formErrorSlideIn v.$transition-fast var(--easing-out);
 
   &::before {
     content: '⚠';
-    font-size: $font-size-base;
+    font-size: v.$font-size-base;
   }
 }
 
@@ -122,13 +122,13 @@
 // ELEMENTO: TEXTO DE AYUDA
 // ============================================================================
 .form-textarea__help {
-  font-size: $font-size-sm;
-  color: $color-gray-500;
-  line-height: $line-height-normal;
+  font-size: v.$font-size-sm;
+  color: var(--text-tertiary);
+  line-height: v.$line-height-normal;
 
   &::before {
     content: 'ℹ ';
-    color: $color-info;
+    color: var(--color-info);
   }
 }
 
@@ -138,7 +138,7 @@
 @keyframes formErrorSlideIn {
   from {
     opacity: 0;
-    transform: translateY(-$spacing-1);
+    transform: translateY(-#{v.$spacing-1});
   }
   to {
     opacity: 1;
@@ -149,14 +149,13 @@
 // ============================================================================
 // RESPONSIVE
 // ============================================================================
-@media (max-width: $breakpoint-sm) {
+@media (max-width: v.$breakpoint-sm) {
   .form-textarea__field {
     min-height: 100px;
-    padding: $spacing-3;
+    padding: v.$spacing-3;
   }
 
   .form-textarea__label {
-    font-size: $font-size-sm;
+    font-size: v.$font-size-sm;
   }
 }
-

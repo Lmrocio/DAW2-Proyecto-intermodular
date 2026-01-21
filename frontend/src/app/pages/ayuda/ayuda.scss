@@ -3,15 +3,15 @@
 
 .ayuda {
   min-height: 100vh;
-  background: v.$color-bg-light;
+  background: var(--bg-primary);
 
   // ============================================================================
   // HERO SECTION CON BUSCADOR
   // ============================================================================
   &__hero {
-    background: v.$color-text-light;
+    background: var(--text-on-dark);
     padding: v.$spacing-20 v.$spacing-6 v.$spacing-16;
-    border-bottom: v.$border-thick solid v.$color-text-dark;
+    border-bottom: v.$border-large solid var(--text-primary);
   }
 
   &__hero-container {
@@ -32,7 +32,7 @@
     font-size: v.$font-size-5xl;
     font-weight: v.$font-weight-bold;
     font-family: v.$font-primary;
-    color: v.$color-text-dark;
+    color: var(--text-primary);
     line-height: v.$line-height-tight;
     margin: 0;
 
@@ -44,9 +44,9 @@
   &__title-decoration {
     width: 6rem;
     height: 0.5rem;
-    background: v.$color-primary;
+    background: var(--color-primary);
     margin: v.$spacing-4 auto 0;
-    border: v.$border-medium solid v.$color-text-dark;
+    border: v.$border-medium solid var(--text-primary);
   }
 
   &__search-wrapper {
@@ -66,7 +66,7 @@
     top: 50%;
     transform: translateY(-50%);
     font-size: v.$font-size-3xl;
-    color: v.$color-gray-400;
+    color: var(--text-tertiary);
     pointer-events: none;
   }
 
@@ -74,20 +74,20 @@
     width: 100%;
     padding: v.$spacing-6 v.$spacing-6 v.$spacing-6 v.$spacing-20;
     font-size: v.$font-size-lg;
-    border: v.$border-thick solid v.$color-text-dark;
+    border: v.$border-large solid var(--text-primary);
     border-radius: v.$spacing-12;
-    background: v.$color-text-light;
-    box-shadow: 6px 6px 0 v.$color-text-dark;
+    background: var(--text-on-dark);
+    box-shadow: 6px 6px 0 var(--text-primary);
     transition: all v.$transition-base v.$easing-in-out;
 
     &:focus {
       outline: none;
       transform: translate(-2px, -2px);
-      box-shadow: 8px 8px 0 v.$color-text-dark;
+      box-shadow: 8px 8px 0 var(--text-primary);
     }
 
     &::placeholder {
-      color: v.$color-gray-400;
+      color: var(--text-tertiary);
     }
   }
 
@@ -112,21 +112,21 @@
 
   &__category-card {
     position: relative;
-    background: v.$color-text-light;
-    border: v.$border-thick solid v.$color-text-dark;
+    background: var(--text-on-dark);
+    border: v.$border-large solid var(--text-primary);
     border-radius: v.$spacing-8;
     padding: v.$spacing-8;
     display: flex;
     flex-direction: column;
     gap: v.$spacing-6;
     text-decoration: none;
-    color: v.$color-text-dark;
+    color: var(--text-primary);
     transition: all v.$transition-base v.$easing-in-out;
     cursor: pointer;
 
     &:hover {
       transform: translate(-4px, -4px);
-      box-shadow: 8px 8px 0 v.$color-text-dark;
+      box-shadow: 8px 8px 0 var(--text-primary);
     }
 
     &::before {
@@ -136,23 +136,15 @@
       left: 6px;
       width: 100%;
       height: 100%;
-      border: v.$border-thick solid v.$color-text-dark;
+      border: v.$border-large solid var(--text-primary);
       border-radius: v.$spacing-8;
       z-index: -1;
       transition: all v.$transition-base v.$easing-in-out;
     }
 
-    &--yellow::before {
-      background: v.$color-primary;
-    }
-
-    &--blue::before {
-      background: v.$color-accent;
-    }
-
-    &--orange::before {
-      background: v.$color-tertiary;
-    }
+    &--yellow::before { background: var(--color-primary); }
+    &--blue::before { background: var(--color-accent); }
+    &--orange::before { background: var(--color-terciary); }
   }
 
   &__category-icon-wrapper {
@@ -170,17 +162,9 @@
     border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
     opacity: 0.3;
 
-    &--yellow {
-      background: v.$color-primary;
-    }
-
-    &--blue {
-      background: v.$color-accent;
-    }
-
-    &--orange {
-      background: v.$color-tertiary;
-    }
+    &--yellow { background: var(--color-primary); }
+    &--blue { background: var(--color-accent); }
+    &--orange { background: var(--color-terciary); }
   }
 
   &__category-icon {
@@ -188,23 +172,21 @@
     z-index: 1;
     font-size: v.$font-size-5xl;
     font-weight: v.$font-weight-bold;
-    color: v.$color-text-dark;
+    color: var(--text-primary);
   }
 
-  &__category-content {
-    flex: 1;
-  }
+  &__category-content { flex: 1; }
 
   &__category-title {
     font-size: v.$font-size-2xl;
     font-weight: v.$font-weight-bold;
     margin: 0 0 v.$spacing-2 0;
-    color: v.$color-text-dark;
+    color: var(--text-primary);
   }
 
   &__category-description {
     font-size: v.$font-size-base;
-    color: v.$color-gray-600;
+    color: var(--text-tertiary);
     margin: 0;
   }
 
@@ -221,27 +203,21 @@
     font-size: v.$font-size-4xl;
     font-weight: v.$font-weight-bold;
     font-family: v.$font-primary;
-    color: v.$color-text-dark;
+    color: var(--text-primary);
     text-align: center;
     margin: 0 0 v.$spacing-12 0;
   }
 
-  &__faq-list {
-    display: flex;
-    flex-direction: column;
-    gap: v.$spacing-6;
-  }
+  &__faq-list { display: flex; flex-direction: column; gap: v.$spacing-6; }
 
   &__faq-item {
-    background: v.$color-text-light;
-    border: v.$border-thick solid v.$color-text-dark;
+    background: var(--text-on-dark);
+    border: v.$border-large solid var(--text-primary);
     border-radius: v.$spacing-6;
     overflow: hidden;
     transition: all v.$transition-base v.$easing-in-out;
 
-    &--expanded {
-      box-shadow: 4px 4px 0 v.$color-text-dark;
-    }
+    &--expanded { box-shadow: 4px 4px 0 var(--text-primary); }
   }
 
   &__faq-header {
@@ -253,22 +229,20 @@
     cursor: pointer;
     transition: background v.$transition-base;
 
-    &:hover {
-      background: v.$color-gray-50;
-    }
+    &:hover { background: var(--bg-primary); }
   }
 
   &__faq-question {
     font-size: v.$font-size-xl;
     font-weight: v.$font-weight-bold;
-    color: v.$color-text-dark;
+    color: var(--text-primary);
     margin: 0;
     flex: 1;
   }
 
   &__faq-toggle {
     font-size: v.$font-size-3xl;
-    color: v.$color-text-dark;
+    color: var(--text-primary);
     flex-shrink: 0;
     font-weight: v.$font-weight-bold;
   }
@@ -278,14 +252,14 @@
     display: flex;
     flex-direction: column;
     gap: v.$spacing-6;
-    border-top: v.$border-thin solid v.$color-gray-200;
-    background: v.$color-gray-50;
+    border-top: v.$border-thin solid var(--border-color-light);
+    background: var(--bg-primary);
   }
 
   &__faq-text {
     font-size: v.$font-size-lg;
     line-height: v.$line-height-relaxed;
-    color: v.$color-gray-700;
+    color:var(--text-tertiary);
     margin: v.$spacing-4 0 0 0;
   }
 
@@ -293,8 +267,8 @@
   // SECCIÓN DE CONTACTO
   // ============================================================================
   &__contact {
-    background: v.$color-text-light;
-    border-top: v.$border-thick solid v.$color-text-dark;
+    background: var(--text-on-dark);
+    border-top: v.$border-large solid var(--text-primary);
     padding: v.$spacing-20 v.$spacing-6;
   }
 
@@ -308,13 +282,13 @@
     font-size: v.$font-size-4xl;
     font-weight: v.$font-weight-bold;
     font-family: v.$font-primary;
-    color: v.$color-text-dark;
+    color: var(--text-primary);
     margin: 0 0 v.$spacing-4 0;
   }
 
   &__contact-description {
     font-size: v.$font-size-xl;
-    color: v.$color-gray-700;
+    color: var(--text-tertiary);
     margin: 0 0 v.$spacing-12 0;
     line-height: v.$line-height-relaxed;
   }

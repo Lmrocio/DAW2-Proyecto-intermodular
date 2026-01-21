@@ -1,44 +1,44 @@
-@use '../../../../styles/00-settings/variables' as *;
+@use '../../../../styles/00-settings/variables' as v;
+@use '../../../../styles/01-tools/mixins' as m;
 
 // ============================================================================
 // THEME SWITCHER - Botón Modo Oscuro/Claro
 // ============================================================================
-// Estilo idéntico al botón del header: píldora con sombra azul desplazada
 
 .theme-switcher {
   display: flex;
   align-items: center;
-  gap: $spacing-2;
-  padding: $spacing-3 $spacing-6;
-  background: white;
-  border: $border-medium solid $color-text-dark;
+  gap: v.$spacing-2;
+  padding: v.$spacing-3 v.$spacing-6;
+  background: var(--bg-primary);
+  border: v.$border-medium solid var(--text-primary);
   border-radius: 50px;
-  color: $color-text-dark;
-  font-family: $font-body;
-  font-size: $font-size-sm;
-  font-weight: $font-weight-semibold;
+  color: var(--text-primary);
+  font-family: v.$font-body;
+  font-size: v.$font-size-sm;
+  font-weight: v.$font-weight-semibold;
   cursor: pointer;
   text-decoration: none;
-  transition: all $transition-base $easing-in-out;
-  box-shadow: 4.5px 2px 0 0 $color-accent;
+  transition: all v.$transition-base v.$easing-in-out;
+  box-shadow: 4.5px 2px 0 0 var(--color-accent);
   position: relative;
 
   &:hover {
-    background: $color-text-dark;
-    color: $color-text-light;
+    background: var(--text-primary);
+    color: var(--text-on-dark);
 
     svg {
-      stroke: $color-text-light;
+      stroke: var(--text-on-dark);
     }
   }
 
   &:focus-visible {
-    outline: 3px solid $color-primary;
+    outline: 3px solid var(--color-primary);
     outline-offset: 2px;
   }
 
-  @media (max-width: $breakpoint-md) {
-    padding: $spacing-3 $spacing-3;
+  @media (max-width: v.$breakpoint-md) {
+    padding: v.$spacing-3 v.$spacing-3;
 
     .theme-switcher__text {
       display: none;
@@ -58,8 +58,8 @@
   flex-shrink: 0;
 
   svg {
-    stroke: $color-text-dark;
-    transition: stroke $transition-base $easing-in-out;
+    stroke: var(--text-primary);
+    transition: stroke v.$transition-base v.$easing-in-out;
   }
 }
 

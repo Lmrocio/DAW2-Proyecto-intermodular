@@ -7,9 +7,10 @@
 // - Toggle entre tema claro/oscuro
 // - Persistir preferencia en localStorage
 // - Aplicar tema al cargar la aplicación
+// ACTUALIZADO: Usa [data-theme='dark'] en <html> según mejores prácticas
 
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 /** Tipos de tema disponibles */
@@ -39,7 +40,10 @@ export class ThemeService {
   // CONSTRUCTOR
   // ========================================================================
 
-  constructor(@Inject(PLATFORM_ID) platformId: Object) {
+  constructor(
+    @Inject(PLATFORM_ID) platformId: Object,
+    @Inject(DOCUMENT) private document: Document
+  ) {
     this.isBrowser = isPlatformBrowser(platformId);
 
     // Inicializar el tema al cargar el servicio
@@ -174,21 +178,20 @@ export class ThemeService {
 
   /**
    * Aplica el tema al documento HTML
-   * Implementa aplicación de clases según ClienteFase1
+   * Implementa aplicación usando [data-theme='dark'] según mejores prácticas
    */
   private applyThemeToDocument(theme: Theme): void {
     if (!this.isBrowser) return;
 
-    const documentElement = document.documentElement;
+    const documentElement = this.document.documentElement;
 
-    // Remover clases de tema anteriores
-    documentElement.classList.remove('theme-light', 'theme-dark');
-
-    // Añadir nueva clase de tema
-    documentElement.classList.add(`theme-${theme}`);
-
-    // También actualizar el atributo data-theme para CSS
-    documentElement.setAttribute('data-theme', theme);
+    // Usar atributo data-theme en lugar de clases
+    // Esto permite selectores CSS más simples y estándares
+    if (theme === 'dark') {
+      documentElement.setAttribute('data-theme', 'dark');
+    } else {
+      documentElement.removeAttribute('data-theme');
+    }
 
     // Actualizar meta theme-color para móviles
     this.updateThemeColor(theme);
@@ -200,18 +203,18 @@ export class ThemeService {
   private updateThemeColor(theme: Theme): void {
     if (!this.isBrowser) return;
 
-    const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+    const themeColorMeta = this.document.querySelector('meta[name="theme-color"]');
     // Colores de _css-variables.scss: bg-primary claro y oscuro
-    const color = theme === 'dark' ? '#2a2420' : '#fff6df'; // bg-primary oscuro : bg-primary claro
+    const color = theme === 'dark' ? '#2a2420' : '#faf9f6';
 
     if (themeColorMeta) {
       themeColorMeta.setAttribute('content', color);
     } else {
       // Crear el meta tag si no existe
-      const meta = document.createElement('meta');
+      const meta = this.document.createElement('meta');
       meta.name = 'theme-color';
       meta.content = color;
-      document.head.appendChild(meta);
+      this.document.head.appendChild(meta);
     }
   }
 }

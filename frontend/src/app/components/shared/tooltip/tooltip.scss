@@ -1,4 +1,4 @@
-@use '../../../../styles/00-settings/_variables' as v;
+@use '../../../../styles/00-settings/variables' as v;
 @use '../../../../styles/01-tools/mixins' as m;
 
 // ============================================================================
@@ -26,8 +26,8 @@
   position: absolute;
   z-index: v.$z-tooltip;
   padding: v.$spacing-3 v.$spacing-4;
-  background-color: v.$color-gray-800;
-  color: v.$color-text-light;
+  background-color: var(--bg-primary);
+  color: var(--text-on-dark);
   font-family: v.$font-body;
   font-size: v.$font-size-sm;
   font-weight: v.$font-weight-medium;
@@ -42,7 +42,7 @@
 
   // Sombra estilo line-art con offset
   box-shadow: 4px 4px 0 rgba(0, 0, 0, 1);
-  border: v.$border-medium solid v.$color-text-dark;
+  border: v.$border-medium solid var(--text-primary);
 
   &--visible {
     opacity: 1;
@@ -56,15 +56,15 @@
 // ============================================================================
 
 .tooltip__content--bubble {
-  background: v.$color-text-light;
-  color: v.$color-text-dark;
-  border: v.$border-medium solid v.$color-text-dark;
+  background: var(--text-on-dark);
+  color: var(--text-primary);
+  border: v.$border-medium solid var(--text-primary);
   padding: v.$spacing-4 v.$spacing-6;
   border-radius: 1.5rem;
   display: flex;
   align-items: center;
   gap: v.$spacing-4;
-  box-shadow: 4px 4px 0 v.$color-text-dark;
+  box-shadow: 4px 4px 0 var(--text-primary);
   white-space: normal;
   max-width: 320px;
 }
@@ -75,28 +75,28 @@
   width: 16px;
   height: 16px;
   transform: rotate(45deg);
-  border-top: v.$border-medium solid v.$color-text-dark;
-  border-left: v.$border-medium solid v.$color-text-dark;
+  border-top: v.$border-medium solid var(--text-primary);
+  border-left: v.$border-medium solid var(--text-primary);
   background: inherit;
   z-index: 0;
 }
 
 // Tipos de bubble (colores suaves - usar variables de color del proyecto)
 .tooltip__content--bubble.tooltip--success {
-  background: v.$color-success;
-  color: v.$color-text-dark;
+  background: var(--color-success);
+  color: var(--text-primary);
 }
 .tooltip__content--bubble.tooltip--error {
-  background: v.$color-error;
-  color: v.$color-text-light;
+  background: var(--color-error);
+  color: var(--text-on-dark);
 }
 .tooltip__content--bubble.tooltip--warning {
-  background: v.$color-warning;
-  color: v.$color-text-dark;
+  background: var(--color-warning);
+  color: var(--text-primary);
 }
 .tooltip__content--bubble.tooltip--info {
-  background: v.$color-info;
-  color: v.$color-text-dark;
+  background: var(--color-info);
+  color: var(--text-primary);
 }
 
 // Ajustar la posición de la punta según la clase de posición
@@ -138,7 +138,7 @@
     transform: translateX(-50%);
     border-left: 6px solid transparent;
     border-right: 6px solid transparent;
-    border-top: 6px solid v.$color-gray-800;
+    border-top: 6px solid var(--bg-primary);
   }
 }
 
@@ -159,7 +159,7 @@
     transform: translateX(-50%);
     border-left: 6px solid transparent;
     border-right: 6px solid transparent;
-    border-bottom: 6px solid v.$color-gray-800;
+    border-bottom: 6px solid var(--bg-primary);
   }
 }
 
@@ -180,7 +180,7 @@
     transform: translateY(-50%);
     border-top: 6px solid transparent;
     border-bottom: 6px solid transparent;
-    border-left: 6px solid v.$color-gray-800;
+    border-left: 6px solid var(--bg-primary);
   }
 }
 
@@ -201,7 +201,7 @@
     transform: translateY(-50%);
     border-top: 6px solid transparent;
     border-bottom: 6px solid transparent;
-    border-right: 6px solid v.$color-gray-800;
+    border-right: 6px solid var(--bg-primary);
   }
 }
 
