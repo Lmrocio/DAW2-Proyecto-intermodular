@@ -4,6 +4,7 @@
 // CONTENEDOR PRINCIPAL
 // ============================================================================
 
+
 .client {
   min-height: 100vh;
   background-color: var(--bg-primary);
@@ -211,14 +212,14 @@
   font-family: v.$font-secondary;
   font-size: v.$font-size-2xl;
   font-weight: v.$font-weight-semibold;
-  color: var(--color-text-primary, $color-text-dark);
+  color: var(--text-primary);
   margin-bottom: v.$spacing-2;
 }
 
 .client__section-desc {
   font-family: v.$font-body;
   font-size: v.$font-size-base;
-  color: var(--color-text-secondary, $color-gray-600);
+  color: var(--text-secondary);
   margin-bottom: v.$spacing-6;
 }
 
@@ -244,7 +245,7 @@
 .client__empty-state p {
   font-family: v.$font-body;
   font-size: v.$font-size-lg;
-  color: $color-gray-500;
+  color: var(--text-tertiary);
 }
 
 // ============================================================================
@@ -329,8 +330,8 @@
   font-family: v.$font-body;
   font-size: v.$font-size-sm;
   font-weight: v.$font-weight-medium;
-  color: $color-accent;
-  background-color: rgba($color-accent, 0.1);
+  color: var(--color-accent);
+  background-color: rgba(var(--color-accent), 0.1);
   padding: v.$spacing-1 v.$spacing-3;
   border-radius: v.$radius-full;
 }
@@ -385,14 +386,14 @@
   justify-content: space-between;
   align-items: center;
   padding-top: v.$spacing-3;
-  border-top: 1px solid $color-gray-100;
+  border-top: 1px solid var(--border-color-light);
 }
 
 .client__lesson-duration,
 .client__lesson-difficulty {
   font-family: v.$font-body;
   font-size: v.$font-size-sm;
-  color: $color-gray-500;
+  color: var(--text-tertiary);
 }
 
 // ============================================================================
@@ -435,8 +436,8 @@
   font-family: v.$font-body;
   font-size: v.$font-size-sm;
   font-weight: v.$font-weight-medium;
-  color: $color-accent;
-  background-color: rgba($color-accent, 0.1);
+  color: var(--color-accent);
+  background-color: color-mix(in srgb, var(--color-accent) 10%, transparent 90%);
   padding: v.$spacing-1 v.$spacing-3;
   border-radius: v.$radius-full;
 }
@@ -445,14 +446,14 @@
 .client__lesson-modal-difficulty {
   font-family: v.$font-body;
   font-size: v.$font-size-sm;
-  color: $color-gray-500;
+  color: var(--text-tertiary);
 }
 
 .client__lesson-modal-desc {
   font-family: v.$font-body;
   font-size: v.$font-size-base;
   color: var(--text-secondary);
-  line-height: $line-height-relaxed;
+  line-height: v.$line-height-relaxed;
   margin-bottom: v.$spacing-4;
   text-align: left;
 }
@@ -460,7 +461,7 @@
 .client__lesson-modal-info {
   text-align: left;
   padding: v.$spacing-4;
-  background-color: $color-gray-50;
+  background-color: var(--bg-secondary);
   border-radius: v.$radius-md;
 
   h4 {
@@ -477,7 +478,7 @@
     li {
       font-family: v.$font-body;
       font-size: v.$font-size-sm;
-      color: $color-gray-600;
+      color: var(--text-tertiary);
       margin-bottom: v.$spacing-1;
     }
   }
@@ -516,7 +517,7 @@
   text-align: center;
 
   .required {
-    color: $color-error;
+    color: var(--color-error);
     font-weight: v.$font-weight-bold;
   }
 }
@@ -525,7 +526,7 @@
 // RESPONSIVE
 // ============================================================================
 
-@media (max-width: $breakpoint-md) {
+@media (max-width: v.$breakpoint-md) {
   .client__header {
     flex-direction: column;
     text-align: center;
@@ -559,7 +560,7 @@
   }
 }
 
-@media (max-width: $breakpoint-sm) {
+@media (max-width: v.$breakpoint-sm) {
   .client {
     padding: v.$spacing-4 v.$spacing-3;
   }

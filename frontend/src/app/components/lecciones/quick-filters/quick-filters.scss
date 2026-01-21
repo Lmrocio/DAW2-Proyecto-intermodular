@@ -27,25 +27,24 @@
   border-radius: v.$radius-full;
   padding: v.$spacing-2 v.$spacing-5;
   font-size: v.$font-size-sm;
-  color: v.$color-text-dark;
+  color: var(--text-primary);
   cursor: pointer;
-  @include transition(all, v.$transition-fast);
+  @include m.transition(all, v.$transition-fast);
   white-space: nowrap;
 
-  @include hover {
+  @include m.hover {
     border-color: var(--color-accent);
     color: var(--color-accent);
   }
 
   &--active {
-    background: var(bg-primary);
+    background: var(--bg-primary);
     border-color: var(--color-accent);
     color: var(--color-accent);
   }
 
-  @include focus-visible {
+  @include m.focus-visible {
     outline: 2px solid var(--color-secondary);
     outline-offset: 2px;
   }
 }
-
