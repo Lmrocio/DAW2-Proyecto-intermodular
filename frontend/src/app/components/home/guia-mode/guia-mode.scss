@@ -1,107 +1,252 @@
-.guia-mode {
-  max-width: 1200px;
-  margin: 0 auto 80px;
-  padding: 0 60px;
+@use '../../../../styles/00-settings/variables' as v;
+@use '../../../../styles/01-tools/mixins' as m;
+
+.guide-mode-section {
+  background: v.$color-primary;
+  padding: v.$spacing-10 v.$spacing-5;
+  width: 96%;
+  display: flex;
+  justify-content: center;
+  justify-self: center;
+  border-bottom: 2px solid;
+  border-top: 2px solid;
 }
 
-.guia-mode__card {
-  background: var(--color-primary);
-  border-radius: 20px;
-  padding: 40px;
+.guide-mode-card {
+  background: v.$color-text-light;
+  border: 3px solid v.$color-text-dark;
+  padding: v.$spacing-8 v.$spacing-10;
+  max-width: 800px;
+  width: 100%;
   display: flex;
   align-items: center;
-  gap: 32px;
-  box-shadow: 0 8px 24px rgba(30, 95, 190, 0.3);
-  transition: transform 0.3s ease;
+  gap: v.$spacing-6;
 
-  &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(30, 95, 190, 0.4);
-  }
-}
-
-.guia-mode__icon {
-  color: var(--color-accent);
-  flex-shrink: 0;
-  animation: pulse 2s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.8;
-    transform: scale(1.05);
-  }
-}
-
-.guia-mode__content {
-  flex: 1;
-  color: white;
-}
-
-.guia-mode__title {
-  font-size: 28px;
-  font-weight: 700;
-  margin-bottom: 12px;
-  color: white;
-}
-
-.guia-mode__description {
-  font-size: 16px;
-  line-height: 1.6;
-  opacity: 0.95;
-}
-
-.guia-mode__btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 15px 35px;
-  background: var(--color-accent);
-  color: var(--text-primary);
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  flex-shrink: 0;
-  transition: all 0.3s ease;
-
-  &:hover {
-    background: #F2C855;
-    transform: scale(1.05);
-    box-shadow: 0 4px 12px rgba(255, 209, 102, 0.4);
-  }
-}
-
-.guia-mode__btn-icon {
-  flex-shrink: 0;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .guia-mode {
-    margin-bottom: 60px;
-    padding: 0 24px;
+  @media (max-width: v.$breakpoint-md) {
+    padding: v.$spacing-6 v.$spacing-8;
+    gap: v.$spacing-5;
   }
 
-  .guia-mode__card {
+  @media (max-width: 480px) {
     flex-direction: column;
     text-align: center;
-    padding: 32px 24px;
-    gap: 24px;
+    padding: v.$spacing-6 v.$spacing-5;
+    box-shadow: 4px 4px 0 0 v.$color-text-dark;
+  }
+}
+
+.guide-icon-container {
+  width: 80px;
+  height: 80px;
+  background: v.$color-primary;
+  border: 3px solid v.$color-text-dark;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  overflow: visible;
+  z-index: 10;
+
+  @media (max-width: v.$breakpoint-md) {
+    width: 70px;
+    height: 70px;
   }
 
-  .guia-mode__title {
-    font-size: 24px;
+  @media (max-width: 480px) {
+    width: 70px;
+    height: 70px;
   }
 
-  .guia-mode__btn {
+  /* Óvalo irregular pequeño (layer 1) - fondo decorativo muy sutil */
+  &::before {
+    content: '';
+    position: absolute;
+    z-index: 0;
+    width: 60%;
+    height: 60%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-12deg);
+    background-color: mix(v.$color-primary, #fff, 10%);
+    border-radius: 45% 55% 60% 40% / 50% 40% 60% 50%;
+    filter: blur(0.3px);
+    opacity: 0.25;
+  }
+
+  /* Segunda capa sutil (layer 2) - muy pequeña textura */
+  &::after {
+    content: '';
+    position: absolute;
+    z-index: 0;
+    width: 45%;
+    height: 40%;
+    top: 52%;
+    left: 48%;
+    transform: translate(-48%, -52%) rotate(8deg);
+    background-color: mix(v.$color-primary, #000, 2%);
+    border-radius: 55% 45% 45% 55% / 45% 55% 45% 55%;
+    opacity: 0.08;
+  }
+}
+
+.guide-icon {
+  color: v.$color-text-dark;
+  position: relative;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    display: block;
+    width: 40px;
+    height: 40px;
+  }
+
+  @media (max-width: v.$breakpoint-md) {
+    svg {
+      width: 35px;
+      height: 35px;
+    }
+  }
+}
+
+.guide-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.guide-title {
+  font-family: v.$font-secondary;
+  font-size: 24px;
+  font-weight: 700;
+  font-style: italic;
+  color: v.$color-text-dark;
+  margin-bottom: v.$spacing-2;
+  line-height: 1.3;
+
+  @media (max-width: v.$breakpoint-md) {
+    font-size: 22px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 20px;
+  }
+}
+
+.guide-description {
+  font-family: v.$font-body;
+  font-size: 15px;
+  font-weight: 400;
+  color: v.$color-gray-600;
+  line-height: 1.5;
+  max-width: 400px;
+  margin: 0;
+
+  @media (max-width: 480px) {
+    font-size: 14px;
+    max-width: 100%;
+  }
+}
+
+.guide-button-wrapper {
+  flex-shrink: 0;
+  white-space: nowrap;
+
+  @media (max-width: 480px) {
+    width: 100%;
+  }
+}
+
+.guide-actions {
+  display: flex;
+  align-items: center;
+  gap: v.$spacing-4;
+  margin-left: v.$spacing-4;
+
+  @media (max-width: v.$breakpoint-md) {
+    width: 100%;
+    justify-content: center;
+    margin-left: 0;
+    gap: v.$spacing-3;
+  }
+}
+
+.guide-listen-btn .button {
+  width: 44px !important;
+  height: 44px !important;
+  padding: 0 !important;
+}
+
+.guide-row {
+  display: flex;
+  align-items: center; /* alinea la descripción y las acciones a la misma altura */
+  justify-content: space-between;
+  gap: v.$spacing-6;
+  width: 100%;
+}
+
+.guide-description {
+  margin: 0;
+  flex: 1 1 auto; /* permitir que el párrafo ocupe el espacio disponible */
+  max-width: 60%;
+}
+
+.guide-actions {
+  display: flex;
+  align-items: center;
+  gap: v.$spacing-4;
+  margin-left: 0;
+  flex-shrink: 0;
+}
+
+@media (max-width: v.$breakpoint-md) {
+  .guide-row {
+    flex-direction: column;
+    align-items: center;
+    gap: v.$spacing-4;
+  }
+
+  .guide-description {
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .guide-actions {
     width: 100%;
     justify-content: center;
   }
 }
 
+/* Add SVG styling for guide-svg-icon */
+.guide-svg-icon {
+  stroke: v.$color-text-dark;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: currentColor;
+}
+
+/* MODO OSCURO */
+:root[data-theme='dark'] {
+  .guide-mode-card {
+    background: v.$color-gray-800;
+    border-color: v.$color-text-light;
+    box-shadow: 8px 8px 0 0 v.$color-text_light;
+
+    @media (max-width: 480px) {
+      box-shadow: 4px 4px 0 0 v.$color-text-light;
+    }
+  }
+
+  .guide-icon-container {
+    background: transparent;
+    border-color: v.$color-text-light;
+  }
+
+  .guide-icon {
+    color: v.$color-text-light;
+  }
+}

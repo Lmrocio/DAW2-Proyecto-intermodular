@@ -1,5 +1,5 @@
-@use '../../../../styles/00-settings/variables' as *;
-@use '../../../../styles/01-tools/mixins' as *;
+@use '../../../../styles/00-settings/variables' as vars;
+@use '../../../../styles/01-tools/mixins' as mixins;
 
 // ============================================================================
 // CONTENEDOR PRINCIPAL
@@ -18,186 +18,246 @@
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.2s ease, visibility 0.2s ease;
+  pointer-events: none;
 
   &--open {
     opacity: 1;
     visibility: visible;
+    pointer-events: auto;
   }
 
   &--visible {
     opacity: 1;
     visibility: visible;
+    pointer-events: auto;
   }
 }
 
 // ============================================================================
-// BACKDROP
+// OVERLAY
 // ============================================================================
 
-.modal__backdrop {
+.modal__overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba($color-text-dark, 0.6);
-  backdrop-filter: blur(4px);
+  background-color: rgba(0, 0, 0, 0.15);
+  z-index: 40;
+  pointer-events: auto;
 }
 
 // ============================================================================
-// CONTENIDO DEL MODAL
+// TOOLTIP BUBBLE - Contenido principal
 // ============================================================================
 
-.modal__content {
+.modal__tooltip-bubble {
   position: relative;
-  background-color: $color-bg-light;
-  border-radius: $radius-lg;
-  box-shadow: 0 20px 40px rgba($color-text-dark, 0.2);
-  max-height: 90vh;
-  overflow-y: auto;
-  transform: scale(0.95) translateY(20px);
-  transition: transform 0.2s ease;
+  z-index: 50;
+  background: vars.$color-text-light;
+  border: vars.$border-medium solid vars.$color-text-dark;
+  border-radius: vars.$radius-sm;
+  box-shadow: 8px 8px 0 0 vars.$color-text-dark;
+  max-width: 450px;
+  width: 90%;
+  padding: 0;
+  overflow: visible;
 
-  .modal--open &,
-  .modal--visible & {
-    transform: scale(1) translateY(0);
+  @media (max-width: vars.$breakpoint-md) {
+    max-width: 100%;
   }
 }
 
-.modal--sm .modal__content {
-  width: 90%;
-  max-width: 400px;
+// Barra superior amarilla
+.modal__top-bar {
+  height: 12px;
+  background: vars.$color-primary;
+  border-bottom: vars.$border-medium solid vars.$color-text-dark;
+  border-radius: vars.$radius-sm vars.$radius-sm 0 0;
 }
 
-.modal--md .modal__content {
-  width: 90%;
-  max-width: 560px;
-}
-
-.modal--lg .modal__content {
-  width: 95%;
-  max-width: 800px;
-}
-
-// ============================================================================
-// HEADER
-// ============================================================================
-
-.modal__header {
+// Contenido principal (dos columnas)
+.modal__bubble-content {
   display: flex;
+  gap: vars.$spacing-6;
+  padding: vars.$spacing-8;
+}
+
+// Columna izquierda: Icono de guía
+.modal__guide-icon-wrapper {
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  padding: $spacing-6;
-  border-bottom: 2px solid $color-gray-200;
+  gap: vars.$spacing-2;
+  flex-shrink: 0;
 }
 
-.modal__title {
-  font-family: $font-primary;
-  font-size: $font-size-xl;
-  font-weight: $font-weight-semibold;
-  color: $color-text-dark;
-  margin: 0;
-}
-
-// ============================================================================
-// BOTÓN CERRAR
-// ============================================================================
-
-.modal__close-btn {
+.modal__guide-icon {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  border: vars.$border-medium solid vars.$color-text-dark;
+  border-radius: 50%;
+  background: vars.$color-primary;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
-  min-width: 44px;
-  background-color: transparent;
-  border: 2px solid $color-gray-300;
-  border-radius: $radius-md;
+  overflow: hidden;
+
+  // Fondo orgánico amarillo
+  &::before {
+    content: '';
+    position: absolute;
+    width: 80%;
+    height: 80%;
+    background-color: vars.$color-primary;
+    border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+    z-index: 0;
+    opacity: 0.6;
+  }
+
+  .material-symbols-outlined {
+    font-size: 40px;
+    color: vars.$color-text-dark;
+    position: relative;
+    z-index: 10;
+    font-variation-settings: 'FILL' 0, 'wght' 300;
+  }
+}
+
+.modal__guide-label {
+  font-size: vars.$font-size-xs;
+  font-weight: vars.$font-weight-bold;
+  text-transform: uppercase;
+  color: vars.$color-text-dark;
+  letter-spacing: 0.05em;
+}
+
+// Columna derecha: Contenido de texto
+.modal__text-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: vars.$spacing-4;
+}
+
+.modal__bubble-title {
+  margin: 0;
+  font-family: vars.$font-secondary;
+  font-size: vars.$font-size-2xl;
+  font-weight: vars.$font-weight-bold;
+  color: vars.$color-text-dark;
+  line-height: vars.$line-height-tight;
+}
+
+.modal__bubble-body {
+  font-size: vars.$font-size-lg;
+  line-height: vars.$line-height-relaxed;
+  color: vars.$color-gray-700;
+  margin: 0;
+
+  p {
+    margin: 0;
+  }
+}
+
+// Acciones (botones)
+.modal__bubble-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: vars.$spacing-4;
+  padding-top: vars.$spacing-2;
+}
+
+.modal__close-link {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: vars.$font-size-sm;
+  font-weight: vars.$font-weight-bold;
+  color: vars.$color-text-dark;
+  text-decoration: underline;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: color 0.2s ease;
 
   &:hover {
-    background-color: $color-error;
-    border-color: $color-error;
-
-    .modal__close-icon {
-      color: $color-text-light;
-    }
+    color: vars.$color-tertiary;
   }
 
   &:focus {
-    outline: 3px solid $color-accent;
+    outline: 2px solid vars.$color-accent;
     outline-offset: 2px;
   }
+}
 
-  &--floating {
-    position: absolute;
-    top: $spacing-4;
-    right: $spacing-4;
-    z-index: 1;
+.modal__next-btn {
+  background: vars.$color-tertiary;
+  color: vars.$color-text-light;
+  border: vars.$border-medium solid vars.$color-text-dark;
+  border-radius: vars.$radius-sm;
+  padding: vars.$spacing-3 vars.$spacing-6;
+  font-weight: vars.$font-weight-bold;
+  font-size: vars.$font-size-sm;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  box-shadow: 3px 3px 0 0 vars.$color-text-dark;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &:focus {
+    outline: 2px solid vars.$color-accent;
+    outline-offset: 2px;
   }
 }
 
-.modal__close-icon {
-  font-size: $font-size-2xl;
-  font-weight: $font-weight-bold;
-  color: $color-gray-600;
-  line-height: 1;
-}
-
-// ============================================================================
-// CUERPO
-// ============================================================================
-
-.modal__body {
-  padding: $spacing-6;
-  font-family: $font-body;
-  font-size: $font-size-base;
-  line-height: $line-height-relaxed;
-  color: $color-text-dark;
-}
-
-// ============================================================================
-// FOOTER
-// ============================================================================
-
-.modal__footer {
-  display: flex;
-  gap: $spacing-4;
-  justify-content: flex-end;
-  padding: $spacing-4 $spacing-6 $spacing-6;
-
-  &:empty {
-    display: none;
-  }
+// Flecha puntero (pseudo-elemento)
+.modal__tooltip-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -20px;
+  left: 50px;
+  width: 0;
+  height: 0;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-top: 20px solid vars.$color-text-dark;
+  z-index: 50;
 }
 
 // ============================================================================
 // RESPONSIVE
 // ============================================================================
 
-@media (max-width: $breakpoint-sm) {
+@media (max-width: vars.$breakpoint-sm) {
   .modal__content {
-    margin: $spacing-4;
+    margin: vars.$spacing-4;
   }
 
   .modal--sm .modal__content,
   .modal--md .modal__content,
   .modal--lg .modal__content {
-    width: calc(100% - #{$spacing-8});
+    width: calc(100% - #{vars.$spacing-8});
     max-width: none;
   }
 
   .modal__header {
-    padding: $spacing-4;
+    padding: vars.$spacing-4;
   }
 
   .modal__body {
-    padding: $spacing-4;
+    padding: vars.$spacing-4;
   }
 
   .modal__footer {
-    padding: $spacing-3 $spacing-4 $spacing-4;
+    padding: vars.$spacing-3 vars.$spacing-4 vars.$spacing-4;
     flex-direction: column;
 
     > * {
@@ -205,4 +265,3 @@
     }
   }
 }
-

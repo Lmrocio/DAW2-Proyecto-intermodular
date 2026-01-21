@@ -1,10 +1,177 @@
+<!-- Botón como enlace (con routerLink) -->
+<a
+  *ngIf="routerLink"
+  [routerLink]="routerLink"
+  [class]="getButtonClasses()"
+  role="button"
+  tabindex="0"
+  [style.height.px]="normalizedSize === 'small' ? 40 : (normalizedSize === 'medium' ? 48 : 56)"
+  [style.padding]="normalizedSize === 'small' ? '0 20px' : (normalizedSize === 'medium' ? '0 32px' : '0 40px')"
+>
+  <!-- Icono izquierda -->
+  <span *ngIf="icon && iconPosition === 'left'" class="button__icon button__icon--left">
+    <ng-container [ngSwitch]="icon">
+      <svg *ngSwitchCase="'left-arrow'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="19" y1="12" x2="5" y2="12"/>
+        <polyline points="12 19 5 12 12 5"/>
+      </svg>
+      <svg *ngSwitchCase="'right-arrow'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="5" y1="12" x2="19" y2="12"/>
+        <polyline points="12 5 19 12 12 19"/>
+      </svg>
+      <svg *ngSwitchCase="'user'" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+      <svg *ngSwitchCase="'google'" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+      </svg>
+      <svg *ngSwitchCase="'play'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polygon points="5 3 19 12 5 21 5 3"/>
+      </svg>
+      <svg *ngSwitchCase="'pause'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="6" y="5" width="4" height="14"/>
+        <rect x="14" y="5" width="4" height="14"/>
+      </svg>
+      <svg *ngSwitchCase="'stop'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="5" y="5" width="14" height="14"/>
+      </svg>
+    </ng-container>
+  </span>
+
+  <!-- Texto o contenido -->
+  <ng-container *ngIf="text; else linkContent">
+    <span class="button__text">{{ text }}</span>
+  </ng-container>
+  <ng-template #linkContent>
+    <ng-content></ng-content>
+  </ng-template>
+
+  <!-- Icono derecha -->
+  <span *ngIf="icon && iconPosition === 'right'" class="button__icon button__icon--right">
+    <ng-container [ngSwitch]="icon">
+      <svg *ngSwitchCase="'left-arrow'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="19" y1="12" x2="5" y2="12"/>
+        <polyline points="12 19 5 12 12 5"/>
+      </svg>
+      <svg *ngSwitchCase="'right-arrow'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="5" y1="12" x2="19" y2="12"/>
+        <polyline points="12 5 19 12 12 19"/>
+      </svg>
+      <svg *ngSwitchCase="'user'" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+      <svg *ngSwitchCase="'google'" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+      </svg>
+      <svg *ngSwitchCase="'play'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polygon points="5 3 19 12 5 21 5 3"/>
+      </svg>
+      <svg *ngSwitchCase="'pause'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="6" y="5" width="4" height="14"/>
+        <rect x="14" y="5" width="4" height="14"/>
+      </svg>
+      <svg *ngSwitchCase="'stop'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="5" y="5" width="14" height="14"/>
+      </svg>
+    </ng-container>
+  </span>
+</a>
+
+<!-- Botón normal -->
 <button
+  *ngIf="!routerLink"
   [class]="getButtonClasses()"
   [disabled]="disabled"
-  [type]="type"
+  [type]="buttonType"
   (click)="onClick()"
+  [style.height.px]="normalizedSize === 'small' ? 40 : (normalizedSize === 'medium' ? 48 : 56)"
+  [style.padding]="normalizedSize === 'small' ? '0 20px' : (normalizedSize === 'medium' ? '0 32px' : '0 40px')"
 >
-  <ng-content></ng-content>
+  <!-- Icono izquierda -->
+  <span *ngIf="icon && iconPosition === 'left'" class="button__icon button__icon--left">
+    <ng-container [ngSwitch]="icon">
+      <svg *ngSwitchCase="'left-arrow'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="19" y1="12" x2="5" y2="12"/>
+        <polyline points="12 19 5 12 12 5"/>
+      </svg>
+      <svg *ngSwitchCase="'right-arrow'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="5" y1="12" x2="19" y2="12"/>
+        <polyline points="12 5 19 12 12 19"/>
+      </svg>
+      <svg *ngSwitchCase="'user'" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+      <svg *ngSwitchCase="'google'" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+      </svg>
+      <svg *ngSwitchCase="'play'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polygon points="5 3 19 12 5 21 5 3"/>
+      </svg>
+      <svg *ngSwitchCase="'pause'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="6" y="5" width="4" height="14"/>
+        <rect x="14" y="5" width="4" height="14"/>
+      </svg>
+      <svg *ngSwitchCase="'stop'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="5" y="5" width="14" height="14"/>
+      </svg>
+    </ng-container>
+  </span>
+
+  <!-- Texto o contenido -->
+  <ng-container *ngIf="text; else buttonContent">
+    <span class="button__text">{{ text }}</span>
+  </ng-container>
+  <ng-template #buttonContent>
+    <ng-content></ng-content>
+  </ng-template>
+
+  <!-- Icono derecha -->
+  <span *ngIf="icon && iconPosition === 'right'" class="button__icon button__icon--right">
+    <ng-container [ngSwitch]="icon">
+      <svg *ngSwitchCase="'left-arrow'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="19" y1="12" x2="5" y2="12"/>
+        <polyline points="12 19 5 12 12 5"/>
+      </svg>
+      <svg *ngSwitchCase="'right-arrow'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="5" y1="12" x2="19" y2="12"/>
+        <polyline points="12 5 19 12 12 19"/>
+      </svg>
+      <svg *ngSwitchCase="'user'" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+      <svg *ngSwitchCase="'google'" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+      </svg>
+      <svg *ngSwitchCase="'play'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polygon points="5 3 19 12 5 21 5 3"/>
+      </svg>
+      <svg *ngSwitchCase="'pause'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="6" y="5" width="4" height="14"/>
+        <rect x="14" y="5" width="4" height="14"/>
+      </svg>
+      <svg *ngSwitchCase="'stop'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="5" y="5" width="14" height="14"/>
+      </svg>
+    </ng-container>
+  </span>
 </button>
 
+<!-- Label opcional debajo del botón -->
+<div *ngIf="label" class="button__label">{{ label }}</div>
 

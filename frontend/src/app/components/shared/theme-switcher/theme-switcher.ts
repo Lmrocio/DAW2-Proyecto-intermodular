@@ -1,18 +1,13 @@
-// ============================================================================
-// COMPONENTE: THEME SWITCHER
-// ============================================================================
-// Botón toggle para cambiar entre tema claro y oscuro
-// Implementa Theme Switcher funcional según ClienteFase1
-
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ThemeService, Theme } from '../../../services/theme.service';
 import { Subscription } from 'rxjs';
+import { HeaderIcon } from '../header-icon/header-icon';
 
 @Component({
   selector: 'app-theme-switcher',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, HeaderIcon],
   templateUrl: './theme-switcher.html',
   styleUrl: './theme-switcher.scss',
 })

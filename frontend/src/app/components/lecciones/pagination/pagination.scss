@@ -3,111 +3,172 @@
 
 .pagination {
   display: flex;
+  align-items: center;
   justify-content: space-between;
+  gap: $spacing-4; /* 16px */
+  padding: $spacing-5 0; /* 20px */
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Botones Anterior/Siguiente */
+.pagination-button {
+  display: inline-flex;
   align-items: center;
-  margin-top: $spacing-12;
-  padding-top: $spacing-6;
-  border-top: $border-thin solid $color-gray-200;
-  flex-wrap: wrap;
-  gap: $spacing-4;
+  justify-content: center;
+  gap: $spacing-3; /* mayor gap entre icono y texto */
+  min-width: 160px; /* alargado */
+  height: 56px; /* tamaño grande */
+  padding: 0 $spacing-6;
+  background: white;
+  color: $color-gray-600; /* #6b7280 */
+  border: $border-medium solid $color-gray-300; /* #d1d5db */
+  border-radius: $radius-sm; /* 4px */
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold; /* 600 */
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all $transition-base $easing-in-out; /* 0.3s ease */
+  white-space: nowrap;
+
+  .button__icon svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .button__text {
+    display: inline-block;
+  }
+
+  &:hover:not(:disabled) {
+    background: $color-gray-50; /* #f9fafb */
+    border-color: $color-gray-400; /* #9ca3af */
+    color: $color-text-dark; /* #1a1a1a */
+    transform: translateY(-2px);
+    box-shadow: $shadow-md; /* 0 4px 6px rgba(0, 0, 0, 0.05) */
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: $shadow-sm;
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    background: $color-gray-100; /* #f5f5f5 */
+    border-color: $color-gray-200; /* #e5e7eb */
+    color: $color-gray-400; /* #9ca3af */
+  }
 }
 
-.pagination__info {
-  font-size: $font-size-sm;
-  color: $color-gray-700;
+/* Asegurar que los botones icon-only del pagination tengan tamaño cuadrado y show flecha centrada */
+.pagination-button.button--icon-only,
+.pagination-button.button--icon-only .button__icon {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  padding: 0;
 }
 
-.pagination__controls {
+.pagination-button.button--icon-only .button__icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Números de página */
+.page-numbers {
   display: flex;
+  gap: $spacing-3; /* 12px */
   align-items: center;
-  gap: $spacing-1;
 }
 
-.pagination__pages {
-  display: flex;
-  gap: $spacing-1;
-}
-
-.pagination__btn {
+.page-number {
+  min-width: 48px;
+  height: 48px;
+  padding: 0 $spacing-3; /* 12px */
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 40px;
-  height: 40px;
-  padding: 0 $spacing-3;
   background: white;
-  border: $border-thin solid $color-gray-200;
-  border-radius: $radius-md;
-  color: $color-text-dark;
-  font-size: $font-size-sm;
-  font-weight: $font-weight-medium;
+  color: $color-text-dark; /* #1a1a1a */
+  border: $border-medium solid $color-text-dark; /* #1a1a1a */
+  border-radius: $radius-sm; /* 4px */
+  font-size: 18px; /* específico del documento */
+  font-weight: $font-weight-semibold; /* 600 */
   cursor: pointer;
-  @include transition(all, $transition-fast);
+  transition: all $transition-base $easing-in-out; /* 0.3s ease */
 
-  &:not(:disabled):not(.pagination__btn--ellipsis) {
-    @include hover {
-      background: $color-gray-100;
-      border-color: $color-accent;
-      color: $color-accent;
+  &:hover:not(:disabled) {
+    background: $color-gray-100; /* #f5f5f5 */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Página activa (amarillo) */
+  &.active {
+    background: $color-primary; /* #fbbf24 - amarillo */
+    color: $color-text-dark; /* #1a1a1a */
+    border-color: $color-text-dark; /* #1a1a1a */
+    cursor: default;
+    box-shadow: 4px 4px 0 0 $color-text-dark;
+
+    &:hover {
+      transform: none;
+      box-shadow: 4px 4px 0 0 $color-text-dark;
     }
   }
 
   &:disabled {
-    cursor: not-allowed;
-    opacity: 0.4;
-  }
-
-  &--active {
-    background: $color-accent;
-    border-color: $color-accent;
-    color: white;
-
-    @include hover {
-      background: $color-accent;
-      color: white;
-    }
-  }
-
-  &--arrow {
-    &:not(:disabled) {
-      @include hover {
-        background: $color-accent;
-        color: white;
-      }
-    }
-  }
-
-  &--ellipsis {
     cursor: default;
-    border: none;
-    background: transparent;
-
-    @include hover {
-      background: transparent;
-      border: none;
-    }
   }
 }
 
-/* Responsive */
-@media (max-width: $breakpoint-md) {
+/* Responsive - Tablet */
+@media (max-width: $breakpoint-sm) {
   .pagination {
-    flex-direction: column;
-    align-items: center;
+    gap: $spacing-2; /* 8px */
+    flex-wrap: wrap;
+    justify-content: center;
   }
 
-  .pagination__info {
-    order: 2;
-    margin-top: $spacing-4;
+  .pagination-button {
+    min-width: 44px;
+    height: 44px;
+    padding: 0 $spacing-3;
+
+    .button__text {
+      display: none; /* Ocultar texto en mobile */
+    }
   }
 
-  .pagination__controls {
-    order: 1;
+  .page-number {
+    min-width: 40px;
+    height: 40px;
+    font-size: 16px;
   }
 
-  .pagination__btn {
+  .page-numbers {
+    gap: $spacing-2; /* 8px */
+  }
+}
+
+/* Responsive - Mobile pequeño */
+@media (max-width: 480px) {
+  .pagination-button {
+    min-width: 40px;
+    padding: 10px;
+  }
+
+  .page-number {
     min-width: 36px;
     height: 36px;
-    font-size: $font-size-xs;
+    font-size: 14px;
   }
 }

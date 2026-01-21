@@ -1,22 +1,25 @@
-import { Component, HostListener, Renderer2 } from '@angular/core';
+import { Component, HostListener, Renderer2, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LucideAngularModule, HelpCircle, User } from 'lucide-angular';
 import { ThemeSwitcher } from '../../shared/theme-switcher/theme-switcher';
+import { HeaderIcon } from '../../shared/header-icon/header-icon';
+import { Modal } from '../../shared/modal/modal';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, LucideAngularModule, ThemeSwitcher],
+  imports: [CommonModule, ThemeSwitcher, HeaderIcon, Modal],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
 export class Header {
-  // Iconos de Lucide
-  readonly HelpCircle = HelpCircle;
-  readonly User = User;
-
   // Estado del menú hamburguesa
   menuOpen = false;
+
+  // Estado del modal de guía
+  isGuideModalOpen = false;
+
+  // Referencia al modal para llamadas programáticas y para evitar warnings del compilador
+  @ViewChild(Modal, { static: false }) guideModal?: Modal;
 
   constructor(private renderer: Renderer2) {}
 
@@ -37,6 +40,25 @@ export class Header {
     this.renderer.removeStyle(document.body, 'overflow');
   }
 
+  // Abrir modal de guía
+  openGuideModal(): void {
+    this.isGuideModalOpen = true;
+    // Si tenemos la referencia al modal, usar su API (compatibilidad)
+    if (this.guideModal) {
+      this.guideModal.open();
+    }
+  }
+
+  // Cerrar modal de guía
+  onGuideModalClosed(): void {
+    this.isGuideModalOpen = false;
+  }
+
+  // Siguiente paso en la guía (para futuro)
+  onGuideNext(): void {
+    console.log('Siguiente paso en la guía');
+  }
+
   @HostListener('document:keydown.escape')
   onEscapePress(): void {
     if (this.menuOpen) {
@@ -52,4 +74,3 @@ export class Header {
     }
   }
 }
-

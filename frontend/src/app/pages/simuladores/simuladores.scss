@@ -1,0 +1,387 @@
+// ============================================================================
+// ESTILOS PÁGINA DE SIMULADORES
+// ============================================================================
+
+@import '../../../styles/00-settings/variables';
+@import '../../../styles/01-tools/mixins';
+
+.simuladores-page {
+  min-height: 100vh;
+  background: $color-bg-dark;
+  box-sizing: border-box;
+}
+
+.simuladores-page__container {
+  max-width: 1440px;
+  justify-self: center;
+  overflow: visible;
+
+  @media (max-width: $breakpoint-md) {
+    padding: 0 $spacing-6;
+  }
+}
+
+// ============================================================================
+// SIMULADOR DESTACADO
+// ============================================================================
+
+.featured-lesson {
+  position: relative;
+  background: $color-text-light;
+  border: $border-medium solid $color-text-dark;
+  display: flex;
+  flex-direction: row;
+  gap: $spacing-8;
+  box-shadow: 3px 3px 0 0 $color-text-dark;
+  overflow: hidden;
+  margin: $spacing-4 0;
+  align-items: flex-start;
+  box-sizing: border-box;
+  min-height: 0;
+
+  @media (max-width: $breakpoint-lg) {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+.featured-badge {
+  position: absolute;
+  top: $spacing-3;
+  right: $spacing-3;
+  padding: $spacing-1 $spacing-2;
+  background: $color-primary;
+  border: $border-medium solid $color-text-dark;
+  border-radius: 9999px;
+  font-weight: $font-weight-bold;
+  font-size: $font-size-xs;
+  transform: rotate(3deg);
+  z-index: 2;
+}
+
+.featured-image {
+  flex: 0 0 280px;
+  min-width: 280px;
+  max-width: 280px;
+  max-height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: $radius-2xl;
+  overflow: hidden;
+  border: $border-medium solid $color-text-dark;
+  aspect-ratio: 16 / 9;
+  position: relative;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.05);
+  }
+
+  @media (max-width: $breakpoint-lg) {
+    flex: 0 0 auto;
+    width: 100%;
+    max-height: none;
+    aspect-ratio: auto;
+  }
+}
+
+.featured-content {
+  flex: 1 1 55%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: $spacing-2;
+  min-height: 0;
+}
+
+.featured-category {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-2;
+  color: $color-accent;
+  font-weight: $font-weight-bold;
+  font-size: $font-size-sm;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.category-dot {
+  width: 6px;
+  height: 6px;
+  background: $color-accent;
+  border: $border-medium solid $color-text-dark;
+  border-radius: 50% 50% 40% 60% / 60% 40% 60% 40%;
+}
+
+.featured-title {
+  font-family: $font-secondary;
+  font-size: 1.5rem;
+  font-weight: $font-weight-bold;
+  line-height: $line-height-tight;
+  color: $color-text-dark;
+  margin: 0;
+
+  @media (max-width: $breakpoint-md) {
+    font-size: 1.25rem;
+  }
+}
+
+.featured-description {
+  font-family: $font-body;
+  font-size: $font-size-xs;
+  line-height: $line-height-relaxed;
+  color: $color-gray-600;
+  font-weight: $font-weight-medium;
+  margin: 0;
+}
+
+.featured-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+// ============================================================================
+// LAYOUT PRINCIPAL
+// ============================================================================
+
+.simuladores-layout {
+  display: grid;
+  grid-template-columns: 288px minmax(0, 1fr);
+  gap: $spacing-24;
+  align-items: start;
+  margin: $spacing-20 0;
+  padding: $spacing-10 0;
+  overflow: visible;
+
+  @media (max-width: $breakpoint-lg) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// ============================================================================
+// SIDEBAR
+// ============================================================================
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-20;
+  flex-shrink: 0;
+  overflow: visible;
+}
+
+.filters-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.filters-title {
+  font-family: $font-primary;
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+  color: $color-text-dark;
+  margin-bottom: $spacing-6;
+  padding-bottom: $spacing-2;
+  border-bottom: $border-medium solid $color-text-dark;
+  display: flex;
+  align-items: center;
+  gap: $spacing-3;
+
+  .material-symbols-outlined {
+    font-size: 2rem;
+  }
+}
+
+.progress-card {
+  background: $color-bg-light;
+  border: $border-medium solid $color-text-dark;
+  padding: $spacing-8;
+  box-shadow: 8px 8px 0 0 $color-text-dark;
+  margin-top: $spacing-8;
+}
+
+.progress-header {
+  display: flex;
+  align-items: center;
+  gap: $spacing-3;
+  margin-bottom: $spacing-6;
+
+  .material-symbols-outlined {
+    font-size: 2rem;
+  }
+
+  h4 {
+    font-family: $font-secondary;
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+    margin: 0;
+  }
+}
+
+.progress-text {
+  font-weight: $font-weight-medium;
+  margin-bottom: $spacing-6;
+  font-size: $font-size-lg;
+  font-family: $font-body;
+}
+
+.progress-bar-container {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.2);
+  border: $border-medium solid $color-text-dark;
+  height: 16px;
+  margin-bottom: $spacing-4;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background: $color-primary;
+  border-right: $border-medium solid $color-text-dark;
+  transition: width 0.3s ease;
+}
+
+.progress-stats {
+  display: flex;
+  justify-content: space-between;
+  font-weight: $font-weight-medium;
+  font-size: $font-size-sm;
+  text-transform: uppercase;
+}
+
+// ============================================================================
+// CONTENIDO PRINCIPAL
+// ============================================================================
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-10;
+}
+
+.simuladores-grid {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-10;
+}
+
+.no-results {
+  text-align: center;
+  padding: $spacing-20 $spacing-5;
+  color: $color-gray-700;
+}
+
+.no-results-title {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  font-family: $font-secondary;
+  color: $color-text-dark;
+  margin: 0 0 $spacing-3 0;
+}
+
+.no-results-text {
+  font-size: $font-size-base;
+  margin: 0;
+}
+
+// ============================================================================
+// MODO OSCURO
+// ============================================================================
+
+:root[data-theme='dark'] {
+  .simuladores-page {
+    background: $color-gray-900;
+  }
+
+  .hero-title,
+  .featured-title,
+  .filters-title {
+    color: $color-text-light;
+  }
+
+  .hero-subtitle,
+  .featured-description {
+    color: $color-gray-400;
+  }
+
+  .featured-lesson {
+    background: $color-gray-800;
+    border-color: $color-text-light;
+    box-shadow: 8px 8px 0 0 $color-text_light;
+  }
+
+  .featured-badge,
+  .category-dot {
+    border-color: $color-text-light;
+  }
+
+  .progress-card {
+    box-shadow: 8px 8px 0 0 $color-text_light;
+  }
+
+  .filters-title {
+    border-bottom-color: $color-text-light;
+  }
+
+  .no-results-title {
+    color: $color-text-light;
+  }
+}
+
+.featured-rows {
+  display: flex;
+  gap: $spacing-10;
+  align-items: stretch;
+  margin: $spacing-16 0;
+  padding: 0;
+  box-sizing: border-box;
+  min-height: 0;
+
+  .featured-lesson {
+    flex: 1 1 50%;
+    margin: 0;
+    box-sizing: border-box;
+    min-height: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    padding: $spacing-8;
+
+    .featured-content {
+      height: 100%;
+      justify-content: space-between;
+    }
+    .featured-image {
+      height: 100%;
+      max-height: none;
+    }
+    .featured-image img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+    }
+  }
+
+  @media (max-width: $breakpoint-lg) {
+    display: block;
+    .featured-lesson {
+      margin: $spacing-20 0;
+    }
+    .featured-lesson .featured-image {
+      height: auto;
+      max-height: none;
+    }
+    .featured-lesson .featured-content {
+      height: auto;
+    }
+  }
+}

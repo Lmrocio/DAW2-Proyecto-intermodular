@@ -1,39 +1,36 @@
+@use '../../../../styles/00-settings/variables' as *;
+
 // ============================================================================
 // HEADER - TecnoMayores
 // ============================================================================
-// Estructura según especificaciones:
-// - Fondo blanco
-// - Altura ~70px
-// - Logo serif azul
-// - Navegación centro
-// - Botones derecha (Guía + Usuario)
-// - Separador amarillo 4px
+// Diseño responsive:
+// - Desktop: Logo + Navegación + Acciones (Guía, Theme, Perfil)
+// - Móvil: Logo + Guía (solo icono) + Perfil + Hamburguesa
+//   - Desplegable: Navegación + Guía completo + Theme completo
 
 // ============================================================================
 // CONTENEDOR PRINCIPAL
 // ============================================================================
 .app-header {
-  background-color: white;
+  background-color: $color-bg-dark;
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: none;
+  font-family: $font-body;
 }
 
 .app-header__container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 60px;
-  height: 70px;
+  margin: 0;
+  height: auto;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 32px;
+  padding-left: $spacing-12;
+  padding-top: $spacing-5;
+  padding-bottom: $spacing-5;
 
-  @media (max-width: 768px) {
-    padding: 0 24px;
-    height: 60px;
-    gap: 16px;
+  @media (max-width: $breakpoint-md) {
+    padding: $spacing-4 $spacing-6;
+    gap: $spacing-3;
   }
 }
 
@@ -44,109 +41,46 @@
   text-decoration: none;
   display: flex;
   align-items: center;
-  transition: opacity 0.3s ease;
+  transition: opacity $transition-base $easing-in-out;
+  flex-shrink: 0;
 
   &:hover {
     opacity: 0.8;
   }
 
   &:focus-visible {
-    outline: 3px solid #FFD166;
+    outline: 3px solid $color-primary;
     outline-offset: 4px;
-    border-radius: 4px;
+    border-radius: $radius-sm;
+  }
+
+  @media (max-width: $breakpoint-md) {
+    margin-right: 0; // En móvil eliminamos el margen para mejor uso del espacio
   }
 }
 
 .app-header__logo-text {
-  font-family: Georgia, 'Times New Roman', serif;
-  font-size: 28px;
-  font-weight: 700;
-  color: #1E5FBE;
+  font-family: $font-primary;
+  font-size: $font-size-3xl;
+  font-weight: $font-weight-semibold;
+  color: $color-text-dark;
   white-space: nowrap;
 
-  @media (max-width: 768px) {
-    font-size: 24px;
+  @media (max-width: $breakpoint-md) {
+    font-size: $font-size-2xl;
   }
 }
 
 // ============================================================================
-// BOTÓN HAMBURGUESA (MOBILE)
+// NAVEGACIÓN PRINCIPAL (DESKTOP)
 // ============================================================================
-.app-header__hamburger {
-  display: none;
-  background: transparent;
-  border: none;
-  padding: 8px;
-  cursor: pointer;
-  flex-direction: column;
-  gap: 5px;
-  width: 44px;
-  height: 44px;
-  justify-content: center;
-  align-items: center;
-
-  @media (max-width: 768px) {
-    display: flex;
-  }
-
-  &:hover {
-    background-color: #F5F5F5;
-    border-radius: 4px;
-  }
-}
-
-.app-header__hamburger-line {
-  display: block;
-  width: 24px;
-  height: 3px;
-  background-color: #2C3E50;
-  border-radius: 2px;
-  transition: all 0.3s ease;
-}
-
-.app-header__hamburger--active {
-  .app-header__hamburger-line {
-    &:nth-child(1) {
-      transform: translateY(8px) rotate(45deg);
-    }
-    &:nth-child(2) {
-      opacity: 0;
-    }
-    &:nth-child(3) {
-      transform: translateY(-8px) rotate(-45deg);
-    }
-  }
-}
-
-// ============================================================================
-// NAVEGACIÓN PRINCIPAL (CENTRO)
-// ============================================================================
-.app-header__nav {
+.app-header__nav--desktop {
   flex: 1;
   display: flex;
-  justify-content: center;
-
-  @media (max-width: 768px) {
-    position: fixed;
-    top: 60px;
-    left: 0;
-    right: 0;
-    background: white;
-    border-bottom: 1px solid #E0E0E0;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    transform: translateY(-100%);
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
-    z-index: 99;
-  }
-
-  &--open {
-    @media (max-width: 768px) {
-      transform: translateY(0);
-      opacity: 1;
-      visibility: visible;
-    }
+  justify-content: end;
+  padding-right: $spacing-8;
+  @media (max-width: $breakpoint-md) {
+    display: none;
   }
 }
 
@@ -156,176 +90,373 @@
   margin: 0;
   display: flex;
   align-items: center;
-  gap: 40px;
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-    gap: 0;
-    width: 100%;
-  }
-}
-
-.app-header__nav-item {
-  @media (max-width: 768px) {
-    width: 100%;
-    border-bottom: 1px solid #F0F0F0;
-
-    &:last-child {
-      border-bottom: none;
-    }
-  }
+  gap: $spacing-6;
 }
 
 .app-header__nav-link {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: 16px;
-  font-weight: 400;
-  color: #2C3E50;
+  font-family: $font-secondary; /* usar la tipografía de títulos (serif) */
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  color: $color-text-dark;
   text-decoration: none;
-  padding: 8px 12px;
-  border-radius: 4px;
-  transition: all 0.3s ease;
+  padding: $spacing-2 $spacing-3;
+  border-radius: $radius-sm;
+  transition: color $transition-base $easing-in-out;
   display: block;
+  text-transform: uppercase; /* igual que los títulos del footer */
+  letter-spacing: 0.5px; /* igual que los títulos del footer */
 
   &:hover {
-    color: #1E5FBE;
-    background-color: #F5F5F5;
+    color: $color-gray-600;
   }
 
   &:focus-visible {
-    outline: 3px solid #FFD166;
+    outline: 2px solid $color-primary;
+    outline-offset: 2px;
+  }
+}
+
+// ============================================================================
+// ACCIONES (DESKTOP)
+// ============================================================================
+.app-header__actions--desktop {
+  display: flex;
+  align-items: center;
+  gap: $spacing-3;
+  flex-shrink: 0;
+
+  @media (max-width: $breakpoint-md) {
+    display: none;
+  }
+}
+
+// ============================================================================
+// ACCIONES (MÓVIL)
+// ============================================================================
+.app-header__actions--mobile {
+  display: none;
+
+  @media (max-width: $breakpoint-md) {
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+    flex-shrink: 0;
+  }
+}
+
+// ============================================================================
+// BOTÓN GUÍA
+// ============================================================================
+.app-header__btn-guide {
+  display: flex;
+  align-items: center;
+  gap: $spacing-2;
+  padding: $spacing-3 $spacing-6;
+  background: white;
+  border: $border-medium solid $color-text-dark;
+  border-radius: 50px;
+  color: $color-text-dark;
+  font-family: $font-body;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all $transition-base $easing-in-out;
+  box-shadow: 4.5px 2px 0 0 $color-primary;
+  position: relative;
+
+  &:hover {
+    background: $color-text-dark;
+    color: $color-text-light;
+
+    svg {
+      stroke: $color-text-light;
+    }
+  }
+
+  &:focus-visible {
+    outline: 3px solid $color-primary;
     outline-offset: 2px;
   }
 
-  @media (max-width: 768px) {
-    padding: 16px 24px;
-    border-radius: 0;
+  &--mobile-icon {
+    width: 44px;
+    height: 44px;
+    padding: $spacing-2;
+    border: none;
+    box-shadow: none;
+    background: transparent;
 
     &:hover {
-      background-color: #F9F9F9;
+      background: $color-gray-100;
+
+      svg {
+        stroke: $color-text-dark;
+      }
     }
   }
 }
 
-// ============================================================================
-// ACCIONES USUARIO (DERECHA)
-// ============================================================================
-.app-header__utilities {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-
-  @media (max-width: 768px) {
-    gap: 8px;
-  }
-}
-
-// Botón Guía
-.app-header__btn-guia {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 16px;
-  background: transparent;
-  border: 2px solid #1E5FBE;
-  border-radius: 6px;
-  color: #1E5FBE;
-  font-size: 15px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-
-  &:hover {
-    background: #1E5FBE;
-    color: white;
-  }
-
-  &:focus-visible {
-    outline: 3px solid #FFD166;
-    outline-offset: 2px;
-  }
-
-  @media (max-width: 768px) {
-    padding: 6px 12px;
-    font-size: 14px;
-  }
-
-  @media (max-width: 480px) {
-    .app-header__btn-text {
-      display: none;
-    }
-    padding: 8px;
-  }
-}
-
-.app-header__btn-text {
-  white-space: nowrap;
-}
-
-// Botón Usuario
-.app-header__btn-usuario {
+.app-header__btn-guide-icon {
+  width: 24px;
+  height: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
+  flex-shrink: 0;
+
+  svg {
+    stroke: $color-text-dark;
+    transition: stroke $transition-base $easing-in-out;
+  }
+}
+
+.app-header__btn-guide-text {
+  white-space: nowrap;
+}
+
+// ============================================================================
+// SEPARADORES
+// ============================================================================
+// Base común para todos los separadores
+%separator-base {
+  background: $color-text-dark;
+}
+
+// Separador vertical (entre botones desktop)
+.app-header__separator-vertical {
+  @extend %separator-base;
+  width: $border-medium;
   height: 40px;
-  background: #1E5FBE;
+  margin-left: $spacing-4;
+}
+
+// Separador horizontal inferior del header
+.app-header__bottom-separator {
+  @extend %separator-base;
+  height: $border-medium;
+  width: 96%;
+  justify-self: center;
+}
+
+// Separador horizontal en menú móvil
+.app-header__mobile-separator {
+  height: $border-thin;
+  background: $color-gray-200;
+  margin: $spacing-6 0;
+}
+
+// ============================================================================
+// BOTÓN USUARIO
+// ============================================================================
+.app-header__btn-user {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  background: transparent;
   border: none;
-  border-radius: 50%;
-  color: white;
+  color: $color-text-dark;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all $transition-base $easing-in-out;
+  flex-shrink: 0;
+  padding: $spacing-2;
+  margin-right: $spacing-8;
+  svg {
+    width: 24px;
+    height: 24px;
+    stroke: $color-text-dark;
+    fill: none;
+    transition: stroke $transition-base $easing-in-out, transform $transition-base $easing-in-out;
+  }
 
   &:hover {
-    background: #164A9B;
-    transform: scale(1.05);
+    background: $color-gray-100;
+    border-radius: $radius-sm;
+
+    svg {
+      stroke: $color-text-dark;
+    }
   }
 
   &:focus-visible {
-    outline: 3px solid #FFD166;
-    outline-offset: 3px;
-  }
-
-  @media (max-width: 768px) {
-    width: 36px;
-    height: 36px;
+    outline: 3px solid $color-primary;
+    outline-offset: 2px;
+    border-radius: $radius-sm;
   }
 }
 
 // ============================================================================
-// SEPARADOR AMARILLO (4px)
+// BOTÓN HAMBURGUESA (MÓVIL)
 // ============================================================================
-.app-header__separator {
-  height: 4px;
-  background: #FFD166;
-  width: 100%;
+.app-header__hamburger {
+  display: flex;
+  background: transparent;
+  border: none;
+  padding: $spacing-2;
+  cursor: pointer;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 44px;
+  height: 44px;
+  gap: 5px;
+
+  &:hover {
+    background-color: $color-gray-100;
+    border-radius: $radius-sm;
+  }
+
+  &:focus-visible {
+    outline: 3px solid $color-primary;
+    outline-offset: 2px;
+    border-radius: $radius-sm;
+  }
+}
+
+.app-header__hamburger-line {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background-color: $color-text-dark;
+  border-radius: $radius-sm;
+  transition: all $transition-base $easing-in-out;
+}
+
+.app-header__hamburger--active {
+  .app-header__hamburger-line {
+    &:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+    &:nth-child(2) {
+      opacity: 0;
+    }
+    &:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+  }
 }
 
 // ============================================================================
-// OVERLAY (MOBILE)
+// MENÚ MÓVIL DESPLEGABLE
+// ============================================================================
+.app-header__mobile-menu {
+  position: fixed;
+  top: calc($spacing-16 + $spacing-10); // Altura del header
+  right: 0;
+  width: 300px;
+  max-width: 85vw;
+  background: white;
+  border-left: $border-thin solid $color-gray-200;
+  box-shadow: -4px 0 12px rgba(0, 0, 0, 0.1);
+  transform: translateX(100%);
+  opacity: 0;
+  visibility: hidden;
+  transition: all $transition-base $easing-in-out;
+  z-index: 99;
+  height: calc(100vh - ($spacing-16 + $spacing-10));
+  overflow-y: auto;
+
+  @media (max-width: $breakpoint-md) {
+    display: block;
+  }
+
+  @media (min-width: calc($breakpoint-md + 1px)) {
+    display: none;
+  }
+
+  &--open {
+    transform: translateX(0);
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.app-header__mobile-menu-content {
+  padding: $spacing-6;
+}
+
+// ============================================================================
+// NAVEGACIÓN MÓVIL
+// ============================================================================
+.app-header__mobile-nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.app-header__mobile-nav-item {
+  border-bottom: $border-thin solid $color-gray-100;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.app-header__mobile-nav-link {
+  font-family: $font-body;
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  color: $color-text-dark;
+  text-decoration: none;
+  padding: $spacing-4 $spacing-3;
+  display: block;
+  transition: background $transition-base $easing-in-out;
+
+  &:hover {
+    background: $color-gray-50;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $color-primary;
+    outline-offset: -2px;
+  }
+}
+
+// ============================================================================
+// ACCIONES MÓVIL (BOTONES COMPLETOS)
+// ============================================================================
+.app-header__mobile-actions {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-3;
+
+  .app-header__btn-guide {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .theme-switcher {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+
+// ============================================================================
+// OVERLAY MÓVIL
 // ============================================================================
 .app-header__overlay {
-  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.15); // Sombreado suave
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: all $transition-base $easing-in-out;
+  z-index: 98;
 
-  @media (max-width: 768px) {
-    display: block;
-    position: fixed;
-    top: 60px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: transparent;
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transition: all 0.3s ease;
-    z-index: 98;
-
-    &--visible {
-      opacity: 1;
-      visibility: visible;
-      pointer-events: auto;
-    }
+  &--visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
   }
 }
 
@@ -334,11 +465,12 @@
 // ============================================================================
 @media (prefers-reduced-motion: reduce) {
   .app-header__hamburger-line,
-  .app-header__nav,
-  .app-header__overlay,
-  .app-header__btn-guia,
-  .app-header__btn-usuario {
+  .app-header__nav-link,
+  .app-header__mobile-nav-link,
+  .app-header__btn-guide,
+  .app-header__btn-user,
+  .app-header__mobile-menu,
+  .app-header__overlay {
     transition: none;
   }
 }
-

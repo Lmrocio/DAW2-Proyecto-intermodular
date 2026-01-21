@@ -57,6 +57,9 @@ export class Modal implements AfterViewInit, OnDestroy {
   /** Evento emitido cuando se abre el modal */
   @Output() opened = new EventEmitter<void>();
 
+  /** Evento emitido cuando se hace click en "Siguiente" */
+  @Output() next = new EventEmitter<void>();
+
   // ========================================================================
   // VIEWCHILD - Acceso al DOM
   // ========================================================================
@@ -259,6 +262,15 @@ export class Modal implements AfterViewInit, OnDestroy {
       event.preventDefault();
       this.close();
     }
+  }
+
+
+  /**
+   * Maneja el click en el botón "Siguiente"
+   * Emite el evento "next"
+   */
+  onNext(): void {
+    this.next.emit();
   }
 
   // ========================================================================

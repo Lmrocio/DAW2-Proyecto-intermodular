@@ -1,17 +1,8 @@
 <!-- ============================================================================ -->
-<!-- COMPONENTE: MODAL -->
+<!-- COMPONENTE: MODAL - Modo Guía -->
 <!-- ============================================================================ -->
-<!-- Modal accesible con backdrop, cierre con ESC y click fuera -->
+<!-- Modal estilo "tooltip bubble" con guía visual y animación -->
 <!-- IMPLEMENTA: Accesibilidad completa con ARIA (Requisito 3.2 para 10/10) -->
-
-<!--
-  ARIA Attributes Implementados:
-  - role="dialog": Define el rol de diálogo modal
-  - aria-modal="true": Indica que es un modal que bloquea interacción con el resto de la página
-  - aria-labelledby: Referencia al título del modal para accesibilidad
-  - aria-hidden="true": Oculta elementos decorativos de lectores de pantalla
-  - tabindex="-1": Permite recibir foco programáticamente para focus trap
--->
 
 <div
   *ngIf="isOpen"
@@ -19,57 +10,67 @@
   [class]="modalClasses"
   role="dialog"
   aria-modal="true"
-  [attr.aria-labelledby]="title ? 'modal-title' : null"
+  [attr.aria-labelledby]="'modal-title'"
 >
-  <!-- Backdrop oscuro -->
+  <!-- Overlay oscuro con spotlight -->
   <div
-    class="modal__backdrop"
+    class="modal__overlay"
     (click)="onBackdropClick($event)"
     aria-hidden="true"
   ></div>
 
-  <!-- Contenido del modal -->
+  <!-- Tooltip Bubble - Contenido del modal -->
   <div
     #modalContent
-    class="modal__content"
+    class="modal__tooltip-bubble"
     (click)="onContentClick($event)"
     tabindex="-1"
   >
-    <!-- Header del modal -->
-    <header class="modal__header" *ngIf="title">
-      <h2 id="modal-title" class="modal__title">{{ title }}</h2>
-      <button
-        type="button"
-        class="modal__close-btn"
-        (click)="close()"
-        aria-label="Cerrar modal"
-        title="Cerrar (ESC)"
-      >
-        <span class="modal__close-icon" aria-hidden="true">×</span>
-      </button>
-    </header>
+    <!-- Barra superior amarilla -->
+    <div class="modal__top-bar" aria-hidden="true"></div>
 
-    <!-- Botón cerrar sin header -->
-    <button
-      *ngIf="!title"
-      type="button"
-      class="modal__close-btn modal__close-btn--floating"
-      (click)="close()"
-      aria-label="Cerrar modal"
-      title="Cerrar (ESC)"
-    >
-      <span class="modal__close-icon" aria-hidden="true">×</span>
-    </button>
+    <!-- Contenido principal -->
+    <div class="modal__bubble-content">
+      <!-- Columna izquierda: Icono guía -->
+      <div class="modal__guide-icon-wrapper">
+        <div class="modal__guide-icon">
+          <span class="material-symbols-outlined">face_6</span>
+        </div>
+        <span class="modal__guide-label">Guía</span>
+      </div>
 
-    <!-- Cuerpo del modal - Proyección de contenido -->
-    <div class="modal__body">
-      <ng-content></ng-content>
+      <!-- Columna derecha: Contenido -->
+      <div class="modal__text-content">
+        <h2 id="modal-title" class="modal__bubble-title">{{ title }}</h2>
+
+        <!-- Cuerpo del modal - Proyección de contenido -->
+        <div class="modal__bubble-body">
+          <ng-content></ng-content>
+        </div>
+
+        <!-- Acciones -->
+        <div class="modal__bubble-actions">
+          <button
+            type="button"
+            class="modal__close-link"
+            (click)="close()"
+            aria-label="Cerrar modal"
+          >
+            Cerrar
+          </button>
+          <button
+            type="button"
+            class="modal__next-btn"
+            (click)="onNext()"
+            aria-label="Siguiente paso"
+          >
+            Siguiente
+          </button>
+        </div>
+      </div>
     </div>
 
-    <!-- Footer del modal - Proyección de contenido opcional -->
-    <footer class="modal__footer">
-      <ng-content select="[modal-footer]"></ng-content>
-    </footer>
+    <!-- Punta de flecha (pseudo-elemento en SCSS) -->
   </div>
 </div>
 

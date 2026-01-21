@@ -1,50 +1,151 @@
-<div class="leccion-detalle">
-  @if (loading()) {
-    <div class="leccion-detalle__loading">
-      🔄 Cargando lección...
-    </div>
-  } @else if (leccion()) {
-    <div class="leccion-detalle__header">
-      <a routerLink="/lecciones" class="leccion-detalle__back">
-        ← Volver a lecciones
-      </a>
-      <div class="leccion-detalle__id">ID: {{ leccion()!.id }}</div>
-      <h1 class="leccion-detalle__title">{{ leccion()!.titulo }}</h1>
-      <div class="leccion-detalle__meta">
-        <div class="leccion-detalle__meta-item">
-          <span>⏱️</span>
-          <span>{{ leccion()!.duracion }}</span>
-        </div>
-        <div class="leccion-detalle__meta-item">
-          <span>📊</span>
-          <span>{{ leccion()!.nivel }}</span>
-        </div>
-        <div class="leccion-detalle__meta-item">
-          <span>🏷️</span>
-          <span>{{ leccion()!.categoria }}</span>
+@if (loading()) {
+  <div class="leccion-detalle__loading">
+    🔄 Cargando lección...
+  </div>
+} @else if (leccion()) {
+  <div class="leccion-detalle">
+    <!-- Hero Section -->
+    <section class="leccion-detalle__hero">
+      <app-hero
+        [title]="'Cómo usar WhatsApp'"
+        [subtitle]="'Aprende a enviar mensajes a tus amigos y familiares paso a paso. Es más fácil de lo que parece.'"
+        [imageUrl]="leccion()!.imagen || 'assets/images/imagen-6.svg'"
+        [imageAlt]="'Ilustración de ' + leccion()!.titulo"
+        [showInlineListen]="true"
+        [showSearch]="false"
+        [showButton1]="false"
+        [showButton2]="false"
+        [audioText]="'Aprende a enviar mensajes a tus amigos y familiares paso a paso. Es más fácil de lo que parece.'"
+        [imageLarge]="false"
+        [imageHasShadow]="false">
+      </app-hero>
+    </section>
+
+    <!-- Steps Section -->
+    @if (steps && steps.length > 0) {
+      @for (step of steps; track step.number; let isOdd = $odd) {
+        <section class="leccion-detalle__step" [class.leccion-detalle__step--odd]="isOdd">
+          <div class="leccion-detalle__step-container">
+            @if (isOdd) {
+              <!-- Ilustración a la izquierda -->
+              <div class="leccion-detalle__step-illustration">
+                <div class="leccion-detalle__illustration-blob" [style.background-color]="step.color"></div>
+                <div class="leccion-detalle__illustration-box">
+                  <span class="material-symbols-outlined">{{ step.icon }}</span>
+                </div>
+              </div>
+
+              <!-- Contenido a la derecha -->
+              <div class="leccion-detalle__step-content">
+                <div class="leccion-detalle__step-number">{{ step.number }}</div>
+                <h3 class="leccion-detalle__step-title">{{ step.title }}</h3>
+                <p class="leccion-detalle__step-description">{{ step.description }}</p>
+                <app-button
+                  [text]="'Escuchar este paso'"
+                  [variant]="'white'"
+                  [type]="'secondary'"
+                  [icon]="'play'"
+                  [iconPosition]="'left'"
+                  (btnClick)="playStepAudio(step.description)">
+                </app-button>
+              </div>
+            } @else {
+              <!-- Contenido a la izquierda -->
+              <div class="leccion-detalle__step-content">
+                <div class="leccion-detalle__step-number">{{ step.number }}</div>
+                <h3 class="leccion-detalle__step-title">{{ step.title }}</h3>
+                <p class="leccion-detalle__step-description">{{ step.description }}</p>
+                <app-button
+                  [text]="'Escuchar este paso'"
+                  [variant]="'white'"
+                  [type]="'secondary'"
+                  [icon]="'play'"
+                  [iconPosition]="'left'"
+                  (btnClick)="playStepAudio(step.description)">
+                </app-button>
+              </div>
+
+              <!-- Ilustración a la derecha -->
+              <div class="leccion-detalle__step-illustration">
+                <div class="leccion-detalle__illustration-blob" [style.background-color]="step.color"></div>
+                <div class="leccion-detalle__illustration-box">
+                  <span class="material-symbols-outlined">{{ step.icon }}</span>
+                </div>
+              </div>
+            }
+          </div>
+        </section>
+      }
+    }
+
+    <!-- Call to Action Simulator -->
+    <section class="leccion-detalle__cta">
+      <div class="leccion-detalle__cta-container">
+        <div class="leccion-detalle__cta-pattern"></div>
+        <div class="leccion-detalle__cta-content">
+          <div class="leccion-detalle__cta-icon">
+            <span class="material-symbols-outlined">joystick</span>
+          </div>
+          <h2 class="leccion-detalle__cta-title">¡Practica con el simulador de esta lección!</h2>
+          <p class="leccion-detalle__cta-description">
+            En este simulador podrás practicar los pasos que acabas de ver: enviar un mensaje, adjuntar una foto y administrar tus contactos.
+          </p>
+          <app-button
+            [text]="'Ir al simulador'"
+            [variant]="'orange'"
+            [type]="'primary'"
+            [size]="'large'"
+            [icon]="'right-arrow'"
+            [iconPosition]="'right'"
+            [routerLink]="['/simuladores']">
+          </app-button>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div class="leccion-detalle__content">
-      <h2>Descripción</h2>
-      <p class="leccion-detalle__description">{{ leccion()!.descripcion }}</p>
+    <!-- Actions: Completar y Favoritos -->
+    <section class="leccion-detalle__actions">
+      <app-button
+        [text]="'Marcar como completada'"
+        [variant]="'yellow'"
+        [type]="'primary'"
+        [fullWidth]="true"
+        (btnClick)="markAsCompleted()">
+      </app-button>
+      <app-button
+        [text]="'Añadir a favoritos'"
+        [variant]="'blue'"
+        [type]="'primary'"
+        [fullWidth]="true"
+        (btnClick)="addToFavorites()">
+      </app-button>
+    </section>
 
-      @if (leccion()!.contenido) {
-        <h2>Contenido</h2>
-        <div class="leccion-detalle__body">
-          {{ leccion()!.contenido }}
+    <!-- Navigation: Previous & Next Lessons -->
+    <nav class="leccion-detalle__navigation">
+      <a class="leccion-detalle__nav-card leccion-detalle__nav-card--prev" routerLink="/lecciones">
+        <span class="material-symbols-outlined leccion-detalle__nav-icon">arrow_back</span>
+        <div class="leccion-detalle__nav-content">
+          <span class="leccion-detalle__nav-label">Lección anterior</span>
+          <span class="leccion-detalle__nav-title">Volver al catálogo de lecciones</span>
         </div>
-      }
-    </div>
-  } @else {
-    <div class="leccion-detalle__error">
-      <h2>⚠️ Lección no disponible</h2>
-      <p>No se pudieron cargar los datos de la lección.</p>
-      <a routerLink="/lecciones" class="leccion-detalle__back-button">
-        Volver a lecciones
       </a>
-    </div>
-  }
-</div>
 
+      <a class="leccion-detalle__nav-card leccion-detalle__nav-card--next" routerLink="/lecciones">
+        <div class="leccion-detalle__nav-content">
+          <span class="leccion-detalle__nav-label">Siguiente lección</span>
+          <span class="leccion-detalle__nav-title">Ver la siguiente lección del curso</span>
+        </div>
+        <span class="material-symbols-outlined leccion-detalle__nav-icon">arrow_forward</span>
+      </a>
+    </nav>
+  </div>
+} @else {
+  <div class="leccion-detalle__error">
+    <h2>⚠️ Lección no disponible</h2>
+    <p>No se pudieron cargar los datos de la lección.</p>
+    <a routerLink="/lecciones" class="leccion-detalle__back-button">
+      Volver a lecciones
+    </a>
+  </div>
+}

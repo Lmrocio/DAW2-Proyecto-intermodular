@@ -1,6 +1,6 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LucideAngularModule, ChevronDown, ChevronUp } from 'lucide-angular';
+import { Button } from '../../shared/button/button';
 
 interface FilterOption {
   id: string;
@@ -18,14 +18,11 @@ interface FilterCategory {
 @Component({
   selector: 'app-sidebar-filtros',
   standalone: true,
-  imports: [CommonModule, LucideAngularModule],
+  imports: [CommonModule, Button],
   templateUrl: './sidebar-filtros.html',
   styleUrl: './sidebar-filtros.scss',
 })
 export class SidebarFiltros {
-  readonly ChevronDown = ChevronDown;
-  readonly ChevronUp = ChevronUp;
-
   @Output() filterChange = new EventEmitter<any>();
 
   selectedFilters: { [key: string]: string[] } = {};
@@ -52,25 +49,8 @@ export class SidebarFiltros {
         { id: 'intermedio', label: 'Intermedio', count: 15 },
         { id: 'avanzado', label: 'Avanzado', count: 8 }
       ]
-    },
-    {
-      id: 'duracion',
-      title: 'Duración',
-      expanded: false,
-      options: [
-        { id: 'corta', label: '0-5 min', count: 12 },
-        { id: 'media', label: '5-15 min', count: 18 },
-        { id: 'larga', label: '15+ min', count: 13 }
-      ]
     }
   ];
-
-  toggleCategory(categoryId: string): void {
-    const category = this.categories.find(c => c.id === categoryId);
-    if (category) {
-      category.expanded = !category.expanded;
-    }
-  }
 
   toggleFilter(categoryId: string, optionId: string): void {
     if (!this.selectedFilters[categoryId]) {
@@ -84,7 +64,7 @@ export class SidebarFiltros {
       this.selectedFilters[categoryId].push(optionId);
     }
 
-    this.filterChange.emit(this.selectedFilters);
+    // NO emitir automáticamente: filtrado manual mediante botón "Buscar"
   }
 
   isFilterSelected(categoryId: string, optionId: string): boolean {
@@ -93,6 +73,11 @@ export class SidebarFiltros {
 
   clearAllFilters(): void {
     this.selectedFilters = {};
+    // No emitir automáticamente. El usuario debe pulsar "Buscar" para aplicar.
+  }
+
+  // Método que aplica los filtros seleccionados y emite el evento
+  applyFilters(): void {
     this.filterChange.emit(this.selectedFilters);
   }
 
@@ -100,4 +85,3 @@ export class SidebarFiltros {
     return Object.values(this.selectedFilters).some(arr => arr.length > 0);
   }
 }
-

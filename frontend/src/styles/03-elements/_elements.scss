@@ -52,7 +52,6 @@ h6 + p {
 
 ul, ol {
   margin-bottom: $spacing-4;
-  padding-left: $spacing-6;
 
   // Anidamiento: reducir margen para listas internas
   ul, ol {
@@ -62,7 +61,6 @@ ul, ol {
 }
 
 li {
-  margin-bottom: $spacing-2;
   line-height: $line-height-normal;
 }
 
@@ -183,7 +181,6 @@ img {
   max-width: 100%;
   height: auto;
   vertical-align: middle;
-  border-radius: $radius-md;
 
   &[alt] {
     background-color: $color-gray-100;

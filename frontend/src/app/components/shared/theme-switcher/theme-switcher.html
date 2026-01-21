@@ -6,7 +6,6 @@
 <button
   type="button"
   class="theme-switcher"
-  [class.theme-switcher--dark]="isDarkMode"
   (click)="toggleTheme()"
   (keydown)="onKeyDown($event)"
   [attr.aria-label]="ariaLabel"
@@ -14,33 +13,9 @@
   role="switch"
   [attr.aria-checked]="isDarkMode"
 >
-  <!-- Contenedor del toggle -->
-  <span class="theme-switcher__track">
-    <!-- Icono del sol (tema claro) -->
-    <span
-      class="theme-switcher__icon theme-switcher__icon--sun"
-      [class.theme-switcher__icon--active]="!isDarkMode"
-      aria-hidden="true"
-    >
-      ☀️
-    </span>
-
-    <!-- Deslizador -->
-    <span class="theme-switcher__thumb"></span>
-
-    <!-- Icono de la luna (tema oscuro) -->
-    <span
-      class="theme-switcher__icon theme-switcher__icon--moon"
-      [class.theme-switcher__icon--active]="isDarkMode"
-      aria-hidden="true"
-    >
-      🌙
-    </span>
+  <span class="theme-switcher__icon">
+    <app-header-icon [icon]="isDarkMode ? 'sun' : 'moon'"></app-header-icon>
   </span>
-
-  <!-- Texto visible (opcional) -->
-  <span class="theme-switcher__label">
-    {{ isDarkMode ? 'Oscuro' : 'Claro' }}
-  </span>
+  <span class="theme-switcher__text">{{ isDarkMode ? 'Modo Claro' : 'Modo Oscuro' }}</span>
 </button>
 

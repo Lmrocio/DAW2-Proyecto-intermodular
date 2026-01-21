@@ -1,168 +1,303 @@
-.lecciones-recomendadas {
-  background: #FFF9E6;
-  padding: 80px 0;
+@use '../../../../styles/00-settings/variables' as v;
+@use '../../../../styles/01-tools/mixins' as m;
+
+.lecciones-section {
+  padding: v.$spacing-20 v.$spacing-6;
+  margin-bottom: v.$spacing-4;
+  background: v.$color-bg-dark;
+
+  @media (max-width: v.$breakpoint-md) {
+    padding: v.$spacing-12 v.$spacing-5;
+  }
 }
 
-.lecciones-recomendadas__container {
-  max-width: 1200px;
+.lecciones-container {
+  width: 96%;
   margin: 0 auto;
-  padding: 0 60px;
 }
 
-.lecciones-recomendadas__header {
+// ============================================================================
+// HEADER
+// ============================================================================
+.lecciones-header {
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
   align-items: flex-end;
-  margin-bottom: 48px;
-  gap: 24px;
+  margin-bottom: v.$spacing-12;
+  gap: v.$spacing-6;
 
-  @media (max-width: 768px) {
+  @media (max-width: v.$breakpoint-md) {
     flex-direction: column;
     align-items: flex-start;
+    margin-bottom: v.$spacing-8;
   }
 }
 
-.lecciones-recomendadas__title {
-  font-size: 36px;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin: 0 0 8px 0;
+.lecciones-header-content {
+  flex: 1;
 }
 
-.lecciones-recomendadas__subtitle {
-  font-size: 16px;
-  color: var(--text-secondary);
+.lecciones-title {
+  font-family: v.$font-primary;
+  font-size: v.$font-size-2xl;
+  font-weight: v.$font-weight-bold;
+  color: v.$color-text-dark;
+  margin-bottom: v.$spacing-4;
+  line-height: v.$line-height-tight;
+
+  @media (max-width: v.$breakpoint-md) {
+    font-size: v.$font-size-xl;
+  }
+
+  @media (max-width: 480px) {
+    font-size: v.$font-size-lg;
+  }
+}
+
+.lecciones-subtitle {
+  font-family: v.$font-body;
+  font-size: v.$font-size-base;
+  color: v.$color-gray-600;
   margin: 0;
+  line-height: v.$line-height-normal;
+
+  @media (max-width: v.$breakpoint-md) {
+    font-size: v.$font-size-sm;
+  }
 }
 
-.lecciones-recomendadas__link {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  color: var(--color-primary);
+.lecciones-link {
+  font-family: v.$font-body;
+  font-size: v.$font-size-base;
+  font-weight: v.$font-weight-bold;
+  color: v.$color-text-dark;
   text-decoration: none;
-  font-size: 16px;
-  font-weight: 600;
-  transition: all 0.3s ease;
-
-  &:hover {
-    gap: 10px;
-    color: #164A9B;
-  }
-}
-
-.lecciones-recomendadas__grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 32px;
-
-  @media (max-width: 1024px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  @media (max-width: 640px) {
-    grid-template-columns: 1fr;
-  }
-}
-
-.lecciones-recomendadas__card {
-  background: white;
-  border: 1px solid #E5E7EB;
-  border-radius: 16px;
-  padding: 30px;
-  transition: all 0.3s ease;
-
-  &:hover {
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-    transform: translateY(-4px);
-  }
-}
-
-.lecciones-recomendadas__icon-wrapper {
-  width: 80px;
-  height: 80px;
-  background: #E8E8E8;
-  border-radius: 12px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  margin-bottom: 16px;
+  gap: v.$spacing-2;
+  border-bottom: v.$border-medium solid v.$color-tertiary;
+  padding-bottom: v.$spacing-1;
+  transition: transform v.$transition-base v.$easing-in-out;
+
+  svg {
+    width: 20px;
+    height: 20px;
+    display: block;
+  }
+
+  &:hover {
+    transform: translateX(8px);
+  }
+
+  @media (max-width: v.$breakpoint-md) {
+    font-size: v.$font-size-sm;
+  }
+}
+
+// ============================================================================
+// GRID DE CARDS
+// ============================================================================
+.lecciones-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: v.$spacing-20;
+
+  @media (max-width: v.$breakpoint-lg) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: v.$spacing-6;
+  }
+
+  @media (max-width: v.$breakpoint-md) {
+    grid-template-columns: 1fr;
+    gap: v.$spacing-8;
+  }
+}
+
+// ============================================================================
+// CARD
+// ============================================================================
+.leccion-card {
+  display: flex;
+  flex-direction: column;
+  gap: v.$spacing-4;
+}
+
+// ============================================================================
+// ICONO CON FONDO ORGÁNICO
+// ============================================================================
+.leccion-icon-wrapper {
+  aspect-ratio: 16 / 9;
+  border: v.$border-medium solid v.$color-text-dark;
+  background: v.$color-text-light;
+  display: block;
+  position: relative;
   overflow: hidden;
 }
 
-.lecciones-recomendadas__icon {
+.leccion-icon-fondo {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* decorativo */
+
+  &::before {
+    content: '';
+    position: absolute;
+    z-index: 0;
+  }
+
+  &.fondo-yellow::before {
+    width: 80%;
+    height: 80%;
+    background-color: v.$color-primary;
+    top: 15%;
+    left: 15%;
+    border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+    opacity: 0.6;
+  }
+
+  &.fondo-orange::before {
+    width: 70%;
+    height: 70%;
+    background-color: v.$color-tertiary;
+    top: 20%;
+    left: 10%;
+    border-radius: 60% 40% 30% 70% / 50% 30% 70% 50%;
+    opacity: 0.5;
+  }
+
+  &.fondo-blue::before {
+    width: 75%;
+    height: 75%;
+    background-color: v.$color-accent;
+    top: 10%;
+    left: 20%;
+    border-radius: 30% 70% 50% 50% / 50% 50% 30% 70%;
+    opacity: 0.5;
+  }
+}
+
+
+.leccion-imagen {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  z-index: 10;
+  user-select: none;
 }
 
-.lecciones-recomendadas__badge {
-  display: inline-block;
-  padding: 4px 12px;
-  border-radius: 12px;
-  font-size: 12px;
-  font-weight: 600;
-  color: white;
-  margin-bottom: 12px;
+// ============================================================================
+// BADGE CATEGORÍA
+// ============================================================================
+.leccion-badge {
+  position: absolute;
+  top: v.$spacing-4;
+  left: v.$spacing-4;
+  padding: v.$spacing-1 v.$spacing-3;
+  border: v.$border-thin solid v.$color-text-dark;
+  font-family: v.$font-body;
+  font-size: v.$font-size-xs;
+  font-weight: v.$font-weight-bold;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  z-index: 20;
 
-  &--green {
-    background: #4CAF50;
+  &.badge-yellow {
+    background: v.$color-primary;
+    color: v.$color-text-dark;
   }
 
-  &--blue {
-    background: #2196F3;
+  &.badge-orange {
+    background: v.$color-tertiary;
+    color: v.$color-text-light;
   }
 
-  &--orange {
-    background: #FF9800;
-  }
-}
-
-.lecciones-recomendadas__card-title {
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin: 0 0 12px 0;
-  line-height: 1.3;
-}
-
-.lecciones-recomendadas__card-description {
-  font-size: 14px;
-  line-height: 1.6;
-  color: var(--text-secondary);
-  margin: 0 0 24px 0;
-}
-
-.lecciones-recomendadas__btn {
-  width: 100%;
-  padding: 12px 24px;
-  background: white;
-  color: black;
-  border: 2px solid black;
-  border-radius: 8px;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-
-  &:hover {
-    background: black;
-    color: white;
+  &.badge-blue {
+    background: v.$color-accent;
+    color: v.$color-text-light;
   }
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .lecciones-recomendadas {
-    padding: 60px 0;
-  }
+// ============================================================================
+// TÍTULO Y DESCRIPCIÓN
+// ============================================================================
+.leccion-card-title {
+  font-family: v.$font-secondary;
+  font-size: v.$font-size-xl;
+  color: v.$color-text-dark;
+  margin: 0;
+  line-height: v.$line-height-tight;
 
-  .lecciones-recomendadas__container {
-    padding: 0 24px;
-  }
-
-  .lecciones-recomendadas__title {
-    font-size: 28px;
+  @media (max-width: v.$breakpoint-md) {
+    font-size: v.$font-size-lg;
   }
 }
 
+.leccion-card-description {
+  font-family: v.$font-body;
+  font-size: v.$font-size-base;
+  color: v.$color-gray-600;
+  line-height: v.$line-height-relaxed;
+  margin: 0;
+
+  @media (max-width: v.$breakpoint-md) {
+    font-size: v.$font-size-sm;
+  }
+}
+
+.leccion-description-row {
+  display: flex;
+  align-items: center;
+  gap: v.$spacing-3;
+}
+
+.leccion-card-description {
+  flex: 1 1 auto;
+  margin: 0;
+}
+
+.leccion-play-button {
+  flex: 0 0 auto;
+}
+
+// ============================================================================
+// BOTÓN
+// ============================================================================
+.leccion-button {
+  margin-top: auto;
+}
+
+// custom class para el play button para ajustar tamaño y que use button--icon-only
+.leccion-play-button--custom {
+  /* Forzar que sea square y sin padding, respetando icon-only */
+  width: 44px !important;
+  height: 44px !important;
+  padding: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0 !important;
+}
+
+// ============================================================================
+// MODO OSCURO
+// ============================================================================
+:root[data-theme='dark'] {
+  .leccion-icon-wrapper {
+    background: v.$color-gray-800;
+    border-color: v.$color-text-light;
+  }
+
+  .leccion-icon {
+    color: v.$color-text-light;
+  }
+
+  .leccion-badge {
+    border-color: v.$color-text-light;
+  }
+}

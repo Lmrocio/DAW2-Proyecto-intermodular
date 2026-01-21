@@ -177,8 +177,13 @@ export class Toast implements OnInit, OnDestroy {
     const iconEl = this.renderer.createElement('span');
     this.renderer.addClass(iconEl, 'toast__icon');
     this.renderer.setAttribute(iconEl, 'aria-hidden', 'true');
-    const iconText = this.renderer.createText(this.getIconForType(toast.type));
-    this.renderer.appendChild(iconEl, iconText);
+    // Usar Material Symbols dentro del iconEl
+    const iconInner = this.renderer.createElement('span');
+    this.renderer.addClass(iconInner, 'material-symbols-outlined');
+    const iconName = this.getIconForType(toast.type);
+    const iconInnerText = this.renderer.createText(iconName);
+    this.renderer.appendChild(iconInner, iconInnerText);
+    this.renderer.appendChild(iconEl, iconInner);
 
     // Crear mensaje
     const messageEl = this.renderer.createElement('span');
@@ -277,12 +282,12 @@ export class Toast implements OnInit, OnDestroy {
    */
   private getIconForType(type: string): string {
     const icons: Record<string, string> = {
-      success: '✓',
-      error: '✕',
-      info: 'ℹ',
-      warning: '⚠'
+      success: 'check_circle',
+      error: 'close',
+      info: 'campaign',
+      warning: 'priority_high'
     };
-    return icons[type] || 'ℹ';
+    return icons[type] || 'info';
   }
 
   /** Cierra el toast con animación */
@@ -310,14 +315,14 @@ export class Toast implements OnInit, OnDestroy {
 
   /** Obtiene el icono según el tipo */
   getIcon(): string {
-    if (!this.currentToast) return 'ℹ';
+    if (!this.currentToast) return 'info';
     const icons: Record<string, string> = {
-      success: '✓',
-      error: '✕',
-      info: 'ℹ',
-      warning: '⚠'
+      success: 'check_circle',
+      error: 'close',
+      info: 'campaign',
+      warning: 'priority_high'
     };
-    return icons[this.currentToast.type] || 'ℹ';
+    return icons[this.currentToast.type] || 'info';
   }
 }
 

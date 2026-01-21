@@ -1,17 +1,16 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LucideAngularModule, ChevronLeft, ChevronRight } from 'lucide-angular';
+import { Button } from '../../shared/button/button';
 
 @Component({
   selector: 'app-pagination',
   standalone: true,
-  imports: [CommonModule, LucideAngularModule],
+  imports: [CommonModule, Button],
   templateUrl: './pagination.html',
-  styleUrl: './pagination.scss',
+  styleUrls: ['./pagination.scss'],
 })
 export class Pagination {
-  readonly ChevronLeft = ChevronLeft;
-  readonly ChevronRight = ChevronRight;
+  // no lucide icons needed; app-button uses its own icon mapping
 
   @Input() currentPage: number = 1;
   @Input() totalPages: number = 1;
@@ -67,4 +66,3 @@ export class Pagination {
     return Math.min(this.currentPage * this.itemsPerPage, this.totalItems);
   }
 }
-

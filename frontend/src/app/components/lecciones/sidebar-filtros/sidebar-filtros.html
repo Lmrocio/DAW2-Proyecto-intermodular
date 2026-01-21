@@ -1,57 +1,53 @@
 <aside class="sidebar-filtros">
-  <div class="sidebar-filtros__header">
-    <h2 class="sidebar-filtros__title">Filtros</h2>
-    <button
-      *ngIf="hasActiveFilters"
-      (click)="clearAllFilters()"
-      class="sidebar-filtros__clear"
-    >
-      Limpiar todo
-    </button>
-  </div>
+  <!-- Header removed as requested -->
 
   <div class="sidebar-filtros__categories">
-    <div
-      *ngFor="let category of categories"
-      class="sidebar-filtros__category"
-    >
-      <button
-        (click)="toggleCategory(category.id)"
-        class="sidebar-filtros__category-header"
-        [attr.aria-expanded]="category.expanded"
-      >
+    <div *ngFor="let category of categories" class="sidebar-filtros__category">
+      <div class="sidebar-filtros__category-header-static">
         <span class="sidebar-filtros__category-title">{{ category.title }}</span>
-        <lucide-angular
-          [img]="category.expanded ? ChevronUp : ChevronDown"
-          [size]="20"
-          class="sidebar-filtros__category-icon"
-        ></lucide-angular>
-      </button>
-
-      <div
-        class="sidebar-filtros__options"
-        [class.sidebar-filtros__options--collapsed]="!category.expanded"
-      >
-        <label
-          *ngFor="let option of category.options"
-          class="sidebar-filtros__option"
-        >
+      </div>
+      <div class="sidebar-filtros__options">
+        <label *ngFor="let option of category.options" class="sidebar-filtros__option">
+          <!-- Input nativo oculto para accesibilidad -->
           <input
             type="checkbox"
             [checked]="isFilterSelected(category.id, option.id)"
             (change)="toggleFilter(category.id, option.id)"
-            class="sidebar-filtros__checkbox"
+            class="sidebar-filtros__checkbox-native"
+            [attr.aria-label]="option.label"
           />
+
+          <!-- Elemento visual del checkbox (estilizable) -->
+          <span class="sidebar-filtros__checkbox-custom" aria-hidden="true"></span>
+
           <span class="sidebar-filtros__option-label">{{ option.label }}</span>
-          <span
-            *ngIf="option.count"
-            class="sidebar-filtros__option-count"
-          >
-            ({{ option.count }})
-          </span>
+          <span *ngIf="option.count" class="sidebar-filtros__option-count">({{ option.count }})</span>
         </label>
       </div>
     </div>
   </div>
-</aside>
 
+  <!-- Footer con acciones: Buscar + Limpiar filtros -->
+  <div class="sidebar-filtros__footer">
+    <div class="sidebar-filtros__footer-actions">
+      <app-button
+        type="primary"
+        variant="orange"
+        size="medium"
+        text="Buscar"
+        (btnClick)="applyFilters()"
+        [extraClass]="'sidebar-filtros__btn--search'"
+      ></app-button>
+
+      <app-button
+        *ngIf="hasActiveFilters"
+        type="secondary"
+        variant="white"
+        size="small"
+        text="Limpiar filtros"
+        (btnClick)="clearAllFilters()"
+        [extraClass]="'sidebar-filtros__btn--clear'"
+      ></app-button>
+    </div>
+  </div>
+</aside>

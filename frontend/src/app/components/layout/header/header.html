@@ -6,69 +6,138 @@
       <span class="app-header__logo-text">TecnoMayores</span>
     </a>
 
-    <!-- Botón Hamburguesa (Mobile) -->
-    <button
-      class="app-header__hamburger"
-      [class.app-header__hamburger--active]="menuOpen"
-      (click)="toggleMenu()"
-      aria-label="Abrir menú de navegación"
-      [attr.aria-expanded]="menuOpen"
-      aria-controls="main-nav"
-    >
-      <span class="app-header__hamburger-line"></span>
-      <span class="app-header__hamburger-line"></span>
-      <span class="app-header__hamburger-line"></span>
-    </button>
-
-    <!-- Navegación Principal (Centro) -->
-    <nav
-      class="app-header__nav"
-      [class.app-header__nav--open]="menuOpen"
-      id="main-nav"
-      aria-label="Navegación principal"
-    >
+    <!-- Navegación Principal (Centro - Desktop) -->
+    <nav class="app-header__nav app-header__nav--desktop" aria-label="Navegación principal">
       <ul class="app-header__nav-list">
         <li class="app-header__nav-item">
-          <a href="/lecciones" class="app-header__nav-link" (click)="closeMenu()">Lecciones</a>
+          <a href="/lecciones" class="app-header__nav-link">Lecciones</a>
         </li>
         <li class="app-header__nav-item">
-          <a href="/simuladores" class="app-header__nav-link" (click)="closeMenu()">Simuladores</a>
+          <a href="/simuladores" class="app-header__nav-link">Simuladores</a>
         </li>
         <li class="app-header__nav-item">
-          <a href="/faq" class="app-header__nav-link" (click)="closeMenu()">Ayuda</a>
+          <a href="/ayuda" class="app-header__nav-link">Ayuda</a>
         </li>
       </ul>
     </nav>
 
-    <!-- Acciones Usuario (Derecha) -->
-    <div class="app-header__utilities">
-      <!-- Theme Switcher -->
-      <app-theme-switcher></app-theme-switcher>
-
+    <!-- Acciones Usuario (Derecha - Desktop) -->
+    <div class="app-header__actions app-header__actions--desktop">
       <!-- Botón Guía -->
       <button
-        class="app-header__btn-guia"
-        aria-label="Activar modo guía"
-        title="Modo Guía"
+        type="button"
+        class="app-header__btn-guide"
+        (click)="openGuideModal()"
+        aria-label="Modo Guía"
+        title="Abrir modo guía"
       >
-        <lucide-angular [img]="HelpCircle" [size]="20"></lucide-angular>
-        <span class="app-header__btn-text">Guía</span>
+        <span class="app-header__btn-guide-icon">
+          <app-header-icon icon="guide"></app-header-icon>
+        </span>
+        <span class="app-header__btn-guide-text">Modo Guía</span>
       </button>
+
+      <!-- Botón Modo Oscuro/Claro -->
+      <app-theme-switcher></app-theme-switcher>
+
+      <!-- Separador -->
+      <div class="app-header__separator-vertical"></div>
 
       <!-- Botón Usuario -->
       <button
-        class="app-header__btn-usuario"
+        class="app-header__btn-user"
         aria-label="Perfil de usuario"
         title="Mi perfil"
       >
-        <lucide-angular [img]="User" [size]="20"></lucide-angular>
+        <app-header-icon icon="profile"></app-header-icon>
+      </button>
+    </div>
+
+    <!-- Acciones Móvil -->
+    <div class="app-header__actions app-header__actions--mobile">
+      <!-- Solo icono Modo Guía (móvil) -->
+      <button
+        type="button"
+        class="app-header__btn-guide app-header__btn-guide--mobile-icon"
+        (click)="openGuideModal()"
+        aria-label="Modo Guía"
+        title="Abrir modo guía"
+      >
+        <app-header-icon icon="guide"></app-header-icon>
+      </button>
+
+      <!-- Botón Usuario (móvil) -->
+      <button
+        class="app-header__btn-user"
+        aria-label="Perfil de usuario"
+        title="Mi perfil"
+      >
+        <app-header-icon icon="profile"></app-header-icon>
+      </button>
+
+      <!-- Botón Hamburguesa (móvil) -->
+      <button
+        class="app-header__hamburger"
+        [class.app-header__hamburger--active]="menuOpen"
+        (click)="toggleMenu()"
+        aria-label="Abrir menú de navegación"
+        [attr.aria-expanded]="menuOpen"
+        aria-controls="mobile-nav"
+      >
+        <span class="app-header__hamburger-line"></span>
+        <span class="app-header__hamburger-line"></span>
+        <span class="app-header__hamburger-line"></span>
       </button>
     </div>
 
   </div>
 
-  <!-- Separador amarillo inferior -->
-  <div class="app-header__separator"></div>
+  <!-- Separador horizontal inferior -->
+  <div class="app-header__bottom-separator"></div>
+
+  <!-- Menú Móvil Desplegable -->
+  <nav
+    class="app-header__mobile-menu"
+    [class.app-header__mobile-menu--open]="menuOpen"
+    id="mobile-nav"
+    aria-label="Menú de navegación móvil"
+  >
+    <div class="app-header__mobile-menu-content">
+      <!-- Navegación -->
+      <ul class="app-header__mobile-nav-list">
+        <li class="app-header__mobile-nav-item">
+          <a href="/lecciones" class="app-header__mobile-nav-link" (click)="closeMenu()">Lecciones</a>
+        </li>
+        <li class="app-header__mobile-nav-item">
+          <a href="/simuladores" class="app-header__mobile-nav-link" (click)="closeMenu()">Simuladores</a>
+        </li>
+        <li class="app-header__mobile-nav-item">
+          <a href="/ayuda" class="app-header__mobile-nav-link" (click)="closeMenu()">Ayuda</a>
+        </li>
+      </ul>
+
+      <!-- Separador -->
+      <div class="app-header__mobile-separator"></div>
+
+      <!-- Botones Modo Guía y Tema (con texto completo) -->
+      <div class="app-header__mobile-actions">
+        <button
+          type="button"
+          class="app-header__btn-guide"
+          (click)="openGuideModal(); closeMenu()"
+          aria-label="Modo Guía"
+          title="Abrir modo guía"
+        >
+          <span class="app-header__btn-guide-icon">
+            <app-header-icon icon="guide"></app-header-icon>
+          </span>
+          <span class="app-header__btn-guide-text">Modo Guía</span>
+        </button>
+
+        <app-theme-switcher></app-theme-switcher>
+      </div>
+    </div>
+  </nav>
 
   <!-- Overlay para móvil -->
   <div
@@ -76,5 +145,15 @@
     [class.app-header__overlay--visible]="menuOpen"
     (click)="closeMenu()"
   ></div>
+
+  <!-- Modal de Guía -->
+  <app-modal
+    [isOpen]="isGuideModalOpen"
+    title="¿Sabías que...?"
+    (closed)="onGuideModalClosed()"
+    (next)="onGuideNext()"
+  >
+    <p>Aquí encontrarás guías paso a paso con dibujos muy claros. ¡Ideal para aprender sin prisas!</p>
+  </app-modal>
 </header>
 
