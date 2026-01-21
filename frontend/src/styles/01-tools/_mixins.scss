@@ -1,4 +1,4 @@
-@import '../00-settings/variables';
+@use '../00-settings/variables' as *;
 
 // ============================================================================
 // 1. MIXIN: Responsive - Media Queries
@@ -212,14 +212,9 @@
 // ============================================================================
 // 13. MIXIN: Validación de contraste y accesibilidad de color
 // ============================================================================
-
-@mixin high-contrast-text {
-  color: $color-text-dark;
-
-  @media (prefers-color-scheme: dark) {
-    color: $color-text-light;
-  }
-}
+// NOTA: Removido mixin high-contrast-text que violaba DRY
+// El sistema de temas ahora es global usando [data-theme='dark']
+// Los componentes deben usar las variables CSS mapeadas (var(--text-primary), etc.)
 
 // ============================================================================
 // 14. FUNCIÓN: Convertir píxeles a rem

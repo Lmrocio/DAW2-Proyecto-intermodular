@@ -1,103 +1,76 @@
+@use 'variables' as v;
+
 // ============================================================================
-// CSS CUSTOM PROPERTIES - VARIABLES CSS PARA TEMAS
+// CSS CUSTOM PROPERTIES - TEMATIZACIÓN DINÁMICA
 // ============================================================================
 
 :root {
-  // ========================================================================
-  // COLORES DE FONDO
-  // ========================================================================
-  --bg-primary: #{$color-bg-light};
-  --bg-secondary: #{$color-gray-50};
-  --bg-tertiary: #{$color-gray-100};
+  // --- Colores de Fondo (Claro) ---
+  --bg-primary: #{v.$color-bg-light-primary};
+  --bg-secondary: #{v.$color-bg-light-secondary};
+  --bg-tertiary: #{v.$color-bg-light-tertiary};
 
-  // ========================================================================
-  // COLORES DE TEXTO
-  // ========================================================================
-  --text-primary: #{$color-text-dark};
-  --text-secondary: #{$color-gray-700};
-  --text-tertiary: #{$color-gray-500};
-  --text-light: #{$color-text-light};
+  // --- Colores de Texto (Claro) ---
+  --text-primary: #{v.$color-text-dark};
+  --text-secondary: #{v.$color-text-gray};
+  --text-tertiary: #{v.$color-text-muted};
+  --text-on-dark: #{v.$color-text-light};
 
-  // ========================================================================
-  // COLORES SEMÁNTICOS
-  // ========================================================================
-  --color-success: #{$color-success};
-  --color-error: #{$color-error};
-  --color-warning: #{$color-warning};
-  --color-info: #{$color-info};
+  // --- Colores de Marca (Claro)---
+  --color-primary: #{v.$color-primary};
+  --color-secondary: #{v.$color-secondary};
+  --color-tertiary: #{v.$color-tertiary};
+  --color-accent: #{v.$color-accent};
 
-  // ========================================================================
-  // COLORES DE MARCA/PRIMARIOS
-  // ========================================================================
-  --color-primary: #{$color-primary};
-  --color-secondary: #{$color-secondary};
-  --color-tertiary: #{$color-tertiary};
-  --color-accent: #{$color-accent};
+  // --- Colores Semánticos ---
+  --color-success: #{v.$color-success};
+  --color-error: #{v.$color-error};
+  --color-warning: #{v.$color-warning};
+  --color-info: #{v.$color-info};
 
-  // ========================================================================
-  // BORDES
-  // ========================================================================
-  --border-color-primary: #{$color-gray-300};
-  --border-color-secondary: #{$color-gray-200};
-  --border-color-dark: #{$color-gray-700};
+  // --- Bordes ---
+  --border-color: #{v.$color-gray-300};
+  --border-color-light: #{v.$color-gray-200};
 
-  // ========================================================================
-  // SOMBRAS (para modo claro)
-  // ========================================================================
-  --shadow-sm: #{$shadow-sm};
-  --shadow-md: #{$shadow-md};
-  --shadow-lg: #{$shadow-lg};
-  --shadow-xl: #{$shadow-xl};
+  // --- Sombras Modo Claro ---
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 
-  // ========================================================================
-  // OVERLAY/TRANSPARENCIAS
-  // ========================================================================
-  --overlay-light: #{$overlay-light};
-  --overlay-dark: #{$overlay-dark};
-  --overlay-transparent: #{$overlay-transparent};
+  // --- Overlays ---
+  --overlay-bg: rgba(255, 255, 255, 0.9);
 }
 
 // ============================================================================
-// TEMA OSCURO
+// SOBREESCRITURA MODO OSCURO
 // ============================================================================
 
-.theme-dark {
-  --bg-primary: #2a2420;
-  --bg-secondary: #352e28;
-  --bg-tertiary: #403830;
 
-  --text-primary: #f5f0eb;
-  --text-secondary: #d9d0c5;
-  --text-tertiary: #b8a999;
+[data-theme='dark'] {
+  // --- Colores de Fondo (Basados en Gris 800 y 900) ---
+  --bg-primary: #{v.$color-gray-900};
+  --bg-secondary: #{v.$color-gray-800};
+  --bg-tertiary: #{v.$color-gray-700};
 
-  --border-color-primary: #5a4d40;
-  --border-color-secondary: #4a4038;
-  --border-color-dark: #6a5d50;
+  // --- Colores de Texto (Modo Oscuro) ---
+  --text-primary: #{v.$color-text-light};
+  --text-secondary: #{v.$color-gray-300};
+  --text-tertiary: #{v.$color-gray-400};
 
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
+  // --- Versiones Adaptadas (Para Modo Oscuro) ---
+  $color-primary-dark-mode: #f9e195;
+  $color-secondary-dark-mode: #ffc96d;
+  $color-tertiary-dark-mode: #f58f54;
+  $color-accent-dark-mode: #4da3ff;
 
-  --overlay-dark: rgba(0, 0, 0, 0.7);
+  // --- Bordes y Sombras (Modo Oscuro) ---
+  --border-color: #{v.$color-gray-700};
+  --border-color-light: #{v.$color-gray-600};
+
+  // En modo oscuro las sombras deben ser más oscuras y densas para ser visibles
+  --shadow-main: 0 4px 12px rgba(0, 0, 0, 0.5);
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.4);
+
+  // --- Overlays Modo Oscuro ---
+  --overlay-bg: rgba(0, 0, 0, 0.85);
 }
-
-@media (prefers-color-scheme: dark) {
-  :root:not(.theme-light):not(.theme-dark) {
-    --bg-primary: #2a2420;
-    --bg-secondary: #352e28;
-    --bg-tertiary: #403830;
-    --text-primary: #f5f0eb;
-    --text-secondary: #d9d0c5;
-    --text-tertiary: #b8a999;
-    --border-color-primary: #5a4d40;
-    --border-color-secondary: #4a4038;
-    --border-color-dark: #6a5d50;
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
-    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
-    --overlay-dark: rgba(0, 0, 0, 0.7);
-  }
-}
-

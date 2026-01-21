@@ -1,5 +1,5 @@
-@use '../../../../styles/00-settings/variables' as vars;
-@use '../../../../styles/01-tools/mixins' as mixins;
+@use '../../../../styles/00-settings/variables' as v;
+@use '../../../../styles/01-tools/mixins' as m;
 
 // ============================================================================
 // CONTENEDOR PRINCIPAL
@@ -55,16 +55,16 @@
 .modal__tooltip-bubble {
   position: relative;
   z-index: 50;
-  background: vars.$color-text-light;
-  border: vars.$border-medium solid vars.$color-text-dark;
-  border-radius: vars.$radius-sm;
-  box-shadow: 8px 8px 0 0 vars.$color-text-dark;
+  background: var(--text-on-dark);
+  border: v.$border-medium solid var(--text-primary);
+  border-radius: v.$radius-sm;
+  box-shadow: 8px 8px 0 0 var(--text-primary);
   max-width: 450px;
   width: 90%;
   padding: 0;
   overflow: visible;
 
-  @media (max-width: vars.$breakpoint-md) {
+  @media (max-width: v.$breakpoint-md) {
     max-width: 100%;
   }
 }
@@ -72,16 +72,16 @@
 // Barra superior amarilla
 .modal__top-bar {
   height: 12px;
-  background: vars.$color-primary;
-  border-bottom: vars.$border-medium solid vars.$color-text-dark;
-  border-radius: vars.$radius-sm vars.$radius-sm 0 0;
+  background: var(--color-primary);
+  border-bottom: v.$border-medium solid var(--text-primary);
+  border-radius: v.$radius-sm v.$radius-sm 0 0;
 }
 
 // Contenido principal (dos columnas)
 .modal__bubble-content {
   display: flex;
-  gap: vars.$spacing-6;
-  padding: vars.$spacing-8;
+  gap: v.$spacing-6;
+  padding: v.$spacing-8;
 }
 
 // Columna izquierda: Icono de guía
@@ -89,7 +89,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: vars.$spacing-2;
+  gap: v.$spacing-2;
   flex-shrink: 0;
 }
 
@@ -97,9 +97,9 @@
   position: relative;
   width: 64px;
   height: 64px;
-  border: vars.$border-medium solid vars.$color-text-dark;
+  border: v.$border-medium solid var(--text-primary);
   border-radius: 50%;
-  background: vars.$color-primary;
+  background: var(--color-primary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -111,7 +111,7 @@
     position: absolute;
     width: 80%;
     height: 80%;
-    background-color: vars.$color-primary;
+    background-color: var(--color-primary);
     border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
     z-index: 0;
     opacity: 0.6;
@@ -119,7 +119,7 @@
 
   .material-symbols-outlined {
     font-size: 40px;
-    color: vars.$color-text-dark;
+    color: var(--text-primary);
     position: relative;
     z-index: 10;
     font-variation-settings: 'FILL' 0, 'wght' 300;
@@ -127,10 +127,10 @@
 }
 
 .modal__guide-label {
-  font-size: vars.$font-size-xs;
-  font-weight: vars.$font-weight-bold;
+  font-size: v.$font-size-xs;
+  font-weight: v.$font-weight-bold;
   text-transform: uppercase;
-  color: vars.$color-text-dark;
+  color: var(--text-primary);
   letter-spacing: 0.05em;
 }
 
@@ -139,22 +139,22 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: vars.$spacing-4;
+  gap: v.$spacing-4;
 }
 
 .modal__bubble-title {
   margin: 0;
-  font-family: vars.$font-secondary;
-  font-size: vars.$font-size-2xl;
-  font-weight: vars.$font-weight-bold;
-  color: vars.$color-text-dark;
-  line-height: vars.$line-height-tight;
+  font-family: v.$font-secondary;
+  font-size: v.$font-size-2xl;
+  font-weight: v.$font-weight-bold;
+  color: var(--text-primary);
+  line-height: v.$line-height-tight;
 }
 
 .modal__bubble-body {
-  font-size: vars.$font-size-lg;
-  line-height: vars.$line-height-relaxed;
-  color: vars.$color-gray-700;
+  font-size: v.$font-size-lg;
+  line-height: v.$line-height-relaxed;
+  color: var(--text-tertiary);
   margin: 0;
 
   p {
@@ -167,42 +167,42 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: vars.$spacing-4;
-  padding-top: vars.$spacing-2;
+  gap: v.$spacing-4;
+  padding-top: v.$spacing-2;
 }
 
 .modal__close-link {
   background: none;
   border: none;
   padding: 0;
-  font-size: vars.$font-size-sm;
-  font-weight: vars.$font-weight-bold;
-  color: vars.$color-text-dark;
+  font-size: v.$font-size-sm;
+  font-weight: v.$font-weight-bold;
+  color: var(--text-primary);
   text-decoration: underline;
   cursor: pointer;
   transition: color 0.2s ease;
 
   &:hover {
-    color: vars.$color-tertiary;
+    color: var(--color-tertiary);
   }
 
   &:focus {
-    outline: 2px solid vars.$color-accent;
+    outline: 2px solid var(--color-accent);
     outline-offset: 2px;
   }
 }
 
 .modal__next-btn {
-  background: vars.$color-tertiary;
-  color: vars.$color-text-light;
-  border: vars.$border-medium solid vars.$color-text-dark;
-  border-radius: vars.$radius-sm;
-  padding: vars.$spacing-3 vars.$spacing-6;
-  font-weight: vars.$font-weight-bold;
-  font-size: vars.$font-size-sm;
+  background: var(--color-tertiary);
+  color: var(--text-on-dark);
+  border: v.$border-medium solid var(--text-primary);
+  border-radius: v.$radius-sm;
+  padding: v.$spacing-3 v.$spacing-6;
+  font-weight: v.$font-weight-bold;
+  font-size: v.$font-size-sm;
   cursor: pointer;
   transition: transform 0.2s ease;
-  box-shadow: 3px 3px 0 0 vars.$color-text-dark;
+  box-shadow: 3px 3px 0 0 var(--text-primary);
 
   &:hover {
     transform: translateY(-2px);
@@ -213,12 +213,11 @@
   }
 
   &:focus {
-    outline: 2px solid vars.$color-accent;
+    outline: 2px solid var(--color-accent);
     outline-offset: 2px;
   }
 }
 
-// Flecha puntero (pseudo-elemento)
 .modal__tooltip-bubble::after {
   content: '';
   position: absolute;
@@ -228,7 +227,7 @@
   height: 0;
   border-left: 20px solid transparent;
   border-right: 20px solid transparent;
-  border-top: 20px solid vars.$color-text-dark;
+  border-top: 20px solid var(--text-primary);
   z-index: 50;
 }
 
@@ -236,28 +235,28 @@
 // RESPONSIVE
 // ============================================================================
 
-@media (max-width: vars.$breakpoint-sm) {
+@media (max-width: v.$breakpoint-sm) {
   .modal__content {
-    margin: vars.$spacing-4;
+    margin: v.$spacing-4;
   }
 
   .modal--sm .modal__content,
   .modal--md .modal__content,
   .modal--lg .modal__content {
-    width: calc(100% - #{vars.$spacing-8});
+    width: calc(100% - #{v.$spacing-8});
     max-width: none;
   }
 
   .modal__header {
-    padding: vars.$spacing-4;
+    padding: v.$spacing-4;
   }
 
   .modal__body {
-    padding: vars.$spacing-4;
+    padding: v.$spacing-4;
   }
 
   .modal__footer {
-    padding: vars.$spacing-3 vars.$spacing-4 vars.$spacing-4;
+    padding: v.$spacing-3 v.$spacing-4 v.$spacing-4;
     flex-direction: column;
 
     > * {

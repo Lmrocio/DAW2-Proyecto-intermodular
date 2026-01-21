@@ -4,7 +4,7 @@
 .lecciones-section {
   padding: v.$spacing-20 v.$spacing-6;
   margin-bottom: v.$spacing-4;
-  background: v.$color-bg-dark;
+  background: var(--bg-secondary);
 
   @media (max-width: v.$breakpoint-md) {
     padding: v.$spacing-12 v.$spacing-5;
@@ -42,7 +42,7 @@
   font-family: v.$font-primary;
   font-size: v.$font-size-2xl;
   font-weight: v.$font-weight-bold;
-  color: v.$color-text-dark;
+  color: var(--text-primary);
   margin-bottom: v.$spacing-4;
   line-height: v.$line-height-tight;
 
@@ -58,7 +58,7 @@
 .lecciones-subtitle {
   font-family: v.$font-body;
   font-size: v.$font-size-base;
-  color: v.$color-gray-600;
+  color: var(--text-secondary);
   margin: 0;
   line-height: v.$line-height-normal;
 
@@ -71,12 +71,12 @@
   font-family: v.$font-body;
   font-size: v.$font-size-base;
   font-weight: v.$font-weight-bold;
-  color: v.$color-text-dark;
+  color: var(text-primary);
   text-decoration: none;
   display: flex;
   align-items: center;
   gap: v.$spacing-2;
-  border-bottom: v.$border-medium solid v.$color-tertiary;
+  border-bottom: v.$border-medium solid var(--color-tertiary);
   padding-bottom: v.$spacing-1;
   transition: transform v.$transition-base v.$easing-in-out;
 
@@ -128,8 +128,8 @@
 // ============================================================================
 .leccion-icon-wrapper {
   aspect-ratio: 16 / 9;
-  border: v.$border-medium solid v.$color-text-dark;
-  background: v.$color-text-light;
+  border: v.$border-medium solid var(--text-primary);
+  background:var(--bg-primary);
   display: block;
   position: relative;
   overflow: hidden;
@@ -141,7 +141,7 @@
   display: block;
   width: 100%;
   height: 100%;
-  pointer-events: none; /* decorativo */
+  pointer-events: none;
 
   &::before {
     content: '';
@@ -152,7 +152,7 @@
   &.fondo-yellow::before {
     width: 80%;
     height: 80%;
-    background-color: v.$color-primary;
+    background-color: var(--color-primary);
     top: 15%;
     left: 15%;
     border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
@@ -162,7 +162,7 @@
   &.fondo-orange::before {
     width: 70%;
     height: 70%;
-    background-color: v.$color-tertiary;
+    background-color: var(--color-tertiary);
     top: 20%;
     left: 10%;
     border-radius: 60% 40% 30% 70% / 50% 30% 70% 50%;
@@ -172,7 +172,7 @@
   &.fondo-blue::before {
     width: 75%;
     height: 75%;
-    background-color: v.$color-accent;
+    background-color: var(--color-accent);
     top: 10%;
     left: 20%;
     border-radius: 30% 70% 50% 50% / 50% 50% 30% 70%;
@@ -199,7 +199,7 @@
   top: v.$spacing-4;
   left: v.$spacing-4;
   padding: v.$spacing-1 v.$spacing-3;
-  border: v.$border-thin solid v.$color-text-dark;
+  border: v.$border-thin solid var(--text-primary);
   font-family: v.$font-body;
   font-size: v.$font-size-xs;
   font-weight: v.$font-weight-bold;
@@ -208,18 +208,18 @@
   z-index: 20;
 
   &.badge-yellow {
-    background: v.$color-primary;
-    color: v.$color-text-dark;
+    background: var(--color-primary);
+    color: var(--text-primary);
   }
 
   &.badge-orange {
-    background: v.$color-tertiary;
-    color: v.$color-text-light;
+    background: var(--color-tertiary);
+    color: var(--text-on-dark);
   }
 
   &.badge-blue {
-    background: v.$color-accent;
-    color: v.$color-text-light;
+    background: var(--color-accent);
+    color: var(--text-on-dark);
   }
 }
 
@@ -229,7 +229,7 @@
 .leccion-card-title {
   font-family: v.$font-secondary;
   font-size: v.$font-size-xl;
-  color: v.$color-text-dark;
+  color: var(--text-primary);
   margin: 0;
   line-height: v.$line-height-tight;
 
@@ -241,7 +241,7 @@
 .leccion-card-description {
   font-family: v.$font-body;
   font-size: v.$font-size-base;
-  color: v.$color-gray-600;
+  color: var(--text-secondary);
   line-height: v.$line-height-relaxed;
   margin: 0;
 
@@ -272,9 +272,7 @@
   margin-top: auto;
 }
 
-// custom class para el play button para ajustar tamaño y que use button--icon-only
 .leccion-play-button--custom {
-  /* Forzar que sea square y sin padding, respetando icon-only */
   width: 44px !important;
   height: 44px !important;
   padding: 0 !important;
@@ -282,22 +280,4 @@
   align-items: center !important;
   justify-content: center !important;
   gap: 0 !important;
-}
-
-// ============================================================================
-// MODO OSCURO
-// ============================================================================
-:root[data-theme='dark'] {
-  .leccion-icon-wrapper {
-    background: v.$color-gray-800;
-    border-color: v.$color-text-light;
-  }
-
-  .leccion-icon {
-    color: v.$color-text-light;
-  }
-
-  .leccion-badge {
-    border-color: v.$color-text-light;
-  }
 }

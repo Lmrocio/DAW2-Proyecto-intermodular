@@ -1,16 +1,16 @@
-@import '../../../styles/00-settings/variables';
-@import '../../../styles/01-tools/mixins';
+@use '../../../styles/00-settings/variables' as v;
+@use '../../../styles/01-tools/mixins' as m;
 
 // ============================================================================
 // NOT FOUND PAGE (404)
 // ============================================================================
 
 .not-found {
-  @include flex(center, center, column);
+  @include m.flex(center, center, column);
   min-height: 100vh;
   text-align: center;
-  padding: $spacing-8;
-  background: linear-gradient(135deg, $color-gray-50 0%, $color-gray-100 100%);
+  padding: v.$spacing-8;
+  background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
 }
 
 .not-found__container {
@@ -20,31 +20,31 @@
 
 .not-found__code {
   font-size: 120px;
-  font-weight: $font-weight-bold;
-  color: $color-accent;
+  font-weight: v.$font-weight-bold;
+  color: var(--color-accent);
   line-height: 1;
-  margin-bottom: $spacing-4;
+  margin-bottom: v.$spacing-4;
 
-  @include respond-to(md) {
+  @include m.respond-to(md) {
     font-size: 180px;
   }
 }
 
 .not-found__title {
-  font-size: $font-size-2xl;
-  font-weight: $font-weight-bold;
-  color: $color-gray-900;
-  margin-bottom: $spacing-3;
+  font-size: v.$font-size-2xl;
+  font-weight: v.$font-weight-bold;
+  color: var(--text-primary);
+  margin-bottom: v.$spacing-3;
 
-  @include respond-to(md) {
-    font-size: $font-size-3xl;
+  @include m.respond-to(md) {
+    font-size: v.$font-size-3xl;
   }
 }
 
 .not-found__message {
-  font-size: $font-size-lg;
-  color: $color-gray-600;
-  margin-bottom: $spacing-8;
+  font-size: v.$font-size-lg;
+  color: var(--text-tertiary);
+  margin-bottom: v.$spacing-8;
   line-height: 1.6;
 }
 
@@ -52,36 +52,33 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: $spacing-2;
-  padding: $spacing-4 $spacing-8;
-  background: $color-accent;
+  gap: v.$spacing-2;
+  padding: v.$spacing-4 v.$spacing-8;
+  background: var(--color-accent);
   color: white;
-  font-size: $font-size-base;
-  font-weight: $font-weight-semibold;
+  font-size: v.$font-size-base;
+  font-weight: v.$font-weight-semibold;
   border: none;
-  border-radius: $radius-lg;
+  border-radius: v.$radius-lg;
   text-decoration: none;
   cursor: pointer;
-  @include transition(all, $transition-base);
-  @include elevation(md);
+  @include m.transition(all, v.$transition-base);
+  @include m.elevation(md);
 
-  @include hover {
-    background: darken($color-accent, 10%);
+  @include m.hover {
+    background: color-mix(in srgb, var(--color-accent) 90%, black 10%);
     transform: translateY(-2px);
-    @include elevation(lg);
+    @include m.elevation(lg);
   }
 
   &:active {
     transform: translateY(0);
   }
 
-  @include focus-visible {
-    outline: 3px solid $color-secondary;
+  @include m.focus-visible {
+    outline: 3px solid var(--color-secondary);
     outline-offset: 3px;
   }
 }
 
-.not-found__icon {
-  font-size: $font-size-xl;
-}
-
+.not-found__icon { font-size: v.$font-size-xl; }

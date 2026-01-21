@@ -1,4 +1,5 @@
-@use '../../../../styles/01-tools/mixins' as *;
+@use '../../../../styles/00-settings/variables' as v;
+@use '../../../../styles/01-tools/mixins' as m;
 
 // ============================================================================
 // HERO SECTION
@@ -11,30 +12,30 @@
 :host .hero {
   width: 96%;
   justify-self: center;
-  background: $color-bg-dark;
-  padding: $spacing-16 0 $spacing-12;
-  border-bottom: solid $color-text-dark;
+  background: var(--bg-secondary);
+  padding: v.$spacing-16 0 v.$spacing-12;
+  border-bottom: solid var(--text-primary);
   box-sizing: border-box;
 }
 
 .hero__container {
   max-width: 100%;
   margin: 0 auto;
-  padding: 0 $spacing-16;
+  padding: 0 v.$spacing-16;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: $spacing-16;
+  gap: v.$spacing-16;
   align-items: center;
 
-  @media (max-width: $breakpoint-lg) {
-    gap: $spacing-12;
-    padding: 0 $spacing-10;
+  @media (max-width: v.$breakpoint-lg) {
+    gap: v.$spacing-12;
+    padding: 0 v.$spacing-10;
   }
 
-  @media (max-width: $breakpoint-md) {
+  @media (max-width: v.$breakpoint-md) {
     grid-template-columns: 1fr;
-    gap: $spacing-8;
-    padding: 0 $spacing-5;
+    gap: v.$spacing-8;
+    padding: 0 v.$spacing-5;
   }
 }
 
@@ -44,7 +45,7 @@
 .hero__content {
   display: flex;
   flex-direction: column;
-  gap: $spacing-6;
+  gap: v.$spacing-6;
   align-content: start;
 }
 
@@ -52,38 +53,38 @@
   font-size: 55px;
   font-weight: 700;
   line-height: 1.2;
-  color: $color-text-dark;
-  font-family: $font-primary;
+  color: var(--text-primary);
+  font-family: v.$font-primary;
   text-align: left;
 
-  @media (max-width: $breakpoint-lg) {
+  @media (max-width: v.$breakpoint-lg) {
     font-size: 48px;
   }
 
-  @media (max-width: $breakpoint-md) {
+  @media (max-width: v.$breakpoint-md) {
     font-size: 40px;
   }
 
-  @media (max-width: $breakpoint-sm) {
+  @media (max-width: v.$breakpoint-sm) {
     font-size: 32px;
   }
 }
 
 .hero__description {
-  font-size: $font-size-lg;
+  font-size: v.$font-size-lg;
   line-height: 1.6;
-  color: $color-gray-600;
+  color: var(--text-secondary);
   text-align: start;
 
-  @media (max-width: $breakpoint-md) {
-    font-size: $font-size-base;
+  @media (max-width: v.$breakpoint-md) {
+    font-size: v.$font-size-base;
   }
 }
 
 .hero__description-actions {
   display: flex;
   align-items: center;
-  gap: $spacing-4;
+  gap: v.$spacing-4;
 
   .hero__description {
     margin: 0;
@@ -93,8 +94,8 @@
     .button {
       height: 40px !important;
       min-width: 44px !important;
-      padding: 0 $spacing-3 !important;
-      border-radius: $radius-sm !important;
+      padding: 0 v.$spacing-3 !important;
+      border-radius: v.$radius-sm !important;
     }
   }
 }
@@ -104,11 +105,11 @@
 // ============================================================================
 .hero__actions {
   display: flex;
-  gap: $spacing-4;
-  margin-top: $spacing-4;
+  gap: v.$spacing-4;
+  margin-top: v.$spacing-4;
   flex-wrap: wrap;
 
-  @media (max-width: $breakpoint-md) {
+  @media (max-width: v.$breakpoint-md) {
     flex-direction: column;
 
     app-button {
@@ -132,8 +133,8 @@
   width: 60%;
   max-width: 500px;
   position: relative;
-  border: solid $color-text-dark;
-  box-shadow: 4px 4px 0 0 $color-text-dark;
+  border: solid var(--text-primary);
+  box-shadow: 4px 4px 0 0 var(--text-primary);
 
   img {
     width: 100%;
@@ -154,20 +155,20 @@
 // ============================================================================
 // RESPONSIVE
 // ============================================================================
-@media (max-width: $breakpoint-lg) {
+@media (max-width: v.$breakpoint-lg) {
   .hero {
-    padding: $spacing-12 0 $spacing-10;
+    padding: v.$spacing-12 0 v.$spacing-10;
   }
 }
 
-@media (max-width: $breakpoint-md) {
+@media (max-width: v.$breakpoint-md) {
   .hero {
-    padding: $spacing-8 0 $spacing-6;
+    padding: v.$spacing-8 0 v.$spacing-6;
   }
 
   .hero__actions {
     flex-direction: column;
-    gap: $spacing-3;
+    gap: v.$spacing-3;
 
     .hero__btn {
       width: 100%;
@@ -175,8 +176,8 @@
   }
 }
 
-@media (max-width: $breakpoint-sm) {
+@media (max-width: v.$breakpoint-sm) {
   .hero__actions {
-    gap: $spacing-2;
+    gap: v.$spacing-2;
   }
 }

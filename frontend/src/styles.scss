@@ -1,45 +1,48 @@
 // ============================================================================
 // ESTILOS GLOBALES - PUNTO DE ENTRADA PRINCIPAL
 // ============================================================================
+// ACTUALIZADO: Migrado de @import (obsoleto) a @use (moderno)
 
 // ============================================================================
 // NIVEL 1: SETTINGS - Variables y configuración
 // ============================================================================
 
-@import 'styles/00-settings/variables';
-@import 'styles/00-settings/css-variables';
+@use 'styles/00-settings/variables' as vars;
+@use 'styles/00-settings/css-variables';
 
 // ============================================================================
 // NIVEL 2: TOOLS - Mixins y funciones
 // ============================================================================
 
-@import 'styles/01-tools/mixins';
+@use 'styles/01-tools/mixins' as mix;
 
 // ============================================================================
 // NIVEL 3: GENERIC - Reset y normalización global
 // ============================================================================
 
-@import 'styles/02-generic/reset';
+@use 'styles/02-generic/reset';
 
 // ============================================================================
 // NIVEL 4: ELEMENTS - Estilos base de elementos HTML
 // ============================================================================
 
-@import 'styles/03-elements/elements';
+@use 'styles/03-elements/elements';
 
 // ============================================================================
 // NIVEL 5: LAYOUT - Sistemas de layout y grids
 // ============================================================================
 
-@import 'styles/04-layout/layout';
+@use 'styles/04-layout/layout';
 
 // ============================================================================
 // REGLAS GLOBALES ADICIONALES
 // ============================================================================
 
-// Fondo principal de la aplicación (usando la variable SCSS declarada)
+// Fondo principal de la aplicación (usando variables CSS nativas para tema dinámico)
 body {
-  background: $color-bg-dark;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  transition: background-color 300ms ease, color 300ms ease;
 }
 
 // Material Symbols Outlined - Iconos de Google

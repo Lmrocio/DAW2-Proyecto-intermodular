@@ -1,5 +1,5 @@
-@import '../../../../styles/00-settings/variables';
-@import '../../../../styles/01-tools/mixins';
+@use '../../../../styles/00-settings/variables' as v;
+@use '../../../../styles/01-tools/mixins' as m;
 
 // ============================================================================
 // CONTENEDOR PRINCIPAL
@@ -7,7 +7,7 @@
 .form-select {
   display: flex;
   flex-direction: column;
-  gap: $spacing-2;
+  gap: v.$spacing-2;
   width: 100%;
 }
 
@@ -17,19 +17,19 @@
 .form-select__label {
   display: flex;
   align-items: baseline;
-  gap: $spacing-1;
+  gap: v.$spacing-1;
 
-  font-size: $font-size-base;
-  font-weight: $font-weight-medium;
-  color: $color-text-dark;
-  line-height: $line-height-normal;
+  font-size: v.$font-size-base;
+  font-weight: v.$font-weight-medium;
+  color: var(--text-primary);
+  line-height: v.$line-height-normal;
 
   cursor: pointer;
 
-  @include transition(color, $transition-fast);
+  @include m.transition(color, v.$transition-fast);
 
   &:hover {
-    color: $color-accent;
+    color: var(--color-accent);
   }
 }
 
@@ -37,9 +37,9 @@
 // ELEMENTO: INDICADOR REQUERIDO
 // ============================================================================
 .form-select__required-indicator {
-  color: $color-error;
-  font-weight: $font-weight-bold;
-  font-size: $font-size-lg;
+  color: var(--color-error);
+  font-weight: v.$font-weight-bold;
+  font-size: v.$font-size-lg;
 }
 
 // ============================================================================
@@ -47,22 +47,22 @@
 // ============================================================================
 .form-select__field {
   width: 100%;
-  height: $button-height-lg;
-  padding: $spacing-3 $spacing-10 $spacing-3 $spacing-4;
+  height: v.$button-height-lg;
+  padding: v.$spacing-3 v.$spacing-10 v.$spacing-3 v.$spacing-4;
 
-  font-family: $font-primary;
-  font-size: $font-size-base;
-  font-weight: $font-weight-regular;
-  color: $color-text-dark;
+  font-family: v.$font-primary;
+  font-size: v.$font-size-base;
+  font-weight: v.$font-weight-regular;
+  color: var(--text-primary);
 
-  background-color: $color-gray-50;
-  border: $border-medium solid $color-gray-300;
-  border-radius: $radius-md;
+  background-color: var(--bg-primary);
+  border: v.$border-medium solid var(--border-color);
+  border-radius: v.$radius-md;
 
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23404040' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right $spacing-3 center;
-  background-size: $icon-size-sm;
+  background-position: right v.$spacing-3 center;
+  background-size: v.$icon-size-sm;
 
   appearance: none;
   -webkit-appearance: none;
@@ -70,44 +70,44 @@
 
   cursor: pointer;
 
-  @include elevation('sm');
+  @include m.elevation('sm');
 
-  @include transition(all, $transition-fast);
+  @include m.transition(all, v.$transition-fast);
 
-  @include hover {
-    border-color: $color-gray-400;
+  @include m.hover {
+    border-color: var(--border-color-light);
   }
 
   &:focus {
     outline: none;
-    border-color: $color-accent;
-    box-shadow: $shadow-focus;
+    border-color: var(--color-accent);
+    box-shadow: v.$shadow-focus;
   }
 
   &:disabled {
-    background-color: $color-gray-100;
-    color: $color-gray-400;
+    background-color: var(--bg-secondary);
+    color: var(--text-tertiary);
     cursor: not-allowed;
     opacity: 0.7;
   }
 
   &--error {
-    border-color: $color-error;
-    background-color: rgba($color-error, 0.03);
+    border-color: var(--color-error);
+    background-color: color-mix(in srgb, var(--color-error) 3%, transparent 97%);
 
     &:focus {
-      box-shadow: 0 0 0 3px rgba($color-error, 0.15);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-error) 15%, transparent 85%);
     }
   }
 
   option {
-    padding: $spacing-2;
-    background-color: $color-gray-50;
-    color: $color-text-dark;
+    padding: v.$spacing-2;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
   }
 
   option:disabled {
-    color: $color-gray-400;
+    color: var(--text-tertiary);
   }
 }
 
@@ -117,18 +117,18 @@
 .form-select__error {
   display: flex;
   align-items: center;
-  gap: $spacing-1;
+  gap: v.$spacing-1;
 
-  font-size: $font-size-sm;
-  font-weight: $font-weight-medium;
-  color: $color-error;
-  line-height: $line-height-normal;
+  font-size: v.$font-size-sm;
+  font-weight: v.$font-weight-medium;
+  color: var(--color-error);
+  line-height: v.$line-height-normal;
 
-  animation: formErrorSlideIn $transition-fast $easing-out;
+  animation: formErrorSlideIn v.$transition-fast v.$easing-out;
 
   &::before {
     content: '⚠';
-    font-size: $font-size-base;
+    font-size: v.$font-size-base;
   }
 }
 
@@ -136,13 +136,13 @@
 // ELEMENTO: TEXTO DE AYUDA
 // ============================================================================
 .form-select__help {
-  font-size: $font-size-sm;
-  color: $color-gray-500;
-  line-height: $line-height-normal;
+  font-size: v.$font-size-sm;
+  color: var(--text-tertiary);
+  line-height: v.$line-height-normal;
 
   &::before {
     content: 'ℹ ';
-    color: $color-info;
+    color: var(--color-info);
   }
 }
 
@@ -152,7 +152,7 @@
 @keyframes formErrorSlideIn {
   from {
     opacity: 0;
-    transform: translateY(-$spacing-1);
+    transform: translateY(-#{v.$spacing-1});
   }
   to {
     opacity: 1;
@@ -163,14 +163,13 @@
 // ============================================================================
 // RESPONSIVE
 // ============================================================================
-@media (max-width: $breakpoint-sm) {
+@media (max-width: v.$breakpoint-sm) {
   .form-select__field {
-    height: $button-height-md;
-    padding: $spacing-2 $spacing-8 $spacing-2 $spacing-3;
+    height: v.$button-height-md;
+    padding: v.$spacing-2 v.$spacing-8 v.$spacing-2 v.$spacing-3;
   }
 
   .form-select__label {
-    font-size: $font-size-sm;
+    font-size: v.$font-size-sm;
   }
 }
-

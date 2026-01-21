@@ -1,28 +1,28 @@
-@import '../../../../styles/00-settings/variables';
-@import '../../../../styles/00-settings/css-variables';
+@use '../../../../styles/00-settings/variables' as v;
+@use '../../../../styles/00-settings/css-variables' as m;
 
 .app-sidebar {
   width: 100%;
   max-width: 300px;
 
-  @media (max-width: $breakpoint-md) {
+  @media (max-width: v.$breakpoint-md) {
     max-width: 100%;
   }
 
   background-color: var(--bg-secondary);
 
-  padding: $spacing-6;
+  padding: v.$spacing-6;
 
-  border-radius: $radius-md;
-  border: $border-thin solid var(--border-color-primary);
+  border-radius: v.$radius-md;
+  border: v.$border-thin solid var(--border-color-primary);
 
   box-shadow: var(--shadow-sm);
 
-  transition: background-color $transition-base $easing-in-out,
-              border-color $transition-base $easing-in-out;
+  transition: background-color v.$transition-base v.$easing-in-out,
+              border-color v.$transition-base v.$easing-in-out;
 
-  @media (max-width: $breakpoint-sm) {
-    padding: $spacing-4;
+  @media (max-width: v.$breakpoint-sm) {
+    padding: v.$spacing-4;
   }
 }
 

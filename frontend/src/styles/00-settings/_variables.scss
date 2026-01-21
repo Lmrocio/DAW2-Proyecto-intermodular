@@ -2,27 +2,35 @@
 // 1. PALETA DE COLORES
 // ============================================================================
 
+// --- Colores de Marca ---
 $color-primary: #f8d770;
 $color-secondary: #ffb842;
 $color-tertiary: #f3742b;
 $color-accent: #0454b1;
 
-// Color de fondo
-$color-bg-light: #faf9f6;
-$color-bg-dark: #f3f3ef;
+// --- Fondos Modo Claro ---
+$color-bg-light-primary: #faf9f6;
+$color-bg-light-secondary: #fafafa;
+$color-bg-light-tertiary: #f5f5f5;
 
-// Colores de apoyo/semánticos
-$color-success: #74eb05;
-$color-error: #ff0000;
-$color-warning: #fde800;
-$color-info: #00cffd;
+// --- Fondos Modo Oscuro ---
+$color-bg-dark-primary: #2a2420;
+$color-bg-dark-secondary: #352e28;
+$color-bg-dark-tertiary: #403830;
 
-// Colores de texto
-$color-text-dark: #030303;
-$color-text-light: #fdfdfd;
+// --- Colores Semánticos ---
+$color-success: #a7ee66;
+$color-error: #fb5353;
+$color-warning: #ffef51;
+$color-info: #6adaf4;
 
-// Escala de grises neutros
-// Siguiendo la metodología Tailwind: 50-900
+// --- Colores de Texto ---
+$color-text-dark: #030303;     // Texto principal claro
+$color-text-gray: #404040;     // Texto secundario claro
+$color-text-muted: #737373;    // Texto terciario claro
+$color-text-light: #fdfdfd;    // Texto sobre fondos oscuros
+
+// --- Escala de Grises (Neutros) ---
 $color-gray-50: #fafafa;
 $color-gray-100: #f5f5f5;
 $color-gray-200: #e5e5e5;
@@ -121,7 +129,6 @@ $shadow-focus: 0 0 0 3px rgba(4, 84, 177, 0.1),
 $border-thin: 1px;
 $border-medium: 2px;
 $border-large: 4px;
-$border-thick: 4px;
 
 $radius-sm: 0.125rem;
 $radius-base: 0.375rem;
@@ -137,7 +144,7 @@ $radius-full: 9999px;
 
 $transition-fast: 150ms;
 $transition-base: 300ms;
-$transition-slow: 500ms; // Ralentizar por user persona mayor? (pendiente)
+$transition-slow: 500ms;
 
 $easing-in-out: cubic-bezier(0.4, 0, 0.2, 1);
 $easing-out: cubic-bezier(0.0, 0, 0.2, 1);
@@ -167,8 +174,8 @@ $icon-size-xl: 4rem;
 
 $button-height-sm: 2rem;
 $button-height-md: 2.5rem;
-$button-height-lg: 3rem;       // Para usuarios mayores
-$button-height-xl: 3.5rem;     // Máxima accesibilidad
+$button-height-lg: 3rem;
+$button-height-xl: 3.5rem;
 
 $max-width-container: 1200px;
 
@@ -197,14 +204,3 @@ $section-padding-desktop: $spacing-8;
 $gap-sm: $spacing-2;
 $gap-md: $spacing-4;
 $gap-lg: $spacing-6;
-
-// ============================================================================
-// NOTAS SOBRE ACCESIBILIDAD PARA USUARIOS MAYORES
-// ============================================================================
-// Estas variables han sido diseñadas pensando en:
-// - Tamaños mínimos de botón para motricidad fina limitada
-// - Alto contraste entre colores para visión reducida
-// - Espaciado generoso para evitar errores de selección
-// - Transiciones controladas para no causar mareos
-// - Tipografía clara y tamaños legibles
-

@@ -1,4 +1,4 @@
-@use '../../../../styles/00-settings/variables' as *;
+@use '../../../../styles/00-settings/variables' as v;
 
 .spinner-overlay {
   position: fixed;
@@ -28,36 +28,33 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: $spacing-4;
+  gap: v.$spacing-4;
 
-  padding: $spacing-8;
+  padding: v.$spacing-8;
 
   background-color: var(--bg-secondary, white);
-  border-radius: $radius-xl;
-  box-shadow: $shadow-xl;
+  border-radius: v.$radius-xl;
+  box-shadow: v.$shadow-xl;
 }
 
 .spinner__circle {
   width: 50px;
   height: 50px;
 
-  border: 4px solid $color-gray-200;
-  border-top-color: $color-primary;
-  border-radius: $radius-full;
+  border: 4px solid var(--border-color-light);
+  border-top-color: var(--color-primary);
+  border-radius: v.$radius-full;
 
   animation: spin 1s linear infinite;
 }
 
 @keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+  to { transform: rotate(360deg); }
 }
 
 .spinner__text {
-  font-family: $font-body;
-  font-size: $font-size-base;
-  font-weight: $font-weight-medium;
-  color: var(--text-primary, $color-text-dark);
+  font-family: v.$font-body;
+  font-size: v.$font-size-base;
+  font-weight: v.$font-weight-medium;
+  color: var(--text-primary);
 }
-

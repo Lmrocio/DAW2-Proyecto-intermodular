@@ -1,5 +1,5 @@
-@import '../../../../styles/00-settings/variables';
-@import '../../../../styles/01-tools/mixins';
+@use '../../../../styles/00-settings/variables' as v;
+@use '../../../../styles/01-tools/mixins' as m;
 
 // ============================================================================
 // ESTILOS BASE DE LA ALERTA
@@ -7,14 +7,14 @@
 .alert {
   display: flex;
   align-items: flex-start;
-  gap: $spacing-4;
+  gap: v.$spacing-4;
 
-  border-radius: $radius-md;
-  border-left: $border-large solid;
+  border-radius: v.$radius-md;
+  border-left: v.$border-large solid var(--color-primary);
 
-  padding: $spacing-4 $spacing-5;
+  padding: v.$spacing-4 v.$spacing-5;
 
-  animation: alertSlideIn $transition-base $easing-out;
+  animation: alertSlideIn v.$transition-base var(--easing-out, cubic-bezier(0.0, 0, 0.2, 1));
 
   position: relative;
 }
@@ -24,13 +24,13 @@
 // ============================================================================
 .alert__icon {
   flex-shrink: 0;
-  width: $icon-size-sm;
-  height: $icon-size-sm;
+  width: v.$icon-size-sm;
+  height: v.$icon-size-sm;
 
-  @include flex(center, center);
+  @include m.flex(center, center);
 
-  font-size: $font-size-lg;
-  font-weight: $font-weight-bold;
+  font-size: v.$font-size-lg;
+  font-weight: v.$font-weight-bold;
   line-height: 1;
 }
 
@@ -41,7 +41,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: $spacing-1;
+  gap: v.$spacing-1;
   min-width: 0; // Permite truncar texto
 }
 
@@ -50,9 +50,9 @@
 // ============================================================================
 .alert__message {
   margin: 0;
-  font-size: $font-size-base;
-  font-weight: $font-weight-semibold;
-  line-height: $line-height-tight;
+  font-size: v.$font-size-base;
+  font-weight: v.$font-weight-semibold;
+  line-height: v.$line-height-tight;
 }
 
 // ============================================================================
@@ -60,38 +60,38 @@
 // ============================================================================
 .alert__description {
   margin: 0;
-  font-size: $font-size-sm;
-  line-height: $line-height-normal;
+  font-size: v.$font-size-sm;
+  line-height: v.$line-height-normal;
   opacity: 0.85;
 }
 
 // ============================================================================
-// ELEMENTO: TAGS DINÁMICOS (Requisito 1.3 - createElement/removeChild)
+// ELEMENTO: TAGS DINÁMICOS
 // ============================================================================
 .alert__tags {
   display: flex;
   flex-wrap: wrap;
-  gap: $spacing-2;
-  margin-top: $spacing-2;
+  gap: v.$spacing-2;
+  margin-top: v.$spacing-2;
 }
 
 .alert__tag {
   display: inline-flex;
   align-items: center;
-  gap: $spacing-1;
+  gap: v.$spacing-1;
 
-  padding: $spacing-1 $spacing-2;
-  border-radius: $radius-full;
+  padding: v.$spacing-1 v.$spacing-2;
+  border-radius: v.$radius-full;
 
-  font-size: $font-size-xs;
-  font-weight: $font-weight-medium;
+  font-size: v.$font-size-xs;
+  font-weight: v.$font-weight-medium;
 
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: color-mix(in srgb, var(--color-primary) 10%, transparent 90%);
   color: inherit;
 
-  animation: tagSlideIn $transition-fast $easing-out;
+  animation: tagSlideIn v.$transition-fast var(--easing-out, cubic-bezier(0.0, 0, 0.2, 1));
 
-  @include transition(all, $transition-fast);
+  @include m.transition(all, v.$transition-fast);
 }
 
 .alert__tag--removing {
@@ -109,22 +109,22 @@
   padding: 0;
 
   border: none;
-  border-radius: $radius-full;
-  background-color: rgba(0, 0, 0, 0.15);
+  border-radius: v.$radius-full;
+  background-color: color-mix(in srgb, var(--border-color) 15%, transparent 85%);
 
-  font-size: $font-size-xs;
+  font-size: v.$font-size-xs;
   line-height: 1;
   color: inherit;
 
   cursor: pointer;
 
-  @include transition(background-color, $transition-fast);
+  @include m.transition(background-color, v.$transition-fast);
 
-  @include hover {
-    background-color: rgba(0, 0, 0, 0.25);
+  @include m.hover {
+    background-color: color-mix(in srgb, var(--border-color) 25%, transparent 75%);
   }
 
-  @include focus-visible {
+  @include m.focus-visible {
     outline: 2px solid currentColor;
     outline-offset: 1px;
   }
@@ -145,100 +145,52 @@
 // MODIFICADOR: SUCCESS (Verde)
 // ============================================================================
 .alert--success {
-  $alert-color: $color-success;
-  $alert-bg: rgba($alert-color, 0.1);
-  $alert-text: darken($alert-color, 40%);
+  background-color: color-mix(in srgb, var(--color-success) 10%, transparent 90%);
+  border-left-color: var(--color-success);
+  color: color-mix(in srgb, var(--color-success) 70%, black 30%);
 
-  background-color: $alert-bg;
-  border-left-color: $alert-color;
-  color: $alert-text;
-
-  .alert__icon {
-    color: $alert-color;
-  }
-
-  .alert__message {
-    color: $alert-text;
-  }
-
-  .alert__close {
-    color: $alert-text;
-  }
+  .alert__icon { color: var(--color-success); }
+  .alert__message { color: color-mix(in srgb, var(--color-success) 70%, black 30%); }
+  .alert__close { color: color-mix(in srgb, var(--color-success) 70%, black 30%); }
 }
 
 // ============================================================================
 // MODIFICADOR: ERROR (Rojo)
 // ============================================================================
 .alert--error {
-  $alert-color: $color-error;
-  $alert-bg: rgba($alert-color, 0.1);
-  $alert-text: darken($alert-color, 20%);
+  background-color: color-mix(in srgb, var(--color-error) 10%, transparent 90%);
+  border-left-color: var(--color-error);
+  color: color-mix(in srgb, var(--color-error) 65%, black 35%);
 
-  background-color: $alert-bg;
-  border-left-color: $alert-color;
-  color: $alert-text;
-
-  .alert__icon {
-    color: $alert-color;
-  }
-
-  .alert__message {
-    color: $alert-text;
-  }
-
-  .alert__close {
-    color: $alert-text;
-  }
+  .alert__icon { color: var(--color-error); }
+  .alert__message { color: color-mix(in srgb, var(--color-error) 65%, black 35%); }
+  .alert__close { color: color-mix(in srgb, var(--color-error) 65%, black 35%); }
 }
 
 // ============================================================================
 // MODIFICADOR: WARNING (Amarillo/Naranja)
 // ============================================================================
 .alert--warning {
-  $alert-color: $color-warning;
-  $alert-bg: rgba($alert-color, 0.15);
-  $alert-text: darken($alert-color, 45%);
+  background-color: color-mix(in srgb, var(--color-warning) 12%, transparent 88%);
+  border-left-color: var(--color-warning);
+  color: color-mix(in srgb, var(--color-warning) 60%, black 40%);
 
-  background-color: $alert-bg;
-  border-left-color: $alert-color;
-  color: $alert-text;
-
-  .alert__icon {
-    color: darken($alert-color, 10%);
-  }
-
-  .alert__message {
-    color: $alert-text;
-  }
-
-  .alert__close {
-    color: $alert-text;
-  }
+  .alert__icon { color: var(--color-warning); }
+  .alert__message { color: color-mix(in srgb, var(--color-warning) 60%, black 40%); }
+  .alert__close { color: color-mix(in srgb, var(--color-warning) 60%, black 40%); }
 }
 
 // ============================================================================
 // MODIFICADOR: INFO (Azul)
 // ============================================================================
 .alert--info {
-  $alert-color: $color-info;
-  $alert-bg: rgba($alert-color, 0.1);
-  $alert-text: darken($alert-color, 35%);
+  background-color: color-mix(in srgb, var(--color-info) 10%, transparent 90%);
+  border-left-color: var(--color-info);
+  color: color-mix(in srgb, var(--color-info) 65%, black 35%);
 
-  background-color: $alert-bg;
-  border-left-color: $alert-color;
-  color: $alert-text;
-
-  .alert__icon {
-    color: $alert-color;
-  }
-
-  .alert__message {
-    color: $alert-text;
-  }
-
-  .alert__close {
-    color: $alert-text;
-  }
+  .alert__icon { color: var(--color-info); }
+  .alert__message { color: color-mix(in srgb, var(--color-info) 65%, black 35%); }
+  .alert__close { color: color-mix(in srgb, var(--color-info) 65%, black 35%); }
 }
 
 // ============================================================================
@@ -247,7 +199,7 @@
 @keyframes alertSlideIn {
   from {
     opacity: 0;
-    transform: translateX(-$spacing-4);
+    transform: translateX(-#{v.$spacing-4});
   }
   to {
     opacity: 1;
@@ -258,25 +210,25 @@
 // ============================================================================
 // RESPONSIVE
 // ============================================================================
-@media (max-width: $breakpoint-sm) {
+@media (max-width: v.$breakpoint-sm) {
   .alert {
-    padding: $spacing-3 $spacing-4;
-    gap: $spacing-3;
+    padding: v.$spacing-3 v.$spacing-4;
+    gap: v.$spacing-3;
   }
 
   .alert__message {
-    font-size: $font-size-sm;
+    font-size: v.$font-size-sm;
   }
 
   .alert__description {
-    font-size: $font-size-xs;
+    font-size: v.$font-size-xs;
   }
 }
 
 // ============================================================================
 // PREFERENCIAS DE MOVIMIENTO REDUCIDO
 // ============================================================================
-@include reduced-motion {
+@include m.reduced-motion {
   .alert {
     animation: none;
   }

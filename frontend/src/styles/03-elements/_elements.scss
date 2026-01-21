@@ -1,7 +1,9 @@
 // ============================================================================
 // IMPORTAR MÓDULOS DE SASS
 // ============================================================================
-@use "sass:color" as *;
+@use "sass:color";
+@use '../00-settings/variables' as *;
+@use '../01-tools/mixins' as *;
 
 // ============================================================================
 // 1. TIPOGRAFÍA BASE
@@ -87,7 +89,7 @@ dd {
 blockquote {
   margin: $spacing-6 0;
   padding: $spacing-4 $spacing-6;
-  border-left: $border-thick solid $color-primary;
+  border-left: $border-large solid $color-primary;
   background-color: rgba($color-primary, 0.05);
   font-style: italic;
   color: $color-gray-700;
@@ -436,4 +438,3 @@ button {
     white-space: normal;
   }
 }
-
