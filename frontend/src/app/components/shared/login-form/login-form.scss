@@ -1,5 +1,5 @@
-@import '../../../../styles/00-settings/variables';
-@import '../../../../styles/01-tools/mixins';
+@use '../../../../styles/00-settings/variables' as v;
+@use '../../../../styles/01-tools/mixins' as m;
 
 // ============================================================================
 // LOGIN FORM
@@ -14,15 +14,15 @@
 // ============================================================================
 
 .login-form__field {
-  margin-bottom: $spacing-5;
+  margin-bottom: v.$spacing-5;
 }
 
 .login-form__label {
   display: block;
-  font-size: $font-size-sm;
-  font-weight: $font-weight-semibold;
-  color: #374151;
-  margin-bottom: $spacing-2;
+  font-size: v.$font-size-sm;
+  font-weight: v.$font-weight-semibold;
+  color: var(--text-secondary);
+  margin-bottom: v.$spacing-2;
 }
 
 .login-form__input-wrapper {
@@ -33,8 +33,8 @@
 
 .login-form__icon {
   position: absolute;
-  left: $spacing-4;
-  color: $color-accent;
+  left: v.$spacing-4;
+  color: var(--color-accent);
   pointer-events: none;
   z-index: 1;
 }
@@ -42,24 +42,24 @@
 .login-form__input {
   width: 100%;
   height: 48px;
-  border: $border-thin solid $color-gray-300;
-  border-radius: $radius-md;
-  padding: $spacing-3 $spacing-4 $spacing-3 44px;
-  font-size: $font-size-sm;
-  color: #111827;
-  background: $color-gray-50;
-  font-family: $font-body;
-  @include transition(all, $transition-fast);
+  border: v.$border-thin solid var(--border-color);
+  border-radius: v.$radius-md;
+  padding: v.$spacing-3 v.$spacing-4 v.$spacing-3 44px;
+  font-size: v.$font-size-sm;
+  color: var(--text-primary);
+  background: var(--bg-secondary);
+  font-family: v.$font-body;
+  @include m.transition(all, v.$transition-fast);
 
   &::placeholder {
-    color: $color-gray-500;
+    color: var(--text-tertiary);
   }
 
   &:focus {
     outline: none;
-    border-color: $color-accent;
-    background: white;
-    box-shadow: 0 0 0 3px rgba($color-accent, 0.1);
+    border-color: var(--color-accent);
+    background: var(--bg-primary);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent) 10%, transparent 90%);
   }
 
   &--password {
@@ -67,38 +67,38 @@
   }
 
   &--error {
-    border-color: $color-error;
+    border-color: var(--color-error);
   }
 }
 
 .login-form__toggle {
   position: absolute;
-  right: $spacing-4;
+  right: v.$spacing-4;
   background: transparent;
   border: none;
-  color: $color-gray-500;
+  color: var(--text-tertiary);
   cursor: pointer;
   padding: 0;
   display: flex;
   align-items: center;
-  @include transition(color);
+  @include m.transition(color);
 
-  @include hover {
-    color: $color-gray-700;
+  @include m.hover {
+    color: var(--text-secondary);
   }
 
-  @include focus-visible {
-    outline: 2px solid $color-accent;
+  @include m.focus-visible {
+    outline: 2px solid var(--color-accent);
     outline-offset: 2px;
-    border-radius: $radius-sm;
+    border-radius: v.$radius-sm;
   }
 }
 
 .login-form__error {
   display: block;
-  font-size: $font-size-xs;
-  color: $color-error;
-  margin-top: $spacing-1;
+  font-size: v.$font-size-xs;
+  color: var(--color-error);
+  margin-top: v.$spacing-1;
 }
 
 // ============================================================================
@@ -109,10 +109,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: $spacing-6;
-  gap: $spacing-4;
+  margin-bottom: v.$spacing-6;
+  gap: v.$spacing-4;
 
-  @media (max-width: $breakpoint-sm) {
+  @media (max-width: v.$breakpoint-sm) {
     flex-direction: column;
     align-items: flex-start;
   }
@@ -125,7 +125,7 @@
 .login-form__checkbox {
   display: flex;
   align-items: center;
-  gap: $spacing-2;
+  gap: v.$spacing-2;
   cursor: pointer;
   user-select: none;
 }
@@ -136,12 +136,12 @@
   pointer-events: none;
 
   &:checked + .login-form__checkbox-custom {
-    background: $color-accent;
-    border-color: $color-accent;
+    background: var(--color-accent);
+    border-color: var(--color-accent);
   }
 
   &:focus + .login-form__checkbox-custom {
-    outline: 2px solid $color-accent;
+    outline: 2px solid var(--color-accent);
     outline-offset: 2px;
   }
 }
@@ -149,22 +149,22 @@
 .login-form__checkbox-custom {
   width: 18px;
   height: 18px;
-  border: $border-thin solid $color-gray-300;
-  border-radius: $radius-sm;
+  border: v.$border-thin solid var(--border-color);
+  border-radius: v.$radius-sm;
   display: flex;
   align-items: center;
   justify-content: center;
-  @include transition(all, $transition-fast);
+  @include m.transition(all, v.$transition-fast);
   flex-shrink: 0;
 }
 
 .login-form__checkbox-icon {
-  color: white;
+  color: var(--text-on-dark);
 }
 
 .login-form__checkbox-label {
-  font-size: $font-size-sm;
-  color: $color-gray-700;
+  font-size: v.$font-size-sm;
+  color: var(--text-secondary);
 }
 
 // ============================================================================
@@ -172,20 +172,20 @@
 // ============================================================================
 
 .login-form__forgot-link {
-  font-size: $font-size-sm;
-  color: $color-accent;
-  font-weight: $font-weight-semibold;
+  font-size: v.$font-size-sm;
+  color: var(--color-accent);
+  font-weight: v.$font-weight-semibold;
   text-decoration: none;
-  @include transition(text-decoration);
+  @include m.transition(text-decoration);
 
-  @include hover {
+  @include m.hover {
     text-decoration: underline;
   }
 
-  @include focus-visible {
-    outline: 2px solid $color-accent;
+  @include m.focus-visible {
+    outline: 2px solid var(--color-accent);
     outline-offset: 2px;
-    border-radius: $radius-sm;
+    border-radius: v.$radius-sm;
   }
 }
 
@@ -196,24 +196,24 @@
 .login-form__submit {
   width: 100%;
   height: 52px;
-  background: $color-accent;
-  color: white;
-  font-size: $font-size-base;
-  font-weight: $font-weight-bold;
+  background: var(--color-accent);
+  color: var(--text-on-dark);
+  font-size: v.$font-size-base;
+  font-weight: v.$font-weight-bold;
   border: none;
-  border-radius: $radius-md;
+  border-radius: v.$radius-md;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: $spacing-2;
-  @include transition(all, $transition-fast);
+  gap: v.$spacing-2;
+  @include m.transition(all, v.$transition-fast);
 
   &:not(:disabled) {
-    @include hover {
-      background: darken($color-accent, 10%);
+    @include m.hover {
+      background: color-mix(in srgb, var(--color-accent) 90%, black 10%);
       transform: translateY(-2px);
-      box-shadow: 0 8px 16px rgba($color-accent, 0.3);
+      box-shadow: 0 8px 16px color-mix(in srgb, var(--color-accent) 30%, black 70%);
     }
   }
 
@@ -226,8 +226,13 @@
     cursor: not-allowed;
   }
 
-  @include focus-visible {
-    outline: 3px solid $color-secondary;
+  @include m.focus-visible {
+    outline: 3px solid var(--color-secondary);
     outline-offset: 2px;
   }
+}
+
+// CHECKBOX LABEL COLOR
+.login-form__checkbox label {
+  color: var(--text-secondary);
 }

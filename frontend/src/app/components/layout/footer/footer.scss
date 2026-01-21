@@ -1,29 +1,20 @@
-@use '../../../../styles/00-settings/variables' as *;
-
-// ============================================================================
-// FOOTER - TecnoMayores
-// ============================================================================
-// Diseño nuevo: Minimalista con aesthetic moderno
-// - Fondo blanco
-// - Grid 4 columnas (Branding, Contenido, Nosotros, Boletín)
-// - Newsletter: fondo blanco con sombra desplazada
-// - Footer bottom: copyright + AAA + selector idioma
+@use '../../../../styles/00-settings/variables' as v;
 
 // ============================================================================
 // CONTENEDOR PRINCIPAL
 // ============================================================================
 .app-footer {
-  background: $color-bg-light;
-  border-top: $border-medium solid $color-text-dark;
+  background: var(--bg-primary);
+  border-top: v.$border-medium solid var(--text-primary);
 }
 
 .app-footer__container {
   max-width: 1400px;
   margin: 0 auto;
-  padding: $spacing-16 $spacing-20 $spacing-12;
+  padding: v.$spacing-16 v.$spacing-20 v.$spacing-12;
 
-  @media (max-width: $breakpoint-md) {
-    padding: $spacing-12 $spacing-6 $spacing-8;
+  @media (max-width: v.$breakpoint-md) {
+    padding: v.$spacing-12 v.$spacing-6 v.$spacing-8;
   }
 }
 
@@ -33,31 +24,29 @@
 .app-footer__grid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1.2fr;
-  gap: $spacing-16;
-  margin-bottom: $spacing-16;
+  gap: v.$spacing-16;
+  margin-bottom: v.$spacing-16;
 
-  @media (max-width: $breakpoint-lg) {
+  @media (max-width: v.$breakpoint-lg) {
     grid-template-columns: 1fr 1fr;
-    gap: $spacing-10;
+    gap: v.$spacing-10;
   }
 
-  @media (max-width: $breakpoint-sm) {
+  @media (max-width: v.$breakpoint-sm) {
     grid-template-columns: 1fr;
-    gap: $spacing-8;
+    gap: v.$spacing-8;
   }
 }
 
 .app-footer__section {
-  // Estilos base para secciones
 }
 
-// Mover ligeramente hacia abajo algunas secciones para efecto visual (solo en pantallas grandes)
 .app-footer__section--lower {
-  margin-top: 0; // por defecto sin separación para móviles
+  margin-top: 0;
   justify-self: center;
 
-  @media (min-width: $breakpoint-lg) {
-    margin-top: $spacing-3; // ~0.75rem (aprox. 12px) — "un pelín" hacia abajo
+  @media (min-width: v.$breakpoint-lg) {
+    margin-top: v.$spacing-3;
   }
 }
 
@@ -65,18 +54,18 @@
 // COLUMNA 1: BRANDING
 // ============================================================================
 .app-footer__logo {
-  font-size: $font-size-3xl;
-  font-weight: $font-weight-semibold;
-  color: $color-text-dark;
-  margin: 0 0 $spacing-3 0;
+  font-size: v.$font-size-3xl;
+  font-weight: v.$font-weight-semibold;
+  color: var(--text-primary);
+  margin: 0 0 v.$spacing-3 0;
 }
 
 .app-footer__tagline {
-  font-size: $font-size-sm;
-  line-height: $line-height-normal;
-  color: $color-gray-600;
+  font-size: v.$font-size-sm;
+  line-height: v.$line-height-normal;
+  color: var(--text-tertiary);
   font-style: italic;
-  margin: 0 0 $spacing-5 0;
+  margin: 0 0 v.$spacing-5 0;
   max-width: 280px;
 
   &::before {
@@ -90,7 +79,7 @@
 
 .app-footer__social {
   display: flex;
-  gap: $spacing-3;
+  gap: v.$spacing-3;
 }
 
 .app-footer__social-link {
@@ -99,19 +88,19 @@
   justify-content: center;
   width: 40px;
   height: 40px;
-  border: $border-medium solid $color-text-dark;
+  border: v.$border-medium solid var(--text-primary);
   border-radius: 0;
-  color: $color-text-dark;
+  color: var(--text-primary);
   text-decoration: none;
-  transition: all $transition-base $easing-in-out;
+  transition: all v.$transition-base v.$easing-in-out;
 
   &:hover {
-    background: $color-text-dark;
-    color: $color-bg-light;
+    background:var(--text-primary);
+    color: var(--bg-primary);
   }
 
   &:focus-visible {
-    outline: 3px solid $color-primary;
+    outline: 3px solid var(--color-primary);
     outline-offset: 2px;
   }
 }
@@ -120,12 +109,12 @@
 // COLUMNAS 2 Y 3: SECCIONES E INFORMACIÓN
 // ============================================================================
 .app-footer__section-title {
-  font-size: $font-size-base;
-  font-weight: $font-weight-semibold;
-  color: $color-text-dark;
+  font-size: v.$font-size-base;
+  font-weight: v.$font-weight-semibold;
+  color: var(text-primary);
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin: 0 0 $spacing-5 0;
+  margin: 0 0 v.$spacing-5 0;
 }
 
 .app-footer__nav-list {
@@ -135,24 +124,24 @@
 }
 
 .app-footer__nav-list li {
-  margin-bottom: $spacing-3;
+  margin-bottom: v.$spacing-3;
 }
 
 .app-footer__link {
   display: inline-block;
-  font-size: $font-size-sm;
-  color: $color-text-dark;
+  font-size: v.$font-size-sm;
+  color: var(text-primary);
   text-decoration: none;
-  transition: color $transition-base $easing-in-out;
+  transition: color v.$transition-base v.$easing-in-out;
 
   &:hover {
-    color: $color-gray-600;
+    color: var(--text-secondary);
   }
 
   &:focus-visible {
-    outline: 2px solid $color-primary;
+    outline: 2px solid var(color-primary);
     outline-offset: 2px;
-    border-radius: $radius-sm;
+    border-radius: v.$radius-sm;
   }
 }
 
@@ -160,74 +149,74 @@
 // COLUMNA 4: NEWSLETTER
 // ============================================================================
 .app-footer__newsletter {
-  background: $color-bg-dark;
-  border: $border-medium solid $color-text-dark;
+  background: var(--bg-secondary);
+  border: v.$border-medium solid var(--text-primary);
   border-radius: 0;
-  padding: $spacing-8;
-  box-shadow: 6px 6px 0 0 $color-primary;
+  padding: v.$spacing-8;
+  box-shadow: 6px 6px 0 0 var(--color-secondary);
   position: relative;
 }
 
 .app-footer__newsletter-title {
-  font-size: $font-size-base;
-  font-weight: $font-weight-semibold;
-  color: $color-text-dark;
-  margin: 0 0 $spacing-3 0;
+  font-size: v.$font-size-base;
+  font-weight: v.$font-weight-semibold;
+  color: var(text-primary);
+  margin: 0 0 v.$spacing-3 0;
 }
 
 .app-footer__newsletter-subtitle {
-  font-size: $font-size-xs;
-  color: $color-gray-600;
-  margin: 0 0 $spacing-5 0;
-  line-height: $line-height-normal;
+  font-size: v.$font-size-xs;
+  color: var(--text-secondary);
+  margin: 0 0 v.$spacing-5 0;
+  line-height: v.$line-height-normal;
 }
 
 .app-footer__newsletter-form {
   display: flex;
   flex-direction: column;
-  gap: $spacing-3;
+  gap: v.$spacing-3;
 }
 
 .app-footer__newsletter-input {
   width: 100%;
-  padding: $spacing-3 $spacing-4;
-  border: $border-thin solid $color-text-dark;
-  border-radius: $radius-sm;
-  font-size: $font-size-sm;
-  transition: border-color $transition-base $easing-in-out;
-  background: $color-bg-light;
-  color: $color-text-dark;
+  padding: v.$spacing-3 v.$spacing-4;
+  border: v.$border-thin solid var(--text-primary);
+  border-radius: v.$radius-sm;
+  font-size: v.$font-size-sm;
+  transition: border-color v.$transition-base v.$easing-in-out;
+  background: var(--bg-primary);
+  color: var(--text-primary);
 
   &:focus {
     outline: none;
-    border-color: $color-text-dark;
+    border-color: var(--text-primary);
   }
 
   &::placeholder {
-    color: $color-gray-400;
+    color: v.$color-gray-400;
   }
 }
 
 .app-footer__newsletter-btn {
   width: 100%;
-  padding: $spacing-3 $spacing-4;
-  background: $color-text-dark;
-  color: $color-bg-light;
+  padding: v.$spacing-3 v.$spacing-4;
+  background: var(--text-primary);
+  color: var(--bg-primary);
   border: none;
-  border-radius: $radius-sm;
-  font-size: $font-size-sm;
-  font-weight: $font-weight-semibold;
+  border-radius: v.$radius-sm;
+  font-size: v.$font-size-sm;
+  font-weight: v.$font-weight-semibold;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   cursor: pointer;
-  transition: background $transition-base $easing-in-out;
+  transition: background v.$transition-base v.$easing-in-out;
 
   &:hover {
     opacity: 0.9;
   }
 
   &:focus-visible {
-    outline: 3px solid $color-primary;
+    outline: 3px solid var(--color-primary);
     outline-offset: 2px;
   }
 
@@ -243,30 +232,30 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: $spacing-6;
-  padding-top: $spacing-8;
-  border-top: $border-thin solid $color-gray-200;
+  gap: v.$spacing-6;
+  padding-top: v.$spacing-8;
+  border-top: v.$border-thin solid v.$color-gray-200;
 
-  @media (max-width: $breakpoint-sm) {
+  @media (max-width: v.$breakpoint-sm) {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    gap: $spacing-4;
+    gap: v.$spacing-4;
   }
 }
 
 .app-footer__copyright {
-  font-size: $font-size-xs;
-  color: $color-gray-600;
+  font-size: v.$font-size-xs;
+  color: v.$color-gray-600;
   margin: 0;
 }
 
 .app-footer__actions {
   display: flex;
-  gap: $spacing-5;
+  gap: v.$spacing-5;
   align-items: center;
 
-  @media (max-width: $breakpoint-sm) {
+  @media (max-width: v.$breakpoint-sm) {
     justify-content: center;
   }
 }
@@ -274,11 +263,11 @@
 .app-footer__action-link {
   display: flex;
   align-items: center;
-  gap: $spacing-2;
-  font-size: $font-size-xs;
+  gap: v.$spacing-2;
+  font-size: v.$font-size-xs;
   text-decoration: none;
-  font-weight: $font-weight-medium;
-  transition: color $transition-base $easing-in-out;
+  font-weight: v.$font-weight-medium;
+  transition: color v.$transition-base v.$easing-in-out;
 }
 
 .app-footer__accessibility-btn {
@@ -289,20 +278,20 @@
   }
 
   &:focus-visible {
-    outline: 2px solid $color-primary;
+    outline: 2px solid var(--color-primary);
     outline-offset: 2px;
   }
 }
 
 .app-footer__language-btn {
-  color: $color-primary;
+  color: var(--color-primary);
 
   &:hover {
     opacity: 0.8;
   }
 
   &:focus-visible {
-    outline: 2px solid $color-primary;
+    outline: 2px solid var(--color-primary);
     outline-offset: 2px;
   }
 }

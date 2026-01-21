@@ -1,42 +1,42 @@
-@import '../../../styles/00-settings/variables';
-@import '../../../styles/01-tools/mixins';
+@use '../../../styles/00-settings/variables' as v;
+@use '../../../styles/01-tools/mixins' as m;
 
 // ============================================================================
 // USER PROGRESO PAGE
 // ============================================================================
 
 .user-progreso {
-  background: white;
-  border-radius: $radius-lg;
-  padding: $spacing-6;
-  @include elevation(md);
+  background: var(--bg-primary);
+  border-radius: v.$radius-lg;
+  padding: v.$spacing-6;
+  @include m.elevation(md);
 }
 
 .user-progreso__title {
-  font-size: $font-size-xl;
-  font-weight: $font-weight-bold;
-  color: $color-gray-900;
-  margin-bottom: $spacing-4;
+  font-size: v.$font-size-xl;
+  font-weight: v.$font-weight-bold;
+  color: var(--text-primary);
+  margin-bottom: v.$spacing-4;
 }
 
 .user-progreso__summary {
-  background: $color-gray-50;
-  border-radius: $radius-md;
-  padding: $spacing-4;
-  margin-bottom: $spacing-6;
+  background: var(--bg-tertiary);
+  border-radius: v.$radius-md;
+  padding: v.$spacing-4;
+  margin-bottom: v.$spacing-6;
   text-align: center;
 }
 
 .user-progreso__total {
-  font-size: $font-size-3xl;
-  font-weight: $font-weight-bold;
-  color: $color-accent;
-  margin-bottom: $spacing-1;
+  font-size: v.$font-size-3xl;
+  font-weight: v.$font-weight-bold;
+  color: var(--color-accent);
+  margin-bottom: v.$spacing-1;
 }
 
 .user-progreso__label {
-  color: $color-gray-600;
-  font-size: $font-size-sm;
+  color: var(--text-tertiary);
+  font-size: v.$font-size-sm;
 }
 
 .user-progreso__list {
@@ -46,8 +46,8 @@
 }
 
 .user-progreso__item {
-  padding: $spacing-4;
-  border-bottom: $border-thin solid $color-gray-200;
+  padding: v.$spacing-4;
+  border-bottom: v.$border-thin solid var(--border-color-light);
 
   &:last-child {
     border-bottom: none;
@@ -55,29 +55,28 @@
 }
 
 .user-progreso__item-title {
-  font-weight: $font-weight-semibold;
-  color: $color-gray-900;
-  margin-bottom: $spacing-2;
+  font-weight: v.$font-weight-semibold;
+  color: var(--text-primary);
+  margin-bottom: v.$spacing-2;
 }
 
 .user-progreso__bar {
   width: 100%;
   height: 8px;
-  background: $color-gray-200;
-  border-radius: $radius-full;
+  background: var(--border-color-light);
+  border-radius: v.$radius-full;
   overflow: hidden;
 }
 
 .user-progreso__fill {
   height: 100%;
-  background: $color-accent;
-  border-radius: $radius-full;
-  @include transition(width, $transition-base);
+  background: var(--color-accent);
+  border-radius: v.$radius-full;
+  @include m.transition(width, v.$transition-base);
 }
 
 .user-progreso__percentage {
-  font-size: $font-size-sm;
-  color: $color-gray-600;
-  margin-left: $spacing-2;
+  font-size: v.$font-size-sm;
+  color: var(--text-tertiary);
+  margin-left: v.$spacing-2;
 }
-

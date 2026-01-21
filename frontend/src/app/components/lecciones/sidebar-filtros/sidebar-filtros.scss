@@ -1,43 +1,43 @@
-@import '../../../../styles/00-settings/variables';
-@import '../../../../styles/01-tools/mixins';
+@use '../../../../styles/00-settings/variables' as v;
+@use '../../../../styles/01-tools/mixins' as m;
 
 .sidebar-filtros {
-  background: $color-bg-dark;
+  background: var(--bg-secondary);
   top: 90px;
   width: 100%;
   max-width: 280px;
   box-sizing: border-box;
-  overflow: visible; // permitir que elementos visuales salgan del contenedor si es necesario
+  overflow: visible;
 }
 
 .sidebar-filtros__header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: $spacing-6;
-  padding-bottom: $spacing-4;
-  border-bottom: $border-thin solid $color-gray-200;
+  margin-bottom: v.$spacing-6;
+  padding-bottom: v.$spacing-4;
+  border-bottom: v.$border-thin solid var(--bg-tertiary);
 }
 
 .sidebar-filtros__title {
   margin: 0;
-  font-size: $font-size-lg;
-  font-weight: $font-weight-bold;
-  color: $color-text-dark;
+  font-size: v.$font-size-lg;
+  font-weight: v.$font-weight-bold;
+  color: var(--text-primary);
 }
 
 .sidebar-filtros__clear {
   background: none;
   border: none;
-  color: $color-accent;
-  font-size: $font-size-sm;
-  font-weight: $font-weight-semibold;
+  color: var(--color-accent);
+  font-size: v.$font-size-sm;
+  font-weight: v.$font-weight-semibold;
   cursor: pointer;
-  padding: $spacing-1 $spacing-2;
-  border-radius: $radius-sm;
-  @include transition(all, $transition-fast);
+  padding: v.$spacing-1 v.$spacing-2;
+  border-radius: v.$radius-sm;
+  @include m.transition(all, v.$transition-fast);
 
-  @include hover {
+  @include m.hover {
     background: #EFF6FF;
   }
 }
@@ -45,12 +45,12 @@
 .sidebar-filtros__categories {
   display: flex;
   flex-direction: column;
-  gap: $spacing-5;
+  gap: v.$spacing-5;
   overflow: visible;
 }
 
 .sidebar-filtros__category {
-  border-bottom: $border-thin solid $color-gray-100;
+  border-bottom: v.$border-thin solid var(--border-color-light);
   overflow: visible;
 
   &:last-child {
@@ -65,57 +65,57 @@
   justify-content: space-between;
   align-items: center;
   background: none;
-  border-bottom: $border-thin solid $color-gray-200;
+  border-bottom: v.$border-thin solid var(--bg-tertiary);
   cursor: pointer;
-  margin-bottom: $spacing-3;
-  padding: $spacing-1;
-  @include transition(all, $transition-fast);
+  margin-bottom: v.$spacing-3;
+  padding: v.$spacing-1;
+  @include m.transition(all, v.$transition-fast);
 }
 
 .sidebar-filtros__category-title {
   display: block;
   width: 100%;
-  font-size: $font-size-lg;
-  font-weight: $font-weight-semibold;
-  font-family: $font-secondary;
-  color: $color-text-dark;
-  border-bottom: $border-thin solid $color-gray-100;
+  font-size: v.$font-size-lg;
+  font-weight: v.$font-weight-semibold;
+  font-family: v.$font-secondary;
+  color: var(--text-primary);
+  border-bottom: v.$border-thin solid var(--border-color-light);
 
-  @include hover {
-    color: $color-accent;
+  @include m.hover {
+    color: var(--color-accent);
   }
-  @include transition(color);
+  @include m.transition(color);
 }
 
 .sidebar-filtros__category-icon {
-  color: $color-gray-700;
-  @include transition(transform);
+  color: var(--text-secondary);
+  @include m.transition(transform);
 }
 
 .sidebar-filtros__options {
   display: flex;
   flex-direction: column;
-  gap: $spacing-3;
-  padding-bottom: $spacing-4;
+  gap: v.$spacing-3;
+  padding-bottom: v.$spacing-4;
   max-height: 400px;
   overflow: hidden;
-  @include transition(max-height opacity, $transition-fast);
+  @include m.transition(max-height opacity, v.$transition-fast);
   overflow: visible; // aseguramos que no se recorte la marca del checkbox
 }
 
 .sidebar-filtros__option {
   display: flex;
   align-items: center;
-  gap: $spacing-3;
+  gap: v.$spacing-3;
   cursor: pointer;
-  padding: $spacing-1 0;
+  padding: v.$spacing-1 0;
   user-select: none;
   position: relative; // para posicionar el input absoluto
   overflow: visible;
 
-  @include hover {
+  @include m.hover {
     .sidebar-filtros__option-label {
-      color: $color-accent;
+      color: var(--color-accent);
     }
   }
 }
@@ -139,10 +139,10 @@
   width: 18px;
   height: 18px;
   box-sizing: border-box;
-  border: $border-medium solid $color-gray-300;
+  border: v.$border-medium solid var(--border-color);
   background: transparent;
   border-radius: 0; // cuadrado
-  margin-right: $spacing-3;
+  margin-right: v.$spacing-3;
   flex-shrink: 0;
   position: relative;
   z-index: 2; // aparecer debajo del input invisible
@@ -150,8 +150,8 @@
 
 /* Mostrar tick cuando el input asociado está checked */
 .sidebar-filtros__checkbox-native:checked + .sidebar-filtros__checkbox-custom {
-  background: $color-accent;
-  border-color: $color-accent;
+  background: var(--color-accent);
+  border-color: var(--color-accent);
 }
 
 .sidebar-filtros__checkbox-custom::after {
@@ -162,7 +162,7 @@
   width: 6px;
   height: 10px;
   transform: rotate(45deg);
-  border: solid $color-text-light;
+  border: solid var(--text-on-dark);
   border-width: 0 2px 2px 0;
   display: none;
 }
@@ -172,34 +172,34 @@
 }
 
 .sidebar-filtros__checkbox-native:focus + .sidebar-filtros__checkbox-custom {
-  outline: 2px solid $color-secondary;
+  outline: 2px solid var(--color-secondary);
   outline-offset: 2px;
 }
 
 .sidebar-filtros__option-label {
   flex: 1;
-  font-size: $font-size-sm;
-  color: $color-gray-800;
-  @include transition(color);
+  font-size: v.$font-size-sm;
+  color: var(--text-secondary);
+  @include m.transition(color);
 }
 
 .sidebar-filtros__option-count {
-  font-size: $font-size-xs;
-  color: $color-gray-500;
+  font-size: v.$font-size-xs;
+  color: var(--text-tertiary);
 }
 
 /* Footer acciones */
 .sidebar-filtros__footer {
   display: flex;
   flex-direction: column;
-  gap: $spacing-3;
-  padding: $spacing-5 0 0 0;
-  margin-top: $spacing-6;
+  gap: v.$spacing-3;
+  padding: v.$spacing-5 0 0 0;
+  margin-top: v.$spacing-6;
 }
 
 .sidebar-filtros__footer-actions {
   display: flex;
-  gap: $spacing-6;
+  gap: v.$spacing-6;
   align-items: center;
   justify-content: flex-start;
 }
@@ -210,21 +210,21 @@
 
 .sidebar-filtros__btn--clear {
   min-width: 140px;
-  font-size: $font-size-sm;
+  font-size: v.$font-size-sm;
 }
 
 :host ::ng-deep .sidebar-filtros__btn--clear.button--white.button--small {
   height: 50px !important;
   padding: 0 20px !important;
-  font-size: $font-size-sm !important;
+  font-size: v.$font-size-sm !important;
   min-width: 140px !important;
 }
 
 /* Asegurar botones en mobile mantengan separación y ancho */
-@media (max-width: $breakpoint-md) {
+@media (max-width: v.$breakpoint-md) {
   .sidebar-filtros__footer {
-    padding: $spacing-4 0 0 0;
-    gap: $spacing-3;
+    padding: v.$spacing-4 0 0 0;
+    gap: v.$spacing-3;
   }
   .sidebar-filtros__footer-actions {
     flex-direction: column;
@@ -237,22 +237,22 @@
 }
 
 /* Responsive */
-@media (max-width: $breakpoint-lg) {
+@media (max-width: v.$breakpoint-lg) {
   .sidebar-filtros {
     position: static;
-    margin-bottom: $spacing-6;
+    margin-bottom: v.$spacing-6;
     max-width: none; /* allow full width in stacked layout */
   }
 }
 
-@media (max-width: $breakpoint-md) {
+@media (max-width: v.$breakpoint-md) {
   .sidebar-filtros {
-    padding: $spacing-5;
+    padding: v.$spacing-5;
   }
 
   .sidebar-filtros__header {
     flex-direction: column;
     align-items: flex-start;
-    gap: $spacing-3;
+    gap: v.$spacing-3;
   }
 }

@@ -2,7 +2,7 @@
 @use '../../../styles/01-tools/mixins' as m;
 
 .leccion-detalle {
-  background: v.$color-bg-dark;
+  background: var(--bg-secondary);
   min-height: 100vh;
 
   // Loading State
@@ -13,7 +13,7 @@
     min-height: 50vh;
     font-size: v.$font-size-xl;
     font-weight: v.$font-weight-bold;
-    color: v.$color-gray-600;
+    color: var(--text-tertiary);
   }
 
   // Error State
@@ -30,28 +30,28 @@
       font-size: v.$font-size-3xl;
       font-weight: v.$font-weight-bold;
       margin-bottom: v.$spacing-4;
-      color: v.$color-text-dark;
+      color: var(--text-primary);
     }
 
     p {
       font-size: v.$font-size-lg;
       margin-bottom: v.$spacing-8;
-      color: v.$color-gray-600;
+      color: var(--text-tertiary);
     }
   }
 
   &__back-button {
     padding: v.$spacing-4 v.$spacing-8;
-    background: v.$color-primary;
-    color: v.$color-text-dark;
+    background: var(--color-primary);
+    color: var(--text-primary);
     font-weight: v.$font-weight-bold;
-    border: v.$border-medium solid v.$color-text-dark;
+    border: v.$border-medium solid var(--text-primary);
     text-decoration: none;
     transition: all v.$transition-base v.$easing-in-out;
 
     &:hover {
       transform: translateY(-2px);
-      box-shadow: 4px 4px 0 v.$color-text-dark;
+      box-shadow: 4px 4px 0 var(--text-primary);
     }
   }
 
@@ -60,11 +60,11 @@
     padding: v.$spacing-24 v.$spacing-6;
 
     &--odd {
-      background: v.$color-bg-light;
+      background: var(--bg-primary);
     }
 
     &:not(&--odd) {
-      background: rgba(v.$color-gray-200, 0.3);
+      background: color-mix(in srgb, var(--border-color-light) 30%, transparent 70%);
     }
   }
 
@@ -114,14 +114,14 @@
     position: relative;
     z-index: 1;
     padding: v.$spacing-12;
-    border: v.$border-thick solid v.$color-text-dark;
-    background: v.$color-text-light;
+    border: v.$border-large solid var(--text-primary);
+    background: var(--text-on-dark);
     border-radius: v.$spacing-12;
-    box-shadow: 6px 6px 0 v.$color-text-dark;
+    box-shadow: 6px 6px 0 var(--text-primary);
 
     .material-symbols-outlined {
       font-size: 12.5rem;
-      color: v.$color-text-dark;
+      color: var(--text-primary);
       font-variation-settings:
         'FILL' 0,
         'wght' 300,
@@ -149,27 +149,27 @@
   &__step-number {
     width: 5rem;
     height: 5rem;
-    border: v.$border-large solid v.$color-text-dark;
+    border: v.$border-large solid var(--text-primary);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: v.$font-size-4xl;
     font-weight: v.$font-weight-bold;
-    background: v.$color-text-light;
-    box-shadow: 4px 4px 0 v.$color-text-dark;
+    background: var(--text-on-dark);
+    box-shadow: 4px 4px 0 var(--text-primary);
   }
 
   &__step-title {
     font-size: v.$font-size-4xl;
     font-weight: v.$font-weight-bold;
-    color: v.$color-text-dark;
+    color: var(--text-primary);
     line-height: v.$line-height-tight;
   }
 
   &__step-description {
     font-size: v.$font-size-xl;
-    color: v.$color-gray-700;
+    color: var(--text-tertiary);
     line-height: v.$line-height-relaxed;
     max-width: 40rem;
   }
@@ -183,10 +183,10 @@
 
   &__cta-container {
     position: relative;
-    border: v.$border-thick solid v.$color-text-dark;
-    background: v.$color-text-light;
+    border: v.$border-large solid var(--text-primary);
+    background: var(--text-on-dark);
     padding: v.$spacing-12;
-    box-shadow: 6px 6px 0 v.$color-text-dark;
+    box-shadow: 6px 6px 0 var(--text-primary);
     border-radius: v.$spacing-12;
     overflow: hidden;
 
@@ -200,7 +200,7 @@
     inset: 0;
     opacity: 0.05;
     pointer-events: none;
-    background-image: radial-gradient(circle at 10px 10px, v.$color-text-dark 1px, transparent 0);
+    background-image: radial-gradient(circle at 10px 10px, var(--text-primary) 1px, transparent 0);
     background-size: 30px 30px;
   }
 
@@ -220,8 +220,8 @@
     justify-content: center;
     width: 6rem;
     height: 6rem;
-    background: v.$color-primary;
-    border: v.$border-thick solid v.$color-text-dark;
+    background: var(--color-primary);
+    border: v.$border-large solid var(--text-primary);
     border-radius: 50%;
 
     .material-symbols-outlined {
@@ -237,7 +237,7 @@
   &__cta-title {
     font-size: v.$font-size-4xl;
     font-weight: v.$font-weight-bold;
-    color: v.$color-text-dark;
+    color: var(--text-primary);
     line-height: v.$line-height-tight;
 
     @media (min-width: v.$breakpoint-lg) {
@@ -247,7 +247,7 @@
 
   &__cta-description {
     font-size: v.$font-size-xl;
-    color: v.$color-gray-700;
+    color: var(--text-tertiary);
     max-width: 48rem;
     margin: 0 auto;
     font-weight: v.$font-weight-medium;
@@ -276,7 +276,7 @@
     max-width: 1200px;
     margin: 0 auto;
     padding: v.$spacing-12 v.$spacing-6 v.$spacing-20;
-    border-top: v.$border-thick solid v.$color-text-dark;
+    border-top: v.$border-large solid var(--text-primary);
     display: flex;
     flex-direction: column;
     gap: v.$spacing-6;
@@ -288,30 +288,25 @@
 
   &__nav-card {
     flex: 1;
-    background: v.$color-text-light;
-    border: v.$border-large solid v.$color-text-dark;
+    background: var(--text-on-dark);
+    border: v.$border-large solid var(--text-primary);
     padding: v.$spacing-8;
     border-radius: v.$spacing-6;
     display: flex;
     align-items: center;
     gap: v.$spacing-6;
     text-decoration: none;
-    color: v.$color-text-dark;
+    color: var(--text-primary);
     transition: all v.$transition-base v.$easing-in-out;
 
     &:hover {
       transform: translate(-4px, -4px);
-      box-shadow: 8px 8px 0 v.$color-text-dark;
+      box-shadow: 8px 8px 0 var(--text-primary);
     }
 
-    &--prev {
-      justify-content: flex-start;
-    }
+    &--prev { justify-content: flex-start; }
 
-    &--next {
-      justify-content: space-between;
-      text-align: right;
-    }
+    &--next { justify-content: space-between; text-align: right; }
   }
 
   &__nav-icon {
@@ -322,16 +317,10 @@
       'GRAD' 0,
       'opsz' 48;
 
-    .leccion-detalle__nav-card--next & {
-      color: v.$color-accent;
-    }
+    .leccion-detalle__nav-card--next & { color: var(--color-accent); }
   }
 
-  &__nav-content {
-    display: flex;
-    flex-direction: column;
-    gap: v.$spacing-2;
-  }
+  &__nav-content { display: flex; flex-direction: column; gap: v.$spacing-2; }
 
   &__nav-label {
     display: block;
@@ -339,17 +328,15 @@
     font-weight: v.$font-weight-bold;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: v.$color-gray-500;
+    color: var(--text-tertiary);
   }
 
   &__nav-title {
     display: block;
     font-size: v.$font-size-2xl;
     font-weight: v.$font-weight-bold;
-    color: v.$color-text-dark;
+    color: var(--text-primary);
 
-    .leccion-detalle__nav-card--next & {
-      color: v.$color-accent;
-    }
+    .leccion-detalle__nav-card--next & { color: var(--color-accent); }
   }
 }

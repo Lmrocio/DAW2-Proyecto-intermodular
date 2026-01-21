@@ -1,12 +1,12 @@
-@use '../../../../styles/00-settings/_variables' as v;
+@use '../../../../styles/00-settings/variables' as v;
 @use '../../../../styles/01-tools/mixins' as m;
 
 .card-container {
   width: 100%;
   max-width: 280px;
   aspect-ratio: 4 / 3;
-  background: v.$color-text-light;
-  border: v.$border-medium solid v.$color-text-dark; // similar a 3px en la guía
+  background: var(--text-on-dark);
+  border: v.$border-medium solid var(--text-primary); // similar a 3px en la guía
   border-radius: 0;
   padding: 0;
   overflow: hidden;
@@ -33,7 +33,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) rotate(-12deg);
-    background-color: mix(v.$color-accent, #fff, 20%);
+    background-color: color-mix(in srgb, var(--color-accent) 20%, white 80%);
     border-radius: 35% 65% 72% 28% / 48% 58% 42% 52%;
     filter: blur(0.6px);
     opacity: 0.5;
@@ -49,7 +49,7 @@
     top: 55%;
     left: 55%;
     transform: translate(-55%, -48%) rotate(22deg);
-    background-color: mix(v.$color-accent, #fff, 25%);
+    background-color: color-mix(in srgb, var(--color-accent) 25%, white 75%);
     /* Border-radius diferente para textura */
     border-radius: 58% 42% 35% 65% / 62% 38% 62% 38%;
     filter: blur(0.3px);
@@ -69,7 +69,7 @@
   svg {
     width: v.$icon-size-md;
     height: v.$icon-size-md;
-    stroke: v.$color-accent; /* mismo azul que el título */
+    stroke: var(--color-accent); /* mismo azul que el título */
     stroke-width: 2.5; /* más grueso */
     stroke-linecap: round;
     stroke-linejoin: round;
@@ -83,7 +83,7 @@
 
   /* Reglas específicas para iconos problemáticos */
   .svg-icon-refresh {
-    stroke: v.$color-accent;
+    stroke: var(--color-accent);
     stroke-width: 2.5;
     stroke-linecap: round;
     stroke-linejoin: round;
@@ -94,7 +94,7 @@
   }
 
   .svg-icon-lock {
-    stroke: v.$color-accent;
+    stroke: var(--color-accent);
     stroke-width: 2.5;
     stroke-linecap: round;
     stroke-linejoin: round;
@@ -107,31 +107,9 @@
   font-family: v.$font-primary;
   font-size: v.$font-size-xl; // aproximado a 28px de la guía
   font-weight: v.$font-weight-bold;
-  color: v.$color-accent;
+  color: var(--color-accent);
   margin: 0;
   position: relative;
   z-index: 1;
   letter-spacing: -0.5px;
-}
-
-/* MODO OSCURO */
-:root[data-theme='dark'] {
-  .card-container {
-    background: v.$color-gray-800;
-    border-color: v.$color-text-light;
-  }
-
-  .card-content::before {
-    background: v.$color-accent;
-    opacity: 0.22;
-  }
-
-  .card-content::after {
-    background: mix(v.$color-accent, #fff, 15%);
-    opacity: 0.08;
-  }
-
-  .card-title {
-    color: v.$color-text-light;
-  }
 }

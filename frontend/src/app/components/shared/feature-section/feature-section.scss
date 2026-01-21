@@ -8,12 +8,11 @@
   width: 100%;
 }
 
-
 .section-title {
   font-family: v.$font-primary;
   font-size: 32px;
   font-weight: 700;
-  color: v.$color-text-dark;
+  color: var(--text-primary);
   margin-bottom: v.$spacing-4;
   line-height: 1.2;
 
@@ -25,7 +24,7 @@
 .section-description {
   font-family: v.$font-body;
   font-size: 15px;
-  color: v.$color-gray-600;
+  color: var(--text-tertiary);
   line-height: 1.6;
   margin-bottom: v.$spacing-6;
   max-width: 400px;
@@ -47,14 +46,14 @@
   gap: v.$spacing-3;
   margin-bottom: v.$spacing-3;
   font-size: 15px;
-  color: v.$color-text-dark;
+  color: var(--text-primary);
   font-family: v.$font-body;
 }
 
 .check-icon {
   width: 24px;
   height: 24px;
-  background: v.$color-tertiary;
+  background: var(--color-tertiary);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -78,8 +77,8 @@
 }
 
 .simulator-card {
-  background: v.$color-text-light;
-  border: v.$border-medium solid v.$color-text-dark;
+  background: var(--text-on-dark);
+  border: v.$border-medium solid var(--text-primary);
   border-radius: v.$radius-base;
   padding: v.$spacing-6 v.$spacing-20;
   text-align: center;
@@ -107,8 +106,8 @@
   gap: v.$spacing-2;
   position: relative;
   overflow: hidden;
-  background: v.$color-text-light;
-  border: v.$border-medium solid v.$color-text-dark;
+  background: var(--text-on-dark);
+  border: v.$border-medium solid var(--text-primary);
 
   /* Fondo orgánico azul (similar a illustration-fill-teal) */
   &::before {
@@ -116,7 +115,7 @@
     position: absolute;
     width: 75%;
     height: 75%;
-    background-color: v.$color-accent;
+    background-color: var(--color-accent);
     top: 10%;
     left: 20%;
     border-radius: 30% 70% 50% 50% / 50% 50% 30% 70%;
@@ -129,8 +128,8 @@
     z-index: 12;
     width: 40px;
     height: 40px;
-    color: white; /* fallback color */
-    stroke: white;
+    color: var(--text-on-dark); /* fallback color */
+    stroke: var(--text-on-dark);
     flex-shrink: 0;
   }
 
@@ -143,7 +142,7 @@
     position: relative;
     z-index: 11;
     font-size: v.$font-size-xs;
-    color: v.$color-text-light;
+    color: var(--text-on-dark);
     font-weight: v.$font-weight-bold;
     text-align: center;
     text-transform: capitalize;
@@ -154,7 +153,7 @@
 .card-label {
   font-size: 15px;
   font-weight: v.$font-weight-semibold;
-  color: #1e40af;
+  color: var(--color-primary);
   font-family: v.$font-body;
 }
 
@@ -163,22 +162,5 @@
 
   @media (max-width: v.$breakpoint-md) {
     width: 100%;
-  }
-}
-
-/* MODO OSCURO */
-:root[data-theme='dark'] {
-  .simulator-card {
-    background: v.$color-gray-800;
-    border-color: v.$color-text-light;
-  }
-
-  .card-icon-container {
-    background: v.$color-gray-800;
-    border-color: v.$color-text-light;
-  }
-
-  .card-label {
-    color: #93c5fd;
   }
 }

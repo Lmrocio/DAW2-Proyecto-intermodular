@@ -1,3 +1,6 @@
+@use '../00-settings/variables' as *;
+@use '../01-tools/mixins' as *;
+
 // ============================================================================
 // 1. RESET DE ELEMENTOS BASE
 // ============================================================================
@@ -252,7 +255,7 @@ tbody tr:hover {
 blockquote {
   margin: $spacing-4 0;
   padding-left: $spacing-4;
-  border-left: $border-thick solid $color-accent;
+  border-left: $border-large solid $color-accent;
   font-style: italic;
   color: $color-gray-600;
 }
@@ -369,4 +372,3 @@ textarea:valid:not(:placeholder-shown) {
     box-shadow: 0 0 0 3px rgba(116, 235, 5, 0.1);
   }
 }
-

@@ -7,7 +7,7 @@
   margin: 0 auto;
   padding: v.$spacing-8;
   position: relative;
-  background: v.$color-bg-light;
+  background: var(--bg-primary);
   border-bottom: 2px solid;
   width: 96%;
 
@@ -24,17 +24,10 @@
   top: 0;
   bottom: 0;
   width: 2px;
-  background: v.$color-text-dark;
+  background: var(--text-primary);
   transform: translateX(-50%);
 
   @media (max-width: v.$breakpoint-md) {
     display: none;
-  }
-}
-
-/* MODO OSCURO */
-:root[data-theme='dark'] {
-  .vertical-divider {
-    background: v.$color-gray-700;
   }
 }

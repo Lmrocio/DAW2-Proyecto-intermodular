@@ -2,7 +2,7 @@
 @use '../../../../styles/01-tools/mixins' as m;
 
 .guide-mode-section {
-  background: v.$color-primary;
+  background: var(--color-primary);
   padding: v.$spacing-10 v.$spacing-5;
   width: 96%;
   display: flex;
@@ -13,8 +13,8 @@
 }
 
 .guide-mode-card {
-  background: v.$color-text-light;
-  border: 3px solid v.$color-text-dark;
+  background: var(--text-on-dark);
+  border: 3px solid var(--text-primary);
   padding: v.$spacing-8 v.$spacing-10;
   max-width: 800px;
   width: 100%;
@@ -31,15 +31,15 @@
     flex-direction: column;
     text-align: center;
     padding: v.$spacing-6 v.$spacing-5;
-    box-shadow: 4px 4px 0 0 v.$color-text-dark;
+    box-shadow: 4px 4px 0 0 var(--text-primary);
   }
 }
 
 .guide-icon-container {
   width: 80px;
   height: 80px;
-  background: v.$color-primary;
-  border: 3px solid v.$color-text-dark;
+  background: var(--color-primary);
+  border: 3px solid var(--text-primary);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -59,40 +59,10 @@
     height: 70px;
   }
 
-  /* Óvalo irregular pequeño (layer 1) - fondo decorativo muy sutil */
-  &::before {
-    content: '';
-    position: absolute;
-    z-index: 0;
-    width: 60%;
-    height: 60%;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) rotate(-12deg);
-    background-color: mix(v.$color-primary, #fff, 10%);
-    border-radius: 45% 55% 60% 40% / 50% 40% 60% 50%;
-    filter: blur(0.3px);
-    opacity: 0.25;
-  }
-
-  /* Segunda capa sutil (layer 2) - muy pequeña textura */
-  &::after {
-    content: '';
-    position: absolute;
-    z-index: 0;
-    width: 45%;
-    height: 40%;
-    top: 52%;
-    left: 48%;
-    transform: translate(-48%, -52%) rotate(8deg);
-    background-color: mix(v.$color-primary, #000, 2%);
-    border-radius: 55% 45% 45% 55% / 45% 55% 45% 55%;
-    opacity: 0.08;
-  }
 }
 
 .guide-icon {
-  color: v.$color-text-dark;
+  color: var(--text-primary);
   position: relative;
   z-index: 100;
   display: flex;
@@ -123,7 +93,7 @@
   font-size: 24px;
   font-weight: 700;
   font-style: italic;
-  color: v.$color-text-dark;
+  color: var(--text-primary);
   margin-bottom: v.$spacing-2;
   line-height: 1.3;
 
@@ -140,7 +110,7 @@
   font-family: v.$font-body;
   font-size: 15px;
   font-weight: 400;
-  color: v.$color-gray-600;
+  color: var(--text-secondary);
   line-height: 1.5;
   max-width: 400px;
   margin: 0;
@@ -182,7 +152,7 @@
 
 .guide-row {
   display: flex;
-  align-items: center; /* alinea la descripción y las acciones a la misma altura */
+  align-items: center;
   justify-content: space-between;
   gap: v.$spacing-6;
   width: 100%;
@@ -190,7 +160,7 @@
 
 .guide-description {
   margin: 0;
-  flex: 1 1 auto; /* permitir que el párrafo ocupe el espacio disponible */
+  flex: 1 1 auto;
   max-width: 60%;
 }
 
@@ -220,33 +190,10 @@
   }
 }
 
-/* Add SVG styling for guide-svg-icon */
 .guide-svg-icon {
-  stroke: v.$color-text-dark;
+  stroke: var(--text-primary);
   stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
   fill: currentColor;
-}
-
-/* MODO OSCURO */
-:root[data-theme='dark'] {
-  .guide-mode-card {
-    background: v.$color-gray-800;
-    border-color: v.$color-text-light;
-    box-shadow: 8px 8px 0 0 v.$color-text_light;
-
-    @media (max-width: 480px) {
-      box-shadow: 4px 4px 0 0 v.$color-text-light;
-    }
-  }
-
-  .guide-icon-container {
-    background: transparent;
-    border-color: v.$color-text-light;
-  }
-
-  .guide-icon {
-    color: v.$color-text-light;
-  }
 }

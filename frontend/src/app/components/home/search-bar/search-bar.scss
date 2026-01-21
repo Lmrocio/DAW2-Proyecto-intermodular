@@ -3,7 +3,7 @@
 
 .search-section {
   padding: v.$spacing-20 v.$spacing-5;
-  background: v.$color-bg-dark;
+  background: var(--bg-secondary);
 }
 
 .search-section--no-padding {
@@ -39,7 +39,7 @@
   font-size: 28px;
   font-weight: 400;
   font-style: italic;
-  color: v.$color-text-dark;
+  color: var(--text-primary);
   text-align: center;
   margin: 0;
   line-height: 1.3;
@@ -65,7 +65,7 @@
   left: v.$spacing-4;
   top: 50%;
   transform: translateY(-50%);
-  color: v.$color-tertiary;
+  color: var(--color-tertiary);
   pointer-events: none;
   z-index: 1;
 
@@ -80,9 +80,9 @@
   width: 100%;
   padding: v.$spacing-4 v.$spacing-4 v.$spacing-4 v.$spacing-12;
   font-size: 16px;
-  color: v.$color-text-dark;
-  background: v.$color-text-light;
-  border: v.$border-medium solid v.$color-text-dark;
+  color: var(text-primary);
+  background: var(--bg-primary);
+  border: v.$border-medium solid var(--text-primary);
   border-radius: 0;
   transition: all v.$transition-base v.$easing-in-out;
   font-family: v.$font-body;
@@ -98,8 +98,8 @@
 
   &:focus {
     outline: none;
-    border-color: v.$color-tertiary;
-    box-shadow: 0 0 0 3px rgba(243, 116, 43, 0.1);
+    border-color: var(--color-tertiary);
+    box-shadow: var(--shadow-sm);
   }
 }
 
@@ -107,7 +107,6 @@
   flex-shrink: 0;
 
   .button {
-    /* For icon-only behavior: make the button square and center the icon */
     width: 44px !important;
     height: 44px !important;
     padding: 0 !important;
@@ -119,7 +118,6 @@
   }
 
   .button__text {
-    /* hide text when empty (the binding sets empty string) */
     display: inline-block;
   }
 
@@ -131,20 +129,16 @@
   }
 
   .button--primary.button--blue.button--medium.button__text {
-    /* ensure text doesn't push width when present */
     padding-left: 6px;
   }
 
   .button--primary.button--blue.button--medium.button--full-width {
-    /* no-op, just avoid full width for this small button */
   }
 
   .button--primary.button--blue.button--medium.button__text:empty {
-    /* when text is empty, hide the text node completely */
     display: none;
   }
 
-  /* give visual active state when speaking */
   .button--primary.button--blue.button--medium.button__text:empty + .button__icon,
   .button--primary.button--blue.button--medium .button__icon {
     transition: transform v.$transition-base v.$easing-in-out, opacity v.$transition-base v.$easing-in-out;
@@ -152,7 +146,6 @@
 
   .button--primary.button--blue.button--medium.button__text:empty ~ .button__icon,
   .button--primary.button--blue.button--medium .button__icon {
-    /* default color */
   }
 }
 
@@ -162,7 +155,7 @@
   font-weight: 400;
   color: v.$color-gray-600;
   text-align: center;
-  margin: 0 0 v.$spacing-12 0;
+  margin-bottom: v.$spacing-12;
   line-height: 1.6;
   max-width: 600px;
   margin-left: auto;
@@ -205,28 +198,6 @@
     svg {
       width: 18px;
       height: 18px;
-    }
-  }
-}
-
-/* MODO OSCURO */
-:root[data-theme='dark'] {
-  .search-input {
-    background: v.$color-gray-800;
-    color: v.$color-text-light;
-    border-color: v.$color-text-light;
-
-    &:hover:not(:focus) {
-      border-color: v.$color-gray-400;
-    }
-
-    &:focus {
-      border-color: v.$color-tertiary;
-      box-shadow: 0 0 0 3px rgba(243, 116, 43, 0.2);
-    }
-
-    &::placeholder {
-      color: v.$color-gray-400;
     }
   }
 }

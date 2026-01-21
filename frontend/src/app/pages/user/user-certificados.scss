@@ -1,73 +1,72 @@
-@import '../../../styles/00-settings/variables';
-@import '../../../styles/01-tools/mixins';
+@use '../../../styles/00-settings/variables' as v;
+@use '../../../styles/01-tools/mixins' as m;
 
 // ============================================================================
 // USER CERTIFICADOS PAGE
 // ============================================================================
 
 .user-certificados {
-  background: white;
-  border-radius: $radius-lg;
-  padding: $spacing-6;
-  @include elevation(md);
+  background: var(--bg-primary);
+  border-radius: v.$radius-lg;
+  padding: v.$spacing-6;
+  @include m.elevation(md);
 }
 
 .user-certificados__title {
-  font-size: $font-size-xl;
-  font-weight: $font-weight-bold;
-  color: $color-gray-900;
-  margin-bottom: $spacing-6;
+  font-size: v.$font-size-xl;
+  font-weight: v.$font-weight-bold;
+  color: var(--text-primary);
+  margin-bottom: v.$spacing-6;
 }
 
 .user-certificados__list {
   display: grid;
-  gap: $spacing-4;
+  gap: v.$spacing-4;
 }
 
 .user-certificados__card {
-  border: $border-thin solid $color-gray-200;
-  border-radius: $radius-md;
-  padding: $spacing-4;
-  @include transition(all, $transition-fast);
+  border: v.$border-thin solid var(--border-color);
+  border-radius: v.$radius-md;
+  padding: v.$spacing-4;
+  @include m.transition(all, v.$transition-fast);
 
-  @include hover {
-    @include elevation(sm);
+  @include m.hover {
+    @include m.elevation(sm);
   }
 }
 
 .user-certificados__card-title {
-  font-weight: $font-weight-semibold;
-  color: $color-gray-900;
-  margin-bottom: $spacing-2;
+  font-weight: v.$font-weight-semibold;
+  color: var(--text-primary);
+  margin-bottom: v.$spacing-2;
 }
 
 .user-certificados__card-date {
-  font-size: $font-size-sm;
-  color: $color-gray-600;
-  margin-bottom: $spacing-3;
+  font-size: v.$font-size-sm;
+  color: var(--text-tertiary);
+  margin-bottom: v.$spacing-3;
 }
 
 .user-certificados__badge {
   display: inline-block;
-  padding: $spacing-1 $spacing-3;
-  border-radius: $radius-full;
-  font-size: $font-size-xs;
-  font-weight: $font-weight-semibold;
+  padding: v.$spacing-1 v.$spacing-3;
+  border-radius: v.$radius-full;
+  font-size: v.$font-size-xs;
+  font-weight: v.$font-weight-semibold;
 
   &--completado {
-    background: #dcfce7;
-    color: #166534;
+    background: var(--color-success);
+    color: color-mix(in srgb, var(--color-success) 80%, black 20%);
   }
 
   &--en-progreso {
-    background: #fef3c7;
-    color: #92400e;
+    background: var(--color-warning);
+    color: color-mix(in srgb, var(--color-warning) 60%, black 40%);
   }
 }
 
 .user-certificados__empty {
   text-align: center;
-  padding: $spacing-8;
-  color: $color-gray-500;
+  padding: v.$spacing-8;
+  color: var(--text-secondary);
 }
-

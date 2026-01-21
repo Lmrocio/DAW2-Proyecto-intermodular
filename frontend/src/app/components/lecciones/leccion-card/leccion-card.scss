@@ -1,31 +1,30 @@
-@import '../../../../styles/00-settings/variables';
-@import '../../../../styles/01-tools/mixins';
+@use '../../../../styles/00-settings/variables' as v;
+@use '../../../../styles/01-tools/mixins' as m;
 
-// Variables locales (usar si no están definidas globalmente)
 $card-image-width: 330px !default;
 $card-min-height: 280px !default;
 
 .leccion-card {
-  background: $color-text-light;
-  border: $border-medium solid $color-text-dark;
+  background: var(--bg-primary);
+  border: v.$border-medium solid var(--text-primary);
   border-radius: 2rem;
   overflow: hidden;
   display: flex;
   width: 100%;
   max-width: 1200px;
-  min-height: $card-min-height; // Altura mínima, no fija
+  min-height: $card-min-height;
 
-  @include transition(all, $transition-fast);
+  @include transition(all, v.$transition-fast);
   box-sizing: border-box;
-  align-items: stretch; // Los hijos se estiran a la altura de la card [web:16]
+  align-items: stretch;
 
   @include hover {
-    box-shadow: 8px 8px 0 0 $color-text-dark;
+    box-shadow: 8px 8px 0 0 var(--text-primary);
   }
 
-  @media (max-width: $breakpoint-md) {
+  @media (max-width: v.$breakpoint-md) {
     flex-direction: column;
-    min-height: auto; // Quitar min-height en mobile
+    min-height: auto;
   }
 }
 
@@ -41,7 +40,7 @@ $card-min-height: 280px !default;
 
 .leccion-card__image-wrapper {
   position: relative;
-  background: $color-gray-50;
+  background: var(--bg-tertiary);
   border-right: none;
   display: flex;
   overflow: hidden;
@@ -50,20 +49,20 @@ $card-min-height: 280px !default;
   width: $card-image-width;
   min-width: $card-image-width;
 
-  @media (max-width: $breakpoint-md) {
+  @media (max-width: v.$breakpoint-md) {
     width: 100%;
     min-width: auto;
     flex: 0 0 auto;
     border-right: none;
-    border-bottom: $border-medium solid $color-text-dark;
+    border-bottom: v.$border-medium solid var(--text-primary);
     height: 250px;
   }
 }
 
 .leccion-card__blob {
-  background: $color-bg-light;
-  border: $border-thin solid $color-text-dark;
-  color: $color-text-dark;
+  background: var(--bg-primary);
+  border: v.$border-thin solid var(--text-primary);
+  color: var(--text-primary);
 }
 
 
@@ -86,34 +85,34 @@ $card-min-height: 280px !default;
 
 .leccion-card__badge {
   position: absolute;
-  top: $spacing-4;
-  left: $spacing-4;
-  padding: $spacing-2 $spacing-4;
+  top: v.$spacing-4;
+  left: v.$spacing-4;
+  padding: v.$spacing-2 v.$spacing-4;
   border-radius: 9999px;
-  font-size: $font-size-xs;
-  font-weight: $font-weight-bold;
+  font-size: v.$font-size-xs;
+  font-weight: v.$font-weight-bold;
   text-transform: uppercase;
 
-  background: $color-bg-light;
-  border: $border-thin solid $color-text-dark;
-  color: $color-text-dark;
+  background: var(--bg-primary);
+  border: v.$border-thin solid var(--text-primary);
+  color: var(--text-primary);
   z-index: 10;
 }
 
 .leccion-card__content {
-  padding: $spacing-6;
+  padding: v.$spacing-6;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: stretch;
-  gap: $spacing-4;
+  gap: v.$spacing-4;
   flex: 1 1 auto;
   min-width: 0;
 
-  @media (max-width: $breakpoint-md) {
+  @media (max-width: v.$breakpoint-md) {
     width: 100%;
     flex-direction: column;
-    padding: $spacing-6;
+    padding: v.$spacing-6;
   }
 }
 
@@ -123,13 +122,13 @@ $card-min-height: 280px !default;
   flex-direction: column;
   justify-content: flex-start;
   width: 100%;
-  margin-bottom: $spacing-2;
+  margin-bottom: v.$spacing-2;
 }
 
 .leccion-card__actions {
   display: flex;
   flex-direction: row;
-  gap: $spacing-4;
+  gap: v.$spacing-4;
   align-items: center;
   justify-content: flex-end;
   margin-top: auto;
@@ -138,12 +137,12 @@ $card-min-height: 280px !default;
   text-align: right;
   flex-shrink: 0;
 
-  @media (max-width: $breakpoint-md) {
+  @media (max-width: v.$breakpoint-md) {
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
-    gap: $spacing-3;
-    margin-top: $spacing-4;
+    gap: v.$spacing-3;
+    margin-top: v.$spacing-4;
     margin-bottom: 0;
     width: 100%;
   }
@@ -151,48 +150,48 @@ $card-min-height: 280px !default;
 
 .leccion-card__categoria {
   display: inline-block;
-  font-size: $font-size-xs;
-  font-weight: $font-weight-bold;
-  color: $color-accent;
+  font-size: v.$font-size-xs;
+  font-weight: v.$font-weight-bold;
+  color: var(--color-accent);
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin-bottom: $spacing-2;
+  margin-bottom: v.$spacing-2;
   flex-shrink: 0;
 }
 
 .leccion-card__titulo {
-  font-family: $font-secondary;
-  font-size: $font-size-2xl;
-  font-weight: $font-weight-bold;
-  color: $color-text-dark;
-  margin: 0 0 $spacing-4 0;
-  line-height: $line-height-tight;
+  font-family: v.$font-secondary;
+  font-size: v.$font-size-2xl;
+  font-weight: v.$font-weight-bold;
+  color: var(--text-primary);
+  margin: 0 0 v.$spacing-4 0;
+  line-height: v.$line-height-tight;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   flex-shrink: 0;
 
-  @media (max-width: $breakpoint-md) {
-    font-size: $font-size-xl;
+  @media (max-width: v.$breakpoint-md) {
+    font-size: v.$font-size-xl;
   }
 }
 
 .leccion-card__descripcion {
-  font-family: $font-body;
-  font-size: $font-size-sm;
-  line-height: $line-height-normal;
-  color: $color-gray-600;
-  margin: 0 0 $spacing-6 0;
+  font-family: v.$font-body;
+  font-size: v.$font-size-sm;
+  line-height: v.$line-height-normal;
+  color: var(--text-tertiary);
+  margin: 0 0 v.$spacing-6 0;
   display: -webkit-box;
   -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  font-weight: $font-weight-medium;
+  font-weight: v.$font-weight-medium;
   flex: 1 1 auto;
 
-  @media (max-width: $breakpoint-md) {
-    font-size: $font-size-xs;
+  @media (max-width: v.$breakpoint-md) {
+    font-size: v.$font-size-xs;
   }
 }
 
@@ -220,12 +219,12 @@ $card-min-height: 280px !default;
   .button__text {
     display: inline-block !important;
   }
-  box-shadow: 4px 4px 0 0 $color-text-dark !important;
+  box-shadow: 4px 4px 0 0 var(--text-primary) !important;
   gap: 0 !important;
-  padding-left: $spacing-4 !important;
-  padding-right: $spacing-4 !important;
+  padding-left: v.$spacing-4 !important;
+  padding-right: v.$spacing-4 !important;
 }
 
 .leccion-card__play.button--primary {
-  box-shadow: 4px 4px 0 0 $color-text-dark;
+  box-shadow: 4px 4px 0 0 var(--text-primary);
 }
