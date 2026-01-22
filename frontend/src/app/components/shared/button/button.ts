@@ -1,144 +1,153 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { LucideAngularModule } from 'lucide-angular';
+
+// Tipos estrictos y documentados
+export type ButtonVariant = 'brutal' | 'outline' | 'ghost' | 'nav';
+export type ButtonColor = 'primary' | 'secondary' | 'tertiary' | 'accent' | 'error' | 'success';
+export type ButtonSize = 'sm' | 'md' | 'lg';
+export type ButtonType = 'button' | 'submit' | 'reset';
 
 /**
- * Componente Button reutilizable - Rediseñado
+ * Componente Button reutilizable - Refactorizado según Neo-Brutalismo
  *
- * Acepta dos interfaces:
- * NUEVA: type | variant (blue|orange|yellow|white|google|start|custom) | size (small|medium|large)
- * ANTIGUA (compatibilidad): variant (primary|secondary|ghost|danger) | size (sm|md|lg) | btnStyle
+ * CARACTERÍSTICAS:
+ * - Polimorfismo: renderiza <button> o <a> según input 'link'
+ * - Variantes: 'brutal' (sombra neo-brutalista), 'outline', 'ghost', 'nav'
+ * - Colores: 'primary', 'secondary', 'tertiary', 'accent', 'error', 'success'
+ * - Tamaños: 'sm' (40px), 'md' (48px), 'lg' (56px) - optimizados para personas mayores
+ * - Iconos: integración con lucide-angular
+ * - Accesibilidad: aria-label automático, :focus-visible mejorado, áreas táctiles generosas
+ * - Signals: computed() para reactividad
+ * - Sintaxis Angular 17+: @if, standalone
  *
- * Type: primary (con sombra) | secondary (sin sombra)
- * Variant: blue | orange | yellow | white | google | start | custom
- * Size: small | medium | large
- * Icon: left-arrow | right-arrow | google | user | play | stop | null
- * Estados: normal, hover, active, disabled
- *
- * Puede ser botón (<button>) o enlace (<a> con routerLink)
+ * @example
+ * <app-button
+ *   text="Guardar"
+ *   variant="brutal"
+ *   color="primary"
+ *   size="lg"
+ *   icon="save"
+ *   (btnClick)="onSave()"
+ * />
  */
 @Component({
   selector: 'app-button',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, LucideAngularModule],
   templateUrl: './button.html',
   styleUrls: ['./button.scss']
 })
-export class Button implements OnInit {
+export class Button {
+  // ==========================================================================
+  // INPUTS - Tipado estricto y moderno
+  // ==========================================================================
+
+  /** Texto del botón */
   @Input() text: string = '';
 
-  @Input() type: 'primary' | 'secondary' | 'tertiary' = 'primary';
+  /** Si se proporciona, renderiza <a [routerLink]> en vez de <button> */
+  @Input() link: string | any[] | null = null;
 
-  @Input() variant: 'blue' | 'orange' | 'yellow' | 'white' | 'google' | 'start' | 'previous' | 'next' | 'custom' | 'primary' | 'secondary' | 'ghost' | 'danger' = 'custom';
+  /** Variante visual: brutal (sombra 4px), outline, ghost, nav */
+  @Input() variant: ButtonVariant = 'brutal';
 
-  @Input() disabled: boolean = false;
+  /** Color semántico del botón */
+  @Input() color: ButtonColor = 'primary';
 
-  @Input() fullWidth: boolean = false;
+  /** Tamaño: sm (40px), md (48px), lg (56px) */
+  @Input() size: ButtonSize = 'md';
 
-  @Input() icon?: 'left-arrow' | 'right-arrow' | 'google' | 'user' | 'play' | 'stop' | 'pause' | 'mail' | 'lock_reset' | null = null;
+  /** Nombre del icono de Lucide (ej: 'arrow-left', 'user', 'play') */
+  @Input() icon: string | null = null;
 
+  /** Posición del icono respecto al texto */
   @Input() iconPosition: 'left' | 'right' = 'left';
 
-  @Input() label?: string;
+  /** Estado deshabilitado */
+  @Input() disabled: boolean = false;
 
-  @Input() size: 'small' | 'medium' | 'large' | 'sm' | 'md' | 'lg' = 'medium';
+  /** Ancho completo (100%) */
+  @Input() fullWidth: boolean = false;
 
-  @Input() buttonType: 'button' | 'submit' | 'reset' = 'button';
+  /** Tipo de botón HTML (solo para <button>) */
+  @Input() buttonType: ButtonType = 'button';
 
-  @Input() routerLink: string | any[] | null = null;
+  /** Aria-label personalizado (automático si solo icono) */
+  @Input() ariaLabel?: string;
 
-  @Input() btnStyle?: 'elevated' | 'flat'; // Compatibilidad antigua
+  /** Clases CSS adicionales */
+  @Input() extraClass?: string;
 
-  @Input() extraClass?: string; // Permite pasar clases adicionales desde el componente padre
+  // ==========================================================================
+  // OUTPUTS
+  // ==========================================================================
 
+  /** Emitido cuando el usuario hace clic en el botón (no emite si disabled) */
   @Output() btnClick = new EventEmitter<void>();
 
-  // Propiedades internas normalizadas
-  private normalizedVariant: 'blue' | 'orange' | 'yellow' | 'white' | 'google' | 'start' | 'previous' | 'next' | 'custom' = 'custom';
-  // Expuesto públicamente para permitir bindings de estilo inline desde la plantilla
-  normalizedSize: 'small' | 'medium' | 'large' = 'medium';
-  private normalizedType: 'primary' | 'secondary' | 'tertiary' = 'primary';
+  // ==========================================================================
+  // SIGNALS - Estado reactivo (Angular 17+)
+  // ==========================================================================
 
-  ngOnInit(): void {
-    // Mapear valores antiguos a nuevos
-    this.normalizeProperties();
-  }
+  /** Signal: determina si es solo icono (sin texto visible) */
+  isIconOnly = computed(() => !this.text || this.text.trim() === '');
 
-  private normalizeProperties(): void {
-    // Mapear tamaños antiguos (sm, md, lg) a nuevos (small, medium, large)
-    if (this.size === 'sm') {
-      this.normalizedSize = 'small';
-    } else if (this.size === 'md') {
-      this.normalizedSize = 'medium';
-    } else if (this.size === 'lg') {
-      this.normalizedSize = 'large';
-    } else {
-      this.normalizedSize = this.size as 'small' | 'medium' | 'large';
-    }
-
-    // Mapear variantes antiguas a nuevas
-    switch (this.variant) {
-      case 'primary':
-        this.normalizedVariant = 'yellow'; // Primary amarillo -> yellow
-        this.normalizedType = 'primary'; // Con sombra
-        break;
-      case 'secondary':
-        this.normalizedVariant = 'blue'; // Secondary azul -> blue
-        this.normalizedType = 'primary'; // Con sombra
-        break;
-      case 'ghost':
-        this.normalizedVariant = 'white'; // Ghost -> white
-        this.normalizedType = 'secondary'; // Sin sombra
-        break;
-      case 'danger':
-        // No tenemos variante danger en nuevos, usar custom
-        this.normalizedVariant = 'custom';
-        this.normalizedType = 'primary';
-        break;
-      default:
-        this.normalizedVariant = this.variant as any;
-        this.normalizedType = this.type;
-    }
-
-    // Si viene btnStyle antigua, mapear a type
-    if (this.btnStyle === 'elevated') {
-      this.normalizedType = 'primary';
-    } else if (this.btnStyle === 'flat') {
-      this.normalizedType = 'secondary';
-    }
-  }
-
-  onClick(): void {
-    if (!this.disabled) {
-      this.btnClick.emit();
-    }
-  }
-
-  getButtonClasses(): string {
+  /** Signal: clases CSS computadas dinámicamente */
+  buttonClasses = computed(() => {
     const classes = ['button'];
 
-    classes.push(`button--${this.normalizedType}`);
-    classes.push(`button--${this.normalizedVariant}`);
-    classes.push(`button--${this.normalizedSize}`);
+    // Variante
+    classes.push(`button--${this.variant}`);
 
-    if (this.disabled) {
-      classes.push('button--disabled');
-    }
+    // Color
+    classes.push(`button--${this.color}`);
 
-    if (this.fullWidth) {
-      classes.push('button--full-width');
-    }
+    // Tamaño
+    classes.push(`button--${this.size}`);
 
-    // Si no hay texto visible (string vacío o solo espacios), marcamos como icon-only
-    if (!this.text || this.text.toString().trim() === '') {
-      classes.push('button--icon-only');
-    }
+    // Estados
+    if (this.disabled) classes.push('button--disabled');
+    if (this.fullWidth) classes.push('button--full-width');
+    if (this.isIconOnly()) classes.push('button--icon-only');
 
-    // Añadir clases extra si se proporcionan
-    if (this.extraClass) {
-      classes.push(this.extraClass);
-    }
+    // Extra
+    if (this.extraClass) classes.push(this.extraClass);
 
     return classes.join(' ');
+  });
+
+  /** Signal: aria-label efectivo (automático si solo icono) */
+  effectiveAriaLabel = computed(() => {
+    if (this.ariaLabel) return this.ariaLabel;
+    if (this.isIconOnly() && this.icon) {
+      // Generar label automático desde nombre del icono
+      return this.icon.replace(/-/g, ' ');
+    }
+    return undefined;
+  });
+
+  // ==========================================================================
+  // MÉTODOS
+  // ==========================================================================
+
+  /**
+   * Handler del click - solo emite si no está disabled
+   */
+  onClick(event?: Event): void {
+    if (this.disabled) {
+      event?.preventDefault();
+      event?.stopPropagation();
+      return;
+    }
+    this.btnClick.emit();
+  }
+
+  /**
+   * Determina si debe renderizar como enlace
+   */
+  get isLink(): boolean {
+    return this.link !== null && this.link !== undefined;
   }
 }

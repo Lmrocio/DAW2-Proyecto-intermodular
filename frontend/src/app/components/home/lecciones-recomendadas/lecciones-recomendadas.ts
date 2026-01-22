@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectorRef, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Button } from '../../shared/button/button';
@@ -11,8 +11,13 @@ interface Leccion {
   categoriaColor: 'yellow' | 'orange' | 'blue';
   icono: string;
   iconoFondo: 'yellow' | 'orange' | 'blue';
-  // ...se añade la propiedad imagen para rutas de assets
   imagen?: string;
+  imageVariants?: {
+    small: string;
+    medium: string;
+    large: string;
+  };
+  ctaText?: string;
 }
 
 @Component({
@@ -37,7 +42,12 @@ export class LeccionesRecomendadas {
       categoriaColor: 'yellow',
       icono: 'smartphone',
       iconoFondo: 'orange',
-      imagen: 'assets/images/imagen-1.svg'
+      imagen: 'assets/images/imagen-1-medium.webp',
+      imageVariants: {
+        small: 'assets/images/imagen-1-small.webp',
+        medium: 'assets/images/imagen-1-medium.webp',
+        large: 'assets/images/imagen-1-large.webp'
+      }
     },
     {
       id: 2,
@@ -47,7 +57,12 @@ export class LeccionesRecomendadas {
       categoriaColor: 'orange',
       icono: 'chat',
       iconoFondo: 'yellow',
-      imagen: 'assets/images/whatsapp.jpg'
+      imagen: 'assets/images/imagen-2-medium.webp',
+      imageVariants: {
+        small: 'assets/images/imagen-2-small.webp',
+        medium: 'assets/images/imagen-2-medium.webp',
+        large: 'assets/images/imagen-2-large.webp'
+      }
     },
     {
       id: 3,
@@ -57,29 +72,35 @@ export class LeccionesRecomendadas {
       categoriaColor: 'blue',
       icono: 'lock',
       iconoFondo: 'blue',
-      imagen: 'assets/images/seguridad.jpg'
+      imagen: 'assets/images/imagen-3-medium.webp',
+      imageVariants: {
+        small: 'assets/images/imagen-3-small.webp',
+        medium: 'assets/images/imagen-3-medium.webp',
+        large: 'assets/images/imagen-3-large.webp'
+      }
     }
   ];
 
   // Alterna reproducción/stop para una lección
-  toggleSpeak(leccion: Leccion): void {
-    if (this.speakingId === leccion.id) {
-      // Si ya está reproduciendo esa lección, la detenemos
+  toggleSpeak(leccion: any) {
+    // Cast a number if needed
+    const id = typeof leccion === 'object' ? leccion.id : leccion;
+    if (this.speakingId === id) {
       window.speechSynthesis.cancel();
       this.speakingId = null;
       this.cdr.detectChanges();
       return;
     }
 
-    // Si estaba reproduciendo otra, cancelamos primero
     if (this.speakingId !== null) {
       window.speechSynthesis.cancel();
       this.speakingId = null;
       this.cdr.detectChanges();
     }
 
-    // Iniciar reproducción de la descripción
-    this.playText(leccion.id, leccion.descripcion);
+    if (typeof leccion === 'object' && leccion.descripcion) {
+      this.playText(id, leccion.descripcion);
+    }
   }
 
   private playText(id: number, textToRead: string): void {
@@ -128,4 +149,18 @@ export class LeccionesRecomendadas {
       this.cdr.detectChanges();
     }
   }
+
+  onCardClick(label: string) {
+    this.cardClick.emit(label);
+  }
+
+  saveLesson() {
+    console.log('Save lesson');
+  }
+
+  startLesson(id: number | string) {
+    console.log('Start lesson:', id);
+  }
+
+  @Output() cardClick = new EventEmitter<string>();
 }

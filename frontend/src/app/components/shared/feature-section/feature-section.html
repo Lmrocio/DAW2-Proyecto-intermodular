@@ -25,9 +25,9 @@
   <!-- Botón usando app-button -->
   <app-button
     *ngIf="routerLink"
-    type="primary"
-    [variant]="variant === 'lecciones' ? 'orange' : 'blue'"
-    size="medium"
+    [color]="buttonColor"
+    [variant]="buttonVariant"
+    size="md"
     [text]="buttonText"
     [routerLink]="routerLink"
     [extraClass]="'section-button-wrapper'">
@@ -35,9 +35,9 @@
 
   <app-button
     *ngIf="!routerLink"
-    type="primary"
-    [variant]="variant === 'lecciones' ? 'orange' : 'blue'"
-    size="medium"
+    [color]="buttonColor"
+    [variant]="buttonVariant"
+    size="md"
     [text]="buttonText"
     (btnClick)="onButtonClick()"
     [extraClass]="'section-button-wrapper'">

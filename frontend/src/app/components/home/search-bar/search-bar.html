@@ -2,17 +2,15 @@
   <div class="search-header" *ngIf="!hideTitle">
     <h2 class="search-title">{{ title }}</h2>
     <ng-container *ngIf="showListen">
-      <app-button
-        type="primary"
-        variant="blue"
-        size="medium"
-        [text]="isSpeaking ? 'Detener' : ''"
-        [icon]="isSpeaking ? null : 'play'"
-        (btnClick)="playAudio()"
-        [title]="isSpeaking ? 'Detener reproducción' : ('Escuchar: ' + helpText)"
-        [attr.aria-label]="isSpeaking ? 'Detener reproducción' : 'Escuchar descripción de búsqueda'"
-        class="search-listen-btn-wrapper">
-      </app-button>
+      <button class="search__listen-btn">
+        <app-button
+          text="Escuchar"
+          color="accent"
+          variant="brutal"
+          size="sm"
+          (btnClick)="toggleSpeak()"
+        ></app-button>
+      </button>
     </ng-container>
   </div>
 

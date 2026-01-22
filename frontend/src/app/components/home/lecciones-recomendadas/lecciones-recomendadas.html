@@ -42,9 +42,9 @@
           </p>
 
           <app-button
-            type="primary"
-            variant="blue"
-            size="small"
+            color="accent"
+            variant="brutal"
+            size="sm"
             [text]="speakingId === leccion.id ? 'Detener' : ''"
             [icon]="speakingId === leccion.id ? 'stop' : 'play'"
             [iconPosition]="'left'"
@@ -53,16 +53,22 @@
           </app-button>
         </div>
 
-        <!-- Botón usando app-button para ir a la lección -->
+        <!-- Botones usando app-button para ir a la lección y guardar -->
         <app-button
-          type="secondary"
-          variant="yellow"
-          size="medium"
-          text="EMPEZAR"
-          [fullWidth]="true"
-          [routerLink]="['/lecciones', leccion.id]"
-          [extraClass]="'leccion-button'">
-        </app-button>
+          [text]="leccion.ctaText || 'Ver lección'"
+          [link]="['/lecciones', leccion.id]"
+          color="accent"
+          variant="brutal"
+          size="sm"
+        ></app-button>
+
+        <app-button
+          [text]="'Guardar'"
+          color="primary"
+          variant="brutal"
+          size="md"
+          (btnClick)="saveLesson()"
+        ></app-button>
       </article>
     </div>
   </div>

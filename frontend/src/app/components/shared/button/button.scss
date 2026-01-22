@@ -2,10 +2,9 @@
 @use '../../../../styles/01-tools/mixins' as m;
 
 // ============================================================================
-// ESTILOS BASE DEL BOTÓN
+// BASE - Estilos compartidos por <button> y <a>
 // ============================================================================
 .button {
-  // Layout
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -13,22 +12,293 @@
 
   // Tipografía
   font-family: v.$font-body;
+  font-weight: v.$font-weight-bold;
   text-decoration: none;
   text-transform: uppercase;
-  font-weight: v.$font-weight-bold;
+  letter-spacing: 0.5px;
   line-height: v.$line-height-tight;
 
-  // Borde y forma
+  // Bordes
   border: 2px solid var(--text-primary);
-  border-radius: 0; // esquinas cuadradas
+  border-radius: 0; // Esquinas cuadradas (Neo-Brutalismo)
 
   // Interacción
   cursor: pointer;
   user-select: none;
 
-  // Transición
+  // Transición suave
   transition: all v.$transition-fast v.$easing-in-out;
-  background: none;
+
+  // Accesibilidad: focus visible claro
+  &:focus-visible {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 3px;
+    box-shadow: 0 0 0 4px rgba(4, 84, 177, 0.1);
+  }
+
+  // Enlaces disabled (aria-disabled)
+  &[aria-disabled="true"] {
+    pointer-events: none;
+  }
+}
+
+// ============================================================================
+// ICONOS - Lucide integration
+// ============================================================================
+.button__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  lucide-icon {
+    display: block;
+    color: inherit; // Heredar color del botón
+    stroke-width: 2;
+  }
+}
+
+.button__text {
+  display: inline-block;
+}
+
+// ============================================================================
+// TAMAÑOS - Áreas generosas para personas mayores
+// ============================================================================
+
+.button--sm {
+  height: 40px;
+  padding: 0 20px;
+  font-size: v.$font-size-sm;
+  gap: v.$spacing-1;
+
+  lucide-icon {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.button--md {
+  height: 48px;
+  padding: 0 32px;
+  font-size: v.$font-size-base;
+  gap: v.$spacing-2;
+
+  lucide-icon {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.button--lg {
+  height: 56px;
+  padding: 0 40px;
+  font-size: v.$font-size-lg;
+  gap: v.$spacing-3;
+
+  lucide-icon {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+// ============================================================================
+// VARIANTE: BRUTAL (Neo-Brutalismo)
+// ============================================================================
+.button--brutal {
+  box-shadow: 4px 4px 0 0 var(--text-primary);
+
+  &:hover:not(:disabled):not([aria-disabled="true"]) {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 0 var(--text-primary);
+  }
+
+  &:active:not(:disabled):not([aria-disabled="true"]) {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 0 var(--text-primary);
+  }
+}
+
+// ============================================================================
+// VARIANTE: OUTLINE (Borde sólido)
+// ============================================================================
+.button--outline {
+  box-shadow: none;
+  background: transparent;
+  color: var(--text-primary);
+  border-color: var(--text-primary);
+
+  &:hover:not(:disabled):not([aria-disabled="true"]) {
+    background: var(--bg-secondary);
+  }
+
+  &:active:not(:disabled):not([aria-disabled="true"]) {
+    transform: scale(0.98);
+  }
+}
+
+// ============================================================================
+// VARIANTE: GHOST (Sin borde ni fondo)
+// ============================================================================
+.button--ghost {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  color: var(--text-primary);
+
+  &:hover:not(:disabled):not([aria-disabled="true"]) {
+    background: var(--bg-tertiary);
+  }
+
+  &:active:not(:disabled):not([aria-disabled="true"]) {
+    transform: scale(0.95);
+  }
+}
+
+// ============================================================================
+// VARIANTE: NAV (Navegación)
+// ============================================================================
+.button--nav {
+  box-shadow: none;
+  background: transparent;
+  border-radius: v.$radius-sm;
+  text-transform: none;
+  font-weight: v.$font-weight-medium;
+  min-width: 120px;
+  color: var(--text-primary);
+  border-color: var(--text-primary);
+
+  &:hover:not(:disabled):not([aria-disabled="true"]) {
+    background: var(--bg-secondary);
+    transform: translateX(2px);
+  }
+
+  &:active:not(:disabled):not([aria-disabled="true"]) {
+    transform: scale(0.98);
+  }
+}
+
+// ============================================================================
+// COLORES - Semánticos
+// ============================================================================
+
+.button--primary {
+  background-color: var(--color-primary);
+  color: var(--text-primary);
+  border-color: var(--color-primary);
+
+  &:hover:not(:disabled):not([aria-disabled="true"]) {
+    background-color: color-mix(in srgb, var(--color-primary) 90%, black 10%);
+  }
+}
+
+.button--secondary {
+  background-color: var(--color-secondary);
+  color: var(--text-on-dark);
+  border-color: var(--color-secondary);
+
+  &:hover:not(:disabled):not([aria-disabled="true"]) {
+    background-color: color-mix(in srgb, var(--color-secondary) 90%, black 10%);
+  }
+}
+
+.button--tertiary {
+  background-color: var(--color-tertiary);
+  color: var(--text-on-dark);
+  border-color: var(--color-tertiary);
+
+  &:hover:not(:disabled):not([aria-disabled="true"]) {
+    background-color: color-mix(in srgb, var(--color-tertiary) 90%, black 10%);
+  }
+}
+
+.button--accent {
+  background-color: var(--color-accent);
+  color: var(--text-on-dark);
+  border-color: var(--color-accent);
+
+  &:hover:not(:disabled):not([aria-disabled="true"]) {
+    filter: brightness(0.9);
+  }
+}
+
+.button--error {
+  background-color: var(--color-error);
+  color: var(--text-on-dark);
+  border-color: var(--color-error);
+
+  &:hover:not(:disabled):not([aria-disabled="true"]) {
+    filter: brightness(0.9);
+  }
+}
+
+.button--success {
+  background-color: var(--color-success);
+  color: var(--text-primary);
+  border-color: var(--color-success);
+
+  &:hover:not(:disabled):not([aria-disabled="true"]) {
+    filter: brightness(0.9);
+  }
+}
+
+// ============================================================================
+// ESTADO: DISABLED
+// ============================================================================
+.button--disabled,
+.button:disabled,
+.button[aria-disabled="true"] {
+  background-color: #e5e7eb;
+  color: #9ca3af;
+  border-color: #d1d5db;
+  cursor: not-allowed;
+  opacity: 0.6;
+  box-shadow: none;
+
+  &:hover,
+  &:active {
+    transform: none;
+    box-shadow: none;
+    filter: none;
+  }
+}
+
+// ============================================================================
+// MODIFICADORES
+// ============================================================================
+
+.button--full-width {
+  width: 100%;
+}
+
+.button--icon-only {
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  gap: 0;
+
+  .button__text {
+    display: none;
+  }
+
+  lucide-icon {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+// ============================================================================
+// REDUCCIÓN DE MOVIMIENTO (Accesibilidad WCAG)
+// ============================================================================
+@media (prefers-reduced-motion: reduce) {
+  .button {
+    transition: none;
+
+    &:hover,
+    &:active {
+      transform: none;
+    }
+  }
 }
 
 // ============================================================================

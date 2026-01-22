@@ -11,7 +11,7 @@
 
   <!-- Small demo controls -->
   <div class="simulador-detalle__demo-controls">
-    <app-button [text]="'Mostrar notificaciones'" [variant]="'blue'" [type]="'primary'" (btnClick)="demoShowToasts()"></app-button>
+    <app-button [text]="'Mostrar notificaciones'" [color]="'accent'" [variant]="'brutal'" (btnClick)="demoShowToasts()"></app-button>
   </div>
 
   <!-- Header con progreso -->
@@ -42,9 +42,9 @@
         </p>
         <app-button
           [text]="'Escuchar instrucciones'"
-          [variant]="'yellow'"
-          [type]="'primary'"
-          [icon]="'play'"
+          [color]="'primary'"
+          [variant]="'brutal'"
+          icon="play"
           [iconPosition]="'left'"
           [fullWidth]="true"
           (btnClick)="playInstructions()">
@@ -157,10 +157,10 @@
   <div class="simulador-detalle__navigation">
     <app-button
       [text]="'Anterior'"
-      [variant]="'white'"
-      [type]="'primary'"
-      [size]="'large'"
-      [icon]="'left-arrow'"
+      [color]="'primary'"
+      [variant]="'outline'"
+      [size]="'lg'"
+      icon="arrow-left"
       [iconPosition]="'left'"
       [disabled]="currentStep() === 1"
       (btnClick)="previousStep()">
@@ -168,10 +168,10 @@
 
     <app-button
       [text]="'Siguiente'"
-      [variant]="'yellow'"
-      [type]="'primary'"
-      [size]="'large'"
-      [icon]="'right-arrow'"
+      [color]="'primary'"
+      [variant]="'brutal'"
+      [size]="'lg'"
+      icon="arrow-right"
       [iconPosition]="'right'"
       [disabled]="currentStep() === simulador()!.totalSteps"
       (btnClick)="nextStep()">

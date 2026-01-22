@@ -14,8 +14,8 @@
       <p class="user-profile__user-since">Usuario desde {{ user()?.joinDate }}</p>
       <app-button
         [text]="'Editar perfil'"
-        [variant]="'yellow'"
-        [type]="'primary'"
+        [color]="'primary'"
+        [variant]="'brutal'"
         [fullWidth]="true"
         (btnClick)="editProfile()">
       </app-button>
@@ -139,11 +139,11 @@
         <div class="user-profile__setting-group user-profile__setting-group--full">
           <app-button
             [text]="'Cambiar correo'"
-            [variant]="'blue'"
-            [type]="'primary'"
-            [size]="'large'"
+            [color]="'accent'"
+            [variant]="'brutal'"
+            [size]="'lg'"
             [fullWidth]="true"
-            [icon]="'user'"
+            icon="mail"
             [iconPosition]="'right'"
             (btnClick)="changeEmail()">
           </app-button>
@@ -154,11 +154,11 @@
         <div class="user-profile__setting-group user-profile__setting-group--full">
           <app-button
             [text]="'Cambiar contraseña'"
-            [variant]="'orange'"
-            [type]="'primary'"
-            [size]="'large'"
+            [color]="'secondary'"
+            [variant]="'brutal'"
+            [size]="'lg'"
             [fullWidth]="true"
-            [icon]="'stop'"
+            icon="lock"
             [iconPosition]="'right'"
             (btnClick)="changePassword()">
           </app-button>
@@ -207,8 +207,8 @@
             <div class="user-profile__course-actions">
               <app-button
                 [text]="'Empezar'"
-                [variant]="'yellow'"
-                [type]="'primary'"
+                [color]="'primary'"
+                [variant]="'brutal'"
                 (btnClick)="editProfile()">
               </app-button>
               <button

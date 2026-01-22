@@ -460,18 +460,18 @@
   <div class="register-form__actions">
     <app-button
       buttonType="button"
-      type="secondary"
-      variant="white"
-      size="medium"
+      color="primary"
+      variant="outline"
+      size="md"
       (click)="resetForm()"
       text="Limpiar"
     ></app-button>
 
     <app-button
       buttonType="submit"
-      type="primary"
-      variant="yellow"
-      size="medium"
+      color="primary"
+      variant="brutal"
+      size="md"
       [disabled]="registerForm.invalid || registerForm.pending"
       [text]="registerForm.pending ? 'Validando...' : 'Crear Cuenta'"
     ></app-button>

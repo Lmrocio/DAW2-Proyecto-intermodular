@@ -1,13 +1,13 @@
 <nav class="pagination" aria-label="Paginación">
   <!-- Botón Anterior con texto + flecha -->
   <app-button
-    (btnClick)="previousPage()"
+    (btnClick)="goPrevious()"
     extraClass="pagination-button"
-    type="secondary"
-    variant="previous"
-    size="large"
+    color="primary"
+    variant="nav"
+    size="lg"
     icon="left-arrow"
-    text="ANTERIOR"
+    text="Anterior"
   ></app-button>
 
   <!-- Números de página -->
@@ -26,13 +26,13 @@
 
   <!-- Botón Siguiente con texto + flecha -->
   <app-button
-    (btnClick)="nextPage()"
+    (btnClick)="goNext()"
     extraClass="pagination-button"
-    type="secondary"
-    variant="previous"
-    size="large"
+    color="primary"
+    variant="nav"
+    size="lg"
     icon="right-arrow"
     iconPosition="right"
-    text="SIGUIENTE"
+    text="Siguiente"
   ></app-button>
 </nav>

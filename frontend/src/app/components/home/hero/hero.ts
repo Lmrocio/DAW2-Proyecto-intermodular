@@ -19,8 +19,17 @@ export class Hero implements OnChanges {
   // Inputs para reutilización
   @Input() title: string = 'Aprende tecnología paso a paso';
   @Input() subtitle: string = 'Una plataforma diseñada como un cuaderno de notas, con explicaciones claras y dibujos sencillos para disfrutar aprendiendo.';
-  @Input() imageUrl: string = 'assets/images/imagen-6.svg';
+  @Input() imageUrl: string = 'assets/images/imagen-3-medium.webp';
   @Input() imageAlt: string = 'Ilustración de dispositivo con TecnoMayores';
+  @Input() imageVariants?: {
+    small: string;
+    medium: string;
+    large: string;
+  } = {
+    small: 'assets/images/imagen-3-small.webp',
+    medium: 'assets/images/imagen-3-medium.webp',
+    large: 'assets/images/imagen-3-large.webp'
+  };
 
   // Mostrar botón de reproducción en línea junto a la descripción
   @Input() showInlineListen: boolean = false;
@@ -55,9 +64,6 @@ export class Hero implements OnChanges {
   // Estado para alternar texto del botón
   isSpeaking = false;
 
-  // Flag para saber si fue cancelado por el usuario
-  private userCancelled = false;
-
   constructor(private cdr: ChangeDetectorRef, private ngZone: NgZone, private speech: SpeechService) {}
 
   ngOnChanges(changes: SimpleChanges) {
@@ -69,14 +75,36 @@ export class Hero implements OnChanges {
     }
   }
 
-  ngOnInit() {
-    console.log('Hero initialized with title=', this.title, ' subtitle=', this.subtitle);
-  }
-
   onSearch(query: string): void {
     this.searchChange.emit(query);
   }
 
+  // Mapear variantes antiguas a color actual para app-button
+  get button1Color(): 'primary' | 'secondary' | 'accent' {
+    switch (this.button1Variant) {
+      case 'orange':
+        return 'secondary';
+      case 'blue':
+        return 'accent';
+      case 'yellow':
+        return 'primary';
+      default:
+        return 'primary';
+    }
+  }
+
+  get button2Color(): 'primary' | 'secondary' | 'accent' {
+    switch (this.button2Variant) {
+      case 'orange':
+        return 'secondary';
+      case 'blue':
+        return 'accent';
+      case 'yellow':
+        return 'primary';
+      default:
+        return 'primary';
+    }
+  }
 
   // Reproducir / detener el texto del hero usando la Web Speech API
   async playAudio(passedText?: string): Promise<void> {
