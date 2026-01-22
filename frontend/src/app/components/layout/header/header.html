@@ -32,7 +32,7 @@
         title="Abrir modo guía"
       >
         <span class="app-header__btn-guide-icon">
-          <app-header-icon icon="guide"></app-header-icon>
+          <lucide-icon name="help-circle" class="icon-base" aria-hidden="true"></lucide-icon>
         </span>
         <span class="app-header__btn-guide-text">Modo Guía</span>
       </button>
@@ -48,9 +48,16 @@
         class="app-header__btn-user"
         aria-label="Perfil de usuario"
         title="Mi perfil"
+        #profileBtnDesktop
+        (click)="toggleProfileMenu()"
+        [attr.aria-expanded]="profileMenuOpen"
+        aria-haspopup="true"
+        aria-controls="profile-menu"
       >
-        <app-header-icon icon="profile"></app-header-icon>
+        <lucide-icon name="user" class="icon-base" aria-hidden="true"></lucide-icon>
       </button>
+
+      <!-- Dropdown Perfil (moved out) -->
     </div>
 
     <!-- Acciones Móvil -->
@@ -63,7 +70,7 @@
         aria-label="Modo Guía"
         title="Abrir modo guía"
       >
-        <app-header-icon icon="guide"></app-header-icon>
+        <lucide-icon name="help-circle" class="icon-base" aria-hidden="true"></lucide-icon>
       </button>
 
       <!-- Botón Usuario (móvil) -->
@@ -71,8 +78,11 @@
         class="app-header__btn-user"
         aria-label="Perfil de usuario"
         title="Mi perfil"
+        #profileBtnMobile
+        (click)="toggleProfileMenu()"
+        aria-controls="profile-menu"
       >
-        <app-header-icon icon="profile"></app-header-icon>
+        <lucide-icon name="user" class="icon-base" aria-hidden="true"></lucide-icon>
       </button>
 
       <!-- Botón Hamburguesa (móvil) -->
@@ -84,12 +94,26 @@
         [attr.aria-expanded]="menuOpen"
         aria-controls="mobile-nav"
       >
-        <span class="app-header__hamburger-line"></span>
-        <span class="app-header__hamburger-line"></span>
-        <span class="app-header__hamburger-line"></span>
+        <!-- Usamos el icono Menu de Lucide aquí -->
+        <lucide-icon name="menu" class="icon-base" [attr.aria-hidden]="true"></lucide-icon>
       </button>
     </div>
 
+  </div>
+
+  <!-- Dropdown Perfil (siempre hijo directo de header para mostrar en mobile y desktop) -->
+  <div
+    class="app-header__profile-dropdown"
+    #profileMenu
+    id="profile-menu"
+    [class.app-header__profile-dropdown--open]="profileMenuOpen"
+    role="menu"
+    aria-label="Opciones de usuario"
+  >
+    <a [routerLink]="['/usuario/perfil']" class="app-header__profile-item" role="menuitem" (click)="closeProfileMenu()">Mi cuenta</a>
+    <a href="/lecciones-aprendidas" class="app-header__profile-item" role="menuitem" (click)="closeProfileMenu()">Lecciones aprendidas</a>
+    <a href="/favoritos" class="app-header__profile-item" role="menuitem" (click)="closeProfileMenu()">Favoritos</a>
+    <button class="app-header__profile-item app-header__profile-logout" role="menuitem" (click)="onLogout()">Cerrar sesión</button>
   </div>
 
   <!-- Separador horizontal inferior -->
@@ -103,6 +127,11 @@
     aria-label="Menú de navegación móvil"
   >
     <div class="app-header__mobile-menu-content">
+      <!-- Botón Cerrar (X) arriba a la derecha -->
+      <button class="app-header__mobile-close" (click)="closeMenu()" aria-label="Cerrar menú">
+        <lucide-icon name="x" class="icon-base" aria-hidden="true"></lucide-icon>
+      </button>
+
       <!-- Navegación -->
       <ul class="app-header__mobile-nav-list">
         <li class="app-header__mobile-nav-item">
@@ -121,20 +150,11 @@
 
       <!-- Botones Modo Guía y Tema (con texto completo) -->
       <div class="app-header__mobile-actions">
-        <button
-          type="button"
-          class="app-header__btn-guide"
-          (click)="openGuideModal(); closeMenu()"
-          aria-label="Modo Guía"
-          title="Abrir modo guía"
-        >
-          <span class="app-header__btn-guide-icon">
-            <app-header-icon icon="guide"></app-header-icon>
-          </span>
-          <span class="app-header__btn-guide-text">Modo Guía</span>
-        </button>
+        <!-- Botón Modo Guía removido del menú móvil -->
 
-        <app-theme-switcher></app-theme-switcher>
+        <app-theme-switcher [showText]="true"></app-theme-switcher>
+
+        <!-- Opciones de perfil en móvil se muestran usando el dropdown global para mantener comportamiento consistente -->
       </div>
     </div>
   </nav>

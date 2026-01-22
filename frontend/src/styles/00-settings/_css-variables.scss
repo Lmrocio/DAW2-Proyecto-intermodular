@@ -56,6 +56,7 @@
   --text-primary: #{v.$color-text-light};
   --text-secondary: #{v.$color-gray-300};
   --text-tertiary: #{v.$color-gray-400};
+  --text-on-dark: #{v.$color-text-dark};
 
   // --- Versiones Adaptadas (Para Modo Oscuro) ---
   $color-primary-dark-mode: #f9e195;

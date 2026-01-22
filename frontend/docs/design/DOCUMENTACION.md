@@ -1922,3 +1922,962 @@ El Style Guide es accesible desde:
 El sistema de componentes UI proporciona bloques de construccion consistentes, accesibles y bien documentados que se utilizan en toda la aplicacion para crear interfaces coherentes y profesionales.
 
 ---
+
+## Sección 6: Sistema de Temas
+
+---
+
+### 6.1 Variables CSS Custom Properties
+
+El sistema de temas utiliza **CSS Custom Properties** (variables CSS) definidas en el archivo `src/styles/00-settings/_css-variables.scss`. Esta aproximación permite cambiar dinámicamente entre tema claro y oscuro sin recargar la página, simplemente modificando el atributo `data-theme` del elemento `<html>`.
+
+#### Ventajas de CSS Custom Properties para Temas
+
+1. **Cambio dinámico en tiempo de ejecución**: Las variables CSS se pueden modificar con JavaScript sin recompilar SASS
+2. **Cascada natural**: Las variables heredan el contexto del DOM
+3. **Performance**: Cambiar temas no requiere cargar hojas de estilo adicionales
+4. **Mantenibilidad**: Un solo archivo centraliza toda la lógica de temas
+5. **Compatibilidad**: Soporte en todos los navegadores modernos
+
+#### Estructura del Archivo de Variables CSS
+
+```scss
+// src/styles/00-settings/_css-variables.scss
+@use './variables' as v;
+
+:root {
+  // Variables para TEMA CLARO (por defecto)
+}
+
+[data-theme='dark'] {
+  // Variables para TEMA OSCURO (redefiniciones)
+}
+```
+
+#### Tema Claro (Por Defecto)
+
+```scss
+:root {
+  // ============================================================================
+  // COLORES DE FONDO
+  // ============================================================================
+  --bg-primary: #{v.$color-bg-light-primary};       // #faf9f6 - Fondo principal
+  --bg-secondary: #{v.$color-bg-light-secondary};   // #fafafa - Fondo secundario
+  --bg-tertiary: #{v.$color-bg-light-tertiary};     // #f5f5f5 - Fondo terciario
+
+  // ============================================================================
+  // COLORES DE TEXTO
+  // ============================================================================
+  --text-primary: #{v.$color-text-dark};      // #030303 - Texto principal (casi negro)
+  --text-secondary: #{v.$color-text-gray};    // #404040 - Texto secundario
+  --text-tertiary: #{v.$color-text-muted};    // #737373 - Texto terciario
+  --text-on-dark: #{v.$color-text-light};     // #fdfdfd - Texto sobre fondos oscuros
+
+  // ============================================================================
+  // COLORES DE MARCA (No cambian entre temas)
+  // ============================================================================
+  --color-primary: #{v.$color-primary};       // #f8d770 - Amarillo principal
+  --color-secondary: #{v.$color-secondary};   // #ffb842 - Naranja secundario
+  --color-tertiary: #{v.$color-tertiary};     // #f3742b - Naranja oscuro
+  --color-accent: #{v.$color-accent};         // #0454b1 - Azul acento
+
+  // ============================================================================
+  // COLORES SEMÁNTICOS (No cambian entre temas)
+  // ============================================================================
+  --color-success: #{v.$color-success};       // #a7ee66 - Verde éxito
+  --color-error: #{v.$color-error};           // #fb5353 - Rojo error
+  --color-warning: #{v.$color-warning};       // #ffef51 - Amarillo advertencia
+  --color-info: #{v.$color-info};             // #6adaf4 - Azul información
+
+  // ============================================================================
+  // BORDES
+  // ============================================================================
+  --border-color: #{v.$color-gray-300};       // #d4d4d4 - Borde estándar
+  --border-color-light: #{v.$color-gray-200}; // #e5e5e5 - Borde claro
+
+  // ============================================================================
+  // SOMBRAS (Modo Claro - Más sutiles)
+  // ============================================================================
+  --shadow-sm: #{v.$shadow-sm};
+  --shadow-md: #{v.$shadow-md};
+  --shadow-lg: #{v.$shadow-lg};
+  --shadow-xl: #{v.$shadow-xl};
+
+  // ============================================================================
+  // OVERLAYS
+  // ============================================================================
+  --overlay-bg: rgba(0, 0, 0, 0.5);           // Overlay oscuro para modales
+}
+```
+
+**Justificación del Tema Claro:**
+- Fondo **amarillo muy claro** (#faf9f6) reduce el brillo agresivo del blanco puro
+- Texto **casi negro** (#030303) proporciona contraste máximo (ratio 13.5:1 WCAG AAA)
+- Colores de marca **cálidos** (amarillo, naranja) transmiten energía y optimismo
+- Sombras **sutiles** (0.05-0.1 opacidad) añaden profundidad sin ser intrusivas
+
+#### Tema Oscuro
+
+```scss
+[data-theme='dark'] {
+  // ============================================================================
+  // COLORES DE FONDO (Invertidos)
+  // ============================================================================
+  --bg-primary: #{v.$color-gray-900};      // #171717 - Fondo principal oscuro
+  --bg-secondary: #{v.$color-gray-800};    // #262626 - Fondo secundario oscuro
+  --bg-tertiary: #{v.$color-gray-700};     // #404040 - Fondo terciario oscuro
+
+  // ============================================================================
+  // COLORES DE TEXTO (Invertidos)
+  // ============================================================================
+  --text-primary: #{v.$color-text-light};   // #fdfdfd - Texto claro principal
+  --text-secondary: #{v.$color-gray-300};   // #d4d4d4 - Texto claro secundario
+  --text-tertiary: #{v.$color-gray-400};    // #a3a3a3 - Texto claro terciario
+
+  // ============================================================================
+  // BORDES (Más oscuros)
+  // ============================================================================
+  --border-color: #{v.$color-gray-700};       // #404040 - Borde oscuro
+  --border-color-light: #{v.$color-gray-600}; // #525252 - Borde oscuro claro
+
+  // ============================================================================
+  // SOMBRAS (Modo Oscuro - Más intensas para visibilidad)
+  // ============================================================================
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 10px 20px rgba(0, 0, 0, 0.6);
+  --shadow-xl: 0 20px 30px rgba(0, 0, 0, 0.7);
+
+  // ============================================================================
+  // OVERLAYS
+  // ============================================================================
+  --overlay-bg: rgba(0, 0, 0, 0.8);  // Overlay más oscuro para mejor contraste
+}
+```
+
+**Justificación del Tema Oscuro:**
+- Fondo **gris muy oscuro** (#171717) en lugar de negro puro (#000) reduce la fatiga visual
+- Texto **casi blanco** (#fdfdfd) en lugar de blanco puro reduce el deslumbramiento
+- Sombras **más intensas** (0.4-0.7 opacidad) mantienen la profundidad visual en fondos oscuros
+- Bordes **más claros** (#404040) para mantener la separación entre elementos
+- Los colores de marca **se mantienen iguales** para preservar la identidad de marca
+
+#### Mapeo de Variables SCSS a CSS Custom Properties
+
+| Variable SCSS Original | Variable CSS | Tema Claro | Tema Oscuro |
+|------------------------|--------------|------------|-------------|
+| `$color-bg-light` | `var(--bg-primary)` | #faf9f6 | #171717 |
+| `$color-text-dark` | `var(--text-primary)` | #030303 | #fdfdfd |
+| `$color-gray-200` | `var(--border-color-light)` | #e5e5e5 | #525252 |
+| `$color-gray-600` | `var(--text-tertiary)` | #525252 | #a3a3a3 |
+| `$color-primary` | `var(--color-primary)` | #f8d770 | #f8d770 |
+| `$color-accent` | `var(--color-accent)` | #0454b1 | #0454b1 |
+| `$color-success` | `var(--color-success)` | #a7ee66 | #a7ee66 |
+
+---
+
+### 6.2 Implementación del Theme Switcher
+
+El sistema de cambio de tema se implementa mediante dos componentes principales:
+
+1. **ThemeService** (Servicio Angular)
+2. **ThemeSwitcher** (Componente UI)
+
+#### 6.2.1 ThemeService
+
+**Ubicación:** `src/app/services/theme.service.ts`
+
+El servicio centraliza toda la lógica de gestión de temas utilizando el patrón reactivo de RxJS.
+
+**Características principales:**
+
+```typescript
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { BehaviorSubject, Observable } from 'rxjs';
+
+export type Theme = 'light' | 'dark';
+
+const THEME_STORAGE_KEY = 'tecnomayores-theme';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ThemeService {
+  // Subject reactivo para el tema actual
+  private themeSubject = new BehaviorSubject<Theme>('light');
+  
+  // Observable público del tema
+  public theme$: Observable<Theme> = this.themeSubject.asObservable();
+
+  constructor(
+    @Inject(PLATFORM_ID) platformId: Object,
+    @Inject(DOCUMENT) private document: Document
+  ) {
+    this.isBrowser = isPlatformBrowser(platformId);
+    this.initializeTheme();
+  }
+}
+```
+
+**1. Detección de Preferencia del Sistema**
+
+```typescript
+systemPrefersDark(): boolean {
+  if (!this.isBrowser) return false;
+  return window.matchMedia('(prefers-color-scheme: dark)').matches;
+}
+```
+
+Utiliza la Media Query `prefers-color-scheme` para detectar la preferencia del sistema operativo.
+
+**2. Persistencia en localStorage**
+
+```typescript
+private saveToLocalStorage(theme: Theme): void {
+  if (!this.isBrowser) return;
+  localStorage.setItem(THEME_STORAGE_KEY, theme);
+}
+
+private getSavedTheme(): Theme | null {
+  if (!this.isBrowser) return null;
+  const saved = localStorage.getItem(THEME_STORAGE_KEY);
+  if (saved === 'light' || saved === 'dark') {
+    return saved;
+  }
+  return null;
+}
+```
+
+Guarda la preferencia del usuario para persistir entre sesiones.
+
+**3. Aplicación del Tema al DOM**
+
+```typescript
+private applyThemeToDocument(theme: Theme): void {
+  if (!this.isBrowser) return;
+  
+  const documentElement = this.document.documentElement;
+  
+  // Usar atributo data-theme en lugar de clases
+  if (theme === 'dark') {
+    documentElement.setAttribute('data-theme', 'dark');
+  } else {
+    documentElement.removeAttribute('data-theme');
+  }
+  
+  // Actualizar meta theme-color para móviles
+  this.updateThemeColor(theme);
+}
+```
+
+**Ventaja del atributo `data-theme`:**
+- Selectores CSS más simples: `[data-theme='dark']` vs `.dark-theme`
+- Más semántico que clases
+- Estándar emergente en la industria
+
+**4. Toggle entre Temas**
+
+```typescript
+toggleTheme(): void {
+  const newTheme: Theme = this.currentTheme === 'light' ? 'dark' : 'light';
+  this.setTheme(newTheme);
+}
+
+setTheme(theme: Theme): void {
+  if (!this.isBrowser) return;
+  
+  // Actualizar el subject reactivo
+  this.themeSubject.next(theme);
+  
+  // Persistir en localStorage
+  this.saveToLocalStorage(theme);
+  
+  // Aplicar al documento
+  this.applyThemeToDocument(theme);
+}
+```
+
+**5. Lógica de Prioridad**
+
+```typescript
+private initializeTheme(): void {
+  if (!this.isBrowser) return;
+  
+  // PRIORIDAD 1: Tema guardado en localStorage
+  const savedTheme = this.getSavedTheme();
+  
+  if (savedTheme) {
+    this.setTheme(savedTheme);
+  } else {
+    // PRIORIDAD 2: Preferencia del sistema
+    const prefersDark = this.systemPrefersDark();
+    const systemTheme: Theme = prefersDark ? 'dark' : 'light';
+    this.setTheme(systemTheme);
+  }
+  
+  // Escuchar cambios en la preferencia del sistema
+  this.watchSystemPreference();
+}
+```
+
+**Orden de prioridad:**
+1. 🥇 **Tema guardado en localStorage** (preferencia explícita del usuario)
+2. 🥈 **Preferencia del sistema** (`prefers-color-scheme`)
+3. 🥉 **Tema claro por defecto** (fallback)
+
+**6. Escucha de Cambios del Sistema**
+
+```typescript
+watchSystemPreference(callback?: (prefersDark: boolean) => void): void {
+  if (!this.isBrowser) return;
+  
+  const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+  
+  const listener = (event: MediaQueryListEvent) => {
+    // Solo aplicar si no hay preferencia guardada
+    if (!this.getSavedTheme()) {
+      const newTheme: Theme = event.matches ? 'dark' : 'light';
+      this.setTheme(newTheme);
+      callback?.(event.matches);
+    }
+  };
+  
+  mediaQuery.addEventListener('change', listener);
+}
+```
+
+Si el usuario cambia la preferencia del sistema operativo y **no ha seleccionado manualmente un tema**, la aplicación se adapta automáticamente.
+
+#### 6.2.2 ThemeSwitcher Component
+
+**Ubicación:** `src/app/components/shared/theme-switcher/`
+
+Componente UI que proporciona el toggle visual para cambiar el tema.
+
+**Template (theme-switcher.html):**
+
+```html
+<button
+  class="theme-switcher"
+  (click)="toggleTheme()"
+  (keydown)="onKeyDown($event)"
+  [attr.aria-label]="ariaLabel"
+  [title]="buttonTitle"
+  type="button"
+>
+  <app-header-icon
+    [icon]="isDarkMode ? 'light_mode' : 'dark_mode'"
+    [ariaLabel]="ariaLabel"
+  />
+</button>
+```
+
+**Componente TypeScript:**
+
+```typescript
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ThemeService, Theme } from '../../../services/theme.service';
+import { Subscription } from 'rxjs';
+
+@Component({
+  selector: 'app-theme-switcher',
+  standalone: true,
+  templateUrl: './theme-switcher.html',
+  styleUrl: './theme-switcher.scss',
+})
+export class ThemeSwitcher implements OnInit, OnDestroy {
+  currentTheme: Theme = 'light';
+  private themeSubscription?: Subscription;
+
+  constructor(private themeService: ThemeService) {}
+
+  ngOnInit(): void {
+    // Suscribirse a cambios de tema
+    this.themeSubscription = this.themeService.theme$.subscribe(
+      (theme: Theme) => {
+        this.currentTheme = theme;
+      }
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.themeSubscription?.unsubscribe();
+  }
+
+  toggleTheme(): void {
+    this.themeService.toggleTheme();
+  }
+
+  onKeyDown(event: KeyboardEvent): void {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      this.toggleTheme();
+    }
+  }
+
+  get isDarkMode(): boolean {
+    return this.currentTheme === 'dark';
+  }
+
+  get ariaLabel(): string {
+    return this.isDarkMode ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro';
+  }
+
+  get buttonTitle(): string {
+    return this.isDarkMode ? 'Modo claro' : 'Modo oscuro';
+  }
+}
+```
+
+**Características de Accesibilidad:**
+
+- ✅ Atributo `aria-label` dinámico que describe la acción
+- ✅ Soporte de teclado (Enter y Espacio)
+- ✅ Atributo `title` para tooltip
+- ✅ Icono visual que cambia según el tema actual
+
+**Estilos (theme-switcher.scss):**
+
+```scss
+.theme-switcher {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: v.$spacing-2;
+  border-radius: v.$radius-md;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color v.$transition-fast;
+
+  &:hover {
+    background-color: color-mix(in srgb, var(--color-accent) 10%, transparent 90%);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+}
+```
+
+#### 6.2.3 Integración en el Header
+
+El componente `ThemeSwitcher` se integra en el header principal de la aplicación:
+
+```html
+<!-- src/app/components/layout/header/header.html -->
+<header class="app-header">
+  <div class="app-header__utilities">
+    <!-- Otros controles (búsqueda, notificaciones, etc.) -->
+    <app-theme-switcher />
+    <!-- Usuario, menú, etc. -->
+  </div>
+</header>
+```
+
+---
+
+### 6.3 Capturas de Pantalla
+
+A continuación se muestran capturas de diferentes páginas de la aplicación en **modo claro** y **modo oscuro** para demostrar la implementación del sistema de temas.
+
+#### 6.3.1 Página de Inicio (Home)
+
+**Modo Claro:**
+
+![Home - Modo Claro](./screenshots/home-light.png)
+
+*Características visibles:*
+- Fondo amarillo claro (#faf9f6) reduce el brillo
+- Texto oscuro (#030303) con contraste WCAG AAA
+- Colores de marca vibrantes (amarillo, naranja, azul)
+- Sombras sutiles para profundidad
+
+**Modo Oscuro:**
+
+![Home - Modo Oscuro](./screenshots/home-dark.png)
+
+*Características visibles:*
+- Fondo gris oscuro (#171717) reduce fatiga visual
+- Texto claro (#fdfdfd) sin deslumbramiento
+- Colores de marca conservados para identidad
+- Sombras intensificadas para visibilidad
+
+#### 6.3.2 Lecciones
+
+**Modo Claro:**
+
+![Lecciones - Modo Claro](./screenshots/lecciones-light.png)
+
+*Elementos destacados:*
+- Cards con borde oscuro y sombra sutil
+- Categorías con colores vibrantes
+- Botones con hover naranja
+- Filtros laterales con fondo secundario
+
+**Modo Oscuro:**
+
+![Lecciones - Modo Oscuro](./screenshots/lecciones-dark.png)
+
+*Elementos destacados:*
+- Cards con borde claro para separación
+- Fondos en diferentes tonos de gris
+- Sombras más profundas
+- Transición suave entre temas
+
+#### 6.3.3 Simuladores
+
+**Modo Claro:**
+
+![Simuladores - Modo Claro](./screenshots/simuladores-light.png)
+
+*Componentes visibles:*
+- Tarjetas destacadas con borde grueso
+- Barras de progreso con gradientes
+- Badges de categoría coloridos
+- Navegación lateral con filtros
+
+**Modo Oscuro:**
+
+![Simuladores - Modo Oscuro](./screenshots/simuladores-dark.png)
+
+*Componentes visibles:*
+- Contraste mantenido en modo oscuro
+- Badges visibles sobre fondo oscuro
+- Bordes claros definen las secciones
+- Gradientes ajustados para visibilidad
+
+#### 6.3.4 Perfil de Usuario
+
+**Modo Claro:**
+
+![Perfil - Modo Claro](./screenshots/perfil-light.png)
+
+*Interfaz destacada:*
+- Formularios con bordes claros
+- Inputs con fondo blanco
+- Botones primarios amarillos
+- Secciones bien delimitadas
+
+**Modo Oscuro:**
+
+![Perfil - Modo Oscuro](./screenshots/perfil-dark.png)
+
+*Interfaz destacada:*
+- Inputs con fondo gris oscuro
+- Bordes claros para visibilidad
+- Focus states bien definidos
+- Etiquetas legibles
+
+#### 6.3.5 Style Guide
+
+**Modo Claro:**
+
+![Style Guide - Modo Claro](./screenshots/style-guide-light.png)
+
+*Catálogo visual:*
+- Todos los componentes en modo claro
+- Paleta de colores completa
+- Tipografía con diferentes tamaños
+- Espaciado y bordes documentados
+
+**Modo Oscuro:**
+
+![Style Guide - Modo Oscuro](./screenshots/style-guide-dark.png)
+
+*Catálogo visual:*
+- Mismos componentes en modo oscuro
+- Colores invertidos apropiadamente
+- Contraste mantenido
+- Sombras ajustadas
+
+#### 6.3.6 Modal y Overlays
+
+**Modo Claro:**
+
+![Modal - Modo Claro](./screenshots/modal-light.png)
+
+*Características:*
+- Overlay oscuro (rgba(0,0,0,0.5))
+- Modal con fondo blanco
+- Botones con colores de marca
+- Sombra pronunciada
+
+**Modo Oscuro:**
+
+![Modal - Modo Oscuro](./screenshots/modal-dark.png)
+
+*Características:*
+- Overlay más oscuro (rgba(0,0,0,0.8))
+- Modal con fondo gris oscuro
+- Contraste mejorado
+- Bordes claros para separación
+
+---
+
+### 6.4 Uso en Componentes
+
+Para que los componentes soporten ambos temas, se deben usar **variables CSS** en lugar de valores fijos o variables SCSS de color.
+
+#### ❌ Incorrecto - Variables SCSS Hardcodeadas
+
+```scss
+// NO HACER ESTO
+.card {
+  background: $color-text-light;  // Valor fijo, no cambia con el tema
+  color: $color-text-dark;        // Valor fijo, no cambia con el tema
+  border: 1px solid $color-gray-200;
+}
+
+.button--primary {
+  background: #f8d770;  // Hex hardcodeado
+  color: #030303;       // Hex hardcodeado
+}
+```
+
+**Problemas:**
+- Los colores no cambian cuando se alterna el tema
+- Difícil de mantener
+- No sigue el sistema de diseño
+
+#### ✅ Correcto - Variables CSS Dinámicas
+
+```scss
+// HACER ESTO
+.card {
+  background: var(--text-on-dark);   // Se adapta al tema
+  color: var(--text-primary);        // Se adapta al tema
+  border: 1px solid var(--border-color-light);
+}
+
+.button--primary {
+  background: var(--color-primary);  // Usa la variable CSS
+  color: var(--text-primary);        // Se invierte con el tema
+}
+```
+
+**Ventajas:**
+- Los colores cambian automáticamente con el tema
+- Mantenible desde un solo archivo
+- Sigue el sistema de diseño
+- Performance óptima
+
+#### Patrón Recomendado para Componentes
+
+```scss
+@use '../../../styles/00-settings/variables' as v;
+@use '../../../styles/01-tools/mixins' as m;
+
+.my-component {
+  // Usar variables CSS para colores
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  border: v.$border-thin solid var(--border-color);
+  
+  // Usar variables SCSS para medidas (no cambian con el tema)
+  padding: v.$spacing-4;
+  border-radius: v.$radius-md;
+  font-size: v.$font-size-base;
+  
+  // Mixins pueden usar ambos tipos
+  @include m.elevation('md');
+  @include m.transition(all, v.$transition-fast);
+  
+  &:hover {
+    background: var(--bg-secondary);
+    box-shadow: var(--shadow-lg);
+  }
+}
+```
+
+#### Variables CSS vs Variables SCSS
+
+| Tipo | Cuándo Usar | Ejemplo |
+|------|-------------|---------|
+| **Variables CSS** (`var(--...)`) | Colores, sombras, overlays - Todo lo que cambia entre temas | `var(--text-primary)`, `var(--bg-secondary)`, `var(--shadow-md)` |
+| **Variables SCSS** (`v.$...`) | Medidas, tipografía, espaciado - Lo que NO cambia entre temas | `v.$spacing-4`, `v.$font-size-lg`, `v.$radius-md`, `v.$breakpoint-lg` |
+
+#### Uso de color-mix() para Variaciones
+
+Cuando necesitas una variación de un color (más claro, más oscuro, transparente), usa `color-mix()` en lugar de funciones SCSS:
+
+```scss
+// ❌ NO - Funciones SCSS (deprecated)
+.button:hover {
+  background: darken($color-primary, 10%);
+  border-color: lighten($color-accent, 20%);
+}
+
+// ✅ SÍ - color-mix() CSS
+.button:hover {
+  background: color-mix(in srgb, var(--color-primary) 90%, black 10%);
+  border-color: color-mix(in srgb, var(--color-accent) 80%, white 20%);
+}
+
+// Para transparencias
+.overlay {
+  background: color-mix(in srgb, var(--text-primary) 50%, transparent 50%);
+}
+```
+
+**Ventaja de `color-mix()`:**
+- Funciona con variables CSS dinámicas
+- Estándar CSS moderno
+- Mejor performance
+
+#### Ejemplo Completo: Card Component
+
+```scss
+@use '../../../styles/00-settings/variables' as v;
+@use '../../../styles/01-tools/mixins' as m;
+
+.card {
+  // Colores dinámicos (variables CSS)
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  border: v.$border-thin solid var(--border-color);
+  
+  // Medidas fijas (variables SCSS)
+  border-radius: v.$radius-lg;
+  padding: v.$spacing-6;
+  
+  // Sombra dinámica (variable CSS)
+  box-shadow: var(--shadow-md);
+  
+  // Transición suave
+  @include m.transition(all, v.$transition-fast);
+  
+  &:hover {
+    // Color hover con color-mix
+    background: color-mix(in srgb, var(--bg-primary) 95%, var(--color-accent) 5%);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+  }
+  
+  // Modificadores que usan variables CSS
+  &--primary {
+    background: var(--color-primary);
+    color: var(--text-primary);
+    border-color: var(--text-primary);
+  }
+  
+  &--secondary {
+    background: var(--bg-secondary);
+    border-color: var(--border-color-light);
+  }
+}
+
+.card__title {
+  font-size: v.$font-size-2xl;          // SCSS: no cambia
+  font-weight: v.$font-weight-bold;     // SCSS: no cambia
+  color: var(--text-primary);           // CSS: cambia con el tema
+  margin-bottom: v.$spacing-3;          // SCSS: no cambia
+}
+
+.card__description {
+  font-size: v.$font-size-base;         // SCSS: no cambia
+  line-height: v.$line-height-relaxed;  // SCSS: no cambia
+  color: var(--text-secondary);         // CSS: cambia con el tema
+}
+```
+
+---
+
+### 6.5 Transiciones Suaves
+
+Para proporcionar una experiencia visual fluida al cambiar entre temas, se implementan **transiciones CSS globales** que afectan a todos los elementos.
+
+#### Implementación en _reset.scss
+
+```scss
+// src/styles/02-generic/_reset.scss
+*,
+*::before,
+*::after {
+  transition-property: background-color, color, border-color, box-shadow, fill, stroke;
+  transition-duration: 300ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+
+  // Respetar preferencia de movimiento reducido (accesibilidad)
+  @media (prefers-reduced-motion: reduce) {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+```
+
+#### Propiedades que Transicionan
+
+| Propiedad | Por qué | Ejemplo |
+|-----------|---------|---------|
+| `background-color` | Fondos de cards, botones, inputs | `.card { background: var(--bg-primary); }` |
+| `color` | Texto | `.title { color: var(--text-primary); }` |
+| `border-color` | Bordes de elementos | `.input { border: 1px solid var(--border-color); }` |
+| `box-shadow` | Sombras que cambian con el tema | `.card { box-shadow: var(--shadow-md); }` |
+| `fill` | Iconos SVG | `.icon { fill: var(--text-primary); }` |
+| `stroke` | Bordes de SVG | `.icon { stroke: var(--border-color); }` |
+
+#### Duración de Transición
+
+```scss
+transition-duration: 300ms;  // 0.3 segundos
+```
+
+**Justificación:**
+- ⏱️ **300ms** es la duración ideal según estudios de UX
+- ⚡ **Más rápido** (150ms): Demasiado abrupto, no se aprecia
+- 🐌 **Más lento** (500ms+): Sensación de lentitud
+
+#### Función de Easing
+
+```scss
+transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+```
+
+**Curva ease-in-out personalizada:**
+- Inicio suave (ease-in)
+- Final suave (ease-out)
+- Más natural que `linear` o `ease`
+- Misma curva que Material Design
+
+#### Accesibilidad: prefers-reduced-motion
+
+```scss
+@media (prefers-reduced-motion: reduce) {
+  transition-duration: 0.01ms !important;
+  animation-duration: 0.01ms !important;
+}
+```
+
+**Respeta la preferencia del usuario:**
+
+Usuarios que tienen activada la opción "Reducir movimiento" en su sistema operativo (común en personas con:
+- Vértigo
+- Sensibilidad a movimientos
+- Epilepsia fotosensible
+- Problemas vestibulares
+
+**Cómo funciona:**
+- Detecta la media query `prefers-reduced-motion: reduce`
+- Reduce las transiciones a casi 0ms (0.01ms técnicamente presente pero imperceptible)
+- Usa `!important` para sobrescribir cualquier transición específica
+
+#### Ejemplo Visual del Efecto
+
+**Sin transiciones:**
+```
+Tema Claro → [CAMBIO BRUSCO] → Tema Oscuro
+```
+
+**Con transiciones:**
+```
+Tema Claro → [FADE SUAVE 300ms] → Tema Oscuro
+```
+
+#### Optimización de Performance
+
+Las transiciones solo afectan a propiedades que no disparan reflow/repaint costosos:
+
+✅ **Propiedades optimizadas:**
+- `background-color` - Solo repaint
+- `color` - Solo repaint
+- `border-color` - Solo repaint
+- `box-shadow` - Solo repaint (en capas GPU)
+
+❌ **Propiedades NO incluidas (costosas):**
+- `width` / `height` - Disparan reflow
+- `top` / `left` - Disparan reflow
+- `margin` / `padding` - Disparan reflow
+
+**Resultado:** Transiciones suaves a 60fps sin impacto en performance.
+
+#### Casos Especiales: Transiciones Personalizadas
+
+Algunos elementos pueden necesitar duraciones diferentes:
+
+```scss
+// Transición más rápida para hover
+.button {
+  transition: background-color 150ms ease-out,
+              transform 150ms ease-out;
+  
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
+// Transición más lenta para cambios grandes
+.modal {
+  transition: opacity 400ms ease-in-out,
+              transform 400ms ease-in-out;
+}
+```
+
+**Regla:** Las transiciones específicas sobrescriben la global.
+
+---
+
+### Resumen de la Sección 6
+
+| Aspecto | Implementación | Justificación |
+|---------|----------------|---------------|
+| **Variables CSS** | `_css-variables.scss` con `:root` y `[data-theme='dark']` | Cambio dinámico sin recompilar SASS |
+| **Tema por defecto** | Claro (fondo amarillo claro, texto oscuro) | Más amigable para usuarios mayores |
+| **Tema oscuro** | Gris oscuro (no negro puro) | Reduce fatiga visual |
+| **Colores de marca** | Iguales en ambos temas | Mantiene identidad de marca |
+| **Servicio** | `ThemeService` con RxJS | Patrón reactivo, estado global |
+| **Componente UI** | `ThemeSwitcher` con iconos | Toggle visual accesible |
+| **Persistencia** | `localStorage` | Preferencia entre sesiones |
+| **Detección sistema** | `prefers-color-scheme` | Adaptación automática |
+| **Prioridad** | localStorage → sistema → claro | Respeta preferencia del usuario |
+| **Aplicación DOM** | `data-theme="dark"` en `<html>` | Selector CSS simple |
+| **Transiciones** | 300ms ease-in-out global | Cambio suave, no abrupto |
+| **Accesibilidad** | `prefers-reduced-motion` | Respeta sensibilidad a movimiento |
+| **Uso en componentes** | `var(--...)` para colores | Soporte automático de temas |
+| **Optimización** | Solo propiedades que no disparan reflow | 60fps performance |
+
+#### Ventajas del Sistema Implementado
+
+1. **✅ Experiencia de Usuario Mejorada**
+   - Cambio instantáneo sin recarga
+   - Transiciones suaves y naturales
+   - Respeta preferencias del sistema
+   - Persistencia entre sesiones
+
+2. **✅ Accesibilidad**
+   - Reduce fatiga visual (modo oscuro)
+   - Respeta `prefers-reduced-motion`
+   - Contraste WCAG AAA en ambos temas
+   - Navegable por teclado
+
+3. **✅ Mantenibilidad**
+   - Un solo archivo de variables CSS
+   - Servicio centralizado
+   - Patrón reactivo escalable
+   - Componentes automáticamente compatibles
+
+4. **✅ Performance**
+   - No requiere cargar CSS adicional
+   - Transiciones optimizadas (GPU)
+   - Sin re-renderizado completo
+   - 60fps garantizados
+
+5. **✅ Developer Experience**
+   - Variables CSS claras y descriptivas
+   - Documentación completa
+   - TypeScript con tipos fuertes
+   - Fácil de extender
+
+#### Próximos Pasos (Opcional)
+
+Para extender el sistema de temas, se pueden implementar:
+
+1. **Temas adicionales** (ej: alto contraste, daltónicos)
+2. **Modo automático** (cambio según hora del día)
+3. **Personalización de colores** (usuario elige paleta)
+4. **Sincronización entre dispositivos** (backend)
+
+---
+
