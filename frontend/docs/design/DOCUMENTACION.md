@@ -2021,22 +2021,55 @@ Se han desarrollado layouts completos y responsivos para todas las vistas de la 
 A continuación, se muestran las capturas de tres páginas clave en los *viewports* críticos para demostrar la adaptabilidad del diseño:
 
 **1. Página de Inicio (Home)**
-*Muestra la adaptación del Hero Section y la grilla de características.*
-*   **Mobile (375px):** `![Home Mobile](docs/assets/img/responsive/home-375.png)` *(El título del Hero ocupa múltiples líneas, botones ocupan el 100% del ancho, grilla de lecciones en 1 columna).*
-*   **Tablet (768px):** `![Home Tablet](docs/assets/img/responsive/home-768.png)` *(La imagen del Hero se reduce, la grilla de lecciones pasa a 2 columnas).*
-*   **Desktop (1280px):** `![Home Desktop](docs/assets/img/responsive/home-1280.png)` *(Layout completo: Hero a dos columnas, búsqueda expandida, grilla de 3 columnas).*
 
-**2. Catálogo de Lecciones**
-*Muestra el comportamiento del Sidebar de filtros y la paginación.*
-*   **Mobile (375px):** `![Catálogo Mobile](docs/assets/img/responsive/cat-375.png)` *(Sidebar de filtros posicionado en la parte superior, cards de lecciones en layout vertical).*
-*   **Tablet (768px):** `![Catálogo Tablet](docs/assets/img/responsive/cat-768.png)` *(Sidebar sigue arriba pero en formato horizontal, el grid pasa a 2 columnas).*
-*   **Desktop (1280px):** `![Catálogo Desktop](docs/assets/img/responsive/cat-1280.png)` *(Sidebar fijado a la izquierda, contenido a la derecha, cards en layout horizontal).*
+*   **Mobile (375px):**
+
+<img width="445" height="798" alt="home-mobile" src="https://github.com/user-attachments/assets/df66286d-d782-419a-937d-00776dae8835" />
+
+
+*   **Tablet (768px):**
+
+<img width="543" height="784" alt="home-tablet" src="https://github.com/user-attachments/assets/fe172c54-965f-4c32-9a1d-9af296cc6878" />
+
+
+*   **Desktop (1280px):**
+
+<img width="2550" height="1232" alt="home-desktop" src="https://github.com/user-attachments/assets/652fc3e6-afa1-45b6-90e7-9808e2ba813d" />
+
+
+**2. Catálogo de Simuladores**
+
+*   **Mobile (375px):**
+
+<img width="359" height="788" alt="simuladores-mobile" src="https://github.com/user-attachments/assets/921d935d-649c-411d-ab6e-618f64e7be0c" />
+
+
+*   **Tablet (768px):**
+
+<img width="542" height="785" alt="simuladores-tablet" src="https://github.com/user-attachments/assets/abab3228-1bd4-4c34-aaf9-820e5baa794d" />
+
+
+*   **Desktop (1280px):**
+
+<img width="2554" height="1229" alt="simuladores-desktop" src="https://github.com/user-attachments/assets/8d43399e-2c1b-423e-a16f-a0fbdabe313a" />
+
 
 **3. Detalle de Simulador**
-*Muestra la reorganización de un layout de 3 columnas.*
-*   **Mobile (375px):** `![Simulador Mobile](docs/assets/img/responsive/sim-375.png)` *(Columna única: las instrucciones aparecen primero, seguidas del simulador móvil, y finalmente los tips).*
-*   **Tablet (768px):** `![Simulador Tablet](docs/assets/img/responsive/sim-768.png)` *(El simulador centraliza el foco visual, reduciendo el tamaño de la tarjeta del dispositivo).*
-*   **Desktop (1280px):** `![Simulador Desktop](docs/assets/img/responsive/sim-1280.png)` *(Las 3 columnas se muestran en paralelo: Instrucciones a la izquierda, Simulador en el centro, Tips de seguridad a la derecha).*
+
+*   **Mobile (375px):**
+
+<img width="430" height="942" alt="simulador-mobile" src="https://github.com/user-attachments/assets/e1aa4f84-d6c8-477b-9d3f-954a03c97769" />
+
+
+*   **Tablet (768px):**
+
+<img width="540" height="785" alt="simulador-tablet" src="https://github.com/user-attachments/assets/00f52497-b22e-445e-88e6-5dc835733ad4" />
+
+
+*   **Desktop (1280px):**
+
+<img width="2548" height="1232" alt="simulador-desktop" src="https://github.com/user-attachments/assets/963ea891-0e19-4e9e-8b4d-8ae8522d7a61" />
+
 
 ---
 
@@ -2699,7 +2732,15 @@ El componente `ThemeSwitcher` se integra en el header principal de la aplicació
 
 A continuación se muestran capturas de diferentes páginas de la aplicación en **modo claro** y **modo oscuro** para demostrar la implementación del sistema de temas.
 
-(INSERTAR capturas)
+<img width="2549" height="1232" alt="lecciones-desktop" src="https://github.com/user-attachments/assets/b7db6e64-6d9f-45ed-afd3-32d4bc4bce5b" />
+
+<img width="2541" height="1229" alt="lecciones-desktop-dark" src="https://github.com/user-attachments/assets/5589e641-8e92-4cf5-864e-785815fc201d" />
+
+<img width="2549" height="1228" alt="login-desktop" src="https://github.com/user-attachments/assets/8a02d246-2625-4e19-aff6-9c73da8a4cd8" />
+
+<img width="2538" height="1234" alt="login-desktop-dark" src="https://github.com/user-attachments/assets/ee1579e7-daae-4bd8-9a88-7e31651675bf" />
+
+<img width="2542" height="1226" alt="simulador-desktop-dark" src="https://github.com/user-attachments/assets/0a964d37-2c55-4fff-8e41-5951511ee842" />
 
 ---
 
@@ -3078,16 +3119,31 @@ He realizado pruebas de compatibilidad en los navegadores más utilizados para a
 Para documentar el estado actual de la interfaz y el funcionamiento del sistema de temas, he incluido capturas de las tres secciones principales en diferentes dispositivos. Se puede observar cómo el diseño se adapta y cómo cambian los colores al activar el modo oscuro.
 
 #### 1. Página de Inicio (Home)
-*   **Desktop (Modo Claro):** Muestra el layout a doble columna con el Hero y los colores amarillos de marca.
-*   **Mobile (Modo Oscuro):** Se aprecia el apilamiento vertical y la inversión de colores para reducir el brillo.
+*   **Desktop (Modo Claro):**
+
+<img width="2550" height="1232" alt="home-desktop" src="https://github.com/user-attachments/assets/6a396d4f-d97f-457f-9549-f19a10956104" />
+
+*   **Mobile (Modo Oscuro):**
+
+<img width="430" height="944" alt="home-mobile-dark" src="https://github.com/user-attachments/assets/c1934b24-b33f-411a-b11f-828c35d38b70" />
 
 #### 2. Catálogo de Lecciones
-*   **Tablet (Modo Claro):** Vista del grid de lecciones adaptado a dos columnas.
-*   **Desktop (Modo Oscuro):** Se observa el sidebar de filtros lateral y cómo las tarjetas de lecciones mantienen el contraste sobre fondo oscuro.
+*   **Tablet (Modo Claro):**
+
+<img width="1039" height="1039" alt="lecciones-tablet" src="https://github.com/user-attachments/assets/8c0f367e-e1b1-46c1-b9e6-0a9b0a1155ce" />
+
+*   **Desktop (Modo Oscuro):**
+
+<img width="2530" height="1226" alt="lecciones-desktop-dark" src="https://github.com/user-attachments/assets/c535526b-b567-499d-b8a8-e0f2195898cc" />
 
 #### 3. Detalle del Simulador
-*   **Mobile (Modo Claro):** Prioridad visual al "móvil" simulado, con las instrucciones en la parte superior.
-*   **Desktop (Modo Oscuro):** Disposición en tres columnas (instrucciones, simulador y consejos) con colores oscuros para facilitar la lectura.
+*   **Mobile (Modo Claro):**
+
+<img width="377" height="822" alt="simulador-mobile" src="https://github.com/user-attachments/assets/58ceba16-be8a-4931-888f-771b2c42dfa0" />
+
+*   **Desktop (Modo Oscuro):**
+
+<img width="2538" height="1232" alt="simulador-desktop-dark" src="https://github.com/user-attachments/assets/e95931d4-3e14-4512-b0e1-bdc62a20fc4b" />
 
 ---
 
@@ -3096,7 +3152,7 @@ Para documentar el estado actual de la interfaz y el funcionamiento del sistema 
 La aplicación se ha desplegado en un entorno real utilizando **GitHub Pages**. Para ello, he utilizado el paquete `angular-cli-ghpages`, que permite automatizar la generación del *build* de producción y su subida a la rama correspondiente del repositorio.
 
 *   **URL de producción:** https://lmrocio.github.io/DAW2-Proyecto-intermodular/home
-*   **Proceso técnico:** Se ha ejecutado el comando `ng build --configuration production --base-href /tu-repositorio/`. Este proceso minifica el código JavaScript y CSS, optimiza las imágenes WebP y prepara el sistema para ser servido de forma eficiente.
+*   **Proceso técnico:** Se ha ejecutado el comando `ng build --configuration production --base-href /DAW2-Proyecto-intermodular/`. Este proceso minifica el código JavaScript y CSS, optimiza las imágenes WebP y prepara el sistema para ser servido de forma eficiente.
 *   **Estado del despliegue:** La web es accesible y la navegación por rutas funciona correctamente. Al tratarse de una SPA (Single Page Application), se ha incluido un archivo `404.html` para gestionar las redirecciones y evitar errores al recargar la página en rutas internas.
 
 ### 7.7 Problemas conocidos y mejoras futuras
