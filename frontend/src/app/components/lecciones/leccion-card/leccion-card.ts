@@ -11,6 +11,11 @@ export interface Leccion {
   nivel: string;
   duracion: string;
   imagen: string;
+  imageVariants?: {
+    small: string;
+    medium: string;
+    large: string;
+  };
   valoracion?: number;
   completado?: boolean;
 }
@@ -111,5 +116,14 @@ export class LeccionCard {
     this.isSpeaking = false;
     this.currentUtterance = null;
     this.cd.detectChanges();
+  }
+
+  toggleSpeak(leccion: any) {
+    // Implementación toggle speak
+    console.log('Toggle speak:', leccion);
+  }
+
+  startLesson(id: number | string) {
+    console.log('Start lesson:', id);
   }
 }

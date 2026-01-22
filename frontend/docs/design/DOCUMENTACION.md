@@ -1923,6 +1923,360 @@ El sistema de componentes UI proporciona bloques de construccion consistentes, a
 
 ---
 
+## Sección 4: Responsive design y layouts completos
+
+### 4.1 Breakpoints definidos
+
+Para garantizar una visualización óptima en la amplia gama de dispositivos utilizados por el público objetivo (personas mayores, que a menudo emplean tablets o smartphones con configuraciones de zoom elevadas), se ha definido una escala de 5 puntos de ruptura en el archivo `_variables.scss`. Estos valores han sido seleccionados para cubrir las resoluciones más comunes del mercado actual:
+
+| Breakpoint | Variable | Valor | Justificación Técnica |
+| :--- | :--- | :--- | :--- |
+| **SM** | `$breakpoint-sm` | 640px | Límite para smartphones en vertical. Se prioriza el apilamiento de elementos en una sola columna. |
+| **MD** | `$breakpoint-md` | 768px | Orientado a tablets estándar (iPad). Aquí los componentes como el Sidebar o el Header mutan a su versión móvil. |
+| **LG** | `$breakpoint-lg` | 1024px | Laptops y tablets en formato apaisado. Los grids de lecciones pasan de 2 a 3 columnas. |
+| **XL** | `$breakpoint-xl` | 1280px | Resolución de escritorio estándar. El contenedor principal alcanza su ancho máximo (`1400px`). |
+| **2XL** | `$breakpoint-2xl` | 1536px | Optimización para monitores de alta resolución, ampliando los márgenes laterales. |
+
+### 4.2 Estrategia responsive
+
+La aplicación utiliza una estrategia **Desktop-First**.
+
+**Justificación:** El diseño de "TecnoMayores" se basa en una estética de "cuaderno de notas" con múltiples capas decorativas, sombras con offset y elementos posicionados (blobs) que alcanzan su máxima expresión visual en pantallas grandes. Resulta más eficiente a nivel de arquitectura CSS definir primero este layout complejo y, mediante consultas `@media (max-width: ...)`, ir simplificando la interfaz, eliminando elementos decorativos secundarios y aumentando los tamaños de los objetivos táctiles (botones) para reducir la carga cognitiva en dispositivos móviles.
+
+**Ejemplo de implementación (`lecciones.scss`):**
+
+```scss
+// Layout principal por defecto (Desktop)
+.lecciones-layout {
+  display: grid;
+  grid-template-columns: 288px minmax(0, 1fr);
+  gap: v.$spacing-24;
+
+  // Adaptación para tablets y móviles (Desktop-First)
+  @media (max-width: v.$breakpoint-lg) {
+    grid-template-columns: 1fr;
+    gap: v.$spacing-10;
+  }
+}
+```
+
+---
+
+### 4.3 Container Queries
+
+Se ha implementado la tecnología de **Container Queries** en componentes estratégicos para lograr una verdadera independencia del viewport. El caso principal es el componente `app-header` (`header.scss`), el cual debe adaptar su densidad de información no solo basándose en el ancho de la pantalla, sino en el espacio disponible dentro de su propio contenedor.
+
+**Justificación técnica:** Esta aproximación permite que el encabezado mantenga su integridad visual incluso si se integra en layouts con sidebars laterales persistentes que reduzcan su ancho efectivo sin cambiar la resolución del dispositivo. Se utiliza `container-type: inline-size` para permitir que el CSS evalúe el ancho del componente.
+
+**Ejemplo de implementación (`header.scss`):**
+
+```scss
+.app-header {
+  container-type: inline-size;
+  container-name: header;
+}
+
+// Cuando el contenedor del header es menor a 900px
+@container header (max-width: 900px) {
+  .app-header__nav--desktop {
+    display: none; // Oculta navegación horizontal
+  }
+  .app-header__actions--mobile {
+    display: flex; // Muestra iconos de acción móvil
+  }
+  .app-header__btn-guide-text {
+    display: none; // Deja solo el icono para ahorrar espacio
+  }
+}
+```
+
+### 4.4 Adaptaciones principales
+
+La aplicación realiza una transformación profunda entre dispositivos para cumplir con las expectativas de usabilidad. A continuación, se resumen los cambios estructurales más significativos:
+
+| Elemento | Comportamiento en Desktop | Adaptación en Mobile |
+| :--- | :--- | :--- |
+| **Navegación** | Lista horizontal persistente en el header. | Menú lateral desplegable (`app-header__mobile-menu`) mediante botón hamburguesa. |
+| **Grids de Contenido** | Disposición de hasta 3 columnas en el catálogo de lecciones. | Paso a 1 columna única (`stack`) para maximizar el tamaño del texto e imágenes. |
+| **Sidebar de Filtros** | Columna lateral fija (288px) a la izquierda del contenido. | Se reposiciona sobre el listado ocupando el 100% del ancho con controles simplificados. |
+| **Lección Destacada** | Layout horizontal con imagen a la izquierda y texto a la derecha. | Layout vertical; la imagen ocupa el ancho completo sobre el título. |
+| **Formularios** | Agrupación de campos en filas (`form-row`) de 2 o 3 columnas. | Los campos se apilan verticalmente para facilitar la entrada de datos táctil. |
+
+---
+
+### 4.5 Páginas implementadas
+
+Se han desarrollado layouts completos y responsivos para todas las vistas de la aplicación, asegurando una experiencia de usuario (UX) coherente en la navegación. Las páginas implementadas son:
+
+*   **Home (`/home`):** Página de aterrizaje que combina el componente `Hero`, barra de búsqueda flotante y grillas de características (`FeaturesContainer`). En móvil, las secciones paralelas pasan a apilarse verticalmente.
+*   **Catálogo de Lecciones / Simuladores (`/lecciones`, `/simuladores`):** Listados principales que implementan un layout asimétrico (`288px / 1fr`) en escritorio para alojar el `SidebarFiltros`, el cual muta a una disposición de bloque único en móvil.
+*   **Detalle de Lección (`/lecciones/:id`):** Vista de contenido con alternancia visual (zigzag) de texto e ilustraciones en escritorio, que se normaliza a una lectura lineal (imagen arriba, texto abajo) en dispositivos táctiles.
+*   **Simulador Interactivo (`/simuladores/:id`):** Layout complejo de 3 columnas (Instrucciones, Simulador Móvil, Tips) que en tablets y móviles se reordena en una sola columna para priorizar el área del simulador central.
+*   **Autenticación (`/login`, `/register`):** Páginas con layout centrado (`@include flex(center, center)`) y tarjetas flotantes. Los formularios adaptan su densidad y tamaño de fuente en pantallas pequeñas.
+*   **Área de Usuario (`/usuario/*`):** Panel de control con sub-rutas (Perfil, Progreso, Certificados) que utiliza un layout de Dashboard.
+*   **Páginas Informativas (`/about`, `/ayuda`, `/404`):** Vistas basadas en contenedores de ancho máximo (`max-width`) centrados con tipografía adaptativa.
+
+### 4.6 Screenshots comparativos
+
+A continuación, se muestran las capturas de tres páginas clave en los *viewports* críticos para demostrar la adaptabilidad del diseño:
+
+**1. Página de Inicio (Home)**
+
+*   **Mobile (375px):**
+
+<img width="445" height="798" alt="home-mobile" src="https://github.com/user-attachments/assets/df66286d-d782-419a-937d-00776dae8835" />
+
+
+*   **Tablet (768px):**
+
+<img width="543" height="784" alt="home-tablet" src="https://github.com/user-attachments/assets/fe172c54-965f-4c32-9a1d-9af296cc6878" />
+
+
+*   **Desktop (1280px):**
+
+<img width="2550" height="1232" alt="home-desktop" src="https://github.com/user-attachments/assets/652fc3e6-afa1-45b6-90e7-9808e2ba813d" />
+
+
+**2. Catálogo de Simuladores**
+
+*   **Mobile (375px):**
+
+<img width="359" height="788" alt="simuladores-mobile" src="https://github.com/user-attachments/assets/921d935d-649c-411d-ab6e-618f64e7be0c" />
+
+
+*   **Tablet (768px):**
+
+<img width="542" height="785" alt="simuladores-tablet" src="https://github.com/user-attachments/assets/abab3228-1bd4-4c34-aaf9-820e5baa794d" />
+
+
+*   **Desktop (1280px):**
+
+<img width="2554" height="1229" alt="simuladores-desktop" src="https://github.com/user-attachments/assets/8d43399e-2c1b-423e-a16f-a0fbdabe313a" />
+
+
+**3. Detalle de Simulador**
+
+*   **Mobile (375px):**
+
+<img width="430" height="942" alt="simulador-mobile" src="https://github.com/user-attachments/assets/e1aa4f84-d6c8-477b-9d3f-954a03c97769" />
+
+
+*   **Tablet (768px):**
+
+<img width="540" height="785" alt="simulador-tablet" src="https://github.com/user-attachments/assets/00f52497-b22e-445e-88e6-5dc835733ad4" />
+
+
+*   **Desktop (1280px):**
+
+<img width="2548" height="1232" alt="simulador-desktop" src="https://github.com/user-attachments/assets/963ea891-0e19-4e9e-8b4d-8ae8522d7a61" />
+
+
+---
+
+# SECCIÓN 5: OPTIMIZACIÓN MULTIMEDIA
+
+La optimización de los activos multimedia en **TecnoMayores** es un pilar fundamental de la experiencia de usuario. Dado que nuestro público objetivo (personas mayores) puede disponer de dispositivos con hardware limitado o conexiones de red menos estables, se ha priorizado la eficiencia en la carga sin comprometer la nitidez visual necesaria para la legibilidad.
+
+Se ha transformado la gestión de imágenes de un modelo estático y pesado (~17.4 MB en archivos PNG originales) a un sistema dinámico y optimizado (~830 KB totales), logrando una **reducción de peso del 95.2%**.
+
+### 5.1 Formatos elegidos y justificación técnica
+
+Se ha implementado una estrategia de formatos basada en la compatibilidad y la eficiencia de compresión, seleccionando cada uno según su propósito dentro de la interfaz:
+
+#### **WebP (Formato Principal)**
+Se ha elegido **WebP** como formato estándar para todas las ilustraciones y fotografías del catálogo.
+*   **Justificación:** Ofrece una compresión superior (entre un 25% y 34% más eficiente que JPEG y PNG) manteniendo la transparencia alfa si fuera necesario.
+*   **Soporte:** Su adopción garantiza compatibilidad con más del 95% de los navegadores modernos (Chrome 23+, Firefox 65+, Safari 14+).
+*   **Calidad:** Se ha configurado un factor de calidad de **75**, que representa el "punto dulce" entre ahorro de ancho de banda y ausencia de artefactos visuales apreciables por el ojo humano.
+
+#### **SVG (Iconografía y Gráficos Vectoriales)**
+Para los iconos (Librería Lucide) y elementos decorativos geométricos.
+*   **Justificación:** Permite escalabilidad infinita sin pixelación, algo crítico cuando el usuario utiliza herramientas de zoom en el navegador.
+*   **Optimización:** Se han procesado mediante **SVGO** para eliminar metadatos innecesarios, reduciendo su peso a menos de 2KB por archivo.
+
+#### **AVIF (Estrategia de Futuro)**
+Aunque el formato principal es WebP, la arquitectura del elemento `<picture>` implementada está preparada para servir **AVIF** en cuanto el soporte sea universal, permitiendo reducciones adicionales del 20% respecto a WebP.
+
+| Formato | Uso | Justificación |
+| :--- | :--- | :--- |
+| **WebP** | Ilustraciones de lecciones | Balance optimizado entre peso y compatibilidad. |
+| **SVG** | Iconos y logotipos | Nitidez absoluta en cualquier nivel de zoom. |
+| **PNG/JPG** | Fallback | Compatibilidad con navegadores antiguos. |
+
+---
+
+### 5.2 Herramientas utilizadas
+
+Para conseguir que la aplicación cargue de forma fluida y los recursos multimedia no penalicen la experiencia del usuario, se han utilizado diversas herramientas enfocadas en reducir el peso de los archivos sin perder calidad visual.
+
+#### Sharp (Procesamiento de imágenes)
+
+La herramienta principal para transformar las imágenes ha sido **Sharp**. Es una librería que funciona con Node.js y permite automatizar tareas que manualmente serían muy costosas. Gracias a ella, se ha creado un script personalizado (`optimize-images.js`) que toma las imágenes originales en formato PNG y genera automáticamente tres versiones de cada una con diferentes anchos (400px, 800px y 1200px) y las convierte al formato WebP. El script aplica una lógica de redimensionamiento inteligente que evita el escalado hacia arriba (*withoutEnlargement*) para no comprometer la nitidez de los archivos pequeños.
+
+Ejemplo de la lógica aplicada en el script:
+
+```javascript
+sharp(input)
+  .resize(width, null, { withoutEnlargement: true })
+  .webp({ quality: 75, effort: 6 })
+  .toFile(output);
+```
+
+Este proceso asegura que cada dispositivo descargue la imagen que mejor se adapte a su pantalla, ahorrando datos innecesarios en móviles y manteniendo la nitidez en ordenadores de escritorio.
+
+#### Lucide Angular (Gestión de iconografía)
+
+A diferencia de las ilustraciones, los iconos de la interfaz no han requerido un proceso de optimización manual. Se ha utilizado la librería **Lucide Angular**, que integra los iconos directamente como elementos vectoriales. Al importar los iconos desde una librería especializada, nos aseguramos de que el código SVG ya venga optimizado de serie, sea muy ligero y se adapte perfectamente al estilo visual del proyecto sin necesidad de manipular archivos individuales.
+
+#### Squoosh (Ajuste y revisión visual)
+
+Para las imágenes más importantes de la aplicación, como la que aparece en la portada o *Hero*, se ha utilizado **Squoosh**. Esta aplicación web permite comparar visualmente la imagen original con la optimizada antes de guardarla. Ha sido de gran utilidad para elegir el nivel de compresión exacto, asegurando que el ahorro de espacio no afecte a la nitidez de los dibujos, algo fundamental para que los usuarios mayores identifiquen bien los elementos.
+
+---
+
+### 5.3 Resultados de optimización
+
+Tras procesar las imágenes originales mediante el script de optimización, se ha logrado una reducción drástica en el peso total de los recursos multimedia. Este ahorro es fundamental para que la aplicación sea ligera y cargue rápidamente, incluso en conexiones móviles o dispositivos con menos potencia.
+
+A continuación, se detallan los resultados obtenidos en cinco de las imágenes principales del proyecto, comparando el peso de los archivos PNG originales con el peso total de sus nuevas variantes en formato WebP.
+
+| Nombre de imagen | Tamaño original | Tamaño optimizado (Total variantes) | Reducción (%) |
+| :--- | :--- | :--- | :--- |
+| imagen-1.png | 919,12 KB | 104,47 KB | 88,6% |
+| imagen-4.png | 3.037,37 KB | 187,07 KB | 93,8% |
+| imagen-5.png | 1.275,91 KB | 91,56 KB | 92,8% |
+| imagen-6.png | 4.556,97 KB | 71,49 KB | 98,4% |
+| imagen-7.png | 5.794,06 KB | 212,09 KB | 96,3% |
+
+#### Análisis de los resultados
+
+La reducción media del peso de las imágenes supera el 90%. El impacto más significativo se observa en las imágenes de mayor resolución (como la imagen-6 e imagen-7), donde el formato WebP gestiona de manera mucho más eficiente las áreas de color y los degradados que el formato PNG original.
+
+Gracias a esta optimización, el peso total de los recursos multimedia ha pasado de aproximadamente 17,4 MB a apenas 830 KB. Esto supone que la página inicial y el catálogo de lecciones se muestran de forma casi instantánea, mejorando la métrica de tiempo de carga y reduciendo el consumo de datos de los usuarios.
+
+---
+
+### 5.4 Tecnologías implementadas
+
+Para garantizar que el navegador descargue el archivo más adecuado según el dispositivo y el contexto de visualización, se han implementado técnicas de imágenes responsivas nativas del estándar HTML5 integradas en los componentes de Angular.
+
+#### Uso de srcset y sizes
+
+Esta técnica se ha aplicado en las tarjetas de las lecciones y en el catálogo principal. Mediante el atributo `srcset`, proporcionamos al navegador una lista de archivos disponibles con sus respectivos anchos. Combinado con el atributo `sizes`, indicamos qué porcentaje del ancho de la pantalla ocupará la imagen en diferentes estados del layout (móvil, tablet o escritorio).
+
+De este modo, el navegador calcula automáticamente qué versión descargar, evitando que un teléfono móvil procese una imagen de alta resolución diseñada para una pantalla de escritorio.
+
+Ejemplo de implementación en `leccion-card.html`:
+
+```html
+<img
+  [srcset]="leccion.imageVariants.small + ' 400w, ' + 
+           leccion.imageVariants.medium + ' 800w, ' + 
+           leccion.imageVariants.large + ' 1200w'"
+  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+  [src]="leccion.imagen"
+  [alt]="leccion.titulo"
+  loading="lazy">
+```
+
+#### Elemento picture para Control Avanzado
+
+En secciones críticas como el *Hero* de la página de inicio, se ha utilizado el elemento `<picture>`. Esta etiqueta permite un control más estricto sobre el formato y la selección de la fuente de la imagen. Al definir diferentes fuentes (`source`), podemos priorizar formatos modernos como WebP y asegurar que la imagen se adapte no solo en tamaño, sino también en el formato que mejor procese el dispositivo.
+
+Ejemplo de implementación en `hero.html`:
+
+```html
+<picture>
+  <source
+    [srcset]="imageVariants.small + ' 400w, ' + 
+             imageVariants.medium + ' 800w, ' + 
+             imageVariants.large + ' 1200w'"
+    type="image/webp">
+  <img [src]="imageUrl" [alt]="imageAlt" loading="lazy">
+</picture>
+```
+
+#### Carga Diferida (Lazy Loading)
+
+Se ha incluido el atributo `loading="lazy"` en todas las imágenes de la aplicación que no son críticas para el renderizado inicial. Esta tecnología indica al navegador que posponga la descarga de las imágenes que se encuentran fuera del área visible ( *viewport*) hasta que el usuario haga scroll cerca de ellas.
+
+El impacto directo es una mejora significativa en el tiempo de interactividad de la página, ya que se prioriza la descarga de los estilos y la lógica del sitio sobre las imágenes que todavía no se necesitan mostrar.
+
+---
+
+### 5.5 Animaciones CSS
+
+El sistema de animaciones de TecnoMayores se ha diseñado para ofrecer una experiencia fluida y gratificante sin sobrecargar visualmente al usuario. Se han evitado movimientos bruscos o excesivamente rápidos que puedan resultar confusos, optando por transiciones suaves que guían la atención hacia las interacciones importantes.
+
+#### Criterios de rendimiento: Transform y Opacity
+
+Todas las animaciones implementadas en el proyecto se limitan estrictamente a las propiedades `transform` (para movimiento, rotación o escala) y `opacity` (para desvanecimientos).
+
+La elección de estas dos propiedades responde a una necesidad técnica de rendimiento: al animar solo transformaciones y opacidad, el navegador no tiene que recalcular la posición de todos los elementos de la página (proceso conocido como *reflow*) ni volver a dibujarlos píxel a píxel (*repaint*). El trabajo se delega directamente a la tarjeta gráfica del dispositivo, lo que garantiza una fluidez constante de 60 fotogramas por segundo, incluso en tablets o móviles antiguos con procesadores limitados.
+
+#### Implementación 1: Indicador de carga (Spinner)
+
+Se ha creado una animación de rotación continua para los estados de carga de datos. Esta animación utiliza un ciclo infinito para comunicar al usuario que la aplicación está trabajando.
+
+```scss
+// src/app/components/shared/spinner/spinner.scss
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner__circle {
+  animation: spin 1s linear infinite;
+}
+```
+
+#### Implementación 2: Notificaciones emergentes (Toasts)
+
+Las notificaciones del sistema aparecen desde el lateral derecho de la pantalla mediante una combinación de desplazamiento horizontal y cambio de opacidad. Este efecto permite que el aviso sea visible de forma elegante sin tapar bruscamente el contenido principal.
+
+```scss
+// src/app/components/shared/toast/toast.scss
+@keyframes toastSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.toast {
+  animation: toastSlideIn 0.28s ease-out;
+}
+```
+
+#### Implementación 3: Interacciones en tarjetas y botones
+
+Para mejorar la sensación de interactividad, las tarjetas de las lecciones y los botones principales reaccionan al pasar el cursor sobre ellos. Mediante el uso de `translateY`, el elemento parece elevarse ligeramente, simulando el comportamiento de un objeto físico sobre un cuaderno.
+
+```scss
+// src/app/components/lecciones/leccion-card/leccion-card.scss
+.leccion-card {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &:hover {
+    transform: translateY(-4px);
+  }
+}
+```
+
+#### Respeto a las preferencias del usuario
+
+Como medida de accesibilidad adicional, se ha incluido una regla global que detecta si el usuario tiene activada la opción de "reducir movimiento" en su sistema operativo. En ese caso, todas las transiciones y animaciones se desactivan o se reducen al mínimo para evitar mareos o distracciones.
+
+---
+
 ## Sección 6: Sistema de Temas
 
 ---
@@ -2171,11 +2525,6 @@ private applyThemeToDocument(theme: Theme): void {
 }
 ```
 
-**Ventaja del atributo `data-theme`:**
-- Selectores CSS más simples: `[data-theme='dark']` vs `.dark-theme`
-- Más semántico que clases
-- Estándar emergente en la industria
-
 **4. Toggle entre Temas**
 
 ```typescript
@@ -2222,9 +2571,9 @@ private initializeTheme(): void {
 ```
 
 **Orden de prioridad:**
-1. 🥇 **Tema guardado en localStorage** (preferencia explícita del usuario)
-2. 🥈 **Preferencia del sistema** (`prefers-color-scheme`)
-3. 🥉 **Tema claro por defecto** (fallback)
+1. **Tema guardado en localStorage** (preferencia explícita del usuario)
+2. **Preferencia del sistema** (`prefers-color-scheme`)
+3. **Tema claro por defecto** (fallback)
 
 **6. Escucha de Cambios del Sistema**
 
@@ -2332,10 +2681,10 @@ export class ThemeSwitcher implements OnInit, OnDestroy {
 
 **Características de Accesibilidad:**
 
-- ✅ Atributo `aria-label` dinámico que describe la acción
-- ✅ Soporte de teclado (Enter y Espacio)
-- ✅ Atributo `title` para tooltip
-- ✅ Icono visual que cambia según el tema actual
+- Atributo `aria-label` dinámico que describe la acción
+- Soporte de teclado (Enter y Espacio)
+- Atributo `title` para tooltip
+- Icono visual que cambia según el tema actual
 
 **Estilos (theme-switcher.scss):**
 
@@ -2383,145 +2732,23 @@ El componente `ThemeSwitcher` se integra en el header principal de la aplicació
 
 A continuación se muestran capturas de diferentes páginas de la aplicación en **modo claro** y **modo oscuro** para demostrar la implementación del sistema de temas.
 
-#### 6.3.1 Página de Inicio (Home)
+<img width="2549" height="1232" alt="lecciones-desktop" src="https://github.com/user-attachments/assets/b7db6e64-6d9f-45ed-afd3-32d4bc4bce5b" />
 
-**Modo Claro:**
+<img width="2541" height="1229" alt="lecciones-desktop-dark" src="https://github.com/user-attachments/assets/5589e641-8e92-4cf5-864e-785815fc201d" />
 
-![Home - Modo Claro](./screenshots/home-light.png)
+<img width="2549" height="1228" alt="login-desktop" src="https://github.com/user-attachments/assets/8a02d246-2625-4e19-aff6-9c73da8a4cd8" />
 
-*Características visibles:*
-- Fondo amarillo claro (#faf9f6) reduce el brillo
-- Texto oscuro (#030303) con contraste WCAG AAA
-- Colores de marca vibrantes (amarillo, naranja, azul)
-- Sombras sutiles para profundidad
+<img width="2538" height="1234" alt="login-desktop-dark" src="https://github.com/user-attachments/assets/ee1579e7-daae-4bd8-9a88-7e31651675bf" />
 
-**Modo Oscuro:**
-
-![Home - Modo Oscuro](./screenshots/home-dark.png)
-
-*Características visibles:*
-- Fondo gris oscuro (#171717) reduce fatiga visual
-- Texto claro (#fdfdfd) sin deslumbramiento
-- Colores de marca conservados para identidad
-- Sombras intensificadas para visibilidad
-
-#### 6.3.2 Lecciones
-
-**Modo Claro:**
-
-![Lecciones - Modo Claro](./screenshots/lecciones-light.png)
-
-*Elementos destacados:*
-- Cards con borde oscuro y sombra sutil
-- Categorías con colores vibrantes
-- Botones con hover naranja
-- Filtros laterales con fondo secundario
-
-**Modo Oscuro:**
-
-![Lecciones - Modo Oscuro](./screenshots/lecciones-dark.png)
-
-*Elementos destacados:*
-- Cards con borde claro para separación
-- Fondos en diferentes tonos de gris
-- Sombras más profundas
-- Transición suave entre temas
-
-#### 6.3.3 Simuladores
-
-**Modo Claro:**
-
-![Simuladores - Modo Claro](./screenshots/simuladores-light.png)
-
-*Componentes visibles:*
-- Tarjetas destacadas con borde grueso
-- Barras de progreso con gradientes
-- Badges de categoría coloridos
-- Navegación lateral con filtros
-
-**Modo Oscuro:**
-
-![Simuladores - Modo Oscuro](./screenshots/simuladores-dark.png)
-
-*Componentes visibles:*
-- Contraste mantenido en modo oscuro
-- Badges visibles sobre fondo oscuro
-- Bordes claros definen las secciones
-- Gradientes ajustados para visibilidad
-
-#### 6.3.4 Perfil de Usuario
-
-**Modo Claro:**
-
-![Perfil - Modo Claro](./screenshots/perfil-light.png)
-
-*Interfaz destacada:*
-- Formularios con bordes claros
-- Inputs con fondo blanco
-- Botones primarios amarillos
-- Secciones bien delimitadas
-
-**Modo Oscuro:**
-
-![Perfil - Modo Oscuro](./screenshots/perfil-dark.png)
-
-*Interfaz destacada:*
-- Inputs con fondo gris oscuro
-- Bordes claros para visibilidad
-- Focus states bien definidos
-- Etiquetas legibles
-
-#### 6.3.5 Style Guide
-
-**Modo Claro:**
-
-![Style Guide - Modo Claro](./screenshots/style-guide-light.png)
-
-*Catálogo visual:*
-- Todos los componentes en modo claro
-- Paleta de colores completa
-- Tipografía con diferentes tamaños
-- Espaciado y bordes documentados
-
-**Modo Oscuro:**
-
-![Style Guide - Modo Oscuro](./screenshots/style-guide-dark.png)
-
-*Catálogo visual:*
-- Mismos componentes en modo oscuro
-- Colores invertidos apropiadamente
-- Contraste mantenido
-- Sombras ajustadas
-
-#### 6.3.6 Modal y Overlays
-
-**Modo Claro:**
-
-![Modal - Modo Claro](./screenshots/modal-light.png)
-
-*Características:*
-- Overlay oscuro (rgba(0,0,0,0.5))
-- Modal con fondo blanco
-- Botones con colores de marca
-- Sombra pronunciada
-
-**Modo Oscuro:**
-
-![Modal - Modo Oscuro](./screenshots/modal-dark.png)
-
-*Características:*
-- Overlay más oscuro (rgba(0,0,0,0.8))
-- Modal con fondo gris oscuro
-- Contraste mejorado
-- Bordes claros para separación
+<img width="2542" height="1226" alt="simulador-desktop-dark" src="https://github.com/user-attachments/assets/0a964d37-2c55-4fff-8e41-5951511ee842" />
 
 ---
 
-### 6.4 Uso en Componentes
+### 6.4 Problemas encontrados durante el desarrollo
 
 Para que los componentes soporten ambos temas, se deben usar **variables CSS** en lugar de valores fijos o variables SCSS de color.
 
-#### ❌ Incorrecto - Variables SCSS Hardcodeadas
+#### Incorrecto - Variables SCSS Hardcodeadas
 
 ```scss
 // NO HACER ESTO
@@ -2542,7 +2769,7 @@ Para que los componentes soporten ambos temas, se deben usar **variables CSS** e
 - Difícil de mantener
 - No sigue el sistema de diseño
 
-#### ✅ Correcto - Variables CSS Dinámicas
+#### Correcto - Variables CSS Dinámicas
 
 ```scss
 // HACER ESTO
@@ -2604,13 +2831,13 @@ Para que los componentes soporten ambos temas, se deben usar **variables CSS** e
 Cuando necesitas una variación de un color (más claro, más oscuro, transparente), usa `color-mix()` en lugar de funciones SCSS:
 
 ```scss
-// ❌ NO - Funciones SCSS (deprecated)
+// NO - Funciones SCSS (deprecated)
 .button:hover {
   background: darken($color-primary, 10%);
   border-color: lighten($color-accent, 20%);
 }
 
-// ✅ SÍ - color-mix() CSS
+// SÍ - color-mix() CSS
 .button:hover {
   background: color-mix(in srgb, var(--color-primary) 90%, black 10%);
   border-color: color-mix(in srgb, var(--color-accent) 80%, white 20%);
@@ -2726,9 +2953,9 @@ transition-duration: 300ms;  // 0.3 segundos
 ```
 
 **Justificación:**
-- ⏱️ **300ms** es la duración ideal según estudios de UX
-- ⚡ **Más rápido** (150ms): Demasiado abrupto, no se aprecia
-- 🐌 **Más lento** (500ms+): Sensación de lentitud
+- **300ms** es la duración ideal según estudios de UX
+- **Más rápido** (150ms): Demasiado abrupto, no se aprecia
+- **Más lento** (500ms+): Sensación de lentitud
 
 #### Función de Easing
 
@@ -2780,13 +3007,13 @@ Tema Claro → [FADE SUAVE 300ms] → Tema Oscuro
 
 Las transiciones solo afectan a propiedades que no disparan reflow/repaint costosos:
 
-✅ **Propiedades optimizadas:**
+**Propiedades optimizadas:**
 - `background-color` - Solo repaint
 - `color` - Solo repaint
 - `border-color` - Solo repaint
 - `box-shadow` - Solo repaint (en capas GPU)
 
-❌ **Propiedades NO incluidas (costosas):**
+**Propiedades NO incluidas (costosas):**
 - `width` / `height` - Disparan reflow
 - `top` / `left` - Disparan reflow
 - `margin` / `padding` - Disparan reflow
@@ -2819,65 +3046,121 @@ Algunos elementos pueden necesitar duraciones diferentes:
 
 ---
 
-### Resumen de la Sección 6
-
-| Aspecto | Implementación | Justificación |
-|---------|----------------|---------------|
-| **Variables CSS** | `_css-variables.scss` con `:root` y `[data-theme='dark']` | Cambio dinámico sin recompilar SASS |
-| **Tema por defecto** | Claro (fondo amarillo claro, texto oscuro) | Más amigable para usuarios mayores |
-| **Tema oscuro** | Gris oscuro (no negro puro) | Reduce fatiga visual |
-| **Colores de marca** | Iguales en ambos temas | Mantiene identidad de marca |
-| **Servicio** | `ThemeService` con RxJS | Patrón reactivo, estado global |
-| **Componente UI** | `ThemeSwitcher` con iconos | Toggle visual accesible |
-| **Persistencia** | `localStorage` | Preferencia entre sesiones |
-| **Detección sistema** | `prefers-color-scheme` | Adaptación automática |
-| **Prioridad** | localStorage → sistema → claro | Respeta preferencia del usuario |
-| **Aplicación DOM** | `data-theme="dark"` en `<html>` | Selector CSS simple |
-| **Transiciones** | 300ms ease-in-out global | Cambio suave, no abrupto |
-| **Accesibilidad** | `prefers-reduced-motion` | Respeta sensibilidad a movimiento |
-| **Uso en componentes** | `var(--...)` para colores | Soporte automático de temas |
-| **Optimización** | Solo propiedades que no disparan reflow | 60fps performance |
-
-#### Ventajas del Sistema Implementado
-
-1. **✅ Experiencia de Usuario Mejorada**
-   - Cambio instantáneo sin recarga
-   - Transiciones suaves y naturales
-   - Respeta preferencias del sistema
-   - Persistencia entre sesiones
-
-2. **✅ Accesibilidad**
-   - Reduce fatiga visual (modo oscuro)
-   - Respeta `prefers-reduced-motion`
-   - Contraste WCAG AAA en ambos temas
-   - Navegable por teclado
-
-3. **✅ Mantenibilidad**
-   - Un solo archivo de variables CSS
-   - Servicio centralizado
-   - Patrón reactivo escalable
-   - Componentes automáticamente compatibles
-
-4. **✅ Performance**
-   - No requiere cargar CSS adicional
-   - Transiciones optimizadas (GPU)
-   - Sin re-renderizado completo
-   - 60fps garantizados
-
-5. **✅ Developer Experience**
-   - Variables CSS claras y descriptivas
-   - Documentación completa
-   - TypeScript con tipos fuertes
-   - Fácil de extender
-
-#### Próximos Pasos (Opcional)
-
-Para extender el sistema de temas, se pueden implementar:
-
-1. **Temas adicionales** (ej: alto contraste, daltónicos)
-2. **Modo automático** (cambio según hora del día)
-3. **Personalización de colores** (usuario elige paleta)
-4. **Sincronización entre dispositivos** (backend)
+## Sección 7: Aplicación completa y despliegue
 
 ---
 
+En esta fase final, el objetivo ha sido integrar los componentes y servicios desarrollados en los módulos de DIW y DWEC para dar coherencia a la aplicación. El proyecto se ha desplegado públicamente utilizando **GitHub Pages** (mediante el paquete `angular-cli-ghpages`), lo que permite comprobar el funcionamiento de la interfaz en un entorno real.
+
+Aunque la aplicación se presenta como una carcasa de frontend sin conexión a una base de datos real, se ha trabajado para que la navegación y la lógica de los componentes sean funcionales. Actualmente, el proyecto se encuentra en una fase de refinamiento visual, donde la estructura principal está asentada pero todavía requiere ajustes en los detalles de maquetación.
+
+### 7.1 Estado final de la aplicación
+
+A continuación se detalla el estado actual del proyecto, separando la parte de diseño de la lógica de programación.
+
+#### Maquetación y Diseño (DIW)
+
+*   **Páginas implementadas**: Se han creado las vistas principales (Inicio, Catálogo, Detalle y Área de Usuario). La navegación entre ellas funciona, aunque algunos layouts necesitan todavía un proceso de pulido para corregir pequeños errores visuales o de alineación.
+*   **Sistema de estilos**: Se utiliza una arquitectura ITCSS para organizar el CSS. Los colores, fuentes y espaciados están centralizados en variables, lo que facilita el mantenimiento.
+*   **Modo Oscuro**: El selector de temas es operativo. Cambia las variables de color de la aplicación y guarda la preferencia en el navegador del usuario para que no se pierda al recargar.
+*   **Componentes Shared**: Se ha creado una base de componentes reutilizables (botones, tarjetas, alertas) que se usan en toda la web para mantener la uniformidad.
+
+#### Lógica de la aplicación (DWEC)
+
+*   **Enrutamiento**: El sistema de rutas de Angular está configurado, incluyendo el paso de parámetros (por ejemplo, para abrir una lección específica) y la protección de rutas mediante `AuthGuard`.
+*   **Servicios y Datos**: Como no hay conexión con el backend, he desarrollado servicios que manejan datos simulados (*mock data*). Estos servicios emiten observables, por lo que si en el futuro se conecta a una API real, el código de los componentes apenas tendrá que cambiar.
+*   **Formularios Reactivos**: El registro y el login están desarrollados con formularios reactivos. Tienen validaciones síncronas para controlar que los campos no estén vacíos y que los formatos (como el email) sean correctos.
+*   **Uso de Web Speech API**: He integrado una funcionalidad básica de síntesis de voz que permite "leer" las instrucciones de los simuladores, pensando en la accesibilidad de los usuarios mayores.
+
+---
+
+### 7.2 Testing multi-dispositivo (Viewports)
+
+Para asegurar que la aplicación es usable en diferentes tamaños de pantalla, he realizado pruebas utilizando las herramientas para desarrolladores de Chrome, simulando los *viewports* más comunes. El objetivo ha sido verificar que el contenido se reorganiza correctamente y que los elementos interactivos mantienen un tamaño adecuado.
+
+| Viewport | Dispositivo (Simulado) | Resultado | Observaciones |
+| :--- | :--- | :--- | :--- |
+| **320px** | Móvil pequeño (iPhone SE) | **Aceptable** | El layout se adapta a una columna, aunque algunos márgenes son muy estrechos. |
+| **375px** | Móvil estándar | **Correcto** | Las tarjetas de lecciones y botones se ven bien y son fáciles de pulsar. |
+| **768px** | Tablet (iPad) | **Correcto** | El menú cambia a formato tablet y el grid de lecciones pasa a 2 columnas. |
+| **1024px** | Laptop / Desktop pequeño | **Correcto** | Se activa el layout completo con el sidebar de filtros lateral. |
+| **1280px** | Desktop estándar | **Correcto** | El contenedor principal se limita a su ancho máximo (1400px) para evitar líneas de texto demasiado largas. |
+
+### 7.3 Testing en dispositivos reales
+
+Además de las simulaciones en el navegador, he probado la aplicación desplegada en dispositivos físicos para comprobar la fluidez de las animaciones y la respuesta táctil.
+
+| Dispositivo | Sistema Operativo | Navegador | Resultado |
+| :--- | :--- | :--- | :--- |
+| **Smartphone Android** | Android 13 | Chrome Mobile | **Correcto**. La navegación por pestañas es fluida. La síntesis de voz funciona bien. |
+| **iPhone 13** | iOS 17 | Safari | **Correcto**. Los inputs de formulario se adaptan bien al teclado del sistema. |
+| **Tablet (iPad)** | iPadOS 16 | Safari | **Aceptable**. En modo vertical el sidebar de filtros a veces queda demasiado pegado al borde. |
+
+**Conclusiones del testing:**
+La aplicación es funcional en todos los dispositivos probados. Sin embargo, se ha detectado que en dispositivos muy estrechos (320px) la maquetación de algunos componentes complejos, como el simulador, necesita un refinamiento para que los textos no queden tan comprimidos. Los botones cumplen con el tamaño mínimo para ser pulsados cómodamente con el dedo.
+
+---
+
+### 7.4 Verificación multi-navegador
+
+He realizado pruebas de compatibilidad en los navegadores más utilizados para asegurar que las propiedades modernas de CSS (como Grid, Flexbox y las CSS Variables) se interpretan correctamente. Al tratarse de un proyecto desarrollado con Angular, el comportamiento del framework es muy estable, centrándose los riesgos en el renderizado de los estilos.
+
+| Navegador | Motor | Resultado | Observaciones |
+| :--- | :--- | :--- | :--- |
+| **Google Chrome** | Blink | **Correcto** | Es el navegador de desarrollo principal. Todo funciona como se esperaba. |
+| **Mozilla Firefox** | Gecko | **Correcto** | El renderizado de las fuentes y el modo oscuro funcionan perfectamente. |
+| **Safari** | WebKit | **Aceptable** | Los selectores de fecha y algunos sombreados varían ligeramente de forma nativa. |
+| **Microsoft Edge** | Blink | **Correcto** | Comportamiento idéntico a Chrome. |
+
+**Nota sobre compatibilidad:** Dado que la aplicación depende de las *CSS Custom Properties* para el sistema de temas y de *Container Queries* para el Header, el sitio requiere navegadores actualizados (versiones de 2023 en adelante). Para versiones muy antiguas, el sitio podría perder parte de su formato visual.
+
+### 7.5 Capturas finales
+
+Para documentar el estado actual de la interfaz y el funcionamiento del sistema de temas, he incluido capturas de las tres secciones principales en diferentes dispositivos. Se puede observar cómo el diseño se adapta y cómo cambian los colores al activar el modo oscuro.
+
+#### 1. Página de Inicio (Home)
+*   **Desktop (Modo Claro):**
+
+<img width="2550" height="1232" alt="home-desktop" src="https://github.com/user-attachments/assets/6a396d4f-d97f-457f-9549-f19a10956104" />
+
+*   **Mobile (Modo Oscuro):**
+
+<img width="430" height="944" alt="home-mobile-dark" src="https://github.com/user-attachments/assets/c1934b24-b33f-411a-b11f-828c35d38b70" />
+
+#### 2. Catálogo de Lecciones
+*   **Tablet (Modo Claro):**
+
+<img width="1039" height="1039" alt="lecciones-tablet" src="https://github.com/user-attachments/assets/8c0f367e-e1b1-46c1-b9e6-0a9b0a1155ce" />
+
+*   **Desktop (Modo Oscuro):**
+
+<img width="2530" height="1226" alt="lecciones-desktop-dark" src="https://github.com/user-attachments/assets/c535526b-b567-499d-b8a8-e0f2195898cc" />
+
+#### 3. Detalle del Simulador
+*   **Mobile (Modo Claro):**
+
+<img width="377" height="822" alt="simulador-mobile" src="https://github.com/user-attachments/assets/58ceba16-be8a-4931-888f-771b2c42dfa0" />
+
+*   **Desktop (Modo Oscuro):**
+
+<img width="2538" height="1232" alt="simulador-desktop-dark" src="https://github.com/user-attachments/assets/e95931d4-3e14-4512-b0e1-bdc62a20fc4b" />
+
+---
+
+### 7.6 Despliegue
+
+La aplicación se ha desplegado en un entorno real utilizando **GitHub Pages**. Para ello, he utilizado el paquete `angular-cli-ghpages`, que permite automatizar la generación del *build* de producción y su subida a la rama correspondiente del repositorio.
+
+*   **URL de producción:** https://lmrocio.github.io/DAW2-Proyecto-intermodular/home
+*   **Proceso técnico:** Se ha ejecutado el comando `ng build --configuration production --base-href /DAW2-Proyecto-intermodular/`. Este proceso minifica el código JavaScript y CSS, optimiza las imágenes WebP y prepara el sistema para ser servido de forma eficiente.
+*   **Estado del despliegue:** La web es accesible y la navegación por rutas funciona correctamente. Al tratarse de una SPA (Single Page Application), se ha incluido un archivo `404.html` para gestionar las redirecciones y evitar errores al recargar la página en rutas internas.
+
+### 7.7 Problemas conocidos y mejoras futuras
+
+Al tratarse de una entrega que funciona como un prototipo de frontend, soy consciente de que existen puntos que deben ser refinados en fases posteriores del desarrollo:
+
+1.  **Refinamiento de la maquetación:** Aunque la mayoría de las vistas son responsivas, algunos componentes (como el grid de filtros o las tablas de progreso) presentan detalles visuales mejorables en resoluciones intermedias. Tengo pendiente ajustar los *paddings* y *gaps* para que la estética de "cuaderno" sea perfecta en cualquier ancho de pantalla.
+2.  **Persistencia de datos:** Actualmente no existe una conexión con un backend real. Los datos que se muestran son estáticos (*mock data*). La mejora inmediata sería implementar una API con Node.js o Spring Boot para que el registro de usuarios, el progreso en las lecciones y los certificados sean reales y persistentes.
+3.  **Contenido de las lecciones:** Los textos de las lecciones y los pasos de los simuladores son demostrativos. Falta completar el catálogo con contenido pedagógico real diseñado específicamente para personas mayores.
+4.  **Optimización SEO:** Al ser una aplicación privada tras un login, no se ha priorizado el SEO. En una versión pública, sería necesario trabajar los meta-tags dinámicos para cada lección.
+5.  **Accesibilidad avanzada:** Aunque he integrado la Web Speech API, me gustaría ampliarla para que toda la interfaz, y no solo las instrucciones, pueda ser controlada por voz o leída íntegramente por el sistema, mejorando la autonomía del usuario.

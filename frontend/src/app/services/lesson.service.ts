@@ -20,6 +20,11 @@ export interface Lesson {
   difficulty: 'facil' | 'medio' | 'avanzado';
   duration: number;
   image: string;
+  imageVariants?: {
+    small: string;
+    medium: string;
+    large: string;
+  };
   completed: boolean;
   favorite: boolean;
 }
@@ -38,7 +43,12 @@ export class LessonService {
       category: 'WhatsApp',
       difficulty: 'facil',
       duration: 15,
-      image: 'assets/images/imagen-1.svg',
+      image: 'assets/images/imagen-1-medium.webp',
+      imageVariants: {
+        small: 'assets/images/imagen-1-small.webp',
+        medium: 'assets/images/imagen-1-medium.webp',
+        large: 'assets/images/imagen-1-large.webp'
+      },
       completed: false,
       favorite: true
     },
@@ -49,7 +59,12 @@ export class LessonService {
       category: 'WhatsApp',
       difficulty: 'facil',
       duration: 10,
-      image: 'assets/images/imagen-2.svg',
+      image: 'assets/images/imagen-2-medium.webp',
+      imageVariants: {
+        small: 'assets/images/imagen-2-small.webp',
+        medium: 'assets/images/imagen-2-medium.webp',
+        large: 'assets/images/imagen-2-large.webp'
+      },
       completed: true,
       favorite: false
     },
@@ -60,7 +75,12 @@ export class LessonService {
       category: 'Internet',
       difficulty: 'facil',
       duration: 12,
-      image: 'assets/images/imagen-3.svg',
+      image: 'assets/images/imagen-3-medium.webp',
+      imageVariants: {
+        small: 'assets/images/imagen-3-small.webp',
+        medium: 'assets/images/imagen-3-medium.webp',
+        large: 'assets/images/imagen-3-large.webp'
+      },
       completed: false,
       favorite: false
     },
@@ -71,7 +91,12 @@ export class LessonService {
       category: 'Correo',
       difficulty: 'medio',
       duration: 20,
-      image: 'assets/images/imagen-4.svg',
+      image: 'assets/images/imagen-4-medium.webp',
+      imageVariants: {
+        small: 'assets/images/imagen-4-small.webp',
+        medium: 'assets/images/imagen-4-medium.webp',
+        large: 'assets/images/imagen-4-large.webp'
+      },
       completed: false,
       favorite: true
     },
@@ -82,7 +107,12 @@ export class LessonService {
       category: 'Smartphone',
       difficulty: 'medio',
       duration: 18,
-      image: 'assets/images/imagen-5.svg',
+      image: 'assets/images/imagen-5-medium.webp',
+      imageVariants: {
+        small: 'assets/images/imagen-5-small.webp',
+        medium: 'assets/images/imagen-5-medium.webp',
+        large: 'assets/images/imagen-5-large.webp'
+      },
       completed: true,
       favorite: false
     },
@@ -93,7 +123,12 @@ export class LessonService {
       category: 'Seguridad',
       difficulty: 'avanzado',
       duration: 25,
-      image: 'assets/images/imagen-6.svg',
+      image: 'assets/images/imagen-6-medium.webp',
+      imageVariants: {
+        small: 'assets/images/imagen-6-small.webp',
+        medium: 'assets/images/imagen-6-medium.webp',
+        large: 'assets/images/imagen-6-large.webp'
+      },
       completed: false,
       favorite: false
     }

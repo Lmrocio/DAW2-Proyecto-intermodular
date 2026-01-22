@@ -24,7 +24,22 @@
     <section class="featured-lesson" *ngIf="featuredLesson">
       <div class="featured-badge">¡NUEVO!</div>
       <div class="featured-image">
-        <img [src]="featuredLesson.imagen" [alt]="featuredLesson.titulo" (error)="onImgError($event)" />
+        <img
+          *ngIf="featuredLesson?.imageVariants"
+          [srcset]="(featuredLesson?.imageVariants?.small || '') + ' 400w, ' + (featuredLesson?.imageVariants?.medium || '') + ' 800w, ' + (featuredLesson?.imageVariants?.large || '') + ' 1200w'"
+          sizes="(max-width: 768px) 100vw, 50vw"
+          [src]="featuredLesson.imagen"
+          [alt]="featuredLesson.titulo"
+          loading="lazy"
+          (error)="onImgError($event)"
+        />
+        <img
+          *ngIf="!featuredLesson?.imageVariants"
+          [src]="featuredLesson.imagen"
+          [alt]="featuredLesson.titulo"
+          loading="lazy"
+          (error)="onImgError($event)"
+        />
       </div>
       <div class="featured-content">
         <div class="featured-category">
@@ -35,22 +50,17 @@
         <p class="featured-description">{{ featuredLesson.descripcion }}</p>
         <div class="featured-actions">
           <app-button
-            type="primary"
-            variant="blue"
-            size="small"
+            color="accent"
+            variant="brutal"
+            size="sm"
             [icon]="isSpeakingFeatured1 ? 'pause' : 'play'"
             [extraClass]="isSpeakingFeatured1 ? 'playing' : ''"
             (click)="$event.stopPropagation(); $event.preventDefault()"
             (btnClick)="togglePlayFeatured(1, featuredLesson.descripcion)"
             class="featured-play-btn"
           ></app-button>
-          <app-button
-            type="primary"
-            variant="orange"
-            size="medium"
-            text="EMPEZAR LECCIÓN"
-            [routerLink]="['/lecciones', featuredLesson.id]"
-          ></app-button>
+          <app-button text="Ver" [link]="['/lecciones', featuredLesson.id]" color="accent" variant="brutal" size="sm"></app-button>
+          <app-button text="Guardar" color="primary" variant="brutal" size="sm"></app-button>
         </div>
       </div>
     </section>
@@ -59,7 +69,22 @@
     <section class="featured-lesson" *ngIf="featuredLesson2">
       <div class="featured-badge">¡NUEVO!</div>
       <div class="featured-image">
-        <img [src]="featuredLesson2.imagen" [alt]="featuredLesson2.titulo" (error)="onImgError($event)" />
+        <img
+          *ngIf="featuredLesson2?.imageVariants"
+          [srcset]="(featuredLesson2?.imageVariants?.small || '') + ' 400w, ' + (featuredLesson2?.imageVariants?.medium || '') + ' 800w, ' + (featuredLesson2?.imageVariants?.large || '') + ' 1200w'"
+          sizes="(max-width: 768px) 100vw, 50vw"
+          [src]="featuredLesson2.imagen"
+          [alt]="featuredLesson2.titulo"
+          loading="lazy"
+          (error)="onImgError($event)"
+        />
+        <img
+          *ngIf="!featuredLesson2?.imageVariants"
+          [src]="featuredLesson2.imagen"
+          [alt]="featuredLesson2.titulo"
+          loading="lazy"
+          (error)="onImgError($event)"
+        />
       </div>
       <div class="featured-content">
         <div class="featured-category">
@@ -70,22 +95,17 @@
         <p class="featured-description">{{ featuredLesson2.descripcion }}</p>
         <div class="featured-actions">
           <app-button
-            type="primary"
-            variant="blue"
-            size="small"
+            color="accent"
+            variant="brutal"
+            size="sm"
             [icon]="isSpeakingFeatured2 ? 'pause' : 'play'"
             [extraClass]="isSpeakingFeatured2 ? 'playing' : ''"
             (click)="$event.stopPropagation(); $event.preventDefault()"
             (btnClick)="togglePlayFeatured(2, featuredLesson2.descripcion)"
             class="featured-play-btn"
           ></app-button>
-          <app-button
-            type="primary"
-            variant="orange"
-            size="medium"
-            text="EMPEZAR LECCIÓN"
-            [routerLink]="['/lecciones', featuredLesson2.id]"
-          ></app-button>
+          <app-button text="Ver" [link]="['/lecciones', featuredLesson2.id]" color="accent" variant="brutal" size="sm"></app-button>
+          <app-button text="Guardar" color="primary" variant="brutal" size="sm"></app-button>
         </div>
       </div>
     </section>

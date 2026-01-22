@@ -42,9 +42,9 @@
                 <p class="leccion-detalle__step-description">{{ step.description }}</p>
                 <app-button
                   [text]="'Escuchar este paso'"
-                  [variant]="'white'"
-                  [type]="'secondary'"
-                  [icon]="'play'"
+                  [color]="'primary'"
+                  [variant]="'outline'"
+                  icon="play"
                   [iconPosition]="'left'"
                   (btnClick)="playStepAudio(step.description)">
                 </app-button>
@@ -57,9 +57,9 @@
                 <p class="leccion-detalle__step-description">{{ step.description }}</p>
                 <app-button
                   [text]="'Escuchar este paso'"
-                  [variant]="'white'"
-                  [type]="'secondary'"
-                  [icon]="'play'"
+                  [color]="'primary'"
+                  [variant]="'outline'"
+                  icon="play"
                   [iconPosition]="'left'"
                   (btnClick)="playStepAudio(step.description)">
                 </app-button>
@@ -92,12 +92,12 @@
           </p>
           <app-button
             [text]="'Ir al simulador'"
-            [variant]="'orange'"
-            [type]="'primary'"
-            [size]="'large'"
-            [icon]="'right-arrow'"
+            [color]="'secondary'"
+            [variant]="'brutal'"
+            [size]="'lg'"
+            icon="play-circle"
             [iconPosition]="'right'"
-            [routerLink]="['/simuladores']">
+            [link]="['/simuladores']">
           </app-button>
         </div>
       </div>
@@ -107,15 +107,15 @@
     <section class="leccion-detalle__actions">
       <app-button
         [text]="'Marcar como completada'"
-        [variant]="'yellow'"
-        [type]="'primary'"
+        [color]="'primary'"
+        [variant]="'brutal'"
         [fullWidth]="true"
         (btnClick)="markAsCompleted()">
       </app-button>
       <app-button
         [text]="'Añadir a favoritos'"
-        [variant]="'blue'"
-        [type]="'primary'"
+        [color]="'accent'"
+        [variant]="'brutal'"
         [fullWidth]="true"
         (btnClick)="addToFavorites()">
       </app-button>

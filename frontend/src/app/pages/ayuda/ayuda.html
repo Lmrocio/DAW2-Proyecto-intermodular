@@ -70,9 +70,9 @@
           <p class="ayuda__faq-text">{{ faq.answer }}</p>
           <app-button
             [text]="'Escuchar respuesta'"
-            [variant]="'yellow'"
-            [type]="'primary'"
-            [icon]="'play'"
+            [color]="'primary'"
+            [variant]="'brutal'"
+            icon="play"
             [iconPosition]="'left'"
             (btnClick)="playAnswer(faq.answer)">
           </app-button>
@@ -91,19 +91,19 @@
       <div class="ayuda__contact-buttons">
         <app-button
           [text]="'Enviar Correo'"
-          [variant]="'orange'"
-          [type]="'primary'"
-          [size]="'large'"
-          [icon]="'right-arrow'"
+          [color]="'secondary'"
+          [variant]="'brutal'"
+          [size]="'lg'"
+          icon="mail"
           [iconPosition]="'right'"
           (btnClick)="sendEmail()">
         </app-button>
         <app-button
           [text]="'WhatsApp'"
-          [variant]="'blue'"
-          [type]="'primary'"
-          [size]="'large'"
-          [icon]="'right-arrow'"
+          [color]="'accent'"
+          [variant]="'brutal'"
+          [size]="'lg'"
+          icon="message-circle"
           [iconPosition]="'right'"
           (btnClick)="openWhatsApp()">
         </app-button>
