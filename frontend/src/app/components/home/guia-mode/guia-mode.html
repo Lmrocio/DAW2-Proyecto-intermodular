@@ -18,26 +18,22 @@
       <div class="guide-row">
         <p class="guide-description">{{ description }}</p>
 
-        <div class="guide-actions">
+        <div class="guia-mode__actions">
           <app-button
-            type="primary"
-            variant="blue"
-            size="medium"
-            [text]="isSpeaking ? 'Detener' : ''"
-            [icon]="isSpeaking ? null : 'play'"
+            text="Saber más"
+            color="accent"
+            variant="brutal"
+            size="md"
             (btnClick)="playAudio()"
-            [title]="isSpeaking ? 'Detener reproducción' : ('Escuchar: ' + description)"
-            class="guide-listen-btn">
-          </app-button>
+          ></app-button>
 
           <app-button
-            type="secondary"
-            variant="white"
-            size="medium"
-            [text]="buttonText"
+            text="Modo guía"
+            color="primary"
+            variant="outline"
+            size="md"
             (btnClick)="onActivateGuide()"
-            class="guide-button-wrapper">
-          </app-button>
+          ></app-button>
         </div>
       </div>
 

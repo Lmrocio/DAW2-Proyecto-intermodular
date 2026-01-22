@@ -43,16 +43,17 @@ export class Pagination {
   goToPage(page: number): void {
     if (page >= 1 && page <= this.totalPages && page !== this.currentPage) {
       this.pageChange.emit(page);
+      this.currentPage = page;
     }
   }
 
-  previousPage(): void {
+  goPrevious(): void {
     if (this.currentPage > 1) {
       this.goToPage(this.currentPage - 1);
     }
   }
 
-  nextPage(): void {
+  goNext(): void {
     if (this.currentPage < this.totalPages) {
       this.goToPage(this.currentPage + 1);
     }

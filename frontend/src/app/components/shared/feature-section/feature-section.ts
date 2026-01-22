@@ -49,6 +49,15 @@ export class FeatureSectionComponent {
     return this.variant === 'lecciones' ? 'orange' : 'blue';
   }
 
+  // Mapeo para nueva API de app-button
+  get buttonColor(): 'primary' | 'secondary' | 'accent' {
+    return this.variant === 'lecciones' ? 'secondary' : 'accent';
+  }
+
+  get buttonVariant(): 'brutal' | 'outline' | 'ghost' | 'nav' {
+    return 'brutal';
+  }
+
   // Lista combinada de características (sin duplicados). Si es 'lecciones', concatena
   // las features pasadas por input con las por defecto.
   get combinedFeatures(): string[] {

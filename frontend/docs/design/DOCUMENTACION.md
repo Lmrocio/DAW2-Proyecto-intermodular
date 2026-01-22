@@ -1923,6 +1923,123 @@ El sistema de componentes UI proporciona bloques de construccion consistentes, a
 
 ---
 
+## Sección 4: Responsive design y layouts completos
+
+### 4.1 Breakpoints definidos
+
+Para garantizar una visualización óptima en la amplia gama de dispositivos utilizados por el público objetivo (personas mayores, que a menudo emplean tablets o smartphones con configuraciones de zoom elevadas), se ha definido una escala de 5 puntos de ruptura en el archivo `_variables.scss`. Estos valores han sido seleccionados para cubrir las resoluciones más comunes del mercado actual:
+
+| Breakpoint | Variable | Valor | Justificación Técnica |
+| :--- | :--- | :--- | :--- |
+| **SM** | `$breakpoint-sm` | 640px | Límite para smartphones en vertical. Se prioriza el apilamiento de elementos en una sola columna. |
+| **MD** | `$breakpoint-md` | 768px | Orientado a tablets estándar (iPad). Aquí los componentes como el Sidebar o el Header mutan a su versión móvil. |
+| **LG** | `$breakpoint-lg` | 1024px | Laptops y tablets en formato apaisado. Los grids de lecciones pasan de 2 a 3 columnas. |
+| **XL** | `$breakpoint-xl` | 1280px | Resolución de escritorio estándar. El contenedor principal alcanza su ancho máximo (`1400px`). |
+| **2XL** | `$breakpoint-2xl` | 1536px | Optimización para monitores de alta resolución, ampliando los márgenes laterales. |
+
+### 4.2 Estrategia responsive
+
+La aplicación utiliza una estrategia **Desktop-First**.
+
+**Justificación:** El diseño de "TecnoMayores" se basa en una estética de "cuaderno de notas" con múltiples capas decorativas, sombras con offset y elementos posicionados (blobs) que alcanzan su máxima expresión visual en pantallas grandes. Resulta más eficiente a nivel de arquitectura CSS definir primero este layout complejo y, mediante consultas `@media (max-width: ...)`, ir simplificando la interfaz, eliminando elementos decorativos secundarios y aumentando los tamaños de los objetivos táctiles (botones) para reducir la carga cognitiva en dispositivos móviles.
+
+**Ejemplo de implementación (`lecciones.scss`):**
+
+```scss
+// Layout principal por defecto (Desktop)
+.lecciones-layout {
+  display: grid;
+  grid-template-columns: 288px minmax(0, 1fr);
+  gap: v.$spacing-24;
+
+  // Adaptación para tablets y móviles (Desktop-First)
+  @media (max-width: v.$breakpoint-lg) {
+    grid-template-columns: 1fr;
+    gap: v.$spacing-10;
+  }
+}
+```
+
+---
+
+### 4.3 Container Queries
+
+Se ha implementado la tecnología de **Container Queries** en componentes estratégicos para lograr una verdadera independencia del viewport. El caso principal es el componente `app-header` (`header.scss`), el cual debe adaptar su densidad de información no solo basándose en el ancho de la pantalla, sino en el espacio disponible dentro de su propio contenedor.
+
+**Justificación técnica:** Esta aproximación permite que el encabezado mantenga su integridad visual incluso si se integra en layouts con sidebars laterales persistentes que reduzcan su ancho efectivo sin cambiar la resolución del dispositivo. Se utiliza `container-type: inline-size` para permitir que el CSS evalúe el ancho del componente.
+
+**Ejemplo de implementación (`header.scss`):**
+
+```scss
+.app-header {
+  container-type: inline-size;
+  container-name: header;
+}
+
+// Cuando el contenedor del header es menor a 900px
+@container header (max-width: 900px) {
+  .app-header__nav--desktop {
+    display: none; // Oculta navegación horizontal
+  }
+  .app-header__actions--mobile {
+    display: flex; // Muestra iconos de acción móvil
+  }
+  .app-header__btn-guide-text {
+    display: none; // Deja solo el icono para ahorrar espacio
+  }
+}
+```
+
+### 4.4 Adaptaciones principales
+
+La aplicación realiza una transformación profunda entre dispositivos para cumplir con las expectativas de usabilidad. A continuación, se resumen los cambios estructurales más significativos:
+
+| Elemento | Comportamiento en Desktop | Adaptación en Mobile |
+| :--- | :--- | :--- |
+| **Navegación** | Lista horizontal persistente en el header. | Menú lateral desplegable (`app-header__mobile-menu`) mediante botón hamburguesa. |
+| **Grids de Contenido** | Disposición de hasta 3 columnas en el catálogo de lecciones. | Paso a 1 columna única (`stack`) para maximizar el tamaño del texto e imágenes. |
+| **Sidebar de Filtros** | Columna lateral fija (288px) a la izquierda del contenido. | Se reposiciona sobre el listado ocupando el 100% del ancho con controles simplificados. |
+| **Lección Destacada** | Layout horizontal con imagen a la izquierda y texto a la derecha. | Layout vertical; la imagen ocupa el ancho completo sobre el título. |
+| **Formularios** | Agrupación de campos en filas (`form-row`) de 2 o 3 columnas. | Los campos se apilan verticalmente para facilitar la entrada de datos táctil. |
+
+---
+
+### 4.5 Páginas implementadas
+
+Se han desarrollado layouts completos y responsivos para todas las vistas de la aplicación, asegurando una experiencia de usuario (UX) coherente en la navegación. Las páginas implementadas son:
+
+*   **Home (`/home`):** Página de aterrizaje que combina el componente `Hero`, barra de búsqueda flotante y grillas de características (`FeaturesContainer`). En móvil, las secciones paralelas pasan a apilarse verticalmente.
+*   **Catálogo de Lecciones / Simuladores (`/lecciones`, `/simuladores`):** Listados principales que implementan un layout asimétrico (`288px / 1fr`) en escritorio para alojar el `SidebarFiltros`, el cual muta a una disposición de bloque único en móvil.
+*   **Detalle de Lección (`/lecciones/:id`):** Vista de contenido con alternancia visual (zigzag) de texto e ilustraciones en escritorio, que se normaliza a una lectura lineal (imagen arriba, texto abajo) en dispositivos táctiles.
+*   **Simulador Interactivo (`/simuladores/:id`):** Layout complejo de 3 columnas (Instrucciones, Simulador Móvil, Tips) que en tablets y móviles se reordena en una sola columna para priorizar el área del simulador central.
+*   **Autenticación (`/login`, `/register`):** Páginas con layout centrado (`@include flex(center, center)`) y tarjetas flotantes. Los formularios adaptan su densidad y tamaño de fuente en pantallas pequeñas.
+*   **Área de Usuario (`/usuario/*`):** Panel de control con sub-rutas (Perfil, Progreso, Certificados) que utiliza un layout de Dashboard.
+*   **Páginas Informativas (`/about`, `/ayuda`, `/404`):** Vistas basadas en contenedores de ancho máximo (`max-width`) centrados con tipografía adaptativa.
+
+### 4.6 Screenshots comparativos
+
+A continuación, se muestran las capturas de tres páginas clave en los *viewports* críticos para demostrar la adaptabilidad del diseño:
+
+**1. Página de Inicio (Home)**
+*Muestra la adaptación del Hero Section y la grilla de características.*
+*   **Mobile (375px):** `![Home Mobile](docs/assets/img/responsive/home-375.png)` *(El título del Hero ocupa múltiples líneas, botones ocupan el 100% del ancho, grilla de lecciones en 1 columna).*
+*   **Tablet (768px):** `![Home Tablet](docs/assets/img/responsive/home-768.png)` *(La imagen del Hero se reduce, la grilla de lecciones pasa a 2 columnas).*
+*   **Desktop (1280px):** `![Home Desktop](docs/assets/img/responsive/home-1280.png)` *(Layout completo: Hero a dos columnas, búsqueda expandida, grilla de 3 columnas).*
+
+**2. Catálogo de Lecciones**
+*Muestra el comportamiento del Sidebar de filtros y la paginación.*
+*   **Mobile (375px):** `![Catálogo Mobile](docs/assets/img/responsive/cat-375.png)` *(Sidebar de filtros posicionado en la parte superior, cards de lecciones en layout vertical).*
+*   **Tablet (768px):** `![Catálogo Tablet](docs/assets/img/responsive/cat-768.png)` *(Sidebar sigue arriba pero en formato horizontal, el grid pasa a 2 columnas).*
+*   **Desktop (1280px):** `![Catálogo Desktop](docs/assets/img/responsive/cat-1280.png)` *(Sidebar fijado a la izquierda, contenido a la derecha, cards en layout horizontal).*
+
+**3. Detalle de Simulador**
+*Muestra la reorganización de un layout de 3 columnas.*
+*   **Mobile (375px):** `![Simulador Mobile](docs/assets/img/responsive/sim-375.png)` *(Columna única: las instrucciones aparecen primero, seguidas del simulador móvil, y finalmente los tips).*
+*   **Tablet (768px):** `![Simulador Tablet](docs/assets/img/responsive/sim-768.png)` *(El simulador centraliza el foco visual, reduciendo el tamaño de la tarjeta del dispositivo).*
+*   **Desktop (1280px):** `![Simulador Desktop](docs/assets/img/responsive/sim-1280.png)` *(Las 3 columnas se muestran en paralelo: Instrucciones a la izquierda, Simulador en el centro, Tips de seguridad a la derecha).*
+
+---
+
 ## Sección 6: Sistema de Temas
 
 ---

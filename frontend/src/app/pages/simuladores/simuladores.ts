@@ -306,4 +306,8 @@ export class Simuladores implements OnInit {
 
     this.synth.speak(utterance);
   }
+
+  saveSim(id: number | string) {
+    console.log('Save simulator:', id);
+  }
 }

@@ -31,22 +31,24 @@
   <div class="sidebar-filtros__footer">
     <div class="sidebar-filtros__footer-actions">
       <app-button
-        type="primary"
-        variant="orange"
-        size="medium"
-        text="Buscar"
-        (btnClick)="applyFilters()"
-        [extraClass]="'sidebar-filtros__btn--search'"
+        text="Filtrar"
+        color="secondary"
+        variant="brutal"
+        size="md"
       ></app-button>
 
       <app-button
-        *ngIf="hasActiveFilters"
-        type="secondary"
-        variant="white"
-        size="small"
-        text="Limpiar filtros"
-        (btnClick)="clearAllFilters()"
-        [extraClass]="'sidebar-filtros__btn--clear'"
+        text="Restablecer"
+        color="primary"
+        variant="outline"
+        size="sm"
+      ></app-button>
+
+      <app-button
+        text="Aplicar"
+        color="primary"
+        variant="brutal"
+        size="sm"
       ></app-button>
     </div>
   </div>

@@ -55,9 +55,6 @@ export class Hero implements OnChanges {
   // Estado para alternar texto del botón
   isSpeaking = false;
 
-  // Flag para saber si fue cancelado por el usuario
-  private userCancelled = false;
-
   constructor(private cdr: ChangeDetectorRef, private ngZone: NgZone, private speech: SpeechService) {}
 
   ngOnChanges(changes: SimpleChanges) {
@@ -69,14 +66,36 @@ export class Hero implements OnChanges {
     }
   }
 
-  ngOnInit() {
-    console.log('Hero initialized with title=', this.title, ' subtitle=', this.subtitle);
-  }
-
   onSearch(query: string): void {
     this.searchChange.emit(query);
   }
 
+  // Mapear variantes antiguas a color actual para app-button
+  get button1Color(): 'primary' | 'secondary' | 'accent' {
+    switch (this.button1Variant) {
+      case 'orange':
+        return 'secondary';
+      case 'blue':
+        return 'accent';
+      case 'yellow':
+        return 'primary';
+      default:
+        return 'primary';
+    }
+  }
+
+  get button2Color(): 'primary' | 'secondary' | 'accent' {
+    switch (this.button2Variant) {
+      case 'orange':
+        return 'secondary';
+      case 'blue':
+        return 'accent';
+      case 'yellow':
+        return 'primary';
+      default:
+        return 'primary';
+    }
+  }
 
   // Reproducir / detener el texto del hero usando la Web Speech API
   async playAudio(passedText?: string): Promise<void> {

@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectorRef, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Button } from '../../shared/button/button';
@@ -13,6 +13,7 @@ interface Leccion {
   iconoFondo: 'yellow' | 'orange' | 'blue';
   // ...se añade la propiedad imagen para rutas de assets
   imagen?: string;
+  ctaText?: string;
 }
 
 @Component({
@@ -62,24 +63,25 @@ export class LeccionesRecomendadas {
   ];
 
   // Alterna reproducción/stop para una lección
-  toggleSpeak(leccion: Leccion): void {
-    if (this.speakingId === leccion.id) {
-      // Si ya está reproduciendo esa lección, la detenemos
+  toggleSpeak(leccion: any) {
+    // Cast a number if needed
+    const id = typeof leccion === 'object' ? leccion.id : leccion;
+    if (this.speakingId === id) {
       window.speechSynthesis.cancel();
       this.speakingId = null;
       this.cdr.detectChanges();
       return;
     }
 
-    // Si estaba reproduciendo otra, cancelamos primero
     if (this.speakingId !== null) {
       window.speechSynthesis.cancel();
       this.speakingId = null;
       this.cdr.detectChanges();
     }
 
-    // Iniciar reproducción de la descripción
-    this.playText(leccion.id, leccion.descripcion);
+    if (typeof leccion === 'object' && leccion.descripcion) {
+      this.playText(id, leccion.descripcion);
+    }
   }
 
   private playText(id: number, textToRead: string): void {
@@ -128,4 +130,18 @@ export class LeccionesRecomendadas {
       this.cdr.detectChanges();
     }
   }
+
+  onCardClick(label: string) {
+    this.cardClick.emit(label);
+  }
+
+  saveLesson() {
+    console.log('Save lesson');
+  }
+
+  startLesson(id: number | string) {
+    console.log('Start lesson:', id);
+  }
+
+  @Output() cardClick = new EventEmitter<string>();
 }

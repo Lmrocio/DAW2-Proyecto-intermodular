@@ -8,10 +8,10 @@
         <div class="hero__description-actions">
           <p class="hero__description">{{ subtitle }}</p>
           <app-button
-            type="primary"
-            variant="blue"
-            size="small"
-            [text]="isSpeaking ? 'Detener' : 'Escuchar'"
+            text="{{ isSpeaking ? 'Detener' : 'Escuchar' }}"
+            [color]="button1Color"
+            variant="brutal"
+            size="sm"
             [icon]="isSpeaking ? null : 'play'"
             (btnClick)="playAudio(audioText || subtitle)"
             class="hero__inline-listen">
@@ -28,7 +28,7 @@
         <div class="hero__search">
           <app-search-bar
             [placeholder]="searchPlaceholder"
-            (searchChange)="$any(this).onSearch($event)"
+            (searchChange)="onSearch($event)"
             [showHelpText]="false"
             [showListen]="false"
             [hideTitle]="true"
@@ -42,24 +42,42 @@
         <!-- Botón 1 -->
         <ng-container *ngIf="showButton1">
           <app-button
-            type="primary"
-            [variant]="button1Variant"
-            size="medium"
             [text]="button1Text"
-            [routerLink]="button1Link">
+            [link]="button1Link"
+            [color]="button1Color"
+            variant="brutal"
+            size="md">
           </app-button>
         </ng-container>
 
         <!-- Botón 2 -->
         <ng-container *ngIf="showButton2">
           <app-button
-            type="primary"
-            [variant]="button2Variant"
-            size="medium"
             [text]="isSpeaking ? 'Detener' : button2Text"
+            [color]="button2Color"
+            variant="brutal"
+            size="md"
             (btnClick)="playAudio(audioText || subtitle)">
           </app-button>
         </ng-container>
+      </div>
+
+      <div class="hero-cta">
+        <app-button
+          text="Saber más"
+          [link]="button1Link"
+          [color]="button1Color"
+          variant="brutal"
+          size="sm"
+        ></app-button>
+
+        <app-button
+          text="Empezar"
+          [link]="['/simuladores']"
+          [color]="button2Color"
+          variant="brutal"
+          size="md"
+        ></app-button>
       </div>
     </div>
 

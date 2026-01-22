@@ -75,4 +75,9 @@ export class SearchBar implements OnInit {
       this.cdr.detectChanges();
     });
   }
+
+  toggleSpeak() {
+    // Implementación de toggle speak
+    console.log('Toggle speak');
+  }
 }

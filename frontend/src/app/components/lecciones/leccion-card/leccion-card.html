@@ -29,28 +29,21 @@
       <!-- Botón(s) de acciones (columna a la derecha) -->
       <div class="leccion-card__actions">
         <app-button
-          type="primary"
-          variant="blue"
-          size="medium"
-          [text]="isSpeaking ? 'Detener' : 'Escuchar'"
-          [icon]="isSpeaking ? null : 'play'"
-          [extraClass]="isSpeaking ? 'leccion-card__play playing' : 'leccion-card__play'"
-          (click)="$event.stopPropagation(); $event.preventDefault()"
-          (btnClick)="togglePlay()"
+          [text]="'Ver lección'"
+          [link]="['/lecciones', leccion.id]"
+          color="accent"
+          variant="brutal"
+          size="sm"
         ></app-button>
 
-        <!-- Botón de empezar-->
         <app-button
-          type="primary"
-          variant="yellow"
-          size="medium"
-          text="Empezar lección"
-          [extraClass]="'leccion-card__btn'"
-          (click)="$event.stopPropagation(); $event.preventDefault()"
-          (btnClick)="onStartClick()"
+          [text]="'Empezar'"
+          color="primary"
+          variant="brutal"
+          size="md"
+          (btnClick)="startLesson(leccion.id)"
         ></app-button>
       </div>
     </div>
   </div>
 </article>
-

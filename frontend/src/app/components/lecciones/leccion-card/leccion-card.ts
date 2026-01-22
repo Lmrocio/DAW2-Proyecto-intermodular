@@ -112,4 +112,13 @@ export class LeccionCard {
     this.currentUtterance = null;
     this.cd.detectChanges();
   }
+
+  toggleSpeak(leccion: any) {
+    // Implementación toggle speak
+    console.log('Toggle speak:', leccion);
+  }
+
+  startLesson(id: number | string) {
+    console.log('Start lesson:', id);
+  }
 }
