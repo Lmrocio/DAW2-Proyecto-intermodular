@@ -85,7 +85,9 @@
           "options": {
             "dir": "dist/frontend/browser",
             "repo": "git@github.com:Lmrocio/DAW2-Proyecto-intermodular.git",
-            "message": "Deploy to GitHub Pages"
+            "message": "Deploy to GitHub Pages",
+            "baseHref": "/DAW2-Proyecto-intermodular/",
+            "noRedirect": false
           }
         }
       }

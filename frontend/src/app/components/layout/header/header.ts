@@ -1,13 +1,13 @@
 import { Component, HostListener, Renderer2, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ThemeSwitcher } from '../../shared/theme-switcher/theme-switcher';
-import { HeaderIcon } from '../../shared/header-icon/header-icon';
 import { Modal } from '../../shared/modal/modal';
+import { LucideAngularModule } from 'lucide-angular';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, ThemeSwitcher, HeaderIcon, Modal],
+  imports: [CommonModule, ThemeSwitcher, Modal, LucideAngularModule],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })

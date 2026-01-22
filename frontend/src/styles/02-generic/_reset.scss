@@ -16,6 +16,24 @@
   box-sizing: inherit;
 }
 
+// ============================================================================
+// TRANSICIONES SUAVES PARA CAMBIO DE TEMA
+// ============================================================================
+
+*,
+*::before,
+*::after {
+  transition-property: background-color, color, border-color, box-shadow, fill, stroke;
+  transition-duration: 300ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+
+  // Respetar preferencia de movimiento reducido (accesibilidad)
+  @media (prefers-reduced-motion: reduce) {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
 html {
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
@@ -370,5 +388,11 @@ textarea:valid:not(:placeholder-shown) {
 
   &:focus {
     box-shadow: 0 0 0 3px rgba(116, 235, 5, 0.1);
+  }
+}
+
+@media (max-width: 375px) {
+  html, body {
+    overflow-x: hidden;
   }
 }

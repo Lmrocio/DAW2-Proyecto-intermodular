@@ -14,7 +14,10 @@
   [attr.aria-checked]="isDarkMode"
 >
   <span class="theme-switcher__icon">
-    <app-header-icon [icon]="isDarkMode ? 'sun' : 'moon'"></app-header-icon>
+
+
+
+      <lucide-icon [name]="isDarkMode ? 'sun' : 'moon'" class="icon-base" aria-hidden="true"></lucide-icon>
   </span>
   <span class="theme-switcher__text">{{ isDarkMode ? 'Modo Claro' : 'Modo Oscuro' }}</span>
 </button>

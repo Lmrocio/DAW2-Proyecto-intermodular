@@ -32,7 +32,7 @@
         title="Abrir modo guía"
       >
         <span class="app-header__btn-guide-icon">
-          <app-header-icon icon="guide"></app-header-icon>
+          <lucide-icon name="help-circle" class="icon-base" aria-hidden="true"></lucide-icon>
         </span>
         <span class="app-header__btn-guide-text">Modo Guía</span>
       </button>
@@ -49,7 +49,7 @@
         aria-label="Perfil de usuario"
         title="Mi perfil"
       >
-        <app-header-icon icon="profile"></app-header-icon>
+        <lucide-icon name="user" class="icon-base" aria-hidden="true"></lucide-icon>
       </button>
     </div>
 
@@ -63,7 +63,7 @@
         aria-label="Modo Guía"
         title="Abrir modo guía"
       >
-        <app-header-icon icon="guide"></app-header-icon>
+        <lucide-icon name="help-circle" class="icon-base" aria-hidden="true"></lucide-icon>
       </button>
 
       <!-- Botón Usuario (móvil) -->
@@ -72,7 +72,7 @@
         aria-label="Perfil de usuario"
         title="Mi perfil"
       >
-        <app-header-icon icon="profile"></app-header-icon>
+        <lucide-icon name="user" class="icon-base" aria-hidden="true"></lucide-icon>
       </button>
 
       <!-- Botón Hamburguesa (móvil) -->
@@ -84,9 +84,8 @@
         [attr.aria-expanded]="menuOpen"
         aria-controls="mobile-nav"
       >
-        <span class="app-header__hamburger-line"></span>
-        <span class="app-header__hamburger-line"></span>
-        <span class="app-header__hamburger-line"></span>
+        <!-- Usamos el icono Menu de Lucide aquí -->
+        <lucide-icon name="menu" class="icon-base" [attr.aria-hidden]="true"></lucide-icon>
       </button>
     </div>
 
@@ -129,7 +128,7 @@
           title="Abrir modo guía"
         >
           <span class="app-header__btn-guide-icon">
-            <app-header-icon icon="guide"></app-header-icon>
+            <lucide-icon name="help-circle" class="icon-base" aria-hidden="true"></lucide-icon>
           </span>
           <span class="app-header__btn-guide-text">Modo Guía</span>
         </button>

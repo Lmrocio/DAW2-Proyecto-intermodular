@@ -8,20 +8,22 @@
 .theme-switcher {
   display: flex;
   align-items: center;
-  gap: v.$spacing-2;
-  padding: v.$spacing-3 v.$spacing-6;
+  justify-content: center;
+  gap: v.$spacing-1;
+  padding: v.$spacing-2 v.$spacing-3;
   background: var(--bg-primary);
   border: v.$border-medium solid var(--text-primary);
   border-radius: 50px;
   color: var(--text-primary);
-  font-family: v.$font-body;
-  font-size: v.$font-size-sm;
+  font-family: v.$font-secondary; // usar font-secondary
+  font-size: v.$font-size-base; // usar base
   font-weight: v.$font-weight-semibold;
   cursor: pointer;
   text-decoration: none;
   transition: all v.$transition-base v.$easing-in-out;
-  box-shadow: 4.5px 2px 0 0 var(--color-accent);
+  box-shadow: 4px 4px 0 0 var(--color-accent);
   position: relative;
+  flex-shrink: 0;
 
   &:hover {
     background: var(--text-primary);
@@ -37,11 +39,45 @@
     outline-offset: 2px;
   }
 
-  @media (max-width: v.$breakpoint-md) {
-    padding: v.$spacing-3 v.$spacing-3;
+  @supports (container-type: inline-size) {
+    // Desktop amplio
+    @container header (min-width: 1201px) {
+      padding: v.$spacing-2 v.$spacing-4;
+      gap: v.$spacing-2;
+      box-shadow: 4px 4px 0 0 var(--color-accent);
+    }
 
-    .theme-switcher__text {
-      display: none;
+    // Tablet
+    @container header (max-width: 1200px) {
+      padding: v.$spacing-2 v.$spacing-3;
+      gap: v.$spacing-1;
+      box-shadow: 2px 2px 0 0 var(--color-accent);
+    }
+
+    // Mobile: sin shadow y texto oculto
+    @container header (max-width: 900px) {
+      padding: v.$spacing-1;
+      box-shadow: none;
+      background: transparent;
+      border: none;
+      gap: 0;
+
+      .theme-switcher__text {
+        display: none;
+      }
+    }
+  }
+
+  @supports not (container-type: inline-size) {
+    @media (max-width: v.$breakpoint-md) {
+      padding: v.$spacing-2 v.$spacing-2;
+      box-shadow: none;
+      background: transparent;
+      border: none;
+
+      .theme-switcher__text {
+        display: none;
+      }
     }
   }
 }
@@ -58,7 +94,9 @@
   flex-shrink: 0;
 
   svg {
-    stroke: var(--text-primary);
+    width: 24px;
+    height: 24px;
+    stroke: inherit; // usar inherit para que siga el color del padre
     transition: stroke v.$transition-base v.$easing-in-out;
   }
 }
@@ -68,6 +106,14 @@
 // ============================================================================
 .theme-switcher__text {
   white-space: nowrap;
+  font-size: v.$font-size-base; // base
+  font-family: v.$font-secondary; // font-secondary
+
+  @supports (container-type: inline-size) {
+    @container header (max-width: 900px) {
+      display: none;
+    }
+  }
 }
 
 // ============================================================================

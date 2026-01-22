@@ -1,28 +1,62 @@
 @use '../../../../styles/00-settings/variables' as v;
 
 // ============================================================================
-// CONTENEDOR PRINCIPAL
+// CONTENEDOR PRINCIPAL CON CONTAINER QUERIES
 // ============================================================================
 .app-header {
+  width: 96%;
+  justify-self: center;
   background-color: var(--bg-secondary);
   position: sticky;
   top: 0;
   z-index: 100;
   box-shadow: none;
   font-family: v.$font-body;
+
+  container-type: inline-size;
+  container-name: header;
 }
 
 .app-header__container {
   margin: 0;
   height: auto;
   display: flex;
-  padding-left: v.$spacing-12;
-  padding-top: v.$spacing-5;
-  padding-bottom: v.$spacing-5;
+  align-items: end;
+  width: 100%;
+  box-sizing: border-box;
+  padding: v.$spacing-3 v.$spacing-6;
+  gap: v.$spacing-4;
 
-  @media (max-width: v.$breakpoint-md) {
-    padding: v.$spacing-4 v.$spacing-6;
+  // Tablet
+  @container header (max-width: 1100px) {
+    padding: v.$spacing-3 v.$spacing-4;
     gap: v.$spacing-3;
+  }
+
+  // Mobile
+  @container header (max-width: 900px) {
+    padding: v.$spacing-2 v.$spacing-3;
+    gap: v.$spacing-2;
+
+    .app-header__nav--desktop,
+    .app-header__actions--desktop,
+    .app-header__actions--mobile {
+      margin-left: auto;
+    }
+
+    justify-content: flex-start;
+  }
+
+  // Mobile muy pequeño
+  @container header (max-width: 640px) {
+    padding: v.$spacing-2;
+    gap: v.$spacing-1;
+
+    .app-header__nav--desktop,
+    .app-header__actions--desktop,
+    .app-header__actions--mobile {
+      margin-left: auto;
+    }
   }
 }
 
@@ -35,6 +69,7 @@
   align-items: center;
   transition: opacity v.$transition-base v.$easing-in-out;
   flex-shrink: 0;
+  min-width: 0;
 
   &:hover {
     opacity: 0.8;
@@ -46,8 +81,9 @@
     border-radius: v.$radius-sm;
   }
 
-  @media (max-width: v.$breakpoint-md) {
-    margin-right: 0;
+  &:hover .app-header__logo-text,
+  &:focus-visible .app-header__logo-text {
+    color: var(--color-accent);
   }
 }
 
@@ -58,8 +94,16 @@
   color: var(--text-primary);
   white-space: nowrap;
 
-  @media (max-width: v.$breakpoint-md) {
+  @container header (max-width: 1100px) {
     font-size: v.$font-size-2xl;
+  }
+
+  @container header (max-width: 900px) {
+    font-size: v.$font-size-xl;
+  }
+
+  @container header (max-width: 640px) {
+    font-size: v.$font-size-lg;
   }
 }
 
@@ -69,9 +113,12 @@
 .app-header__nav--desktop {
   flex: 1;
   display: flex;
-  justify-content: end;
-  padding-right: v.$spacing-8;
-  @media (max-width: v.$breakpoint-md) {
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 0;
+  min-width: 0;
+
+  @container header (max-width: 900px) {
     display: none;
   }
 }
@@ -82,7 +129,15 @@
   margin: 0;
   display: flex;
   align-items: center;
-  gap: v.$spacing-6;
+  gap: v.$spacing-4;
+
+  @container header (max-width: 1200px) {
+    gap: v.$spacing-3;
+  }
+
+  @container header (max-width: 1100px) {
+    gap: v.$spacing-2;
+  }
 }
 
 .app-header__nav-link {
@@ -91,20 +146,26 @@
   font-weight: v.$font-weight-semibold;
   color: var(--text-primary);
   text-decoration: none;
-  padding: v.$spacing-2 v.$spacing-3;
+  padding: v.$spacing-1 v.$spacing-2;
   border-radius: v.$radius-sm;
   transition: color v.$transition-base v.$easing-in-out;
   display: block;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  white-space: nowrap;
 
   &:hover {
-    color: var(--shadow-sm);
+    color: var(--color-accent);
   }
 
   &:focus-visible {
     outline: 2px solid var(--color-primary);
     outline-offset: 2px;
+  }
+
+  @container header (max-width: 1100px) {
+    font-size: v.$font-size-xs;
+    padding: v.$spacing-1;
   }
 }
 
@@ -117,8 +178,12 @@
   gap: v.$spacing-3;
   flex-shrink: 0;
 
-  @media (max-width: v.$breakpoint-md) {
+  @container header (max-width: 900px) {
     display: none;
+  }
+
+  @container header (max-width: 1100px) {
+    gap: v.$spacing-2;
   }
 }
 
@@ -128,11 +193,15 @@
 .app-header__actions--mobile {
   display: none;
 
-  @media (max-width: v.$breakpoint-md) {
+  @container header (max-width: 900px) {
     display: flex;
     align-items: center;
-    gap: v.$spacing-2;
+    gap: v.$spacing-1;
     flex-shrink: 0;
+  }
+
+  @container header (max-width: 640px) {
+    gap: 2px;
   }
 }
 
@@ -142,27 +211,51 @@
 .app-header__btn-guide {
   display: flex;
   align-items: center;
-  gap: v.$spacing-2;
-  padding: v.$spacing-3 v.$spacing-6;
-  background: white;
+  gap: v.$spacing-1;
+  padding: v.$spacing-2 v.$spacing-3;
+  background: var(--bg-primary);
   border: v.$border-medium solid var(--text-primary);
-  border-radius: 50px;
+  border-radius: v.$radius-full;
   color: var(--text-primary);
-  font-family: v.$font-body;
-  font-size: v.$font-size-sm;
+  font-family: v.$font-secondary;
+  font-size: v.$font-size-base;
   font-weight: v.$font-weight-semibold;
   cursor: pointer;
   text-decoration: none;
   transition: all v.$transition-base v.$easing-in-out;
-  box-shadow: 4.5px 2px 0 0 var(--color-primary);
+  box-shadow: 4px 4px 0 0 var(--color-primary);
   position: relative;
+  flex-shrink: 0;
+  white-space: nowrap;
+
+  @container header (max-width: 1200px) {
+    box-shadow: 1px 1px 0 0 var(--color-primary);
+    padding: v.$spacing-2 v.$spacing-3;
+    font-size: v.$font-size-sm;
+  }
+
+  @container header (max-width: 900px) {
+    box-shadow: none;
+    padding: v.$spacing-1 v.$spacing-2;
+    gap: v.$spacing-1;
+    font-size: v.$font-size-xs;
+  }
+
+  @container header (max-width: 640px) {
+    padding: v.$spacing-1;
+    gap: 0;
+
+    .app-header__btn-guide-text {
+      display: none;
+    }
+  }
 
   &:hover {
     background: var(--text-primary);
     color: var(--text-on-dark);
 
     svg {
-      stroke: var(--text-on-dark);
+      stroke: inherit; // heredar del padre para que cambie con color
     }
   }
 
@@ -178,6 +271,7 @@
     border: none;
     box-shadow: none;
     background: transparent;
+    gap: 0;
 
     &:hover {
       background: var(--bg-tertiary);
@@ -198,6 +292,8 @@
   flex-shrink: 0;
 
   svg {
+    width: 24px;
+    height: 24px;
     stroke: var(--text-primary);
     transition: stroke v.$transition-base v.$easing-in-out;
   }
@@ -205,6 +301,8 @@
 
 .app-header__btn-guide-text {
   white-space: nowrap;
+  font-family: v.$font-secondary;
+  font-size: v.$font-size-base;
 }
 
 // ============================================================================
@@ -217,21 +315,32 @@
 .app-header__separator-vertical {
   @extend %separator-base;
   width: v.$border-medium;
-  height: 40px;
-  margin-left: v.$spacing-4;
+  height: 30px;
+  margin-left: v.$spacing-2;
+  margin-right: v.$spacing-2;
+  flex-shrink: 0;
+
+  @container header (max-width: 1100px) {
+    height: 24px;
+    margin-left: v.$spacing-1;
+    margin-right: v.$spacing-1;
+  }
 }
 
 .app-header__bottom-separator {
   @extend %separator-base;
   height: v.$border-medium;
-  width: 96%;
-  justify-self: center;
+  width: 100%;
 }
 
 .app-header__mobile-separator {
   height: v.$border-thin;
   background: var(--bg-tertiary);
-  margin: v.$spacing-6 0;
+  margin: v.$spacing-4 0;
+
+  @container header (max-width: 640px) {
+    margin: v.$spacing-3 0;
+  }
 }
 
 // ============================================================================
@@ -241,20 +350,21 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 50px;
-  height: 50px;
+  width: 44px;
+  height: 44px;
   background: transparent;
   border: none;
   color: var(--text-primary);
   cursor: pointer;
   transition: all v.$transition-base v.$easing-in-out;
   flex-shrink: 0;
-  padding: v.$spacing-2;
-  margin-right: v.$spacing-8;
+  padding: v.$spacing-1;
+  margin-right: 0;
+
   svg {
     width: 24px;
     height: 24px;
-    stroke: var(--text-primary);
+    stroke: inherit; // heredar color
     fill: none;
     transition: stroke v.$transition-base v.$easing-in-out, transform v.$transition-base v.$easing-in-out;
   }
@@ -262,9 +372,11 @@
   &:hover {
     background: var(--bg-tertiary);
     border-radius: v.$radius-sm;
+    box-shadow: none;
 
     svg {
-      stroke: var(--text-primary);
+      stroke: var(--color-accent);
+      filter: none;
     }
   }
 
@@ -335,7 +447,7 @@
   right: 0;
   width: 300px;
   max-width: 85vw;
-  background: white;
+  background: var(--bg-primary);
   border-left: v.$border-thin solid var(--bg-tertiary);
   box-shadow: -4px 0 12px rgba(0, 0, 0, 0.1);
   transform: translateX(100%);
@@ -346,11 +458,11 @@
   height: calc(100vh - (4rem + 2.5rem));
   overflow-y: auto;
 
-  @media (max-width: v.$breakpoint-md) {
+  @container header (max-width: 900px) {
     display: block;
   }
 
-  @media (min-width: calc(768px + 1px)) {
+  @container header (min-width: 901px) {
     display: none;
   }
 
