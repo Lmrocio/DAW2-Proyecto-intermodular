@@ -11,8 +11,12 @@ interface Leccion {
   categoriaColor: 'yellow' | 'orange' | 'blue';
   icono: string;
   iconoFondo: 'yellow' | 'orange' | 'blue';
-  // ...se añade la propiedad imagen para rutas de assets
   imagen?: string;
+  imageVariants?: {
+    small: string;
+    medium: string;
+    large: string;
+  };
   ctaText?: string;
 }
 
@@ -38,7 +42,12 @@ export class LeccionesRecomendadas {
       categoriaColor: 'yellow',
       icono: 'smartphone',
       iconoFondo: 'orange',
-      imagen: 'assets/images/imagen-1.svg'
+      imagen: 'assets/images/imagen-1-medium.webp',
+      imageVariants: {
+        small: 'assets/images/imagen-1-small.webp',
+        medium: 'assets/images/imagen-1-medium.webp',
+        large: 'assets/images/imagen-1-large.webp'
+      }
     },
     {
       id: 2,
@@ -48,7 +57,12 @@ export class LeccionesRecomendadas {
       categoriaColor: 'orange',
       icono: 'chat',
       iconoFondo: 'yellow',
-      imagen: 'assets/images/whatsapp.jpg'
+      imagen: 'assets/images/imagen-2-medium.webp',
+      imageVariants: {
+        small: 'assets/images/imagen-2-small.webp',
+        medium: 'assets/images/imagen-2-medium.webp',
+        large: 'assets/images/imagen-2-large.webp'
+      }
     },
     {
       id: 3,
@@ -58,7 +72,12 @@ export class LeccionesRecomendadas {
       categoriaColor: 'blue',
       icono: 'lock',
       iconoFondo: 'blue',
-      imagen: 'assets/images/seguridad.jpg'
+      imagen: 'assets/images/imagen-3-medium.webp',
+      imageVariants: {
+        small: 'assets/images/imagen-3-small.webp',
+        medium: 'assets/images/imagen-3-medium.webp',
+        large: 'assets/images/imagen-3-large.webp'
+      }
     }
   ];
 

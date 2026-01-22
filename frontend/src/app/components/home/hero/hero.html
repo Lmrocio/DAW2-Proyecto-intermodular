@@ -84,7 +84,15 @@
     <!-- Imagen Hero (Columna derecha) -->
     <div class="hero__image">
       <div class="hero__image-container" [class.hero__image-container--large]="$any(imageLarge)" [class.hero__image-container--no-shadow]="!$any(imageHasShadow)">
-         <img [src]="imageUrl" [alt]="imageAlt" />
+        <picture>
+          <source
+            *ngIf="imageVariants"
+            [srcset]="(imageVariants?.small || '') + ' 400w, ' + (imageVariants?.medium || '') + ' 800w, ' + (imageVariants?.large || '') + ' 1200w'"
+            type="image/webp"
+            sizes="(max-width: 768px) 100vw, 50vw"
+          />
+          <img [src]="imageUrl" [alt]="imageAlt" loading="lazy" />
+        </picture>
        </div>
      </div>
    </div>

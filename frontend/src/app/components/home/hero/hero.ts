@@ -19,8 +19,17 @@ export class Hero implements OnChanges {
   // Inputs para reutilización
   @Input() title: string = 'Aprende tecnología paso a paso';
   @Input() subtitle: string = 'Una plataforma diseñada como un cuaderno de notas, con explicaciones claras y dibujos sencillos para disfrutar aprendiendo.';
-  @Input() imageUrl: string = 'assets/images/imagen-6.svg';
+  @Input() imageUrl: string = 'assets/images/imagen-3-medium.webp';
   @Input() imageAlt: string = 'Ilustración de dispositivo con TecnoMayores';
+  @Input() imageVariants?: {
+    small: string;
+    medium: string;
+    large: string;
+  } = {
+    small: 'assets/images/imagen-3-small.webp',
+    medium: 'assets/images/imagen-3-medium.webp',
+    large: 'assets/images/imagen-3-large.webp'
+  };
 
   // Mostrar botón de reproducción en línea junto a la descripción
   @Input() showInlineListen: boolean = false;

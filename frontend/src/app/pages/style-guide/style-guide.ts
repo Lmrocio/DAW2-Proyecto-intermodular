@@ -207,32 +207,62 @@ export class StyleGuide {
     {
       title: 'Desarrollo Web Frontend',
       description: 'Aprende HTML, CSS y JavaScript desde cero hasta nivel avanzado.',
-      image: 'assets/images/imagen-1.svg'
+      image: 'assets/images/imagen-1-medium.webp',
+      imageVariants: {
+        small: 'assets/images/imagen-1-small.webp',
+        medium: 'assets/images/imagen-1-medium.webp',
+        large: 'assets/images/imagen-1-large.webp'
+      }
     },
     {
       title: 'Frameworks Modernos',
       description: 'Domina Angular, React y Vue.js con proyectos prácticos.',
-      image: 'assets/images/imagen-2.svg'
+      image: 'assets/images/imagen-2-medium.webp',
+      imageVariants: {
+        small: 'assets/images/imagen-2-small.webp',
+        medium: 'assets/images/imagen-2-medium.webp',
+        large: 'assets/images/imagen-2-large.webp'
+      }
     },
     {
       title: 'Backend y APIs',
       description: 'Construye servidores robustos y APIs RESTful con Node.js.',
-      image: 'assets/images/imagen-3.svg'
+      image: 'assets/images/imagen-3-medium.webp',
+      imageVariants: {
+        small: 'assets/images/imagen-3-small.webp',
+        medium: 'assets/images/imagen-3-medium.webp',
+        large: 'assets/images/imagen-3-large.webp'
+      }
     },
     {
       title: 'Base de Datos',
       description: 'Gestiona datos eficientemente con SQL y NoSQL.',
-      image: 'assets/images/imagen-4.svg'
+      image: 'assets/images/imagen-4-medium.webp',
+      imageVariants: {
+        small: 'assets/images/imagen-4-small.webp',
+        medium: 'assets/images/imagen-4-medium.webp',
+        large: 'assets/images/imagen-4-large.webp'
+      }
     },
     {
       title: 'DevOps y Deployment',
       description: 'Despliega aplicaciones con Docker, CI/CD y cloud services.',
-      image: 'assets/images/imagen-5.svg'
+      image: 'assets/images/imagen-5-medium.webp',
+      imageVariants: {
+        small: 'assets/images/imagen-5-small.webp',
+        medium: 'assets/images/imagen-5-medium.webp',
+        large: 'assets/images/imagen-5-large.webp'
+      }
     },
     {
       title: 'Experiencia de Usuario',
       description: 'Diseña interfaces intuitivas y accesibles para todos los usuarios.',
-      image: 'assets/images/imagen-6.svg'
+      image: 'assets/images/imagen-6-medium.webp',
+      imageVariants: {
+        small: 'assets/images/imagen-6-small.webp',
+        medium: 'assets/images/imagen-6-medium.webp',
+        large: 'assets/images/imagen-6-large.webp'
+      }
     }
   ];
 
@@ -241,12 +271,22 @@ export class StyleGuide {
     {
       title: 'Proyecto Colaborativo',
       description: 'Trabaja en equipo usando Git, GitHub y metodologías ágiles para crear aplicaciones web completas.',
-      image: 'assets/images/imagen-7.svg'
+      image: 'assets/images/imagen-7-medium.webp',
+      imageVariants: {
+        small: 'assets/images/imagen-7-small.webp',
+        medium: 'assets/images/imagen-7-medium.webp',
+        large: 'assets/images/imagen-7-large.webp'
+      }
     },
     {
       title: 'Curso de JavaScript Avanzado',
       description: 'Profundiza en conceptos avanzados como closures, async/await, y patrones de diseño.',
-      image: 'assets/images/imagen-1.svg'
+      image: 'assets/images/imagen-1-medium.webp',
+      imageVariants: {
+        small: 'assets/images/imagen-1-small.webp',
+        medium: 'assets/images/imagen-1-medium.webp',
+        large: 'assets/images/imagen-1-large.webp'
+      }
     }
   ];
 

@@ -4,9 +4,20 @@
     <div class="leccion-card__image-wrapper">
       <div class="leccion-card__blob" [class]="'leccion-card__blob--' + nivelColor"></div>
       <img
+        *ngIf="leccion.imageVariants"
+        [srcset]="(leccion.imageVariants?.small || '') + ' 400w, ' + (leccion.imageVariants?.medium || '') + ' 800w, ' + (leccion.imageVariants?.large || '') + ' 1200w'"
+        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         [src]="leccion.imagen"
         [alt]="leccion.titulo"
         class="leccion-card__image"
+        loading="lazy"
+      />
+      <img
+        *ngIf="!leccion.imageVariants"
+        [src]="leccion.imagen"
+        [alt]="leccion.titulo"
+        class="leccion-card__image"
+        loading="lazy"
       />
       <div
         class="leccion-card__badge"

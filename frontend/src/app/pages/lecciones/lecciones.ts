@@ -65,7 +65,12 @@ export class Lecciones implements OnInit {
       categoria: 'Básico',
       nivel: 'Principiante',
       duracion: '5 min',
-      imagen: 'assets/images/imagen-5.svg',
+      imagen: 'assets/images/imagen-1-medium.webp',
+      imageVariants: {
+        small: 'assets/images/imagen-1-small.webp',
+        medium: 'assets/images/imagen-1-medium.webp',
+        large: 'assets/images/imagen-1-large.webp'
+      },
       valoracion: 4.8
     },
     {
@@ -75,7 +80,12 @@ export class Lecciones implements OnInit {
       categoria: 'Comunicación',
       nivel: 'Principiante',
       duracion: '8 min',
-      imagen: 'assets/images/whatsapp.jpg',
+      imagen: 'assets/images/imagen-2-medium.webp',
+      imageVariants: {
+        small: 'assets/images/imagen-2-small.webp',
+        medium: 'assets/images/imagen-2-medium.webp',
+        large: 'assets/images/imagen-2-large.webp'
+      },
       valoracion: 4.9,
       completado: true
     },
@@ -86,7 +96,12 @@ export class Lecciones implements OnInit {
       categoria: 'Seguridad',
       nivel: 'Intermedio',
       duracion: '10 min',
-      imagen: 'assets/images/imagen-5.svg',
+      imagen: 'assets/images/imagen-3-medium.webp',
+      imageVariants: {
+        small: 'assets/images/imagen-3-small.webp',
+        medium: 'assets/images/imagen-3-medium.webp',
+        large: 'assets/images/imagen-3-large.webp'
+      },
       valoracion: 4.7
     },
     {
@@ -96,7 +111,12 @@ export class Lecciones implements OnInit {
       categoria: 'Comunicación',
       nivel: 'Principiante',
       duracion: '7 min',
-      imagen: 'assets/images/imagen-6.svg',
+      imagen: 'assets/images/imagen-4-medium.webp',
+      imageVariants: {
+        small: 'assets/images/imagen-4-small.webp',
+        medium: 'assets/images/imagen-4-medium.webp',
+        large: 'assets/images/imagen-4-large.webp'
+      },
       valoracion: 4.6
     },
     {
@@ -106,7 +126,12 @@ export class Lecciones implements OnInit {
       categoria: 'Multimedia',
       nivel: 'Intermedio',
       duracion: '12 min',
-      imagen: 'assets/images/imagen-7.svg',
+      imagen: 'assets/images/imagen-5-medium.webp',
+      imageVariants: {
+        small: 'assets/images/imagen-5-small.webp',
+        medium: 'assets/images/imagen-5-medium.webp',
+        large: 'assets/images/imagen-5-large.webp'
+      },
       valoracion: 4.5
     },
     {
@@ -116,7 +141,12 @@ export class Lecciones implements OnInit {
       categoria: 'Comunicación',
       nivel: 'Principiante',
       duracion: '6 min',
-      imagen: 'assets/images/imagen-1.svg',
+      imagen: 'assets/images/imagen-6-medium.webp',
+      imageVariants: {
+        small: 'assets/images/imagen-6-small.webp',
+        medium: 'assets/images/imagen-6-medium.webp',
+        large: 'assets/images/imagen-6-large.webp'
+      },
       valoracion: 4.8
     }
   ];

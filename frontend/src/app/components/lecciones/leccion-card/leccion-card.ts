@@ -11,6 +11,11 @@ export interface Leccion {
   nivel: string;
   duracion: string;
   imagen: string;
+  imageVariants?: {
+    small: string;
+    medium: string;
+    large: string;
+  };
   valoracion?: number;
   completado?: boolean;
 }

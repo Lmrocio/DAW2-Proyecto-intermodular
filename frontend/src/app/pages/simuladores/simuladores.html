@@ -54,7 +54,22 @@
     <section class="featured-lesson" *ngIf="featuredSimulador2">
       <div class="featured-badge">¡NUEVO!</div>
       <div class="featured-image">
-        <img [src]="featuredSimulador2.imagen" [alt]="featuredSimulador2.titulo" (error)="onImgError($event)" />
+        <img
+          *ngIf="featuredSimulador2?.imageVariants"
+          [srcset]="(featuredSimulador2?.imageVariants?.small || '') + ' 400w, ' + (featuredSimulador2?.imageVariants?.medium || '') + ' 800w, ' + (featuredSimulador2?.imageVariants?.large || '') + ' 1200w'"
+          sizes="(max-width: 768px) 100vw, 50vw"
+          [src]="featuredSimulador2.imagen"
+          [alt]="featuredSimulador2.titulo"
+          loading="lazy"
+          (error)="onImgError($event)"
+        />
+        <img
+          *ngIf="!featuredSimulador2?.imageVariants"
+          [src]="featuredSimulador2.imagen"
+          [alt]="featuredSimulador2.titulo"
+          loading="lazy"
+          (error)="onImgError($event)"
+        />
       </div>
       <div class="featured-content">
         <div class="featured-category">
