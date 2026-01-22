@@ -12,6 +12,7 @@
   z-index: 100;
   box-shadow: none;
   font-family: v.$font-body;
+  overflow: visible;
 
   container-type: inline-size;
   container-name: header;
@@ -223,13 +224,13 @@
   cursor: pointer;
   text-decoration: none;
   transition: all v.$transition-base v.$easing-in-out;
-  box-shadow: 4px 4px 0 0 var(--color-primary);
+  box-shadow: 4px 4px 0 var(--color-primary);
   position: relative;
   flex-shrink: 0;
   white-space: nowrap;
 
   @container header (max-width: 1200px) {
-    box-shadow: 1px 1px 0 0 var(--color-primary);
+    box-shadow: 1px 1px 0 var(--color-primary);
     padding: v.$spacing-2 v.$spacing-3;
     font-size: v.$font-size-sm;
   }
@@ -255,7 +256,7 @@
     color: var(--text-on-dark);
 
     svg {
-      stroke: inherit; // heredar del padre para que cambie con color
+      stroke: inherit;
     }
   }
 
@@ -273,15 +274,9 @@
     background: transparent;
     gap: 0;
 
-    &:hover {
-      background: var(--bg-tertiary);
-
-      svg {
-        stroke: var(--text-primary);
-      }
     }
   }
-}
+
 
 .app-header__btn-guide-icon {
   width: 24px;
@@ -413,6 +408,21 @@
     outline-offset: 2px;
     border-radius: v.$radius-sm;
   }
+
+  .icon-base,
+  lucide-icon,
+  svg {
+    color: var(--text-primary) !important;
+    stroke: var(--text-primary) !important;
+  }
+
+  .icon-base .lucide,
+  .icon-base svg,
+  .icon-base svg * {
+    stroke: var(--text-primary) !important;
+    color: var(--text-primary) !important;
+    fill: none !important;
+  }
 }
 
 .app-header__hamburger-line {
@@ -448,15 +458,17 @@
   width: 300px;
   max-width: 85vw;
   background: var(--bg-primary);
-  border-left: v.$border-thin solid var(--bg-tertiary);
-  box-shadow: -4px 0 12px rgba(0, 0, 0, 0.1);
+  border: v.$border-thin solid var(--text-primary);
+  box-shadow: 4px 4px 0 var(--text-primary);
+  border-radius: v.$radius-sm;
   transform: translateX(100%);
   opacity: 0;
   visibility: hidden;
   transition: all v.$transition-base v.$easing-in-out;
-  z-index: 99;
-  height: calc(100vh - (4rem + 2.5rem));
+  z-index: 120;
+  max-height: calc(100vh - (4rem + 2.5rem + 2rem));
   overflow-y: auto;
+  margin-bottom: 2rem;
 
   @container header (max-width: 900px) {
     display: block;
@@ -475,6 +487,43 @@
 
 .app-header__mobile-menu-content {
   padding: v.$spacing-6;
+
+  .app-header__mobile-close {
+    position: absolute;
+    top: v.$spacing-4;
+    right: v.$spacing-4;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    border-radius: v.$radius-sm;
+    color: var(--text-primary);
+    cursor: pointer;
+    z-index: 210;
+    transition: background v.$transition-base v.$easing-in-out, color v.$transition-base v.$easing-in-out;
+
+    svg, .icon-base {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
+      color: inherit;
+      transition: stroke v.$transition-base v.$easing-in-out;
+    }
+
+    &:hover {
+      background: var(--bg-tertiary);
+      color: var(--color-accent);
+    }
+
+    &:focus-visible {
+      outline: 3px solid var(--color-primary);
+      outline-offset: 2px;
+      border-radius: v.$radius-sm;
+    }
+  }
 }
 
 // ============================================================================
@@ -572,5 +621,99 @@
   .app-header__mobile-menu,
   .app-header__overlay {
     transition: none;
+  }
+}
+
+// ============================================================================
+// DROPDOWN PERFIL (DESKTOP)
+// ============================================================================
+.app-header__profile-dropdown {
+  position: absolute;
+  right: -0.75rem; // sobresalir un poco hacia la derecha para que la sombra sea visible
+  top: calc(100% + 0.5rem);
+  min-width: 200px;
+  background: var(--bg-primary);
+  border: v.$border-thin solid var(--text-primary);
+  box-shadow: 4px 4px 0 var(--text-primary);
+  padding: v.$spacing-3 0;
+  display: none;
+  flex-direction: column;
+  gap: 0;
+  z-index: 200;
+  transition: opacity v.$transition-base v.$easing-in-out, transform v.$transition-base v.$easing-in-out;
+  transform-origin: top right;
+  opacity: 0;
+  transform: translateY(-6px);
+  overflow: visible; // permitir sombra fuera del contenedor
+
+  &--open {
+    display: flex;
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.app-header__profile-item {
+  display: block;
+  padding: v.$spacing-3 v.$spacing-4;
+  color: var(--text-primary);
+  text-decoration: none;
+  font-family: v.$font-body;
+  font-size: v.$font-size-base;
+  transition: background v.$transition-base v.$easing-in-out, color v.$transition-base v.$easing-in-out;
+
+  &:hover {
+    background: var(--bg-tertiary);
+    color: var(--color-accent);
+  }
+
+  &.app-header__profile-logout {
+    background: transparent;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+
+    color: var(--color-error);
+    font-weight: v.$font-weight-semibold;
+    padding-top: calc(5px + 4px);
+    border-top: v.$border-thin solid color-mix(in srgb, var(--color-error) 15%, transparent 85%);
+
+    &:hover {
+      background: var(--color-error);
+      color: var(--text-on-dark);
+    }
+  }
+}
+
+// Ajuste de posición cuando el header reduce su padding (container queries)
+@container header (max-width: 900px) {
+  .app-header__profile-dropdown {
+    right: 0; // en móvil mantener dentro del header
+  }
+}
+
+// ============================================================================
+// PERFIL EN MÓVIL (dentro del menú móvil)
+// ============================================================================
+.app-header__mobile-profile {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: v.$spacing-3;
+  border-top: v.$border-thin solid var(--bg-tertiary);
+  padding-top: v.$spacing-3;
+}
+
+.app-header__mobile-profile-item {
+  display: block;
+  padding: v.$spacing-3 v.$spacing-3;
+  color: var(--text-primary);
+  text-decoration: none;
+  background: transparent;
+  transition: background v.$transition-base v.$easing-in-out;
+
+  &:hover {
+    background: var(--bg-tertiary);
+    color: var(--color-accent);
   }
 }

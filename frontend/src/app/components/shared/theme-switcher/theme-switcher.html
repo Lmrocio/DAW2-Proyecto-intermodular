@@ -6,6 +6,7 @@
 <button
   type="button"
   class="theme-switcher"
+  [class.theme-switcher--show-text]="showText"
   (click)="toggleTheme()"
   (keydown)="onKeyDown($event)"
   [attr.aria-label]="ariaLabel"

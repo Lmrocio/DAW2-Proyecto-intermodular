@@ -54,7 +54,6 @@
       box-shadow: 2px 2px 0 0 var(--color-accent);
     }
 
-    // Mobile: sin shadow y texto oculto
     @container header (max-width: 900px) {
       padding: v.$spacing-1;
       box-shadow: none;
@@ -62,8 +61,10 @@
       border: none;
       gap: 0;
 
-      .theme-switcher__text {
-        display: none;
+      &:not(.theme-switcher--show-text) {
+        .theme-switcher__text {
+          display: none;
+        }
       }
     }
   }
@@ -75,8 +76,10 @@
       background: transparent;
       border: none;
 
-      .theme-switcher__text {
-        display: none;
+      &:not(.theme-switcher--show-text) {
+        .theme-switcher__text {
+          display: none;
+        }
       }
     }
   }
@@ -111,7 +114,10 @@
 
   @supports (container-type: inline-size) {
     @container header (max-width: 900px) {
-      display: none;
+      // ocultar solo si no se fuerza mostrar texto
+      :host:not(.theme-switcher--show-text) & {
+        display: none;
+      }
     }
   }
 }
