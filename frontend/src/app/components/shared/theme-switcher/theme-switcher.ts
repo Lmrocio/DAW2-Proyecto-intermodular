@@ -1,13 +1,13 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ThemeService, Theme } from '../../../services/theme.service';
 import { Subscription } from 'rxjs';
-import { HeaderIcon } from '../header-icon/header-icon';
+import { LucideAngularModule } from 'lucide-angular';
 
 @Component({
   selector: 'app-theme-switcher',
   standalone: true,
-  imports: [CommonModule, HeaderIcon],
+  imports: [CommonModule, LucideAngularModule],
   templateUrl: './theme-switcher.html',
   styleUrl: './theme-switcher.scss',
 })
@@ -21,6 +21,9 @@ export class ThemeSwitcher implements OnInit, OnDestroy {
 
   /** Suscripción al observable del tema */
   private themeSubscription?: Subscription;
+
+  /** Forzar mostrar el texto incluso en pantallas pequeñas */
+  @Input() showText = false;
 
   // ========================================================================
   // CONSTRUCTOR

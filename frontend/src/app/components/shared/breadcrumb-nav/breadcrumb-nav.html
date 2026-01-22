@@ -19,7 +19,7 @@
       <!-- Breadcrumbs dinámicos desde rutas (sin /home) -->
       <li *ngFor="let crumb of displayBreadcrumbs; let last = last" class="breadcrumb-nav__item" [class.breadcrumb-nav__item--active]="last">
         <ng-container *ngIf="!last">
-          <a [routerLink]="crumb.url" class="breadcrumb-nav__link">{{ crumb.label }}</a>
+          <a [routerLink]="crumb.url" [class]="'breadcrumb-nav__link' + (displayBreadcrumbs.length > 1 && !last ? ' breadcrumb-nav__link--plain' : '')">{{ crumb.label }}</a>
           <span class="breadcrumb-nav__separator" aria-hidden="true">&gt;</span>
         </ng-container>
 
