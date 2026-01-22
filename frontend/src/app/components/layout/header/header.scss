@@ -278,6 +278,9 @@
   }
 
 
+// ============================================================================
+// BOTÓN GUÍA - ICONO
+// ============================================================================
 .app-header__btn-guide-icon {
   width: 24px;
   height: 24px;
@@ -286,18 +289,48 @@
   justify-content: center;
   flex-shrink: 0;
 
+  @container header (max-width: 1200px) {
+    width: 20px;
+    height: 20px;
+  }
+
+  @container header (max-width: 900px) {
+    width: 18px;
+    height: 18px;
+  }
+
+  @container header (max-width: 640px) {
+    width: 16px;
+    height: 16px;
+  }
+
   svg {
-    width: 24px;
-    height: 24px;
+    width: inherit;
+    height: inherit;
     stroke: var(--text-primary);
     transition: stroke v.$transition-base v.$easing-in-out;
   }
 }
 
+// ============================================================================
+// BOTÓN GUÍA - TEXTO
+// ============================================================================
 .app-header__btn-guide-text {
   white-space: nowrap;
   font-family: v.$font-secondary;
   font-size: v.$font-size-base;
+
+  @container header (max-width: 1200px) {
+    font-size: v.$font-size-sm;
+  }
+
+  @container header (max-width: 900px) {
+    font-size: v.$font-size-xs;
+  }
+
+  @container header (max-width: 640px) {
+    font-size: v.$font-size-xs;
+  }
 }
 
 // ============================================================================

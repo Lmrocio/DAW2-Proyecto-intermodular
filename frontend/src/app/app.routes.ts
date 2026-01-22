@@ -34,6 +34,7 @@ import { authGuard } from './guards/auth.guard';
 // RESOLVERS
 // ============================================================================
 import { leccionResolver } from './resolvers/leccion.resolver';
+import { simuladorResolver } from './resolvers/simulador.resolver';
 
 // ============================================================================
 // PÁGINAS ESPECIALES
@@ -115,11 +116,12 @@ export const routes: Routes = [
     data: { breadcrumb: 'Detalle de Lección' }
   },
 
-  // 3.5 SIMULADOR DETALLE - Ruta con parámetro dinámico :id
+  // 3.5 SIMULADOR DETALLE - Ruta con parámetro dinámico :id + RESOLVER
   // Ejemplo: /simuladores/1
   {
     path: 'simuladores/:id',
     component: SimuladorDetalle,
+    resolve: { simulador: simuladorResolver }, // 🔄 Precarga datos antes de activar
     data: { breadcrumb: 'Simulador Interactivo' }
   },
 

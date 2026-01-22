@@ -30,48 +30,48 @@ export class LeccionService {
   private lecciones: Leccion[] = [
     {
       id: '1',
-      titulo: 'Introducción a la Seguridad Vial',
-      descripcion: 'Conceptos básicos de seguridad vial y normativa',
-      duracion: '45 min',
+      titulo: 'Primeros Pasos con tu Móvil',
+      descripcion: 'Aprende a encender, apagar y usar los botones básicos',
+      duracion: '20 min',
       nivel: 'Básico',
-      categoria: 'Seguridad',
-      contenido: 'Contenido completo de la lección sobre seguridad vial...'
+      categoria: 'Iniciación',
+      contenido: 'Contenido completo de la lección sobre primeros pasos con el móvil...'
     },
     {
       id: '2',
-      titulo: 'Señales de Tráfico',
-      descripcion: 'Identificación y significado de señales',
-      duracion: '60 min',
-      nivel: 'Intermedio',
-      categoria: 'Señalización',
-      contenido: 'Contenido detallado sobre señales de tráfico...'
+      titulo: 'Hacer y Recibir Llamadas',
+      descripcion: 'Aprende a llamar a tus contactos y contestar llamadas',
+      duracion: '25 min',
+      nivel: 'Básico',
+      categoria: 'Comunicación',
+      contenido: 'Contenido detallado sobre cómo hacer y recibir llamadas...'
     },
     {
       id: '3',
-      titulo: 'Normas de Circulación',
-      descripcion: 'Reglas de circulación en vías urbanas e interurbanas',
-      duracion: '50 min',
+      titulo: 'Enviar Mensajes de WhatsApp',
+      descripcion: 'Aprende a escribir y enviar mensajes con WhatsApp',
+      duracion: '30 min',
       nivel: 'Intermedio',
-      categoria: 'Normativa',
-      contenido: 'Contenido sobre normativa de circulación...'
+      categoria: 'Mensajería',
+      contenido: 'Contenido sobre cómo usar WhatsApp paso a paso...'
     },
     {
       id: '123',
-      titulo: 'Lección de Ejemplo',
-      descripcion: 'Lección usada en ejemplos de navegación',
+      titulo: 'Usar la Cámara de Fotos',
+      descripcion: 'Aprende a hacer fotos y compartirlas con tus seres queridos',
       duracion: '30 min',
       nivel: 'Básico',
-      categoria: 'Ejemplos',
-      contenido: 'Contenido de ejemplo...'
+      categoria: 'Multimedia',
+      contenido: 'Contenido sobre cómo usar la cámara del móvil...'
     },
     {
       id: '456',
-      titulo: 'Conducción Defensiva',
-      descripcion: 'Técnicas de conducción preventiva',
-      duracion: '55 min',
-      nivel: 'Avanzado',
-      categoria: 'Conducción',
-      contenido: 'Contenido sobre conducción defensiva...'
+      titulo: 'Videollamadas con la Familia',
+      descripcion: 'Aprende a hacer videollamadas para ver a tus familiares',
+      duracion: '35 min',
+      nivel: 'Intermedio',
+      categoria: 'Comunicación',
+      contenido: 'Contenido sobre cómo hacer videollamadas...'
     }
   ];
 

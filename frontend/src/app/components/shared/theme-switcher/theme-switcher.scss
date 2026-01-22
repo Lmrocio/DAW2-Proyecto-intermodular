@@ -15,8 +15,8 @@
   border: v.$border-medium solid var(--text-primary);
   border-radius: 50px;
   color: var(--text-primary);
-  font-family: v.$font-secondary; // usar font-secondary
-  font-size: v.$font-size-base; // usar base
+  font-family: v.$font-secondary;
+  font-size: v.$font-size-base;
   font-weight: v.$font-weight-semibold;
   cursor: pointer;
   text-decoration: none;
@@ -40,14 +40,12 @@
   }
 
   @supports (container-type: inline-size) {
-    // Desktop amplio
     @container header (min-width: 1201px) {
       padding: v.$spacing-2 v.$spacing-4;
       gap: v.$spacing-2;
       box-shadow: 4px 4px 0 0 var(--color-accent);
     }
 
-    // Tablet
     @container header (max-width: 1200px) {
       padding: v.$spacing-2 v.$spacing-3;
       gap: v.$spacing-1;
@@ -96,10 +94,27 @@
   justify-content: center;
   flex-shrink: 0;
 
+  @supports (container-type: inline-size) {
+    @container header (max-width: 1200px) {
+      width: 20px;
+      height: 20px;
+    }
+
+    @container header (max-width: 900px) {
+      width: 18px;
+      height: 18px;
+    }
+
+    @container header (max-width: 640px) {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
   svg {
-    width: 24px;
-    height: 24px;
-    stroke: inherit; // usar inherit para que siga el color del padre
+    width: inherit;
+    height: inherit;
+    stroke: inherit;
     transition: stroke v.$transition-base v.$easing-in-out;
   }
 }
@@ -109,12 +124,26 @@
 // ============================================================================
 .theme-switcher__text {
   white-space: nowrap;
-  font-size: v.$font-size-base; // base
-  font-family: v.$font-secondary; // font-secondary
+  font-size: v.$font-size-base;
+  font-family: v.$font-secondary;
+
+  @supports (container-type: inline-size) {
+    @container header (max-width: 1200px) {
+      font-size: v.$font-size-sm;
+    }
+
+    @container header (max-width: 900px) {
+      font-size: v.$font-size-xs;
+      display: none;
+    }
+
+    @container header (max-width: 640px) {
+      font-size: v.$font-size-xs;
+    }
+  }
 
   @supports (container-type: inline-size) {
     @container header (max-width: 900px) {
-      // ocultar solo si no se fuerza mostrar texto
       :host:not(.theme-switcher--show-text) & {
         display: none;
       }

@@ -14,29 +14,38 @@
   justify-self: center;
 
   @media (max-width: v.$breakpoint-md) {
-    padding: v.$spacing-3 v.$spacing-6;
+    padding: v.$spacing-3 v.$spacing-4;
+  }
+
+  @media (max-width: v.$breakpoint-sm) {
+    padding: v.$spacing-2 v.$spacing-4;
   }
 }
 
 .breadcrumb-nav__list {
   display: flex;
   flex-wrap: wrap;
-  gap: v.$spacing-2;
+  gap: v.$spacing-1;
   margin: 0;
   list-style: none;
-  font-size: v.$font-size-sm;
-  font-family: v.$font-body;
-  color: var(--text-primary);
 }
 
-// Prefijo "Estás en:" (oculto en móvil para ahorrar espacio)
 .breadcrumb-nav__prefix {
   font-weight: v.$font-weight-medium;
+  font-size: v.$font-size-base;
+  font-family: v.$font-body;
   color: var(--text-primary);
-  margin-right: v.$spacing-2;
+  margin-right: 0.5rem;
+  display: inline-block;
 
   @media (max-width: v.$breakpoint-md) {
-    display: none;
+    font-size: v.$font-size-sm;
+    margin-right: 0.4rem;
+  }
+
+  @media (max-width: v.$breakpoint-sm) {
+    font-size: v.$font-size-xs;
+    margin-right: 0.3rem;
   }
 }
 
@@ -55,10 +64,20 @@
   text-decoration: none;
   @include m.transition(color, v.$transition-fast, v.$easing-in-out);
   font-weight: v.$font-weight-medium;
+  font-family: v.$font-body;
+  font-size: v.$font-size-base;
+
+  @media (max-width: v.$breakpoint-md) {
+    font-size: v.$font-size-sm;
+  }
+
+  @media (max-width: v.$breakpoint-sm) {
+    font-size: v.$font-size-xs;
+  }
 
   @include m.hover {
-    color: color-mix(in srgb, var(--color-accent) 90%, black 10%);
     text-decoration: underline;
+    color: var(--color-secondary);
   }
 
   &:focus-visible {
@@ -68,20 +87,39 @@
   }
 }
 
-// Enlace 'plain' para el caso solo Inicio: apariencia neutral
 .breadcrumb-nav__link--plain {
   color: var(--text-primary);
   text-decoration: none;
   font-weight: v.$font-weight-medium;
+  font-family: v.$font-body;
+  font-size: v.$font-size-base;
+
+  @media (max-width: v.$breakpoint-md) {
+    font-size: v.$font-size-sm;
+  }
+
+  @media (max-width: v.$breakpoint-sm) {
+    font-size: v.$font-size-xs;
+  }
 
   @include m.hover {
-    color: var(--text-primary); // no change on hover
+    color: var(--text-primary);
   }
 }
 
 .breadcrumb-nav__current {
-  color: var(--text-primary);
+  color: var(--color-tertiary);
   font-weight: v.$font-weight-semibold;
+  font-family: v.$font-body;
+  font-size: v.$font-size-base;
+
+  @media (max-width: v.$breakpoint-md) {
+    font-size: v.$font-size-sm;
+  }
+
+  @media (max-width: v.$breakpoint-sm) {
+    font-size: v.$font-size-xs;
+  }
 }
 
 .breadcrumb-nav__separator {
@@ -89,9 +127,16 @@
   user-select: none;
   font-weight: v.$font-weight-regular;
   margin: 0 v.$spacing-1;
+
+  @media (max-width: v.$breakpoint-md) {
+    margin: 0 0.125rem;
+  }
+
+  @media (max-width: v.$breakpoint-sm) {
+    margin: 0 0.0625rem;
+  }
 }
 
-// Responsive: ajustes para pantallas pequeñas
 @media (max-width: v.$breakpoint-sm) {
   .breadcrumb-nav {
     padding: v.$spacing-2 v.$spacing-4;
