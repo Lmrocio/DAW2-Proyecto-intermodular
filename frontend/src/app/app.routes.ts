@@ -44,6 +44,31 @@ import { Client } from './pages/client/client';
 import { NotFound } from './pages/not-found/not-found';
 import { NavigationDemo } from './components/navigation-demo/navigation-demo';
 
+// ============================================================================
+// DEMO FASE 6 - ACTUALIZACIÓN DINÁMICA
+// ============================================================================
+import { DemoActualizacion } from './pages/demo-actualizacion/demo-actualizacion';
+
+// ============================================================================
+// DEMO FASE 6 - OPTIMIZACIÓN DE RENDIMIENTO
+// ============================================================================
+import { DemoOptimizacion } from './pages/demo-optimizacion/demo-optimizacion';
+
+// ============================================================================
+// DEMO FASE 6 - PAGINACIÓN E INFINITE SCROLL
+// ============================================================================
+import { PaginacionScrollDemo } from './components/shared/paginacion-scroll-demo/paginacion-scroll-demo';
+
+// ============================================================================
+// DEMO FASE 6 - BÚSQUEDA Y FILTRADO
+// ============================================================================
+import { BusquedaFiltradoDemo } from './components/shared/busqueda-filtrado-demo/busqueda-filtrado-demo';
+
+// ============================================================================
+// DEMO FASE 6 - WEBSOCKET Y POLLING (OPCIONAL)
+// ============================================================================
+import { WebsocketPollingDemo } from './components/shared/websocket-polling-demo/websocket-polling-demo';
+
 /**
  * Configuración de rutas de la aplicación
  *
@@ -261,6 +286,112 @@ export const routes: Routes = [
     component: NavigationDemo,
     data: { title: 'Demostración de Navegación Programática' }
   },
+
+  // =========================================================================
+  // RUTA DE DEMOSTRACIÓN - ACTUALIZACIÓN DINÁMICA (FASE 6 Tarea 1)
+  // =========================================================================
+
+  /**
+   * Componente de demostración de actualización dinámica sin recargas
+   * Demuestra:
+   * - Actualización de listas tras CRUD sin recargar la página
+   * - Contadores y estadísticas que se recalculan automáticamente
+   * - Preservación del scroll durante actualizaciones
+   * - Gestión de estado reactiva con Signals
+   *
+   * URL: /dev/actualizacion-dinamica
+   */
+  {
+    path: 'dev/actualizacion-dinamica',
+    component: DemoActualizacion,
+    data: { breadcrumb: 'Demo: Actualización Dinámica' }
+  },
+
+  // =========================================================================
+  // RUTA DE DEMOSTRACIÓN - OPTIMIZACIÓN DE RENDIMIENTO (FASE 6 Tarea 3)
+  // =========================================================================
+
+  /**
+   * Componente de demostración de optimizaciones de rendimiento
+   * Demuestra:
+   * - ChangeDetectionStrategy.OnPush para reducir verificaciones de CD
+   * - TrackBy en *ngFor para evitar recrear DOM innecesariamente
+   * - Patrón destroy$ con takeUntil para prevenir memory leaks
+   * - Async pipe para gestión automática de suscripciones
+   *
+   * URL: /dev/optimizacion-rendimiento
+   */
+  {
+    path: 'dev/optimizacion-rendimiento',
+    component: DemoOptimizacion,
+    data: { breadcrumb: 'Demo: Optimización de Rendimiento' }
+  },
+
+  // =========================================================================
+  // RUTA DE DEMOSTRACIÓN - PAGINACIÓN E INFINITE SCROLL (FASE 6 Tarea 4)
+  // =========================================================================
+
+  /**
+   * Componente de demostración de paginación e infinite scroll
+   * Demuestra:
+   * - Paginación clásica con botones y números de página
+   * - Infinite scroll con Intersection Observer
+   * - Loading states durante carga de datos
+   * - Control de EOF (End of File) para evitar llamadas innecesarias
+   * - Comparativa entre ambas técnicas
+   *
+   * URL: /dev/paginacion-scroll
+   */
+  {
+    path: 'dev/paginacion-scroll',
+    component: PaginacionScrollDemo,
+    data: { breadcrumb: 'Demo: Paginación e Infinite Scroll' }
+  },
+
+  // =========================================================================
+  // RUTA DE DEMOSTRACIÓN - BÚSQUEDA Y FILTRADO (FASE 6 Tarea 5)
+  // =========================================================================
+
+  /**
+   * Componente de demostración de búsqueda y filtrado en tiempo real
+   * Demuestra:
+   * - Búsqueda con debounce (300ms local, 500ms remoto)
+   * - Filtrado local vs búsqueda remota
+   * - Múltiples filtros combinados (categoría, precio)
+   * - Actualización sin flickering con trackBy
+   * - Loading states y empty states
+   * - Comparativa de técnicas
+   *
+   * URL: /dev/busqueda-filtrado
+   */
+  {
+    path: 'dev/busqueda-filtrado',
+    component: BusquedaFiltradoDemo,
+    data: { breadcrumb: 'Demo: Búsqueda y Filtrado' }
+  },
+
+  // =========================================================================
+  // RUTA DE DEMOSTRACIÓN - WEBSOCKET Y POLLING (FASE 6 Tarea 6 - OPCIONAL)
+  // =========================================================================
+
+  /**
+   * Componente de demostración de datos en tiempo real
+   * Demuestra:
+   * - WebSocket para conexión bidireccional en tiempo real
+   * - HTTP Polling para actualizaciones periódicas
+   * - Notificaciones que llegan sin intervención del usuario
+   * - Comparativa entre ambas técnicas
+   * - Gestión de conexión y desconexión
+   *
+   * URL: /dev/websocket-polling
+   * NOTA: Esta tarea es OPCIONAL según FASE_6.md
+   */
+  {
+    path: 'dev/websocket-polling',
+    component: WebsocketPollingDemo,
+    data: { breadcrumb: 'Demo: WebSocket y Polling (Opcional)' }
+  },
+
 
   // =========================================================================
   // RUTA WILDCARD 404 - SIEMPRE LA ÚLTIMA
