@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, NgZone, ChangeDetectorRef, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Hero } from '../../components/home/hero/hero';
@@ -34,6 +34,7 @@ import { Button } from '../../components/shared/button/button';
   ],
   templateUrl: './lecciones.html',
   styleUrl: './lecciones.scss',
+  encapsulation: ViewEncapsulation.None,
 })
 export class Lecciones implements OnInit {
   constructor(private ngZone: NgZone, private cd: ChangeDetectorRef) {}
@@ -166,6 +167,9 @@ export class Lecciones implements OnInit {
     // Establecer la segunda lección destacada (la tercera si existe)
     this.featuredLesson2 = this.allLecciones[2] || null;
     this.updatePagination();
+
+    // Forzar detección de cambios para asegurar renderizado del Hero
+    this.cd.detectChanges();
   }
 
   // Aceptar string | Event y normalizar a string para compatibilidad con bindings
@@ -211,23 +215,30 @@ export class Lecciones implements OnInit {
   }
 
   onFilterChange(filters: any): void {
-    this.filteredLecciones = this.allLecciones.filter(leccion => {
-      let match = true;
+    // Si no hay filtros activos, mostrar todas las lecciones
+    const hasActiveFilters = Object.values(filters).some((arr: any) => arr && arr.length > 0);
 
-      if (filters.categoria && filters.categoria.length > 0) {
-        match = match && filters.categoria.some((cat: string) =>
-          leccion.categoria.toLowerCase().includes(cat)
-        );
-      }
+    if (!hasActiveFilters) {
+      this.filteredLecciones = [...this.allLecciones];
+    } else {
+      this.filteredLecciones = this.allLecciones.filter(leccion => {
+        let match = true;
 
-      if (filters.nivel && filters.nivel.length > 0) {
-        match = match && filters.nivel.some((niv: string) =>
-          leccion.nivel.toLowerCase().includes(niv)
-        );
-      }
+        if (filters.categoria && filters.categoria.length > 0) {
+          match = match && filters.categoria.some((cat: string) =>
+            leccion.categoria.toLowerCase().includes(cat.toLowerCase())
+          );
+        }
 
-      return match;
-    });
+        if (filters.nivel && filters.nivel.length > 0) {
+          match = match && filters.nivel.some((niv: string) =>
+            leccion.nivel.toLowerCase().includes(niv.toLowerCase())
+          );
+        }
+
+        return match;
+      });
+    }
 
     this.currentPage = 1;
     this.updatePagination();

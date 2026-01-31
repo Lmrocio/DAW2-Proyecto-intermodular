@@ -31,7 +31,7 @@ public class FAQ {
     @Column(nullable = false, length = 500)
     private String question;
 
-    @Column(nullable = false, columnDefinition = "LONGTEXT")
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String answer;
 
     @Column(nullable = false, length = 100)

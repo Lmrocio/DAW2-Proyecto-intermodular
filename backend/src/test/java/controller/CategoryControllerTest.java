@@ -1,5 +1,6 @@
 package controller;
 
+import com.example.backend.AplicacionEducativa;
 import dto.request.CreateCategoryRequest;
 import model.Category;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * - Eliminar categoría (ADMIN)
  * - Códigos HTTP esperados
  */
-@SpringBootTest
+@SpringBootTest(classes = AplicacionEducativa.class)
 @AutoConfigureMockMvc
 @Transactional
 @DisplayName("CategoryController Tests")

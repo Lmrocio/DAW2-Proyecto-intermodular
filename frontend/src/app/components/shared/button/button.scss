@@ -2,6 +2,13 @@
 @use '../../../../styles/01-tools/mixins' as m;
 
 // ============================================================================
+// HOST - Asegurar que el componente se comporte bien en layouts flex
+// ============================================================================
+:host {
+  display: inline-flex;
+}
+
+// ============================================================================
 // BASE - Estilos compartidos por <button> y <a>
 // ============================================================================
 .button {
@@ -106,6 +113,7 @@
 // VARIANTE: BRUTAL (Neo-Brutalismo)
 // ============================================================================
 .button--brutal {
+  border-color: var(--text-primary); // Siempre borde negro para el estilo brutal
   box-shadow: 4px 4px 0 0 var(--text-primary);
 
   &:hover:not(:disabled):not([aria-disabled="true"]) {
@@ -355,39 +363,11 @@
 }
 
 // ============================================================================
-// TIPOS: PRIMARY (con sombra) vs SECONDARY (sin sombra)
+// TIPOS: PRIMARY (con sombra) vs TERTIARY styles
 // ============================================================================
 
-// PRIMARY: Botones con sombra (efecto 3D)
-.button--primary {
-  box-shadow: 4px 4px 0 0 var(--text-primary);
-
-  &:hover:not(:disabled):not(.button--disabled) {
-    transform: translate(-2px, -2px);
-    box-shadow: 6px 6px 0 0 var(--text-primary);
-  }
-
-  &:active:not(:disabled):not(.button--disabled) {
-    transform: scale(0.98);
-  }
-}
-
-// SECONDARY: Botones sin sombra
-.button--secondary {
-  box-shadow: none;
-
-  &:hover:not(:disabled):not(.button--disabled) {
-    filter: brightness(0.95);
-  }
-
-  &:active:not(:disabled):not(.button--disabled) {
-    transform: scale(0.98);
-  }
-}
-
-// ============================================================================
-// VARIANTES DE COLOR - BOTONES PRINCIPALES
-// ============================================================================
+// PRIMARY: Botones con sombra (efecto 3D) - se aplica vía .button--brutal
+// Nota: La sombra se maneja en .button--brutal, no aquí
 
 // Botón Azul
 .button--blue {

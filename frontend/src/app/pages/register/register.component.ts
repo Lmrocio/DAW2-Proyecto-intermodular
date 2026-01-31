@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
-import { Tooltip as TooltipComponent } from '../../components/shared/tooltip/tooltip';
+import { AuthResponse } from '../../core/models/auth.model';
 
 /**
  * Página de Registro - Crear Nueva Cuenta
@@ -19,21 +19,16 @@ import { Tooltip as TooltipComponent } from '../../components/shared/tooltip/too
     CommonModule,
     RouterModule,
     FormsModule,
-    TooltipComponent, // Añadido Tooltip para mostrar burbujas de ayuda
   ],
   templateUrl: './register.html',
   styleUrl: './register.scss',
 })
 export class Register implements OnInit {
-  // Referencia utilizada solo para evitar diagnóstico de import no utilizado en template
-  // (la plantilla usa <app-tooltip>), mantener referencia evita error de comprobación.
-  public __tooltipRef = TooltipComponent;
 
   private authService = inject(AuthService);
   private router = inject(Router);
 
-  firstName: string = '';
-  lastName: string = '';
+  username: string = '';
   email: string = '';
   password: string = '';
   confirmPassword: string = '';
@@ -41,6 +36,7 @@ export class Register implements OnInit {
   showConfirmPassword: boolean = false;
   acceptTerms: boolean = false;
   errorMessage: string = '';
+  isLoading: boolean = false;
 
   ngOnInit(): void {
     // Si ya está autenticado, redirigir a home
@@ -62,8 +58,14 @@ export class Register implements OnInit {
     this.errorMessage = '';
 
     // Validación básica
-    if (!this.firstName || !this.lastName || !this.email || !this.password || !this.confirmPassword) {
+    if (!this.username || !this.email || !this.password || !this.confirmPassword) {
       this.errorMessage = 'Por favor, completa todos los campos';
+      return;
+    }
+
+    // Validación username
+    if (this.username.length < 3) {
+      this.errorMessage = 'El nombre de usuario debe tener al menos 3 caracteres';
       return;
     }
 
@@ -89,17 +91,21 @@ export class Register implements OnInit {
       return;
     }
 
-    console.log('🔐 Intentando registrar usuario:', this.email);
+    console.log('🔐 Intentando registrar usuario:', this.username);
+    this.isLoading = true;
 
-    // Simulación de registro: crear usuario
-    const success = this.authService.login(this.email, this.password);
-
-    if (success) {
-      console.log('✅ Registro exitoso, redirigiendo a home...');
-      this.router.navigateByUrl('/home');
-    } else {
-      this.errorMessage = 'No se pudo completar el registro. Intenta de nuevo.';
-      console.error('❌ Registro fallido');
-    }
+    // Llamar al servicio de autenticación
+    this.authService.register(this.username, this.email, this.password, this.confirmPassword).subscribe({
+      next: (_response: AuthResponse) => {
+        console.log('✅ Registro exitoso, redirigiendo a home...');
+        this.isLoading = false;
+        this.router.navigateByUrl('/home');
+      },
+      error: (error: Error) => {
+        console.error('❌ Registro fallido:', error.message);
+        this.isLoading = false;
+        this.errorMessage = error.message || 'No se pudo completar el registro. Intenta de nuevo.';
+      }
+    });
   }
 }

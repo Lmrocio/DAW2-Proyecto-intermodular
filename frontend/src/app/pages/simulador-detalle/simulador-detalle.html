@@ -9,10 +9,6 @@
     <span class="simulador-detalle__breadcrumb-current">{{ simulador()!.titulo }}</span>
   </nav>
 
-  <!-- Small demo controls -->
-  <div class="simulador-detalle__demo-controls">
-    <app-button [text]="'Mostrar notificaciones'" [color]="'accent'" [variant]="'brutal'" (btnClick)="demoShowToasts()"></app-button>
-  </div>
 
   <!-- Header con progreso -->
   <div class="simulador-detalle__header">
@@ -175,6 +171,18 @@
       [iconPosition]="'right'"
       [disabled]="currentStep() === simulador()!.totalSteps"
       (btnClick)="nextStep()">
+    </app-button>
+
+    <!-- Demo: Botón discreto para probar notificaciones -->
+    <app-button
+      [text]="''"
+      icon="bell"
+      [color]="'secondary'"
+      [variant]="'ghost'"
+      [size]="'sm'"
+      [attr.aria-label]="'Mostrar notificaciones de prueba'"
+      (btnClick)="demoShowToasts()"
+      class="simulador-detalle__demo-btn">
     </app-button>
   </div>
 </div>

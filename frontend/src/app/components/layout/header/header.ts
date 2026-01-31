@@ -1,9 +1,10 @@
-import { Component, HostListener, Renderer2, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, HostListener, Renderer2, ViewChild, ElementRef, AfterViewInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ThemeSwitcher } from '../../shared/theme-switcher/theme-switcher';
 import { Modal } from '../../shared/modal/modal';
 import { LucideAngularModule } from 'lucide-angular';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -13,6 +14,9 @@ import { RouterModule } from '@angular/router';
   styleUrl: './header.scss',
 })
 export class Header implements AfterViewInit, OnDestroy {
+  private authService = inject(AuthService);
+  private router = inject(Router);
+
   // Estado del menú hamburguesa
   menuOpen = false;
 
@@ -21,6 +25,23 @@ export class Header implements AfterViewInit, OnDestroy {
 
   // Estado del menú de perfil
   profileMenuOpen = false;
+
+  // Getters para el estado de autenticación
+  get isLoggedIn(): boolean {
+    return this.authService.isLoggedIn;
+  }
+
+  get currentUser() {
+    return this.authService.currentUser;
+  }
+
+  get userInitial(): string {
+    const user = this.currentUser;
+    if (user?.username) {
+      return user.username.charAt(0).toUpperCase();
+    }
+    return 'U';
+  }
 
   // Referencia al modal para llamadas programáticas y para evitar warnings del compilador
   @ViewChild(Modal, { static: false }) guideModal?: Modal;
@@ -94,12 +115,13 @@ export class Header implements AfterViewInit, OnDestroy {
     this.profileMenuOpen = false;
   }
 
-  // Logout (placeholder - conectar con servicio de autenticación si existe)
+  // Logout - cerrar sesión y redirigir a login
   onLogout(): void {
-    console.log('Cerrar sesión solicitado');
-    // Aquí iría la lógica para cerrar la sesión (AuthService.logout())
+    console.log('🔓 Cerrando sesión...');
+    this.authService.logout();
     this.closeProfileMenu();
     this.closeMenu();
+    this.router.navigateByUrl('/login');
   }
 
   private onDocumentClick(event: Event): void {

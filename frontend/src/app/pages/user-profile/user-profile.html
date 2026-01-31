@@ -5,13 +5,13 @@
     <div class="user-profile__card user-profile__profile-card">
       <div class="user-profile__avatar-wrapper">
         <div class="user-profile__avatar-blob"></div>
-        <img
-          [src]="user()?.avatar || 'assets/images/default-avatar.jpg'"
-          [alt]="user()?.firstName"
-          class="user-profile__avatar" />
+        <div class="user-profile__avatar user-profile__avatar--initial">
+          {{ avatarInitial }}
+        </div>
       </div>
-      <h2 class="user-profile__user-name">{{ user()?.firstName }} {{ user()?.lastName }}</h2>
-      <p class="user-profile__user-since">Usuario desde {{ user()?.joinDate }}</p>
+      <h2 class="user-profile__user-name">{{ displayName }}</h2>
+      <p class="user-profile__user-email">{{ currentUser()?.email }}</p>
+      <p class="user-profile__user-since">Usuario desde {{ joinDate }}</p>
       <app-button
         [text]="'Editar perfil'"
         [color]="'primary'"
@@ -46,7 +46,7 @@
       <h3 class="user-profile__badges-title">Mis Insignias</h3>
       <div class="user-profile__badges-grid">
         <div
-          *ngFor="let badge of user()?.badges"
+          *ngFor="let badge of badges()"
           class="user-profile__badge"
           [class.user-profile__badge--unlocked]="badge.unlocked"
           [class.user-profile__badge--yellow]="badge.color === 'yellow'"
@@ -68,17 +68,17 @@
           <h2 class="user-profile__section-title">Mi Progreso</h2>
           <p class="user-profile__progress-text">¡Ya has completado más de la mitad de tus cursos!</p>
         </div>
-        <div class="user-profile__progress-percentage">{{ user()?.progress }}%</div>
+        <div class="user-profile__progress-percentage">{{ progress() }}%</div>
       </div>
       <div class="user-profile__progress-bar">
         <div
           class="user-profile__progress-fill"
-          [style.width.%]="user()?.progress">
+          [style.width.%]="progress()">
         </div>
       </div>
       <div class="user-profile__progress-info">
         <span class="material-symbols-outlined user-profile__progress-icon">check_circle</span>
-        <span>{{ user()?.completedLessons }} lecciones de {{ user()?.totalLessons }} completadas</span>
+        <span>{{ completedLessons() }} lecciones de {{ totalLessons() }} completadas</span>
       </div>
     </section>
 
@@ -176,7 +176,7 @@
 
       <div class="user-profile__courses-list">
         <div
-          *ngFor="let course of user()?.completedCourses"
+          *ngFor="let course of completedCourses()"
           class="user-profile__course-card">
           <div class="user-profile__course-image">
             <img [src]="course.image" [alt]="course.title" />
@@ -196,7 +196,7 @@
 
       <div class="user-profile__courses-list">
         <div
-          *ngFor="let favorite of user()?.favorites"
+          *ngFor="let favorite of favorites()"
           class="user-profile__course-card">
           <div class="user-profile__course-image">
             <img [src]="favorite.image" [alt]="favorite.title" />

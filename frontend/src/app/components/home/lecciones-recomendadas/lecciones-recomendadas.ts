@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef, EventEmitter, Output } from '@angular/core';
+import { Component, ChangeDetectorRef, EventEmitter, Output, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Button } from '../../shared/button/button';
@@ -26,6 +26,7 @@ interface Leccion {
   imports: [CommonModule, RouterModule, Button],
   templateUrl: './lecciones-recomendadas.html',
   styleUrl: './lecciones-recomendadas.scss',
+  encapsulation: ViewEncapsulation.None,
 })
 export class LeccionesRecomendadas {
   // Estado de reproducción: id de la lección que se está reproduciendo
@@ -99,7 +100,9 @@ export class LeccionesRecomendadas {
     }
 
     if (typeof leccion === 'object' && leccion.descripcion) {
-      this.playText(id, leccion.descripcion);
+      // Leer título + descripción
+      const textToRead = `${leccion.titulo}. ${leccion.descripcion}`;
+      this.playText(id, textToRead);
     }
   }
 

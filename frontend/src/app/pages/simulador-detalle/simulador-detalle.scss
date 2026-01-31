@@ -147,7 +147,7 @@
 
   &__options-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: v.$spacing-4; }
 
-  &__option-wrapper { position: relative; display: flex; flex-direction: column; align-items: center; }
+  &__option-wrapper { position: relative; display: flex; flex-direction: column; align-items: center; width: 100%; }
 
   &__glow-circle { position: absolute; inset: 0; border-radius: v.$radius-xl; border: v.$border-large solid var(--color-accent); z-index: 0; pointer-events: none; animation: glow 2s infinite; }
 
@@ -177,6 +177,7 @@
 
     &--bizum {
       background: var(--text-on-dark);
+      height: 100%;
 
       .material-symbols-outlined { color: var(--text-on-dark); }
     }
@@ -266,6 +267,20 @@
 
     @media (min-width: v.$breakpoint-sm) {
       flex-direction: row;
+    }
+  }
+
+  // Botón demo discreto para notificaciones
+  &__demo-btn {
+    position: fixed;
+    bottom: v.$spacing-4;
+    right: v.$spacing-4;
+    opacity: 0.6;
+    transition: opacity v.$transition-base;
+    z-index: 100;
+
+    &:hover {
+      opacity: 1;
     }
   }
 }

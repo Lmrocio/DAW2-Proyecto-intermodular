@@ -2,24 +2,24 @@
   <div class="user-perfil__header">
     <div class="user-perfil__avatar">👤</div>
     <div class="user-perfil__info">
-      <h2 class="user-perfil__name">{{ form.value.name || 'Usuario' }}</h2>
+      <h2 class="user-perfil__name">{{ form.value.username || 'Usuario' }}</h2>
       <p class="user-perfil__email">{{ form.value.email }}</p>
     </div>
   </div>
 
   <form [formGroup]="form" (ngSubmit)="onSave()" class="user-perfil__form">
-    <!-- Campo Nombre -->
+    <!-- Campo Nombre de usuario -->
     <div class="user-perfil__field">
-      <label class="user-perfil__label" for="name">Nombre completo</label>
+      <label class="user-perfil__label" for="username">Nombre de usuario</label>
       <input
         type="text"
-        id="name"
-        formControlName="name"
+        id="username"
+        formControlName="username"
         class="user-perfil__input"
-        [class.user-perfil__input--error]="form.get('name')?.invalid && form.get('name')?.touched"
+        [class.user-perfil__input--error]="form.get('username')?.invalid && form.get('username')?.touched"
       />
-      <span *ngIf="form.get('name')?.hasError('required') && form.get('name')?.touched" class="user-perfil__error">
-        El nombre es obligatorio
+      <span *ngIf="form.get('username')?.hasError('required') && form.get('username')?.touched" class="user-perfil__error">
+        El nombre de usuario es obligatorio
       </span>
     </div>
 

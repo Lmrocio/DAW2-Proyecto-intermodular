@@ -27,28 +27,23 @@
     </div>
   </div>
 
-  <!-- Footer con acciones: Buscar + Limpiar filtros -->
+  <!-- Footer con acciones: Filtrar + Restablecer -->
   <div class="sidebar-filtros__footer">
     <div class="sidebar-filtros__footer-actions">
       <app-button
         text="Filtrar"
-        color="secondary"
+        color="accent"
         variant="brutal"
-        size="md"
+        size="sm"
+        (btnClick)="applyFilters()"
       ></app-button>
 
       <app-button
         text="Restablecer"
         color="primary"
-        variant="outline"
-        size="sm"
-      ></app-button>
-
-      <app-button
-        text="Aplicar"
-        color="primary"
         variant="brutal"
         size="sm"
+        (btnClick)="resetFilters()"
       ></app-button>
     </div>
   </div>

@@ -1,17 +1,14 @@
 <div class="search-section" [class.search-section--no-padding]="noPadding">
   <div class="search-header" *ngIf="!hideTitle">
     <h2 class="search-title">{{ title }}</h2>
-    <ng-container *ngIf="showListen">
-      <button class="search__listen-btn">
-        <app-button
-          text="Escuchar"
-          color="accent"
-          variant="brutal"
-          size="sm"
-          (btnClick)="toggleSpeak()"
-        ></app-button>
-      </button>
-    </ng-container>
+    <app-button
+      *ngIf="showListen"
+      text="Escuchar"
+      color="accent"
+      variant="brutal"
+      size="sm"
+      (btnClick)="toggleSpeak()"
+    ></app-button>
   </div>
 
   <ng-container *ngIf="showHelpText">

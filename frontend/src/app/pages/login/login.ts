@@ -3,12 +3,13 @@ import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
+import { AuthResponse } from '../../core/models/auth.model';
 
 /**
  * Página de Login - Acceso de Usuario
  *
  * Página para que los usuarios accedan a su cuenta.
- * Incluye formulario de login, opción de Google OAuth y enlaces de ayuda.
+ * Incluye formulario de login y enlaces de ayuda.
  *
  * FUNCIONALIDAD ROUTE GUARD (FASE 4 - Tarea 4):
  * - Maneja returnUrl desde queryParams cuando authGuard redirige aquí
@@ -30,9 +31,11 @@ export class Login implements OnInit {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 
-  email: string = '';
+  username: string = '';
   password: string = '';
   showPassword: boolean = false;
+  isLoading: boolean = false;
+  errorMessage: string = '';
   private returnUrl: string = '/home';
 
   ngOnInit(): void {
@@ -52,35 +55,34 @@ export class Login implements OnInit {
   }
 
   onSubmit(): void {
-    if (!this.email || !this.password) {
-      alert('Por favor, completa todos los campos');
+    this.errorMessage = '';
+
+    if (!this.username || !this.password) {
+      this.errorMessage = 'Por favor, completa todos los campos';
       return;
     }
 
-    console.log('🔐 Intentando login con:', this.email);
+    console.log('🔐 Intentando login con:', this.username);
+    this.isLoading = true;
 
     // Llamar al servicio de autenticación
-    const success = this.authService.login(this.email, this.password);
-
-    if (success) {
-      console.log('✅ Login exitoso, redirigiendo a:', this.returnUrl);
-      this.router.navigateByUrl(this.returnUrl);
-    } else {
-      console.error('❌ Login fallido');
-      alert('Credenciales inválidas');
-    }
+    this.authService.login(this.username, this.password).subscribe({
+      next: (_response: AuthResponse) => {
+        console.log('✅ Login exitoso, redirigiendo a:', this.returnUrl);
+        this.isLoading = false;
+        this.router.navigateByUrl(this.returnUrl);
+      },
+      error: (error: Error) => {
+        console.error('❌ Login fallido:', error.message);
+        this.isLoading = false;
+        this.errorMessage = error.message || 'Error al iniciar sesión';
+      }
+    });
   }
 
   onGoogleLogin(): void {
-    console.log('🔐 Login con Google (simulado)');
-
-    // Simulación: crear usuario con Google
-    const success = this.authService.login('usuario@gmail.com', 'google-oauth');
-
-    if (success) {
-      console.log('✅ Login con Google exitoso');
-      this.router.navigateByUrl(this.returnUrl);
-    }
+    // TODO: Implementar OAuth con Google
+    this.errorMessage = 'Login con Google no disponible aún';
   }
 }
 

@@ -5,15 +5,27 @@
   min-height: 100vh;
   background: var(--bg-secondary);
   box-sizing: border-box;
+  overflow-x: hidden; // Evitar scroll horizontal
 }
 
 .lecciones-page__container {
   max-width: 1440px;
-  justify-self: center;
-  overflow: visible;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 v.$spacing-8;
+  box-sizing: border-box;
+  overflow: hidden; // Evitar desbordamiento
+
+  @media (max-width: v.$breakpoint-lg) {
+    padding: 0 v.$spacing-6;
+  }
 
   @media (max-width: v.$breakpoint-md) {
-    padding: 0 v.$spacing-6;
+    padding: 0 v.$spacing-4;
+  }
+
+  @media (max-width: v.$breakpoint-sm) {
+    padding: 0 v.$spacing-3;
   }
 }
 
@@ -27,7 +39,7 @@
   border: v.$border-medium solid var(--text-primary);
   display: flex;
   flex-direction: row;
-  gap: v.$spacing-8;
+  gap: v.$spacing-6;
   box-shadow: 3px 3px 0 0 var(--text-primary);
   overflow: hidden;
   margin: v.$spacing-4 0;
@@ -57,7 +69,7 @@
 
 .featured-image {
   flex: 0 0 280px;
-  min-width: 280px;
+  min-width: 0; // Permitir que se encoja
   max-width: 280px;
   max-height: 160px;
   display: flex;
@@ -85,8 +97,9 @@
   @media (max-width: v.$breakpoint-lg) {
     flex: 0 0 auto;
     width: 100%;
+    max-width: 100%;
     max-height: none;
-    aspect-ratio: auto;
+    aspect-ratio: 16 / 9;
   }
 }
 
@@ -140,21 +153,51 @@
   margin: 0;
 }
 
+.featured-actions {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: v.$spacing-3;
+  align-items: center;
+  margin-top: auto;
+
+  app-button {
+    display: inline-flex;
+    flex-shrink: 0;
+  }
+
+  .button {
+    height: 40px;
+    min-height: 40px;
+  }
+
+  @media (max-width: v.$breakpoint-sm) {
+    flex-wrap: wrap;
+  }
+}
+
 // ============================================================================
 // LAYOUT PRINCIPAL
 // ============================================================================
 
 .lecciones-layout {
   display: grid;
-  grid-template-columns: 288px minmax(0, 1fr);
-  gap: v.$spacing-24;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: v.$spacing-12;
   align-items: start;
-  margin: v.$spacing-20 0;
-  padding: v.$spacing-10 0;
-  overflow: visible; // evitar recorte de elementos con z-index
+  margin: v.$spacing-12 0;
+  padding: v.$spacing-6 0;
+  width: 100%;
+  box-sizing: border-box;
 
   @media (max-width: v.$breakpoint-lg) {
     grid-template-columns: 1fr;
+    gap: v.$spacing-8;
+  }
+
+  @media (max-width: v.$breakpoint-md) {
+    margin: v.$spacing-8 0;
+    padding: v.$spacing-4 0;
   }
 }
 
@@ -165,9 +208,15 @@
 .sidebar {
   display: flex;
   flex-direction: column;
-  gap: v.$spacing-20;
+  gap: v.$spacing-12;
   flex-shrink: 0;
-  overflow: visible; // asegurar que no recorta checkboxes
+  width: 100%;
+  max-width: 280px;
+  box-sizing: border-box;
+
+  @media (max-width: v.$breakpoint-lg) {
+    max-width: 100%;
+  }
 }
 
 .filters-section {
@@ -286,12 +335,12 @@
 
 .featured-rows {
   display: flex;
-  gap: v.$spacing-10;
+  gap: v.$spacing-6;
   align-items: stretch;
-  margin: v.$spacing-16 0;
+  margin: v.$spacing-10 0;
   padding: 0;
   box-sizing: border-box;
-  min-height: 0;
+  width: 100%;
 
   .featured-lesson {
     flex: 1 1 50%;
@@ -301,18 +350,51 @@
     display: flex;
     flex-direction: row;
     align-items: stretch;
-    padding: v.$spacing-8;
+    padding: v.$spacing-6;
+    min-width: 0; // Permitir que se encoja
 
-    .featured-content { height: 100%;
-      justify-content: space-between;}
-    .featured-image { height: 100%; max-height: none; }
-    .featured-image img { height: 100%; width: 100%; object-fit: cover; }
+    .featured-content {
+      height: 100%;
+      justify-content: space-between;
+      min-width: 0; // Permitir que el texto se ajuste
+    }
+    .featured-image {
+      height: 100%;
+      max-height: none;
+    }
+    .featured-image img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+    }
   }
 
   @media (max-width: v.$breakpoint-lg) {
-    display: block;
-    .featured-lesson { margin: v.$spacing-20 0; }
-    .featured-lesson .featured-image { height: auto; max-height: none; }
-    .featured-lesson .featured-content { height: auto; }
-   }
- }
+    flex-direction: column;
+    gap: v.$spacing-6;
+
+    .featured-lesson {
+      flex: 1 1 auto;
+      width: 100%;
+      flex-direction: column;
+      padding: v.$spacing-5;
+    }
+    .featured-lesson .featured-image {
+      height: auto;
+      max-height: none;
+      width: 100%;
+      max-width: 100%;
+    }
+    .featured-lesson .featured-content {
+      height: auto;
+    }
+  }
+
+  @media (max-width: v.$breakpoint-sm) {
+    margin: v.$spacing-6 0;
+
+    .featured-lesson {
+      padding: v.$spacing-4;
+    }
+  }
+}

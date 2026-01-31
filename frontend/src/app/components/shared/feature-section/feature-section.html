@@ -1,45 +1,48 @@
 <div class="feature-section">
-  <!-- Título -->
-  <h2 class="section-title">{{ title }}</h2>
+  <!-- Contenido principal -->
+  <div class="feature-section__content">
+    <!-- Título -->
+    <h2 class="section-title">{{ title }}</h2>
 
-  <!-- Descripción -->
-  <p class="section-description">{{ description }}</p>
+    <!-- Descripción -->
+    <p class="section-description">{{ description }}</p>
 
-  <!-- Lista de características (solo para lecciones) -->
-  <ul class="feature-list" *ngIf="isLecciones && combinedFeatures.length > 0">
-    <li class="feature-item" *ngFor="let feature of combinedFeatures">
-      <div class="check-icon">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="20 6 9 17 4 12"/>
-        </svg>
-      </div>
-      <span>{{ feature }}</span>
-    </li>
-  </ul>
+    <!-- Lista de características (solo para lecciones) -->
+    <ul class="feature-list" *ngIf="isLecciones && combinedFeatures.length > 0">
+      <li class="feature-item" *ngFor="let feature of combinedFeatures">
+        <div class="check-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+        </div>
+        <span>{{ feature }}</span>
+      </li>
+    </ul>
 
-  <!-- Tarjetas de simuladores (solo para simuladores) -->
-  <div class="simulator-cards" *ngIf="isSimuladores && cards.length > 0">
-    <app-simulator-card *ngFor="let card of cards" [title]="card.label" [icon]="card.icon"></app-simulator-card>
+    <!-- Tarjetas de simuladores (solo para simuladores) -->
+    <div class="simulator-cards" *ngIf="isSimuladores && cards.length > 0">
+      <app-simulator-card *ngFor="let card of cards" [title]="card.label" [icon]="card.icon"></app-simulator-card>
+    </div>
   </div>
 
-  <!-- Botón usando app-button -->
-  <app-button
-    *ngIf="routerLink"
-    [color]="buttonColor"
-    [variant]="buttonVariant"
-    size="md"
-    [text]="buttonText"
-    [routerLink]="routerLink"
-    [extraClass]="'section-button-wrapper'">
-  </app-button>
+  <!-- Botón en la parte inferior, alineado a la derecha -->
+  <div class="feature-section__footer">
+    <app-button
+      *ngIf="routerLink"
+      [color]="buttonColor"
+      [variant]="buttonVariant"
+      size="md"
+      [text]="buttonText"
+      [routerLink]="routerLink">
+    </app-button>
 
-  <app-button
-    *ngIf="!routerLink"
-    [color]="buttonColor"
-    [variant]="buttonVariant"
-    size="md"
-    [text]="buttonText"
-    (btnClick)="onButtonClick()"
-    [extraClass]="'section-button-wrapper'">
-  </app-button>
+    <app-button
+      *ngIf="!routerLink"
+      [color]="buttonColor"
+      [variant]="buttonVariant"
+      size="md"
+      [text]="buttonText"
+      (btnClick)="onButtonClick()">
+    </app-button>
+  </div>
 </div>

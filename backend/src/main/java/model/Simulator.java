@@ -35,7 +35,7 @@ public class Simulator {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @Column(columnDefinition = "LONGTEXT")
+    @Column(columnDefinition = "TEXT")
     private String feedback;
 
     @Column(nullable = false)

@@ -56,7 +56,9 @@ public class SecurityConfig {
             "Access-Control-Request-Headers",
             "Authorization",
             "Content-Type",
-            "Accept"
+            "Accept",
+            "X-App-Client",
+            "X-Requested-With"
         ));
         configuration.setExposedHeaders(Arrays.asList("Authorization"));
         configuration.setAllowCredentials(true);
@@ -87,7 +89,8 @@ public class SecurityConfig {
                 // Públicos
                 .requestMatchers("/api/auth/login", "/api/auth/register", "/api/auth/validate").permitAll()
                 .requestMatchers("/h2-console/**").permitAll()
-                .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
+                // Swagger/OpenAPI
+                .requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**", "/api-docs/**").permitAll()
 
                 // Todos los demás requieren autenticación
                 .anyRequest().authenticated()

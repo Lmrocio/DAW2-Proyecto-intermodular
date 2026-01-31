@@ -1,5 +1,6 @@
 package controller;
 
+import com.example.backend.AplicacionEducativa;
 import dto.request.CreateLessonRequest;
 import dto.request.CreateCategoryRequest;
 import dto.request.CreateStepRequest;
@@ -33,7 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * - Obtener progreso por categoría (autenticado)
  * - Códigos HTTP esperados
  */
-@SpringBootTest
+@SpringBootTest(classes = AplicacionEducativa.class)
 @AutoConfigureMockMvc
 @Transactional
 @DisplayName("ProgressController Tests")

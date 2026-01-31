@@ -1,5 +1,6 @@
 package controller;
 
+import com.example.backend.AplicacionEducativa;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * - Filtrar logs (ADMIN)
  * - Códigos HTTP esperados
  */
-@SpringBootTest
+@SpringBootTest(classes = AplicacionEducativa.class)
 @AutoConfigureMockMvc
 @Transactional
 @DisplayName("AdminController Tests")

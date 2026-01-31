@@ -12,5 +12,9 @@ Thumbs.db
 # Logs
 *.log
 
+# Environment variables - NUNCA subir credenciales
+.env
+*.env
+!.env.example
 
 .oculto

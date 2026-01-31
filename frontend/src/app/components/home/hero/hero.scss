@@ -105,14 +105,24 @@
 // ============================================================================
 .hero__actions {
   display: flex;
+  flex-direction: row;
   gap: v.$spacing-4;
-  margin-top: v.$spacing-4;
-  flex-wrap: wrap;
+  margin-top: v.$spacing-6;
+  flex-wrap: nowrap;
+  align-items: center;
 
-  @media (max-width: v.$breakpoint-md) {
+  // Forzar que los botones estén en línea
+  > app-button {
+    display: inline-flex;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: v.$breakpoint-sm) {
     flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
 
-    app-button {
+    > app-button {
       width: 100%;
     }
   }
@@ -126,12 +136,12 @@
   justify-content: center;
   align-items: center;
   position: relative;
-  width: 90%;
+  width: 100%;
 }
 
 .hero__image-container {
-  width: 60%;
-  max-width: 500px;
+  width: 80%;
+  max-width: 600px;
   position: relative;
   border: solid var(--text-primary);
   box-shadow: 4px 4px 0 0 var(--text-primary);
@@ -143,8 +153,8 @@
   }
 
   &.hero__image-container--large {
-    width: 90%;
-    max-width: 720px;
+    width: 100%;
+    max-width: 800px;
   }
 
   &.hero__image-container--no-shadow {
@@ -164,20 +174,5 @@
 @media (max-width: v.$breakpoint-md) {
   .hero {
     padding: v.$spacing-8 0 v.$spacing-6;
-  }
-
-  .hero__actions {
-    flex-direction: column;
-    gap: v.$spacing-3;
-
-    .hero__btn {
-      width: 100%;
-    }
-  }
-}
-
-@media (max-width: v.$breakpoint-sm) {
-  .hero__actions {
-    gap: v.$spacing-2;
   }
 }

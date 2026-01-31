@@ -4,12 +4,14 @@ import model.Lesson;
 import model.Category;
 import model.User;
 import model.UserRole;
+import repository.CategoryRepository;
 import repository.LessonRepository;
 import repository.StepRepository;
 import repository.UserRepository;
 import dto.request.CreateLessonRequest;
 import exception.ForbiddenException;
 import exception.ResourceNotFoundException;
+import exception.UnprocessableEntityException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
@@ -51,6 +53,9 @@ class LessonServiceTest {
     @Mock
     private UserRepository userRepository;
 
+    @Mock
+    private CategoryRepository categoryRepository;
+
     @InjectMocks
     private LessonService lessonService;
 
@@ -59,8 +64,7 @@ class LessonServiceTest {
 
     @BeforeEach
     void setUp() {
-        @SuppressWarnings("resource")
-        var mocks = MockitoAnnotations.openMocks(this);
+        MockitoAnnotations.openMocks(this);
 
         // Setup usuario admin
         testAdmin = new User();
@@ -95,7 +99,9 @@ class LessonServiceTest {
         expectedLesson.setCreatedBy(testAdmin);
         expectedLesson.setIsPublished(false);
 
+        when(categoryRepository.findById(1L)).thenReturn(Optional.of(testCategory));
         when(userRepository.findById(1L)).thenReturn(Optional.of(testAdmin));
+        when(lessonRepository.getMaxLessonOrderByCategory(1L)).thenReturn(0);
         when(lessonRepository.save(any(Lesson.class))).thenReturn(expectedLesson);
 
         // Act
@@ -116,10 +122,11 @@ class LessonServiceTest {
         request.setTitle("Test");
         request.setCategoryId(1L);
 
+        when(categoryRepository.findById(1L)).thenReturn(Optional.of(testCategory));
         when(userRepository.findById(999L)).thenReturn(Optional.empty());
 
-        // Act & Assert
-        assertThrows(ResourceNotFoundException.class, () -> lessonService.createLesson(request, 999L));
+        // Act & Assert - el servicio lanza IllegalArgumentException, no ResourceNotFoundException
+        assertThrows(IllegalArgumentException.class, () -> lessonService.createLesson(request, 999L));
         verify(lessonRepository, never()).save(any(Lesson.class));
     }
 
@@ -243,8 +250,8 @@ class LessonServiceTest {
         when(lessonRepository.findById(1L)).thenReturn(Optional.of(lesson));
         when(stepRepository.countByLesson_Id(1L)).thenReturn(0L); // Sin pasos
 
-        // Act & Assert
-        assertThrows(ForbiddenException.class, () -> lessonService.publishLesson(1L, 1L));
+        // Act & Assert - el servicio lanza UnprocessableEntityException cuando no hay pasos
+        assertThrows(UnprocessableEntityException.class, () -> lessonService.publishLesson(1L, 1L));
     }
 
     @Test

@@ -37,22 +37,24 @@
         <p class="leccion-card__descripcion">{{ leccion.descripcion }}</p>
       </div>
 
-      <!-- Botón(s) de acciones (columna a la derecha) -->
+      <!-- Botones de acciones en horizontal -->
       <div class="leccion-card__actions">
         <app-button
-          [text]="'Ver lección'"
-          [link]="['/lecciones', leccion.id]"
+          [text]="buttonText"
+          [link]="[routePrefix, leccion.id]"
           color="accent"
           variant="brutal"
-          size="sm"
+          size="md"
         ></app-button>
 
         <app-button
-          [text]="'Empezar'"
+          [text]="isSpeaking ? 'Detener' : ''"
+          [icon]="isSpeaking ? 'square' : 'play'"
           color="primary"
           variant="brutal"
           size="md"
-          (btnClick)="startLesson(leccion.id)"
+          [attr.aria-label]="ariaLabelPlay"
+          (btnClick)="togglePlay()"
         ></app-button>
       </div>
     </div>
