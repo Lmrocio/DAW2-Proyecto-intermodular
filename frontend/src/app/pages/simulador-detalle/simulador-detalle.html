@@ -1,15 +1,4 @@
 <div class="simulador-detalle" *ngIf="simulador()">
-  <!-- Breadcrumbs -->
-  <nav class="simulador-detalle__breadcrumbs">
-    <span>Estás en:</span>
-    <a routerLink="/home">Inicio</a>
-    <span class="material-symbols-outlined">chevron_right</span>
-    <a routerLink="/simuladores">Simuladores</a>
-    <span class="material-symbols-outlined">chevron_right</span>
-    <span class="simulador-detalle__breadcrumb-current">{{ simulador()!.titulo }}</span>
-  </nav>
-
-
   <!-- Header con progreso -->
   <div class="simulador-detalle__header">
     <div class="simulador-detalle__header-content">

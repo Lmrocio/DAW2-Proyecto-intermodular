@@ -7,36 +7,11 @@
   padding: v.$spacing-8 v.$spacing-6;
 
   // ==========================================================================
-  // BREADCRUMBS
-  // ==========================================================================
-  &__breadcrumbs {
-    display: flex;
-    align-items: center;
-    gap: v.$spacing-2;
-    font-size: v.$font-size-sm;
-    font-weight: v.$font-weight-semibold;
-    color: var(--text-primary);
-    margin-bottom: v.$spacing-8;
-
-    a {
-      color: var(--text-primary);
-      text-decoration: none;
-      transition: color v.$transition-base;
-
-      &:hover { color: var(--color-accent); }
-    }
-
-    .material-symbols-outlined { font-size: v.$font-size-xs; }
-  }
-
-  &__breadcrumb-current { color: var(--color-tertiary); }
-
-  // ==========================================================================
   // HEADER CON PROGRESO
   // ==========================================================================
   &__header { max-width: 800px; margin: 0 auto v.$spacing-12; }
 
-  &__header-content { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: v.$spacing-2; }
+  &__header-content { display: flex; flex-direction: column; justify-content: space-between; align-items: flex-end; margin-bottom: v.$spacing-2; }
 
   &__title {
     font-size: v.$font-size-3xl;
