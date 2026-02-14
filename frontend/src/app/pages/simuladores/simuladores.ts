@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, NgZone, ChangeDetectorRef, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Hero } from '../../components/home/hero/hero';
@@ -35,6 +35,7 @@ import { Button } from '../../components/shared/button/button';
   ],
   templateUrl: './simuladores.html',
   styleUrl: './simuladores.scss',
+  encapsulation: ViewEncapsulation.None,
 })
 export class Simuladores implements OnInit {
   constructor(private ngZone: NgZone, private cd: ChangeDetectorRef) {}
@@ -197,6 +198,9 @@ export class Simuladores implements OnInit {
     this.filteredSimuladores = [...this.allSimuladores];
     this.setFeaturedSimuladores();
     this.updatePagination();
+
+    // Forzar detección de cambios para asegurar renderizado del Hero
+    this.cd.detectChanges();
   }
 
   setFeaturedSimuladores(): void {
@@ -217,23 +221,36 @@ export class Simuladores implements OnInit {
   }
 
   applyFilters(): void {
-    this.filteredSimuladores = this.allSimuladores.filter(simulador => {
-      // Buscar por texto
-      const matchesSearch = !this.searchTerm ||
-        simulador.titulo.toLowerCase().includes(this.searchTerm) ||
-        simulador.descripcion.toLowerCase().includes(this.searchTerm);
+    // Si no hay filtros activos ni búsqueda, mostrar todos los simuladores
+    const hasActiveFilters = Object.values(this.selectedFilters).some((arr: any) => arr && arr.length > 0);
 
-      // Buscar por filtros
-      let matchesFilters = true;
-      if (this.selectedFilters['categoria']) {
-        matchesFilters = this.selectedFilters['categoria'].includes(simulador.categoria);
-      }
-      if (this.selectedFilters['nivel']) {
-        matchesFilters = matchesFilters && this.selectedFilters['nivel'].includes(simulador.nivel);
-      }
+    if (!hasActiveFilters && !this.searchTerm) {
+      this.filteredSimuladores = [...this.allSimuladores];
+    } else {
+      this.filteredSimuladores = this.allSimuladores.filter(simulador => {
+        // Buscar por texto
+        const matchesSearch = !this.searchTerm ||
+          simulador.titulo.toLowerCase().includes(this.searchTerm) ||
+          simulador.descripcion.toLowerCase().includes(this.searchTerm);
 
-      return matchesSearch && matchesFilters;
-    });
+        // Buscar por filtros
+        let matchesFilters = true;
+
+        if (this.selectedFilters['categoria'] && this.selectedFilters['categoria'].length > 0) {
+          matchesFilters = this.selectedFilters['categoria'].some((cat: string) =>
+            simulador.categoria.toLowerCase().includes(cat.toLowerCase())
+          );
+        }
+
+        if (this.selectedFilters['nivel'] && this.selectedFilters['nivel'].length > 0) {
+          matchesFilters = matchesFilters && this.selectedFilters['nivel'].some((niv: string) =>
+            simulador.nivel.toLowerCase().includes(niv.toLowerCase())
+          );
+        }
+
+        return matchesSearch && matchesFilters;
+      });
+    }
 
     this.updatePagination();
   }

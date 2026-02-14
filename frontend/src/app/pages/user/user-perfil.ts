@@ -28,7 +28,7 @@ export class UserPerfil implements FormComponent {
   constructor() {
     // Crear formulario reactive
     this.form = this.fb.group({
-      name: [this.authService.currentUser?.name || '', Validators.required],
+      username: [this.authService.currentUser?.username || '', Validators.required],
       email: [this.authService.currentUser?.email || '', [Validators.required, Validators.email]],
       bio: [''],
       phone: ['']
@@ -59,7 +59,7 @@ export class UserPerfil implements FormComponent {
    */
   onCancel(): void {
     this.form.reset({
-      name: this.authService.currentUser?.name || '',
+      username: this.authService.currentUser?.username || '',
       email: this.authService.currentUser?.email || '',
       bio: '',
       phone: ''

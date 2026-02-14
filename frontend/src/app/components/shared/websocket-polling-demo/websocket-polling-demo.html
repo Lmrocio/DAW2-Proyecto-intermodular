@@ -1,0 +1,325 @@
+<div class="realtime-demo">
+  <div class="demo-header">
+    <h1>🔄 Datos en Tiempo Real</h1>
+    <p class="subtitle">
+      Demostración de WebSockets vs Polling para actualización de datos sin intervención del usuario
+    </p>
+    <div class="optional-badge">⚠️ TAREA OPCIONAL</div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab" [class.active]="activeTab() === 'websocket'" (click)="activeTab.set('websocket')">
+      🔌 WebSocket
+    </button>
+    <button class="tab" [class.active]="activeTab() === 'polling'" (click)="activeTab.set('polling')">
+      ⏱️ HTTP Polling
+    </button>
+  </div>
+
+  <!-- WEBSOCKET -->
+  <section *ngIf="activeTab() === 'websocket'" class="demo-section">
+    <div class="section-header">
+      <h2>🔌 WebSocket - Conexión Bidireccional</h2>
+      <span class="badge" [class.badge-success]="websocketConnected()" [class.badge-error]="!websocketConnected()">
+        {{ websocketConnected() ? '🟢 Conectado' : '🔴 Desconectado' }}
+      </span>
+    </div>
+
+    <div class="info-box">
+      <h4>¿Qué es WebSocket?</h4>
+      <p>
+        Protocolo de comunicación <strong>bidireccional en tiempo real</strong> sobre TCP.
+        Mantiene una conexión persistente entre cliente y servidor.
+      </p>
+      <p><strong>Ventajas:</strong></p>
+      <ul>
+        <li>Latencia mínima (&lt;100ms)</li>
+        <li>El servidor puede PUSH datos al cliente</li>
+        <li>Eficiente para actualizaciones frecuentes</li>
+        <li>Ideal para chat, notificaciones, dashboards en vivo</li>
+      </ul>
+      <p><strong>Casos de uso:</strong> Chat, juegos online, trading, monitoreo en tiempo real</p>
+    </div>
+
+    <div class="controls">
+      <button class="btn-primary" (click)="connectWebSocket()" [disabled]="websocketConnected()">
+        🔌 Conectar WebSocket
+      </button>
+      <button class="btn-danger" (click)="disconnectWebSocket()" [disabled]="!websocketConnected()">
+        🔌 Desconectar
+      </button>
+      <button class="btn-secondary" (click)="clearWebSocketNotifications()">
+        🗑️ Limpiar Notificaciones
+      </button>
+    </div>
+
+    <div class="notifications-container">
+      <h3>📨 Notificaciones Recibidas ({{ websocketNotifications().length }})</h3>
+
+      <div *ngIf="websocketNotifications().length === 0" class="empty-state">
+        <p>{{ websocketConnected() ? '⏳ Esperando notificaciones del servidor...' : '🔌 Conecta el WebSocket para recibir notificaciones' }}</p>
+      </div>
+
+      <div class="notifications-list">
+        <div *ngFor="let notification of websocketNotifications(); trackBy: trackById"
+             class="notification-card"
+             [class.notification-info]="notification.type === 'info'"
+             [class.notification-success]="notification.type === 'success'"
+             [class.notification-warning]="notification.type === 'warning'"
+             [class.notification-error]="notification.type === 'error'">
+          <div class="notification-icon">{{ getNotificationIcon(notification.type) }}</div>
+          <div class="notification-content">
+            <p class="notification-message">{{ notification.message }}</p>
+            <span class="notification-time">{{ formatTime(notification.timestamp) }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="code-example">
+      <h4>Código de Implementación:</h4>
+      <pre><code>// Service
+import {{'{'}} webSocket, WebSocketSubject {{'}'}} from 'rxjs/webSocket';
+
+@Injectable({{'{'}} providedIn: 'root' {{'}'}})
+export class RealtimeService {{'{'}}
+  private socket$: WebSocketSubject&lt;any&gt; | null = null;
+
+  connect(url = 'wss://api.miapp.com/notifications') {{'{'}}
+    if (!this.socket$ || this.socket$.closed) {{'{'}}
+      this.socket$ = webSocket(url);
+    {{'}'}}
+    return this.socket$;
+  {{'}'}}
+
+  listen&lt;T&gt;(): Observable&lt;T&gt; {{'{'}}
+    return this.connect().asObservable();
+  {{'}'}}
+
+  send(message: any) {{'{'}}
+    this.connect().next(message);
+  {{'}'}}
+
+  close() {{'{'}}
+    this.socket$?.complete();
+    this.socket$ = null;
+  {{'}'}}
+{{'}'}}
+
+// Component
+notifications = signal&lt;Notification[]&gt;([]);
+
+ngOnInit() {{'{'}}
+  this.realtime.listen&lt;Notification&gt;()
+    .pipe(takeUntil(this.destroy$))
+    .subscribe(msg => {{'{'}}
+      this.notifications.update(list => [msg, ...list]);
+    {{'}'}});
+{{'}'}}
+
+ngOnDestroy() {{'{'}}
+  this.realtime.close();
+{{'}'}}</code></pre>
+    </div>
+  </section>
+
+  <!-- POLLING -->
+  <section *ngIf="activeTab() === 'polling'" class="demo-section">
+    <div class="section-header">
+      <h2>⏱️ HTTP Polling - Consultas Periódicas</h2>
+      <span class="badge" [class.badge-success]="pollingActive()" [class.badge-error]="!pollingActive()">
+        {{ pollingActive() ? '🟢 Activo' : '🔴 Inactivo' }}
+      </span>
+    </div>
+
+    <div class="info-box">
+      <h4>¿Qué es HTTP Polling?</h4>
+      <p>
+        Técnica donde el cliente <strong>consulta periódicamente</strong> al servidor
+        para obtener actualizaciones. Simula "tiempo real" con HTTP tradicional.
+      </p>
+      <p><strong>Ventajas:</strong></p>
+      <ul>
+        <li>Simple de implementar (HTTP normal)</li>
+        <li>Compatible con cualquier servidor</li>
+        <li>No requiere infraestructura WebSocket</li>
+        <li>Funciona detrás de proxies/firewalls</li>
+      </ul>
+      <p><strong>Desventajas:</strong> Mayor latencia, más consumo de red, carga en servidor</p>
+    </div>
+
+    <div class="controls">
+      <button class="btn-primary" (click)="startPolling()" [disabled]="pollingActive()">
+        ▶️ Iniciar Polling
+      </button>
+      <button class="btn-danger" (click)="stopPolling()" [disabled]="!pollingActive()">
+        ⏹️ Detener Polling
+      </button>
+      <button class="btn-secondary" (click)="clearPollingNotifications()">
+        🗑️ Limpiar Notificaciones
+      </button>
+    </div>
+
+    <div class="interval-controls">
+      <h4>⏱️ Intervalo de Polling:</h4>
+      <div class="interval-buttons">
+        <button class="btn-interval"
+                [class.active]="pollingInterval() === 3000"
+                (click)="changePollingInterval(3000)">
+          3 segundos
+        </button>
+        <button class="btn-interval"
+                [class.active]="pollingInterval() === 5000"
+                (click)="changePollingInterval(5000)">
+          5 segundos
+        </button>
+        <button class="btn-interval"
+                [class.active]="pollingInterval() === 10000"
+                (click)="changePollingInterval(10000)">
+          10 segundos
+        </button>
+        <button class="btn-interval"
+                [class.active]="pollingInterval() === 30000"
+                (click)="changePollingInterval(30000)">
+          30 segundos
+        </button>
+      </div>
+    </div>
+
+    <div class="notifications-container">
+      <h3>📥 Notificaciones Obtenidas ({{ pollingNotifications().length }})</h3>
+
+      <div *ngIf="pollingNotifications().length === 0" class="empty-state">
+        <p>{{ pollingActive() ? '⏳ Esperando próxima consulta...' : '▶️ Inicia el polling para obtener notificaciones' }}</p>
+      </div>
+
+      <div class="notifications-list">
+        <div *ngFor="let notification of pollingNotifications(); trackBy: trackById"
+             class="notification-card"
+             [class.notification-info]="notification.type === 'info'"
+             [class.notification-success]="notification.type === 'success'"
+             [class.notification-warning]="notification.type === 'warning'"
+             [class.notification-error]="notification.type === 'error'">
+          <div class="notification-icon">{{ getNotificationIcon(notification.type) }}</div>
+          <div class="notification-content">
+            <p class="notification-message">{{ notification.message }}</p>
+            <span class="notification-time">{{ formatTime(notification.timestamp) }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="code-example">
+      <h4>Código de Implementación:</h4>
+      <pre><code>// Service
+pollNotifications(intervalMs = 30000): Observable&lt;Notification[]&gt; {{'{'}}
+  return timer(0, intervalMs).pipe(
+    switchMap(() => this.http.get&lt;Notification[]&gt;('/api/notifications')),
+    shareReplay(1) // Reutiliza última respuesta
+  );
+{{'}'}}
+
+// Component
+notifications$ = this.service.pollNotifications(30000);
+
+// Template con async pipe
+&lt;div *ngIf="notifications$ | async as notifications"&gt;
+  &lt;div *ngFor="let notif of notifications"&gt;
+    {{'{{'}} notif.message {{'}}'}}
+  &lt;/div&gt;
+&lt;/div&gt;
+
+// Alternativamente con signals
+ngOnInit() {{'{'}}
+  timer(0, 30000).pipe(
+    switchMap(() => this.http.get&lt;Notification[]&gt;('/api/notifications')),
+    takeUntil(this.destroy$)
+  ).subscribe(notifications => {{'{'}}
+    this.notifications.set(notifications);
+  {{'}'}});
+{{'}'}}</code></pre>
+    </div>
+  </section>
+
+  <!-- Comparativa -->
+  <section class="demo-section comparison-section">
+    <h2>📊 Comparativa: WebSocket vs Polling</h2>
+
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>Criterio</th>
+          <th>WebSocket</th>
+          <th>HTTP Polling</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Latencia</strong></td>
+          <td class="highlight">&lt;100ms</td>
+          <td>Depende del intervalo (3-30s típico)</td>
+        </tr>
+        <tr>
+          <td><strong>Dirección</strong></td>
+          <td class="highlight">Bidireccional (servidor puede push)</td>
+          <td>Cliente pull (solo cliente pregunta)</td>
+        </tr>
+        <tr>
+          <td><strong>Consumo red</strong></td>
+          <td class="highlight">Bajo (conexión persistente)</td>
+          <td>Alto (HTTP headers en cada request)</td>
+        </tr>
+        <tr>
+          <td><strong>Complejidad</strong></td>
+          <td>Media (requiere servidor WebSocket)</td>
+          <td class="highlight">Baja (HTTP normal)</td>
+        </tr>
+        <tr>
+          <td><strong>Escalabilidad</strong></td>
+          <td>Requiere más recursos servidor</td>
+          <td class="highlight">Más simple de escalar</td>
+        </tr>
+        <tr>
+          <td><strong>Firewall/Proxy</strong></td>
+          <td>Puede tener problemas</td>
+          <td class="highlight">Compatible universalmente</td>
+        </tr>
+        <tr>
+          <td><strong>Reconexión</strong></td>
+          <td>Requiere lógica de reconexión</td>
+          <td class="highlight">Automático (cada request)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="recommendation">
+      <h3>💡 Recomendaciones</h3>
+      <div class="recommendation-grid">
+        <div class="recommendation-card">
+          <h4>✅ Usa WebSocket para:</h4>
+          <ul>
+            <li>Chat en tiempo real</li>
+            <li>Dashboards con datos en vivo</li>
+            <li>Juegos online multijugador</li>
+            <li>Trading / finanzas</li>
+            <li>Notificaciones instantáneas</li>
+            <li>Colaboración en tiempo real</li>
+          </ul>
+        </div>
+        <div class="recommendation-card">
+          <h4>✅ Usa HTTP Polling para:</h4>
+          <ul>
+            <li>Actualizaciones cada 30s+</li>
+            <li>Compatibilidad máxima</li>
+            <li>Servidor sin soporte WebSocket</li>
+            <li>Datos que cambian poco</li>
+            <li>Entornos corporativos restrictivos</li>
+            <li>Prototipado rápido</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+

@@ -4,12 +4,19 @@
 .features-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  align-items: stretch; // Asegurar que ambas columnas tengan la misma altura
   margin: 0 auto;
   padding: v.$spacing-8;
   position: relative;
   background: var(--bg-primary);
   border-bottom: 2px solid;
   width: 96%;
+
+  // Asegurar que los hijos (app-feature-section) ocupen toda la altura
+  > app-feature-section {
+    display: flex;
+    height: 100%;
+  }
 
   @media (max-width: v.$breakpoint-md) {
     grid-template-columns: 1fr;

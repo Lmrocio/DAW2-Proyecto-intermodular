@@ -1,4 +1,4 @@
-import { Component, Input, ChangeDetectorRef, NgZone } from '@angular/core';
+import { Component, Input, ChangeDetectorRef, NgZone, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { Button } from '../../shared/button/button';
@@ -20,21 +20,40 @@ export interface Leccion {
   completado?: boolean;
 }
 
+export type CardType = 'leccion' | 'simulador';
+
 @Component({
   selector: 'app-leccion-card',
   standalone: true,
   imports: [CommonModule, RouterModule, Button],
   templateUrl: './leccion-card.html',
   styleUrls: ['./leccion-card.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class LeccionCard {
   @Input() leccion!: Leccion;
+  @Input() type: CardType = 'leccion'; // Por defecto es lección
 
   constructor(private router: Router, private ngZone: NgZone, private cd: ChangeDetectorRef) {}
 
   isSpeaking: boolean = false;
   private synth = typeof window !== 'undefined' && 'speechSynthesis' in window ? (window as any).speechSynthesis : null;
   private currentUtterance: SpeechSynthesisUtterance | null = null;
+
+  // Textos dinámicos según el tipo
+  get buttonText(): string {
+    return this.type === 'simulador' ? 'Ver simulador' : 'Ver lección';
+  }
+
+  get routePrefix(): string {
+    return this.type === 'simulador' ? '/simuladores' : '/lecciones';
+  }
+
+  get ariaLabelPlay(): string {
+    return this.isSpeaking
+      ? 'Detener lectura'
+      : (this.type === 'simulador' ? 'Escuchar simulador' : 'Escuchar lección');
+  }
 
   get nivelColor(): string {
     // Normalizamos la categoría para evitar tildes/diacríticos y espacios
@@ -61,7 +80,9 @@ export class LeccionCard {
     if (this.isSpeaking) {
       this.stop();
     } else {
-      this.playText(this.leccion.descripcion || this.leccion.titulo || '');
+      // Leer título + descripción
+      const textToRead = `${this.leccion.titulo}. ${this.leccion.descripcion}`;
+      this.playText(textToRead);
     }
   }
 

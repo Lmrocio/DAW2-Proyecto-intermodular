@@ -127,23 +127,26 @@ $card-min-height: 280px !default;
 .leccion-card__actions {
   display: flex;
   flex-direction: row;
-  gap: v.$spacing-4;
+  flex-wrap: nowrap;
+  gap: v.$spacing-3;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: flex-start;
   margin-top: auto;
   margin-bottom: 0;
-  width: 100%;
-  text-align: right;
   flex-shrink: 0;
 
   @media (max-width: v.$breakpoint-md) {
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
     gap: v.$spacing-3;
     margin-top: v.$spacing-4;
-    margin-bottom: 0;
     width: 100%;
+  }
+}
+
+// Asegurar que los botones tengan la misma altura dentro de actions
+:host ::ng-deep .leccion-card__actions {
+  .button {
+    height: 48px;
+    min-height: 48px !important;
   }
 }
 

@@ -43,19 +43,26 @@
       <!-- Separador -->
       <div class="app-header__separator-vertical"></div>
 
-      <!-- Botón Usuario -->
-      <button
-        class="app-header__btn-user"
-        aria-label="Perfil de usuario"
-        title="Mi perfil"
-        #profileBtnDesktop
-        (click)="toggleProfileMenu()"
-        [attr.aria-expanded]="profileMenuOpen"
-        aria-haspopup="true"
-        aria-controls="profile-menu"
-      >
-        <lucide-icon name="user" class="icon-base" aria-hidden="true"></lucide-icon>
-      </button>
+      <!-- Botón Usuario (logueado) -->
+      @if (isLoggedIn) {
+        <button
+          class="app-header__btn-user"
+          aria-label="Perfil de usuario"
+          title="Mi perfil"
+          #profileBtnDesktop
+          (click)="toggleProfileMenu()"
+          [attr.aria-expanded]="profileMenuOpen"
+          aria-haspopup="true"
+          aria-controls="profile-menu"
+        >
+          <span class="app-header__user-initial">{{ userInitial }}</span>
+        </button>
+      } @else {
+        <a routerLink="/login" class="app-header__btn-login" aria-label="Iniciar sesión" title="Iniciar sesión">
+          <lucide-icon name="user" class="icon-base" aria-hidden="true"></lucide-icon>
+          <span>Entrar</span>
+        </a>
+      }
 
       <!-- Dropdown Perfil (moved out) -->
     </div>
@@ -102,19 +109,30 @@
   </div>
 
   <!-- Dropdown Perfil (siempre hijo directo de header para mostrar en mobile y desktop) -->
-  <div
-    class="app-header__profile-dropdown"
-    #profileMenu
-    id="profile-menu"
-    [class.app-header__profile-dropdown--open]="profileMenuOpen"
-    role="menu"
-    aria-label="Opciones de usuario"
-  >
-    <a [routerLink]="['/usuario/perfil']" class="app-header__profile-item" role="menuitem" (click)="closeProfileMenu()">Mi cuenta</a>
-    <a href="/lecciones-aprendidas" class="app-header__profile-item" role="menuitem" (click)="closeProfileMenu()">Lecciones aprendidas</a>
-    <a href="/favoritos" class="app-header__profile-item" role="menuitem" (click)="closeProfileMenu()">Favoritos</a>
-    <button class="app-header__profile-item app-header__profile-logout" role="menuitem" (click)="onLogout()">Cerrar sesión</button>
-  </div>
+  @if (isLoggedIn) {
+    <div
+      class="app-header__profile-dropdown"
+      #profileMenu
+      id="profile-menu"
+      [class.app-header__profile-dropdown--open]="profileMenuOpen"
+      role="menu"
+      aria-label="Opciones de usuario"
+    >
+      <div class="app-header__profile-user-info">
+        <span class="app-header__profile-username">{{ currentUser?.username }}</span>
+        <span class="app-header__profile-email">{{ currentUser?.email }}</span>
+      </div>
+      <hr class="app-header__profile-divider" />
+      <a routerLink="/usuario/perfil" class="app-header__profile-item" role="menuitem" (click)="closeProfileMenu()">Mi cuenta</a>
+      <a routerLink="/lecciones" class="app-header__profile-item" role="menuitem" (click)="closeProfileMenu()">Lecciones</a>
+      <a routerLink="/simuladores" class="app-header__profile-item" role="menuitem" (click)="closeProfileMenu()">Simuladores</a>
+      <hr class="app-header__profile-divider" />
+      <button class="app-header__profile-item app-header__profile-logout" role="menuitem" (click)="onLogout()">
+        <lucide-icon name="log-out" class="icon-sm" aria-hidden="true"></lucide-icon>
+        Cerrar sesión
+      </button>
+    </div>
+  }
 
   <!-- Separador horizontal inferior -->
   <div class="app-header__bottom-separator"></div>

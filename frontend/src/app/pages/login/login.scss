@@ -349,6 +349,51 @@
 // RESPONSIVE
 // ============================================================================
 
+// ============================================================================
+// MENSAJE DE ERROR
+// ============================================================================
+
+.login-page__error {
+  display: flex;
+  align-items: center;
+  gap: v.$spacing-3;
+  padding: v.$spacing-4;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid #ef4444;
+  border-radius: v.$spacing-4;
+  margin-bottom: v.$spacing-6;
+  color: #ef4444;
+  font-size: v.$font-size-base;
+  font-weight: v.$font-weight-medium;
+
+  .material-symbols-outlined {
+    font-size: v.$font-size-xl;
+  }
+}
+
+// ============================================================================
+// SPINNER DE CARGA
+// ============================================================================
+
+.login-page__spinner {
+  width: 20px;
+  height: 20px;
+  border: 3px solid var(--text-on-dark);
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// ============================================================================
+// RESPONSIVE
+// ============================================================================
+
 @media (max-width: v.$breakpoint-sm) {
   .login-page__card {
     padding: v.$spacing-10 v.$spacing-6;

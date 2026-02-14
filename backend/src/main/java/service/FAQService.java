@@ -125,7 +125,7 @@ public class FAQService {
      * @return lista de temas únicos
      */
     public List<String> getAllTopics() {
-        return faqRepository.findDistinctTopicOrderByTopic();
+        return faqRepository.findDistinctTopics();
     }
 
     /**

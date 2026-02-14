@@ -46,29 +46,32 @@
             variant="brutal"
             size="sm"
             [text]="speakingId === leccion.id ? 'Detener' : ''"
-            [icon]="speakingId === leccion.id ? 'stop' : 'play'"
+            [icon]="speakingId === leccion.id ? 'square' : 'play'"
             [iconPosition]="'left'"
             (btnClick)="toggleSpeak(leccion)"
-            [extraClass]="speakingId === leccion.id ? 'leccion-play-button' : 'leccion-play-button leccion-play-button--custom'">
+            [attr.aria-label]="speakingId === leccion.id ? 'Detener lectura' : 'Escuchar lección'">
           </app-button>
         </div>
 
-        <!-- Botones usando app-button para ir a la lección y guardar -->
-        <app-button
-          [text]="leccion.ctaText || 'Ver lección'"
-          [link]="['/lecciones', leccion.id]"
-          color="accent"
-          variant="brutal"
-          size="sm"
-        ></app-button>
+        <!-- Botones en horizontal -->
+        <div class="leccion-card-actions">
+          <app-button
+            [text]="leccion.ctaText || 'Ver lección'"
+            [link]="['/lecciones', leccion.id]"
+            color="accent"
+            variant="brutal"
+            size="md"
+          ></app-button>
 
-        <app-button
-          [text]="'Guardar'"
-          color="primary"
-          variant="brutal"
-          size="md"
-          (btnClick)="saveLesson()"
-        ></app-button>
+          <app-button
+            text="Guardar"
+            color="primary"
+            variant="brutal"
+            size="md"
+            icon="bookmark"
+            (btnClick)="saveLesson()"
+          ></app-button>
+        </div>
       </article>
     </div>
   </div>

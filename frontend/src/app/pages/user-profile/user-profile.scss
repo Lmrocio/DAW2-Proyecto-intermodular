@@ -75,7 +75,21 @@
 
 .user-profile__avatar { position: relative; z-index: 1; width: 100%; height: 100%; border: v.$border-large solid var(--text-primary); border-radius: 50%; object-fit: cover; filter: grayscale(50%); opacity: 0.9; }
 
+.user-profile__avatar--initial {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-primary);
+  color: white;
+  font-size: 3rem;
+  font-weight: v.$font-weight-bold;
+  filter: none;
+  opacity: 1;
+}
+
 .user-profile__user-name { font-size: v.$font-size-2xl; font-weight: v.$font-weight-bold; color: var(--text-primary); margin: 0; z-index: 1; position: relative; }
+
+.user-profile__user-email { font-size: v.$font-size-sm; color: var(--text-secondary); margin: v.$spacing-1 0; z-index: 1; position: relative; word-break: break-all; }
 
 .user-profile__user-since { font-size: v.$font-size-sm; font-weight: v.$font-weight-bold; color: var(--text-tertiary); margin: 0; text-transform: uppercase; z-index: 1; position: relative; }
 

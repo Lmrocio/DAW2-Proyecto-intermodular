@@ -16,7 +16,7 @@
   background: var(--text-on-dark);
   border: 3px solid var(--text-primary);
   padding: v.$spacing-8 v.$spacing-10;
-  max-width: 800px;
+  max-width: 1000px;
   width: 100%;
   display: flex;
   align-items: center;
@@ -154,22 +154,22 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: v.$spacing-6;
+  gap: v.$spacing-8;
   width: 100%;
 }
 
 .guide-description {
   margin: 0;
   flex: 1 1 auto;
-  max-width: 60%;
+  max-width: none;
 }
 
-.guide-actions {
+.guia-mode__actions {
   display: flex;
   align-items: center;
-  gap: v.$spacing-4;
-  margin-left: 0;
+  gap: v.$spacing-5;
   flex-shrink: 0;
+  margin-left: auto;
 }
 
 @media (max-width: v.$breakpoint-md) {
@@ -184,9 +184,10 @@
     text-align: center;
   }
 
-  .guide-actions {
+  .guia-mode__actions {
     width: 100%;
     justify-content: center;
+    margin-left: 0;
   }
 }
 

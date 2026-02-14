@@ -5,7 +5,7 @@
   background: var(--bg-secondary);
   top: 90px;
   width: 100%;
-  max-width: 280px;
+  max-width: 100%;
   box-sizing: border-box;
   overflow: visible;
 }
@@ -199,9 +199,21 @@
 
 .sidebar-filtros__footer-actions {
   display: flex;
-  gap: v.$spacing-6;
+  flex-wrap: wrap;
+  gap: v.$spacing-3;
   align-items: center;
   justify-content: flex-start;
+  width: 100%;
+
+  app-button {
+    display: inline-flex;
+    flex-shrink: 0;
+  }
+
+  .button {
+    height: 40px;
+    min-height: 40px;
+  }
 }
 
 .sidebar-filtros__btn--search {
@@ -227,12 +239,10 @@
     gap: v.$spacing-3;
   }
   .sidebar-filtros__footer-actions {
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
     width: 100%;
-  }
-  .sidebar-filtros__btn--search,
-  .sidebar-filtros__btn--clear {
-    width: 100%;
+    gap: v.$spacing-2;
   }
 }
 

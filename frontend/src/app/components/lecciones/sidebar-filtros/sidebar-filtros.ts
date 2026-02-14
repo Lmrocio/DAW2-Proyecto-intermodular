@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Button } from '../../shared/button/button';
 
@@ -21,6 +21,7 @@ interface FilterCategory {
   imports: [CommonModule, Button],
   templateUrl: './sidebar-filtros.html',
   styleUrl: './sidebar-filtros.scss',
+  encapsulation: ViewEncapsulation.None,
 })
 export class SidebarFiltros {
   @Output() filterChange = new EventEmitter<any>();
@@ -71,9 +72,10 @@ export class SidebarFiltros {
     return this.selectedFilters[categoryId]?.includes(optionId) || false;
   }
 
-  clearAllFilters(): void {
+  // Método que restablece todos los filtros y emite evento vacío
+  resetFilters(): void {
     this.selectedFilters = {};
-    // No emitir automáticamente. El usuario debe pulsar "Buscar" para aplicar.
+    this.filterChange.emit(this.selectedFilters);
   }
 
   // Método que aplica los filtros seleccionados y emite el evento

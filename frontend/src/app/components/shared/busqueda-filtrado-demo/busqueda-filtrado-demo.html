@@ -1,0 +1,353 @@
+<div class="search-demo">
+  <div class="demo-header">
+    <h1>🔍 Búsqueda y Filtrado en Tiempo Real</h1>
+    <p class="subtitle">
+      Demostración de búsqueda con debounce, filtrado local vs remoto y actualización sin flickering
+    </p>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab" [class.active]="activeTab() === 'local'" (click)="onTabChange('local')">
+      💾 Filtrado Local
+    </button>
+    <button class="tab" [class.active]="activeTab() === 'remote'" (click)="onTabChange('remote')">
+      🌐 Búsqueda Remota
+    </button>
+  </div>
+
+  <!-- Barra de búsqueda y filtros -->
+  <div class="filters-section">
+    <div class="search-bar">
+      <input
+        type="search"
+        [formControl]="searchControl"
+        placeholder="Buscar productos..."
+        class="search-input">
+      <span class="search-icon">🔍</span>
+    </div>
+
+    <div class="filters-grid">
+      <div class="filter-group">
+        <label>Categoría:</label>
+        <select [formControl]="categoryFilter">
+          <option *ngFor="let cat of categories" [value]="cat">
+            {{ cat === 'all' ? 'Todas' : cat }}
+          </option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label>Precio mínimo:</label>
+        <input type="number" [formControl]="minPriceFilter" placeholder="0">
+      </div>
+
+      <div class="filter-group">
+        <label>Precio máximo:</label>
+        <input type="number" [formControl]="maxPriceFilter" placeholder="Sin límite">
+      </div>
+
+      <div class="filter-group">
+        <button class="btn-reset" (click)="resetFilters()">
+          🔄 Limpiar Filtros
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FILTRADO LOCAL -->
+  <section *ngIf="activeTab() === 'local'" class="demo-section">
+    <div class="section-header">
+      <h2>💾 Filtrado Local</h2>
+      <span class="badge">
+        {{ resultCountLocal() }} de {{ totalProducts }} productos
+      </span>
+    </div>
+
+    <div class="info-box">
+      <h4>¿Cómo funciona?</h4>
+      <p>
+        Los datos están <strong>cargados en memoria</strong>. Los filtros se aplican
+        instantáneamente en el cliente usando JavaScript, sin llamadas al servidor.
+      </p>
+      <p><strong>Ventajas:</strong></p>
+      <ul>
+        <li>Respuesta instantánea (0ms latencia)</li>
+        <li>Sin consumo de ancho de banda</li>
+        <li>Funciona offline</li>
+        <li>Ideal para datasets pequeños (&lt;1000 items)</li>
+      </ul>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">Término de búsqueda</div>
+        <div class="stat-value">{{ searchTermLocal() || '(vacío)' }}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Resultados</div>
+        <div class="stat-value">{{ resultCountLocal() }}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Tiempo de respuesta</div>
+        <div class="stat-value">~0ms</div>
+      </div>
+    </div>
+
+    <div class="products-grid">
+      <div *ngFor="let product of filteredProductsLocal(); trackBy: trackById"
+           class="product-card">
+        <div class="product-header">
+          <h3>{{ product.name }}</h3>
+          <span class="product-price">{{ product.price | currency:'EUR' }}</span>
+        </div>
+        <p class="product-description">{{ product.description }}</p>
+        <div class="product-meta">
+          <span class="product-category">📁 {{ product.category }}</span>
+          <span class="product-stock">📦 Stock: {{ product.stock }}</span>
+        </div>
+      </div>
+
+      <div *ngIf="resultCountLocal() === 0" class="empty-state">
+        <p>😔 No se encontraron productos que coincidan con tu búsqueda</p>
+        <button class="btn-primary" (click)="resetFilters()">Limpiar filtros</button>
+      </div>
+    </div>
+
+    <div class="code-example">
+      <h4>Código de Implementación:</h4>
+      <pre><code>// Setup
+searchControl = new FormControl('');
+
+ngOnInit() {{'{'}}
+  this.searchControl.valueChanges.pipe(
+    debounceTime(300),           // Esperar 300ms después del último keystroke
+    distinctUntilChanged(),      // Solo si el valor cambió
+    takeUntil(this.destroy$)
+  ).subscribe(term => {{'{'}}
+    this.applyLocalFilters(term);
+  {{'}'}});
+{{'}'}}
+
+// Filtrado
+applyLocalFilters(term: string) {{'{'}}
+  const searchTerm = term.toLowerCase();
+  this.filtered.set(
+    this.allProducts.filter(p =>
+      p.name.toLowerCase().includes(searchTerm) ||
+      p.description.toLowerCase().includes(searchTerm)
+    )
+  );
+{{'}'}}
+
+// Template con trackBy
+&lt;div *ngFor="let p of filtered(); trackBy: trackById"&gt;
+  {{'{{'}} p.name {{'}}'}}
+&lt;/div&gt;</code></pre>
+    </div>
+  </section>
+
+  <!-- BÚSQUEDA REMOTA -->
+  <section *ngIf="activeTab() === 'remote'" class="demo-section">
+    <div class="section-header">
+      <h2>🌐 Búsqueda Remota</h2>
+      <span class="badge">
+        {{ resultCountRemote() }} resultados
+      </span>
+    </div>
+
+    <div class="info-box">
+      <h4>¿Cómo funciona?</h4>
+      <p>
+        Cada búsqueda hace una <strong>llamada HTTP al servidor</strong>. El servidor
+        filtra los datos y retorna solo los resultados relevantes.
+      </p>
+      <p><strong>Ventajas:</strong></p>
+      <ul>
+        <li>Maneja millones de registros</li>
+        <li>Filtros complejos (SQL, Elasticsearch)</li>
+        <li>Menor uso de memoria en cliente</li>
+        <li>Búsqueda full-text avanzada</li>
+      </ul>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">Término de búsqueda</div>
+        <div class="stat-value">{{ searchTermRemote() || '(vacío)' }}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Resultados</div>
+        <div class="stat-value">{{ resultCountRemote() }}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Estado</div>
+        <div class="stat-value">{{ loadingRemote() ? '⏳ Cargando...' : '✅ Listo' }}</div>
+      </div>
+    </div>
+
+    <div *ngIf="loadingRemote()" class="loading-overlay">
+      <div class="spinner"></div>
+      <p>Buscando en servidor...</p>
+    </div>
+
+    <div class="products-grid" [class.loading]="loadingRemote()">
+      <div *ngFor="let product of filteredProductsRemote(); trackBy: trackById"
+           class="product-card">
+        <div class="product-header">
+          <h3>{{ product.name }}</h3>
+          <span class="product-price">{{ product.price | currency:'EUR' }}</span>
+        </div>
+        <p class="product-description">{{ product.description }}</p>
+        <div class="product-meta">
+          <span class="product-category">📁 {{ product.category }}</span>
+          <span class="product-stock">📦 Stock: {{ product.stock }}</span>
+        </div>
+      </div>
+
+      <div *ngIf="resultCountRemote() === 0 && !loadingRemote() && searchTermRemote()"
+           class="empty-state">
+        <p>😔 No se encontraron productos en el servidor</p>
+      </div>
+
+      <div *ngIf="!searchTermRemote() && !loadingRemote()" class="empty-state">
+        <p>💡 Escribe algo en el buscador para ver resultados</p>
+      </div>
+    </div>
+
+    <div class="code-example">
+      <h4>Código de Implementación:</h4>
+      <pre><code>// Service
+search(term: string): Observable&lt;Product[]&gt; {{'{'}}
+  const params = new HttpParams()
+    .set('q', term)
+    .set('pageSize', '20');
+  return this.http.get&lt;Product[]&gt;('/api/products/search', {{'{'}} params {{'}'}});
+{{'}'}}
+
+// Component
+results$ = this.searchControl.valueChanges.pipe(
+  debounceTime(500),           // Esperar más para HTTP
+  distinctUntilChanged(),
+  switchMap(term =>            // Cancelar búsquedas anteriores
+    this.productService.search(term)
+  )
+);
+
+// Template con async pipe
+&lt;div *ngIf="results$ | async as results"&gt;
+  &lt;div *ngFor="let p of results; trackBy: trackById"&gt;
+    {{'{{'}} p.name {{'}}'}}
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+  </section>
+
+  <!-- Comparativa -->
+  <section class="demo-section comparison-section">
+    <h2>📊 Comparativa: Local vs Remoto</h2>
+
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>Criterio</th>
+          <th>Filtrado Local</th>
+          <th>Búsqueda Remota</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Velocidad</strong></td>
+          <td class="highlight">Instantáneo (0-10ms)</td>
+          <td>Depende de red (100-500ms)</td>
+        </tr>
+        <tr>
+          <td><strong>Tamaño de datos</strong></td>
+          <td>&lt;1000 items</td>
+          <td class="highlight">Millones de registros</td>
+        </tr>
+        <tr>
+          <td><strong>Consumo de red</strong></td>
+          <td class="highlight">Carga inicial única</td>
+          <td>Por cada búsqueda</td>
+        </tr>
+        <tr>
+          <td><strong>Uso de memoria</strong></td>
+          <td>Todos los datos en RAM</td>
+          <td class="highlight">Solo resultados</td>
+        </tr>
+        <tr>
+          <td><strong>Offline</strong></td>
+          <td class="highlight">Funciona</td>
+          <td>Requiere conexión</td>
+        </tr>
+        <tr>
+          <td><strong>Complejidad filtros</strong></td>
+          <td>JavaScript simple</td>
+          <td class="highlight">SQL/Elasticsearch avanzado</td>
+        </tr>
+        <tr>
+          <td><strong>Debounce</strong></td>
+          <td>300ms suficiente</td>
+          <td>500ms recomendado</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Mejores Prácticas -->
+  <section class="demo-section best-practices">
+    <h2>✅ Mejores Prácticas Implementadas</h2>
+
+    <div class="practices-grid">
+      <div class="practice-card">
+        <h3>1️⃣ Debounce</h3>
+        <p>
+          Esperar 300-500ms después del último keystroke antes de filtrar/buscar.
+          Evita llamadas innecesarias mientras el usuario escribe.
+        </p>
+      </div>
+
+      <div class="practice-card">
+        <h3>2️⃣ distinctUntilChanged</h3>
+        <p>
+          Solo procesar si el valor realmente cambió.
+          Previene búsquedas duplicadas del mismo término.
+        </p>
+      </div>
+
+      <div class="practice-card">
+        <h3>3️⃣ switchMap</h3>
+        <p>
+          Cancelar búsquedas anteriores cuando llega una nueva.
+          Evita race conditions y resultados desactualizados.
+        </p>
+      </div>
+
+      <div class="practice-card">
+        <h3>4️⃣ TrackBy</h3>
+        <p>
+          Identificar items por ID único en *ngFor.
+          Previene flickering y mejora performance.
+        </p>
+      </div>
+
+      <div class="practice-card">
+        <h3>5️⃣ Actualizaciones Inmutables</h3>
+        <p>
+          Crear nuevos arrays en lugar de mutar.
+          Compatible con OnPush change detection.
+        </p>
+      </div>
+
+      <div class="practice-card">
+        <h3>6️⃣ Loading States</h3>
+        <p>
+          Mostrar indicadores durante búsquedas remotas.
+          Feedback visual claro para el usuario.
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+

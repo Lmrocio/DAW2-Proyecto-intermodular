@@ -154,6 +154,7 @@
   display: flex;
   flex-direction: column;
   gap: v.$spacing-2;
+  width: 100%;
 }
 
 .register-page__label {
@@ -188,11 +189,13 @@
 
 .register-page__password-wrapper {
   position: relative;
+  width: 100%;
 }
 
 .register-page__show-password {
-  display: flex;
+  display: inline-flex;
   align-items: center;
+  justify-content: flex-start;
   gap: v.$spacing-2;
   background: none;
   border: none;
@@ -350,6 +353,25 @@
   &:hover {
     transform: translate(-2px, -2px);
     box-shadow: 3px 3px 0 var(--text-primary);
+  }
+}
+
+// ============================================================================
+// SPINNER DE CARGA
+// ============================================================================
+
+.register-page__spinner {
+  width: 20px;
+  height: 20px;
+  border: 3px solid var(--text-on-dark);
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
 }
 

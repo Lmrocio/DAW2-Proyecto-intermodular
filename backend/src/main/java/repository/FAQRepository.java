@@ -36,7 +36,8 @@ public interface FAQRepository extends JpaRepository<FAQ, Long> {
      * Obtener todos los temas disponibles
      * @return lista de temas únicos
      */
-    List<String> findDistinctTopicOrderByTopic();
+    @Query("SELECT DISTINCT f.topic FROM FAQ f ORDER BY f.topic")
+    List<String> findDistinctTopics();
 
     /**
      * Obtener FAQs creadas por un admin

@@ -1,0 +1,93 @@
+<div class="pagination-demo">
+  <div class="demo-header">
+    <h1>📄 Paginación e Infinite Scroll</h1>
+    <p class="subtitle">
+      Demostración de técnicas para manejar listas grandes de datos sin cargar todo de una vez
+    </p>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab" [class.active]="activeTab() === 'paginacion'" (click)="activeTab.set('paginacion')">
+      📄 Paginación Clásica
+    </button>
+    <button class="tab" [class.active]="activeTab() === 'infinite'" (click)="activeTab.set('infinite'); resetInfinite()">
+      ♾️ Infinite Scroll
+    </button>
+  </div>
+
+  <!-- PAGINACIÓN CLÁSICA -->
+  <section *ngIf="activeTab() === 'paginacion'" class="demo-section">
+    <h2>Paginación Clásica</h2>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">Página Actual</div>
+        <div class="stat-value">{{ paginationState().page }}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Total Páginas</div>
+        <div class="stat-value">{{ totalPagesPagination() }}</div>
+      </div>
+    </div>
+
+    <div *ngIf="paginationState().loading" class="loading">Cargando...</div>
+
+    <div class="items-list">
+      <div *ngFor="let item of paginationState().data; trackBy: trackById" class="item-card">
+        <h4>{{ item.name }}</h4>
+        <p>{{ item.description }}</p>
+      </div>
+    </div>
+
+    <div class="pagination-controls">
+      <button (click)="loadPaginationPage(paginationState().page - 1)"
+              [disabled]="paginationState().page === 1 || paginationState().loading">
+        ← Anterior
+      </button>
+      <span>Página {{ paginationState().page }} / {{ totalPagesPagination() }}</span>
+      <button (click)="loadPaginationPage(paginationState().page + 1)"
+              [disabled]="paginationState().page >= totalPagesPagination() || paginationState().loading">
+        Siguiente →
+      </button>
+    </div>
+  </section>
+
+  <!-- INFINITE SCROLL -->
+  <section *ngIf="activeTab() === 'infinite'" class="demo-section">
+    <h2>Infinite Scroll</h2>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">Items Cargados</div>
+        <div class="stat-value">{{ infiniteState().data.length }}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Estado</div>
+        <div class="stat-value">{{ infiniteState().eof ? '✅ Fin' : '🔄' }}</div>
+      </div>
+    </div>
+
+    <div class="infinite-scroll-container">
+      <div class="infinite-scroll-list">
+        <div *ngFor="let item of infiniteState().data; trackBy: trackById" class="item-card">
+          <h4>{{ item.name }}</h4>
+          <p>{{ item.description }}</p>
+        </div>
+
+        <div #infiniteAnchor></div>
+
+        <div *ngIf="infiniteState().loading" class="loading">
+          Cargando más items...
+        </div>
+
+        <div *ngIf="infiniteState().eof && !infiniteState().loading" class="end">
+          ✅ Has visto todos los items
+        </div>
+      </div>
+    </div>
+
+    <button (click)="resetInfinite()">🔄 Reiniciar</button>
+  </section>
+</div>
+

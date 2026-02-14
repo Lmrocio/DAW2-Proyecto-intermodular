@@ -84,8 +84,8 @@ public class UserService {
         User savedUser = userRepository.save(user);
         logger.info("Usuario registrado exitosamente: {}", savedUser.getId());
 
-        // Registrar en auditoría
-        recordAudit(AuditAction.CREATE, AuditEntityType.USER, savedUser.getId(), null, savedUser);
+        // Nota: No registramos auditoría en el registro porque no hay usuario autenticado
+        // La auditoría se registrará para acciones posteriores del usuario
 
         return savedUser;
     }

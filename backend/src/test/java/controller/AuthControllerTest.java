@@ -1,5 +1,6 @@
 package controller;
 
+import com.example.backend.AplicacionEducativa;
 import model.User;
 import model.UserRole;
 import dto.request.RegisterRequest;
@@ -24,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * - Validación de tokens
  * - Renovación de tokens
  */
-@SpringBootTest
+@SpringBootTest(classes = AplicacionEducativa.class)
 @AutoConfigureMockMvc
 @Transactional
 @DisplayName("AuthController Tests")

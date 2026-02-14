@@ -1,5 +1,6 @@
 package controller;
 
+import com.example.backend.AplicacionEducativa;
 import model.Lesson;
 import model.Category;
 import service.LessonService;
@@ -36,7 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * - Actualizar lecciones (solo creador)
  * - Eliminar lecciones (solo creador)
  */
-@SpringBootTest
+@SpringBootTest(classes = AplicacionEducativa.class)
 @AutoConfigureMockMvc
 @DisplayName("LessonController Tests")
 public class LessonControllerTest {
