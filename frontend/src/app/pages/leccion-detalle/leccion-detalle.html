@@ -21,6 +21,27 @@
       </app-hero>
     </section>
 
+    <!-- Video Tutorial Section -->
+    <section class="leccion-detalle__video-section">
+      <div class="leccion-detalle__video-intro">
+        <h2 class="leccion-detalle__video-title">
+          <span class="material-symbols-outlined">play_circle</span>
+          Video tutorial: ¿Qué es Bizum y cómo funciona?
+        </h2>
+        <p class="leccion-detalle__video-description">
+          Antes de comenzar con los pasos, mira este breve video que te explica todo lo que necesitas saber sobre Bizum de forma sencilla y clara.
+        </p>
+      </div>
+
+      <app-video-tutorial
+        videoSrc="Qué_es_Bizum_y_cómo_funciona.webm"
+        subtitlesEs="tutorial-bizum.vtt"
+        subtitlesEn="tutorial-bizum-en.vtt"
+        videoTitle="Tutorial sobre Bizum - Qué es y cómo funciona"
+        [transcription]="videoTranscripcion()"
+      ></app-video-tutorial>
+    </section>
+
     <!-- Steps Section -->
     @if (steps && steps.length > 0) {
       @for (step of steps; track step.number; let isOdd = $odd) {
