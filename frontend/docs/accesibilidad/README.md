@@ -306,24 +306,746 @@ get formattedTranscription(): string {
 
 ## Sección 3: Auditoría Automatizada Inicial
 
-> **Pendiente de completar**
-> 
-> Esta sección se completará con los resultados de las herramientas:
-> - Lighthouse (Chrome DevTools)
-> - WAVE (Extensión de navegador)
-> - TAW (Test de Accesibilidad Web)
+He ejecutado tres herramientas de análisis automático para evaluar la accesibilidad de TecnoMayores antes de aplicar correcciones.
 
-| Herramienta | Puntuación/Errores | Captura |
-|-------------|-------------------|---------|
-| Lighthouse | [ ]/100 | ![Lighthouse inicial](./capturas/lighthouse-antes.png) |
-| WAVE | [ ] errores, [ ] alertas | ![WAVE inicial](./capturas/wave-antes.png) |
-| TAW | [ ] problemas | ![TAW](./capturas/taw.png) |
+### 3.1 Herramientas Utilizadas
+
+#### Lighthouse (Chrome DevTools)
+
+He analizado la página principal de TecnoMayores usando Lighthouse integrado en Chrome DevTools:
+
+- **Puntuación obtenida:** 93/100
+- **Método:** F12 → Pestaña Lighthouse → Categoría "Accessibility" → "Analyze page load"
+
+| Herramienta | Puntuación/Errores | Captura                                              |
+|-------------|-------------------|------------------------------------------------------|
+| Lighthouse | 93/100 | ![Lighthouse inicial](capturas/lighthouse-antes.png) |
+| WAVE | 8.2/10 - 5 errores de contraste, 1 alerta | ![WAVE inicial](capturas/wave-antes.png)             |
+| TAW | 11 problemas en 5 criterios, 38 advertencias, 16 no verificados | ![TAW](capturas/taw-antes.png)                          |
+
+### 3.2 Problemas Detectados por Lighthouse
+
+#### Problema 1: Contraste Insuficiente (Contrast)
+
+**Descripción:** Los colores de fondo y primer plano no tienen una relación de contraste suficiente.
+
+**Impacto:** El texto de bajo contraste es difícil o imposible de leer para muchos usuarios, especialmente personas mayores con problemas visuales o usuarios con daltonismo.
+
+**Elementos afectados:**
+- `span.button__text` (texto de botones)
+- `a.button.button--brutal.button--md.button--secondary` (botón secundario)
+- `button.button.button--brutal.button--md.button--secondary` (botón secundario)
+- `span.leccion-badge.badge-orange` (insignia naranja de lecciones)
+- `a.app-footer__action-link.app-footer__accessibility-btn` (botón de accesibilidad en footer)
+- `footer.app-footer` (pie de página)
+- `a.app-footer__action-link.app-footer__language-btn` (botón de idioma en footer)
+- `footer.app-footer` (pie de página)
+
+**Criterio WCAG afectado:** 1.4.3 - Contraste mínimo (Nivel AA)
+
+#### Problema 2: Estructura de Listas (Lists)
+
+**Descripción:** Las listas no contienen únicamente elementos `<li>` y elementos de soporte de script (`<script>` y `<template>`).
+
+**Impacto:** Los lectores de pantalla tienen una forma específica de anunciar listas. Una estructura de lista incorrecta dificulta la salida del lector de pantalla y confunde a usuarios ciegos o con baja visión.
+
+**Elementos afectados:**
+- `ul.breadcrumb-nav__list` - contiene `span.breadcrumb-nav__prefix` como hijo directo
+
+**Criterio WCAG afectado:** 1.3.1 - Información y relaciones (Nivel A)
+
+---
+
+### 3.3 Problemas Detectados por WAVE
+
+#### WAVE (Web Accessibility Evaluation Tool)
+
+He analizado la página principal de TecnoMayores usando la extensión WAVE para navegadores:
+
+- **Puntuación obtenida:** 8.2/10
+- **Total de errores:** 5 errores de contraste
+- **Total de alertas:** 1 alerta
+- **Método:** Extensión WAVE activada en la página principal
+
+#### Error 1: Contraste Muy Bajo en Botón "Saber sobre nosotros"
+
+**Elemento afectado:**
+```html
+<a class="button button--brutal button--md button--secondary" tabindex="0" href="/about">
+  <span class="button__text" style="opacity: 1; color: rgb(253, 253, 253); background-color: rgb(255, 184, 66);">
+    Saber sobre nosotros
+  </span>
+</a>
+```
+
+**Descripción:** Contraste muy bajo (Very low contrast) entre el texto blanco (rgb(253, 253, 253)) y el fondo amarillo-naranja (rgb(255, 184, 66)).
+
+**Ubicación:** Sección Hero de la página principal.
+
+**Impacto:** El texto es difícil de leer para personas mayores con problemas visuales o usuarios con daltonismo. El amarillo claro sobre blanco no proporciona suficiente diferenciación.
+
+#### Error 2: Contraste Muy Bajo en Botón "Ver Lecciones"
+
+**Elemento afectado:**
+```html
+<button class="button button--brutal button--md button--secondary" type="button">
+  <span class="button__text" style="opacity: 1; color: rgb(253, 253, 253); background-color: rgb(255, 184, 66);">
+    Ver Lecciones
+  </span>
+</button>
+```
+
+**Descripción:** Mismo problema de contraste que el Error 1. Texto blanco sobre fondo amarillo-naranja.
+
+**Ubicación:** Footer de la sección de características (feature-section).
+
+**Impacto:** Los usuarios con baja visión no pueden distinguir claramente el texto del botón, dificultando la navegación a las lecciones.
+
+#### Error 3: Contraste Muy Bajo en Badge de Categoría
+
+**Elemento afectado:**
+```html
+<span class="leccion-badge badge-orange">
+  Comunicación
+</span>
+```
+
+**Descripción:** La insignia naranja que categoriza las lecciones no tiene suficiente contraste.
+
+**Ubicación:** Tarjetas de lecciones en el catálogo.
+
+**Impacto:** Las etiquetas de categoría son importantes para la navegación y clasificación del contenido. Un contraste insuficiente impide que usuarios con discapacidad visual identifiquen rápidamente el tipo de lección.
+
+#### Error 4: Contraste Muy Bajo en Botón de Accesibilidad del Footer
+
+**Elemento afectado:**
+```html
+<a href="/accesibilidad" aria-label="Declaración de Accesibilidad" 
+   class="app-footer__action-link app-footer__accessibility-btn">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10..."></path>
+  </svg>
+  AAA
+</a>
+```
+
+**Descripción:** El enlace al documento de accesibilidad, irónicamente, tiene problemas de contraste.
+
+**Ubicación:** Pie de página (footer).
+
+**Impacto:** Un enlace que debería demostrar el compromiso con la accesibilidad no cumple con los estándares mínimos de contraste.
+
+**Alerta asociada:** Link redundante - el icono SVG y el texto "AAA" apuntan al mismo destino.
+
+#### Error 5: Contraste Muy Bajo en Botón de Idioma del Footer
+
+**Elemento afectado:**
+```html
+<a href="#" aria-label="Selector de idioma" 
+   class="app-footer__action-link app-footer__language-btn">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+    <circle cx="12" cy="12" r="10"></circle>
+    <line x1="2" y1="12" x2="22" y2="12"></line>
+    <path d="M12 2a15.3 15.3 0 0 1 4 10..."></path>
+  </svg>
+  Español
+</a>
+```
+
+**Descripción:** El selector de idioma presenta contraste insuficiente.
+
+**Ubicación:** Pie de página (footer).
+
+**Impacto:** Los usuarios que necesitan cambiar el idioma pueden tener dificultades para localizar esta opción.
+
+#### Alerta 1: Link Redundante
+
+**Elemento afectado:** Botón de accesibilidad del footer (Error 4).
+
+**Descripción:** El icono SVG y el texto "AAA" dentro del mismo enlace crean redundancia.
+
+**Recomendación:** Considerar usar `aria-hidden="true"` en el SVG para evitar que los lectores de pantalla anuncien el contenido dos veces.
+
+**Criterios WCAG afectados:**
+- **1.4.3 - Contraste mínimo (Nivel AA):** Todos los errores de contraste
+- **2.4.4 - Propósito de los enlaces (Nivel A):** Alerta de link redundante
+
+---
+
+### 3.4 Problemas Detectados por TAW
+
+#### TAW (Test de Accesibilidad Web)
+
+He analizado la página principal de TecnoMayores usando la herramienta online TAW:
+
+- **URL analizada:** https://lmrocio.github.io/DAW2-Proyecto-intermodular/
+- **Fecha del análisis:** 16/02/2026 14:05
+- **Nivel del análisis:** AA
+- **Pautas aplicadas:** WCAG 2.0
+- **Tecnologías detectadas:** HTML, CSS
+- **Método:** Análisis automático vía https://www.tawdis.net/?lang=es
+
+#### Resumen de Resultados TAW
+
+| Tipo de Resultado | Cantidad | Criterios Afectados | Descripción |
+|-------------------|----------|---------------------|-------------|
+| **Problemas (Fallos)** | 11 | 5 criterios de éxito | Errores verificados que requieren corrección |
+| **Advertencias** | 38 | 12 criterios de éxito | Requieren revisión manual |
+| **No verificados** | 16 | 16 criterios de éxito | Comprobación completamente manual |
+
+**Distribución de Problemas por Principio WCAG:**
+
+| Principio | Problemas | Advertencias | No verificados |
+|-----------|-----------|--------------|----------------|
+| **Perceptible** | 5 | 10 | 4 |
+| **Operable** | 2 | 22 | 7 |
+| **Comprensible** | 2 | 6 | 5 |
+| **Robusto** | 2 | 0 | 0 |
+| **Total** | **11** | **38** | **16** |
+
+#### Análisis por Principio WCAG
+
+TAW organiza los resultados según los cuatro principios WCAG. Detallo a continuación los problemas más relevantes:
+
+##### Principio 1: Perceptible
+
+| Criterio WCAG | Comprobación | Resultado | Incidencias | Líneas |
+|---------------|--------------|-----------|-------------|--------|
+| **1.1.1** Contenido no textual | Controles de formulario sin etiquetar | Falla | 2 | 15 |
+| **1.1.1** Contenido no textual | Imágenes que pueden requerir descripción larga | Desconocido | 4 | 15 |
+| **1.3.1** Información y relaciones | Controles de formulario sin etiquetar | Falla | 2 | 15 |
+| **1.3.1** Información y relaciones | Generación de contenido desde CSS | Desconocido | 2 | 14 |
+| **1.3.1** Información y relaciones | Dos encabezados consecutivos sin contenido | Falla | 1 | 15 |
+| **1.3.2** Secuencia con significado | Posicionamiento absoluto | Desconocido | 2 | 14 |
+| **1.4.4** Redimensionamiento texto | Tamaños de fuente absolutos | Desconocido | 1 | 14 |
+| **1.4.4** Redimensionamiento texto | Medidas absolutas en bloques | Desconocido | 1 | 14 |
+
+**Detalle de los fallos del Principio 1:**
+
+**Error TAW-P1-1: Controles de formulario sin etiquetar (1.1.1)**
+
+Los campos de entrada (`<input>`) detectados en la línea 15 no tienen asociada una etiqueta `<label>` correctamente vinculada mediante el atributo `for`, o carecen de atributos ARIA (`aria-label`, `aria-labelledby`) que los identifiquen.
+
+**Elementos afectados:**
+- Campo de búsqueda en el buscador principal
+- Campo de email en el formulario de newsletter del footer
+
+**Técnicas WCAG relacionadas:** H44, H65
+
+**Error TAW-P1-2: Dos encabezados consecutivos sin contenido (1.3.1)**
+
+Se detectó una estructura de encabezados incorrecta donde aparecen dos encabezados del mismo nivel seguidos sin contenido textual entre ellos. Esto viola la técnica H42 que establece que los encabezados deben seguir una jerarquía lógica con contenido significativo.
+
+**Impacto:** Los usuarios de lectores de pantalla pueden confundirse al navegar por encabezados si estos están vacíos o no tienen contenido asociado.
+
+##### Principio 2: Operable
+
+| Criterio WCAG | Comprobación | Resultado | Incidencias | Líneas |
+|---------------|--------------|-----------|-------------|--------|
+| **2.4.1** Evitar bloques | Saltar bloques de contenido | Sin revisar | 1 | - |
+| **2.4.1** Evitar bloques | Dos encabezados consecutivos | Desconocido | 1 | 15 |
+| **2.4.2** Páginas tituladas | Página con título descriptivo | Desconocido | 1 | 3 |
+| **2.4.4** Propósito de enlaces | Enlaces sin contenido | Falla | 2 | 15 |
+| **2.4.4** Propósito de enlaces | Enlaces con mismo texto y destinos diferentes | Desconocido | 3 | 15 |
+| **2.4.6** Encabezados y etiquetas | Contenido adecuado | Desconocido | 15 | 15 |
+| **2.4.7** Foco visible | Pseudoclase :focus | Desconocido | 2 | 13 |
+
+**Detalle de los fallos del Principio 2:**
+**Detalle de los fallos del Principio 2:**
+
+**Error TAW-P2-1: Enlaces sin contenido (2.4.4)**
+
+Se detectaron 2 enlaces (`<a>`) que no contienen texto visible ni alternativa accesible. Esto impide que los usuarios de tecnologías asistivas comprendan el propósito del enlace.
+
+**Técnica WCAG relacionada:** F89 - Fallo por proporcionar enlaces sin texto descriptivo
+
+**Elementos afectados (línea 15):**
+- Enlaces en el footer que solo contienen iconos SVG sin texto alternativo adecuado
+- Posibles enlaces con contenido generado solo por CSS (pseudoelementos `::before`/`::after`)
+
+**Impacto:** Un lector de pantalla puede anunciar estos enlaces como "enlace" o "enlace vacío", sin proporcionar información sobre su destino o función.
+
+##### Principio 3: Comprensible
+
+| Criterio WCAG | Comprobación | Resultado | Incidencias | Líneas |
+|---------------|--------------|-----------|-------------|--------|
+| **3.1.2** Idioma de las partes | Cambios en el idioma | Sin revisar | 1 | - |
+| **3.3.1** Identificación de errores | Identificar valores erróneos | Desconocido | 1 | 15 |
+| **3.3.2** Etiquetas o instrucciones | Etiquetado de controles | Falla | 2 | 15 |
+| **3.3.3** Sugerencias ante errores | Proporcionar sugerencias | Desconocido | 1 | 15 |
+| **3.3.4** Prevención de errores | Formularios legales/financieros | Desconocido | 3 | 15 |
+
+**Detalle de los fallos del Principio 3:**
+
+**Error TAW-P3-1: Etiquetado incorrecto de controles de formulario (3.3.2)**
+
+Los controles de formulario (campos de entrada) no proporcionan etiquetas o instrucciones claras sobre qué información se espera del usuario.
+
+**Elementos afectados:**
+- `<input type="text" class="search-input">` - Campo de búsqueda
+- `<input type="email" class="app-footer__newsletter-input">` - Campo de newsletter
+
+**Técnicas WCAG relacionadas:** H44 (Uso de `<label>` con `for`), H65 (Uso de `aria-label`)
+
+**Impacto:** Los usuarios de lectores de pantalla no sabrán qué información introducir en estos campos. Para personas mayores con dificultades cognitivas, la falta de instrucciones claras puede resultar confusa.
+
+##### Principio 4: Robusto
+
+| Criterio WCAG | Comprobación | Resultado | Incidencias | Líneas |
+|---------------|--------------|-----------|-------------|--------|
+| **4.1.2** Nombre, función, valor | Controles sin etiquetar | Falla | 2 | 15 |
+| **4.1.2** Nombre, función, valor | Nombre, rol y valor | Sin revisar | 1 | - |
+
+**Detalle de los fallos del Principio 4:**
+
+**Error TAW-P4-1: Controles sin nombre accesible (4.1.2)**
+
+Los componentes de interfaz de usuario (campos de formulario) no exponen correctamente su nombre y función a las tecnologías asistivas mediante la API de accesibilidad del navegador.
+
+**Técnicas WCAG relacionadas:** H44, H65
+
+**Impacto:** Las tecnologías asistivas como JAWS, NVDA o VoiceOver no pueden identificar estos controles correctamente, lo que impide su uso efectivo por personas con discapacidad visual.
+
+#### Resumen de Problemas Detectados por TAW
+
+| # | Error | Criterio WCAG | Principio | Incidencias | Prioridad |
+|---|-------|---------------|-----------|-------------|-----------|
+| 1 | Controles de formulario sin etiquetar | 1.1.1 | Perceptible | 2 | Alta |
+| 2 | Controles de formulario sin etiquetar | 1.3.1 | Perceptible | 2 | Alta |
+| 3 | Encabezados consecutivos sin contenido | 1.3.1 | Perceptible | 1 | Media |
+| 4 | Enlaces sin contenido | 2.4.4 | Operable | 2 | Alta |
+| 5 | Etiquetado de controles | 3.3.2 | Comprensible | 2 | Alta |
+| 6 | Controles sin nombre accesible | 4.1.2 | Robusto | 2 | Alta |
+| **Total** | | **5 criterios** | **4 principios** | **11** | |
+
+**Observación importante:** Varios de estos errores se refieren al mismo problema subyacente: los campos de entrada `<input>` de la página (buscador y newsletter) carecen de etiquetas accesibles. Este único problema de implementación genera múltiples fallos en diferentes criterios WCAG (1.1.1, 1.3.1, 3.3.2 y 4.1.2), lo que demuestra la importancia del etiquetado correcto de formularios.
+
+---
+
+### 3.5 Resumen de los 3 Problemas Más Graves
+
+Después de analizar los resultados de las tres herramientas (Lighthouse, WAVE y TAW), he identificado los tres problemas de accesibilidad más críticos que debo corregir:
+
+1. **Controles de formulario sin etiquetar (detectado por TAW, afecta criterios 1.1.1, 1.3.1, 3.3.2, 4.1.2):**
+   - Detectado por: TAW
+   - Elementos afectados: Campo de búsqueda (`<input class="search-input">`) y campo de newsletter (`<input class="app-footer__newsletter-input">`)
+   - Gravedad: ALTA - Un único problema causa múltiples violaciones de criterios WCAG de nivel A
+   - Impacto en usuarios: Usuarios de lectores de pantalla (JAWS, NVDA, VoiceOver) no pueden identificar la función de estos campos. Personas mayores con discapacidad visual quedan completamente excluidas de usar el buscador o suscribirse al boletín.
+   - Solución: Añadir etiquetas `<label>` con atributo `for` vinculado al `id` del input, o utilizar `aria-label` para proporcionar un nombre accesible.
+
+2. **Contraste insuficiente en botones y elementos del footer (detectado por Lighthouse y WAVE):**
+   - Detectado por: Lighthouse y WAVE
+   - Elementos afectados: Botones secundarios "Saber sobre nosotros" y "Ver Lecciones" (color rgb(253, 253, 253) sobre rgb(255, 184, 66)), badges de categorías, botones de accesibilidad e idioma en footer
+   - Ratio de contraste actual: Aproximadamente 1.5:1
+   - Ratio requerido: 4.5:1 (WCAG AA para texto normal) o 7:1 (WCAG AAA)
+   - Gravedad: ALTA - Los botones son elementos de navegación primarios
+   - Impacto en usuarios: Personas mayores con presbicia, usuarios con daltonismo, usuarios en entornos con luz brillante. Irónicamente, el botón de "Accesibilidad" no es accesible.
+
+3. **Enlaces sin contenido accesible y estructura de listas incorrecta (detectado por TAW y Lighthouse):**
+   - Detectado por: TAW (enlaces sin contenido - 2.4.4) y Lighthouse (estructura de listas - 1.3.1)
+   - Elementos afectados: 
+     - Enlaces del footer que solo contienen iconos SVG sin texto alternativo
+     - `ul.breadcrumb-nav__list` contiene `span.breadcrumb-nav__prefix` directamente (no dentro de `<li>`)
+   - Gravedad: ALTA/MEDIA - Afecta la navegación con lectores de pantalla
+   - Impacto en usuarios: Los usuarios de lectores de pantalla escuchan "enlace" o "enlace vacío" sin saber a dónde llevan los enlaces. La estructura incorrecta del breadcrumb confunde a usuarios ciegos sobre la navegación.
+
+**Patrón común identificado:** La mayoría de los errores se relacionan con dos áreas problemáticas:
+1. **Paleta de colores:** El color secundario (rgb(255, 184, 66) - amarillo-naranja) del diseño "brutal" no proporciona suficiente contraste con el texto blanco. Necesito revisar mi sistema de variables de color en `_variables.scss`.
+2. **Formularios sin semántica accesible:** Los campos de entrada carecen de etiquetado apropiado, un error fundamental que afecta a cuatro criterios WCAG diferentes.
 
 ---
 
 ## Sección 4: Análisis y Corrección de Errores
 
-> **Pendiente de completar**
+He corregido los 8 errores más críticos detectados en la auditoría. A continuación documento cada corrección con el código antes y después.
+
+### 4.1 Tabla Resumen de Errores Corregidos
+
+| # | Error | Criterio WCAG | Herramienta | Solución aplicada |
+|---|-------|---------------|-------------|-------------------|
+| 1 | Estructura incorrecta del breadcrumb | 1.3.1 | Lighthouse | Movido `<span>` fuera del `<ul>` |
+| 2 | Campo de búsqueda sin etiqueta | 1.1.1, 3.3.2, 4.1.2 | TAW | Añadido `<label>` con clase `visually-hidden` |
+| 3 | Campo de newsletter sin etiqueta | 1.1.1, 3.3.2, 4.1.2 | TAW | Añadido `<label>` vinculado con `for` |
+| 4 | Enlaces sociales sin texto accesible | 2.4.4 | TAW | Mejorado `aria-label` y añadido `aria-hidden` a SVG |
+| 5 | Bajo contraste en botones del footer | 1.4.3 | Lighthouse, WAVE | Cambiado color a `var(--text-primary)` |
+| 6 | Bajo contraste en botones secundarios | 1.4.3 | Lighthouse, WAVE | Cambiado texto de blanco a negro |
+| 7 | Bajo contraste en badge naranja | 1.4.3 | WAVE | Cambiado texto de blanco a negro |
+| 8 | Link redundante en botón de accesibilidad | 2.4.4 | WAVE | Eliminado enlace duplicado de la lista de navegación |
+
+---
+
+### 4.2 Detalle de Cada Error Corregido
+
+#### Error #1: Estructura incorrecta del breadcrumb
+
+**Problema:** El componente de migas de pan (`breadcrumb-nav`) contenía un `<span>` como hijo directo de `<ul>`, lo cual viola la especificación HTML ya que `<ul>` solo puede contener elementos `<li>`.
+
+**Impacto:** Los lectores de pantalla anuncian las listas de forma específica. Una estructura incorrecta confunde a usuarios ciegos que dependen de la navegación por landmarks.
+
+**Criterio WCAG:** 1.3.1 - Información y relaciones (Nivel A)
+
+**Código ANTES:**
+```html
+<nav class="breadcrumb-nav" aria-label="Migas de pan">
+  <ul class="breadcrumb-nav__list">
+    <!-- ERROR: span como hijo directo de ul -->
+    <span class="breadcrumb-nav__prefix">Estás en:</span>
+    <li class="breadcrumb-nav__item">
+      <a routerLink="/home">Inicio</a>
+    </li>
+  </ul>
+</nav>
+```
+
+**Código DESPUÉS:**
+```html
+<nav class="breadcrumb-nav" aria-label="Migas de pan">
+  <!-- Prefijo movido fuera de la lista -->
+  <span class="breadcrumb-nav__prefix" aria-hidden="true">Estás en:</span>
+  
+  <ul class="breadcrumb-nav__list">
+    <li class="breadcrumb-nav__item">
+      <a routerLink="/home">Inicio</a>
+    </li>
+  </ul>
+</nav>
+```
+
+**Archivo modificado:** `src/app/components/shared/breadcrumb-nav/breadcrumb-nav.html`
+
+---
+
+#### Error #2: Campo de búsqueda sin etiqueta accesible
+
+**Problema:** El campo de búsqueda usaba solo `aria-label` sin un `<label>` asociado. Aunque `aria-label` es válido, la técnica preferida es usar `<label>` con `for` porque proporciona una zona de clic ampliada y mejor soporte en tecnologías asistivas antiguas.
+
+**Impacto:** Usuarios de lectores de pantalla no pueden identificar claramente la función del campo. Personas mayores con dificultades cognitivas no reciben instrucciones claras.
+
+**Criterio WCAG:** 1.1.1 - Contenido no textual, 3.3.2 - Etiquetas o instrucciones, 4.1.2 - Nombre, función, valor (todos Nivel A)
+
+**Código ANTES:**
+```html
+<div class="search-container">
+  <div class="search-icon">
+    <svg><!-- icono --></svg>
+  </div>
+  <input
+    type="text"
+    class="search-input"
+    placeholder="Escribe aquí..."
+    aria-label="Campo de búsqueda"
+  />
+</div>
+```
+
+**Código DESPUÉS:**
+```html
+<div class="search-container">
+  <div class="search-icon" aria-hidden="true">
+    <svg><!-- icono --></svg>
+  </div>
+  
+  <!-- Label oculto visualmente pero accesible -->
+  <label for="search-input" class="visually-hidden">Buscar en TecnoMayores</label>
+  
+  <input
+    type="text"
+    id="search-input"
+    class="search-input"
+    placeholder="Escribe aquí..."
+  />
+</div>
+```
+
+**Archivo modificado:** `src/app/components/home/search-bar/search-bar.html`
+
+---
+
+#### Error #3: Campo de newsletter sin etiqueta accesible
+
+**Problema:** Similar al error anterior, el campo de email del boletín usaba `aria-label` en lugar de un `<label>` correctamente vinculado mediante el atributo `for`.
+
+**Impacto:** Usuarios ciegos no saben qué información introducir. El formulario no cumple con las técnicas WCAG H44 y H65 para etiquetado de controles.
+
+**Criterio WCAG:** 1.1.1, 1.3.1, 3.3.2, 4.1.2 (todos Nivel A)
+
+**Código ANTES:**
+```html
+<form class="app-footer__newsletter-form">
+  <input
+    type="email"
+    class="app-footer__newsletter-input"
+    placeholder="Tu correo"
+    aria-label="Tu correo electrónico"
+  />
+  <button type="submit">Suscribir</button>
+</form>
+```
+
+**Código DESPUÉS:**
+```html
+<form class="app-footer__newsletter-form">
+  <label for="newsletter-email" class="visually-hidden">
+    Tu correo electrónico para el boletín
+  </label>
+  <input
+    type="email"
+    id="newsletter-email"
+    class="app-footer__newsletter-input"
+    placeholder="Tu correo"
+  />
+  <button type="submit">Suscribir</button>
+</form>
+```
+
+**Archivo modificado:** `src/app/components/layout/footer/footer.html`
+
+---
+
+#### Error #4: Enlaces sociales del footer sin texto accesible
+
+**Problema:** Los enlaces a WhatsApp y Email contenían solo iconos SVG. Aunque tenían `aria-label`, los SVG no estaban marcados con `aria-hidden="true"`, lo que podía causar anuncios duplicados en lectores de pantalla.
+
+**Impacto:** Los lectores de pantalla anuncian "enlace, gráfico" sin describir el destino real del enlace.
+
+**Criterio WCAG:** 2.4.4 - Propósito de los enlaces (Nivel A)
+
+**Código ANTES:**
+```html
+<a href="https://wa.me/+34" class="app-footer__social-link" aria-label="WhatsApp">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M17.472..."/>
+  </svg>
+</a>
+```
+
+**Código DESPUÉS:**
+```html
+<a href="https://wa.me/+34" class="app-footer__social-link" aria-label="Contactar por WhatsApp">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" 
+       aria-hidden="true" focusable="false">
+    <path d="M17.472..."/>
+  </svg>
+</a>
+```
+
+**Archivo modificado:** `src/app/components/layout/footer/footer.html`
+
+**Cambios adicionales:**
+- `aria-hidden="true"` en todos los SVG decorativos para que los lectores de pantalla los ignoren
+- `focusable="false"` para evitar que el SVG reciba foco en navegadores antiguos
+- Mejorado el texto de `aria-label` de "WhatsApp" a "Contactar por WhatsApp" y de "Email" a "Enviar correo electrónico" para ser más descriptivo
+
+---
+
+#### Error #5: Bajo contraste en botones del footer
+
+**Problema:** Los botones de "Accesibilidad" e "Idioma" usaban colores que no proporcionaban suficiente contraste con el fondo. El botón de accesibilidad usaba `var(--color-tertiary)` (naranja) y el de idioma `var(--color-primary)` (amarillo), ambos difíciles de leer.
+
+**Impacto:** Usuarios con baja visión, personas mayores con presbicia y usuarios con daltonismo no pueden leer estos enlaces.
+
+**Criterio WCAG:** 1.4.3 - Contraste mínimo (Nivel AA)
+
+**Código ANTES (SCSS):**
+```scss
+.app-footer__accessibility-btn {
+  color: var(--color-tertiary);  // Naranja - bajo contraste
+  
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.app-footer__language-btn {
+  color: var(--color-primary);  // Amarillo - bajo contraste
+  
+  &:hover {
+    opacity: 0.8;
+  }
+}
+```
+
+**Código DESPUÉS (SCSS):**
+```scss
+.app-footer__accessibility-btn {
+  color: var(--text-primary);  // Negro - alto contraste
+  
+  &:hover {
+    color: var(--color-tertiary);  // Naranja solo en hover
+  }
+}
+
+.app-footer__language-btn {
+  color: var(--text-primary);  // Negro - alto contraste
+  
+  &:hover {
+    color: var(--color-accent);  // Azul solo en hover
+  }
+}
+```
+
+**Archivo modificado:** `src/app/components/layout/footer/footer.scss`
+
+**Cambio adicional en HTML:**
+- Cambiado el texto "AAA" por "Accesibilidad" para mayor claridad
+- Envuelto el texto en `<span>` para mejor control de estilos
+- Añadido `aria-hidden="true"` a los iconos SVG
+
+---
+
+#### Error #6: Bajo contraste en botones secundarios
+
+**Problema:** Los botones con la clase `.button--secondary` (como "Saber sobre nosotros" y "Ver Lecciones") usaban texto blanco (`--text-on-dark`: #fdfdfd) sobre fondo amarillo-naranja (`--color-secondary`: #ffb842). El ratio de contraste era aproximadamente 1.5:1, muy por debajo del mínimo requerido.
+
+**Impacto:** Los botones de navegación principales son ilegibles para personas mayores con problemas visuales, usuarios con daltonismo o cualquier persona en entornos con mucha luz.
+
+**Criterio WCAG:** 1.4.3 - Contraste mínimo (Nivel AA) - Requiere ratio 4.5:1 para texto normal
+
+**Código ANTES (SCSS):**
+```scss
+.button--secondary {
+  background-color: var(--color-secondary);
+  color: var(--text-on-dark);  // Blanco #fdfdfd - bajo contraste
+  border-color: var(--color-secondary);
+}
+```
+
+**Código DESPUÉS (SCSS):**
+```scss
+.button--secondary {
+  background-color: var(--color-secondary);
+  color: var(--text-primary);  // Negro #030303 - alto contraste
+  border-color: var(--color-secondary);
+}
+```
+
+**Archivo modificado:** `src/app/components/shared/button/button.scss`
+
+**Ratio de contraste conseguido:** Aproximadamente 9.5:1 (supera WCAG AAA)
+
+---
+
+#### Error #7: Bajo contraste en badge de categoría naranja
+
+**Problema:** Las insignias de categoría con la clase `.badge-orange` (que muestran "Comunicación" en las tarjetas de lecciones) usaban texto blanco sobre fondo naranja (`--color-tertiary`: #f3742b), sin cumplir el contraste mínimo.
+
+**Impacto:** Los usuarios no pueden identificar rápidamente la categoría de las lecciones, lo cual dificulta la navegación y organización del contenido educativo.
+
+**Criterio WCAG:** 1.4.3 - Contraste mínimo (Nivel AA)
+
+**Código ANTES (SCSS):**
+```scss
+&.badge-orange {
+  background: var(--color-tertiary);
+  color: var(--text-on-dark);  // Blanco - bajo contraste
+}
+```
+
+**Código DESPUÉS (SCSS):**
+```scss
+&.badge-orange {
+  background: var(--color-tertiary);
+  color: var(--text-primary);  // Negro - alto contraste
+}
+```
+
+**Archivo modificado:** `src/app/components/home/lecciones-recomendadas/lecciones-recomendadas.scss`
+
+---
+
+#### Error #8: Link redundante en botón de accesibilidad del footer
+
+**Problema:** WAVE detectó un enlace redundante a `/accesibilidad`. El footer contenía **dos enlaces diferentes al mismo destino**: uno en la lista de navegación "Nosotros" y otro como botón decorativo en la parte inferior. Esto confunde a los usuarios de lectores de pantalla que escuchan el mismo enlace anunciado dos veces en el mismo componente.
+
+**Impacto:** Los usuarios de tecnologías asistivas navegan por enlaces duplicados innecesariamente. Esto genera frustración y pérdida de tiempo, especialmente para personas mayores que pueden pensar que están accediendo a contenido diferente.
+
+**Criterio WCAG:** 2.4.4 - Propósito de los enlaces (Nivel A)
+
+**Código ANTES (HTML):**
+```html
+<!-- Columna 3: Nosotros -->
+<section class="app-footer__section app-footer__section--lower">
+  <h3 class="app-footer__section-title">Nosotros</h3>
+  <nav class="app-footer__nav">
+    <ul class="app-footer__nav-list">
+      <li><a href="/quienes-somos" class="app-footer__link">¿Quiénes somos?</a></li>
+      <li><a href="/privacidad" class="app-footer__link">Privacidad</a></li>
+      <li><a href="/accesibilidad" class="app-footer__link">Accesibilidad</a></li>
+    </ul>
+  </nav>
+</section>
+
+<!-- Más abajo en el footer... -->
+<div class="app-footer__actions">
+  <a href="/accesibilidad" class="app-footer__action-link app-footer__accessibility-btn">
+    <svg aria-hidden="true" focusable="false">...</svg>
+    <span>Accesibilidad</span>
+  </a>
+</div>
+```
+
+**Código DESPUÉS (HTML):**
+```html
+<!-- Columna 3: Nosotros -->
+<section class="app-footer__section app-footer__section--lower">
+  <h3 class="app-footer__section-title">Nosotros</h3>
+  <nav class="app-footer__nav">
+    <ul class="app-footer__nav-list">
+      <li><a href="/quienes-somos" class="app-footer__link">¿Quiénes somos?</a></li>
+      <li><a href="/privacidad" class="app-footer__link">Privacidad</a></li>
+      <!-- Enlace a Accesibilidad eliminado - ya existe en el footer decorativo -->
+    </ul>
+  </nav>
+</section>
+
+<!-- El botón decorativo del footer se mantiene -->
+<div class="app-footer__actions">
+  <a href="/accesibilidad" class="app-footer__action-link app-footer__accessibility-btn">
+    <svg aria-hidden="true" focusable="false">...</svg>
+    <span>Accesibilidad</span>
+  </a>
+</div>
+```
+
+**Archivo modificado:** `src/app/components/layout/footer/footer.html`
+
+**Solución aplicada:**
+- Eliminado el enlace duplicado de la lista de navegación "Nosotros"
+- Mantenido el botón decorativo del footer que es más visible y tiene mejor diseño
+- Ahora solo existe un único enlace a `/accesibilidad` en todo el footer
+
+**Mejora adicional aplicada previamente:**
+- Cambiado texto "AAA" por "Accesibilidad" para mayor claridad
+- Añadido `aria-hidden="true"` al SVG decorativo
+- Añadido `focusable="false"` al SVG para prevenir problemas en navegadores antiguos
+
+---
+
+### 4.3 Clase de Utilidad Añadida
+
+Para implementar las correcciones de etiquetado, he añadido la clase `.visually-hidden` al archivo de estilos globales. Esta técnica es la recomendada por WCAG para ocultar contenido visualmente mientras se mantiene accesible para lectores de pantalla:
+
+```scss
+// Archivo: src/styles/02-generic/_reset.scss
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+```
+
+Esta clase:
+- Reduce el elemento a 1x1 píxel (invisible pero presente en el DOM)
+- Usa `clip` para ocultar cualquier overflow
+- Mantiene el elemento en el árbol de accesibilidad
+- Es preferible a `display: none` o `visibility: hidden` que ocultan el contenido también para lectores de pantalla
 
 ---
 
