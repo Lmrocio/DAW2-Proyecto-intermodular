@@ -33,7 +33,8 @@
       [variant]="buttonVariant"
       size="md"
       [text]="buttonText"
-      [routerLink]="routerLink">
+      [routerLink]="routerLink"
+      [ariaLabel]="buttonText + ' - ' + title">
     </app-button>
 
     <app-button
@@ -42,7 +43,8 @@
       [variant]="buttonVariant"
       size="md"
       [text]="buttonText"
-      (btnClick)="onButtonClick()">
+      (btnClick)="onButtonClick()"
+      [ariaLabel]="buttonText + ' - ' + title">
     </app-button>
   </div>
 </div>

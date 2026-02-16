@@ -46,7 +46,8 @@
           [link]="button1Link"
           [color]="button1Color"
           variant="brutal"
-          size="md">
+          size="md"
+          [ariaLabel]="button1Text">
         </app-button>
 
         <!-- Botón 2 -->
@@ -57,7 +58,8 @@
           variant="brutal"
           size="md"
           [icon]="isSpeaking ? null : 'play'"
-          (btnClick)="playAudio(audioText || subtitle)">
+          (btnClick)="playAudio(audioText || subtitle)"
+          [ariaLabel]="isSpeaking ? 'Detener lectura del texto' : 'Escuchar texto de la página'">
         </app-button>
       </div>
     </div>

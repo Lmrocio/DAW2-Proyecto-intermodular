@@ -657,7 +657,7 @@ Después de analizar los resultados de las tres herramientas (Lighthouse, WAVE y
 
 ## Sección 4: Análisis y Corrección de Errores
 
-He corregido los 14 errores y advertencias más críticos detectados en las auditorías. A continuación documento cada corrección con el código antes y después.
+He corregido los 20 errores y advertencias más críticos detectados en las auditorías. A continuación documento cada corrección con el código antes y después.
 
 ### 4.1 Tabla Resumen de Errores Corregidos
 
@@ -675,8 +675,14 @@ He corregido los 14 errores y advertencias más críticos detectados en las audi
 | 10 | Enlaces sociales sin contenido textual | 2.4.4 | TAW | Añadido `<span class="visually-hidden">` con texto descriptivo |
 | 11 | Encabezados consecutivos sin contenido | 1.3.1 | TAW | Falso positivo - estructura correcta verificada |
 | 12 | Falta enlace "Saltar al contenido" | 2.4.1 | TAW | Añadido enlace skip-to-main con estilos accesibles |
-| 13 | Enlaces con mismo texto y destinos diferentes | 2.4.4 | TAW | Añadido `aria-label` descriptivo a botones de lección |
-| 14 | Botones "Guardar" sin contexto | 2.4.4 | TAW | Añadido `aria-label` con nombre de la lección |
+| 13 | Enlaces con mismo texto y destinos diferentes | 2.4.4 | TAW | Añadido `[ariaLabel]` descriptivo a botones de lección |
+| 14 | Botones "Guardar" sin contexto | 2.4.4 | TAW | Añadido `[ariaLabel]` con nombre de la lección |
+| 15 | Botones de reproducción sin contexto | 2.4.4 | TAW | Añadido `[ariaLabel]` dinámico con título de lección |
+| 16 | Enlace "Ver todo catálogo" sin contexto | 2.4.4 | TAW | Añadido `aria-label` descriptivo |
+| 17 | Botones del hero sin aria-label | 2.4.4 | TAW | Añadido `[ariaLabel]` a botones de acción |
+| 18 | Botones de guía sin contexto | 2.4.4 | TAW | Añadido `ariaLabel` descriptivo a botones |
+| 19 | Botón suscribir sin aria-label | 2.4.4 | TAW | Añadido `aria-label` al botón del newsletter |
+| 20 | Enlaces footer sin contexto | 2.4.4 | TAW | Añadido `aria-label` a accesibilidad e idioma |
 
 ---
 
@@ -1209,7 +1215,7 @@ He corregido los 14 errores y advertencias más críticos detectados en las audi
   color="accent"
   variant="brutal"
   size="md"
-  [attr.aria-label]="'Ver lección: ' + leccion.titulo"
+  [ariaLabel]="'Ver lección: ' + leccion.titulo"
 ></app-button>
 ```
 
@@ -1251,7 +1257,7 @@ He corregido los 14 errores y advertencias más críticos detectados en las audi
   size="md"
   icon="bookmark"
   (btnClick)="saveLesson()"
-  [attr.aria-label]="'Guardar lección: ' + leccion.titulo"
+  [ariaLabel]="'Guardar lección: ' + leccion.titulo"
 ></app-button>
 ```
 
@@ -1260,6 +1266,117 @@ He corregido los 14 errores y advertencias más críticos detectados en las audi
 **Solución aplicada:**
 - Añadido `aria-label` dinámico con el título de la lección
 - Ahora los lectores de pantalla anuncian "Guardar lección: Mi primer móvil", etc.
+
+---
+
+#### Error #15: Botones de reproducción sin contexto
+
+**Problema:** Los botones de "play" para escuchar las lecciones solo tenían el icono visible, sin indicar qué lección se iba a reproducir.
+
+**Criterio WCAG:** 2.4.4 - Propósito de los enlaces en contexto (Nivel A)
+
+**Código DESPUÉS (HTML):**
+```html
+<app-button
+  [ariaLabel]="speakingId === leccion.id ? 'Detener lectura de ' + leccion.titulo : 'Escuchar lección ' + leccion.titulo">
+</app-button>
+```
+
+**Archivo modificado:** `src/app/components/home/lecciones-recomendadas/lecciones-recomendadas.html`
+
+---
+
+#### Error #16: Enlace "Ver todo catálogo" sin contexto
+
+**Problema:** El enlace "Ver todo el catálogo" no especificaba que se refería al catálogo de lecciones.
+
+**Criterio WCAG:** 2.4.4 - Propósito de los enlaces en contexto (Nivel A)
+
+**Código DESPUÉS (HTML):**
+```html
+<a routerLink="/lecciones" class="lecciones-link" aria-label="Ver todo el catálogo de lecciones">
+  Ver todo el catálogo
+  <svg aria-hidden="true">...</svg>
+</a>
+```
+
+**Archivo modificado:** `src/app/components/home/lecciones-recomendadas/lecciones-recomendadas.html`
+
+---
+
+#### Error #17: Botones del hero sin aria-label
+
+**Problema:** Los botones de acción del hero no tenían aria-labels descriptivos.
+
+**Criterio WCAG:** 2.4.4 - Propósito de los enlaces en contexto (Nivel A)
+
+**Código DESPUÉS (HTML):**
+```html
+<app-button
+  [ariaLabel]="isSpeaking ? 'Detener lectura del texto' : 'Escuchar texto de la página'">
+</app-button>
+```
+
+**Archivo modificado:** `src/app/components/home/hero/hero.html`
+
+---
+
+#### Error #18: Botones de guía sin contexto
+
+**Problema:** Los botones "Saber más" y "Modo guía" no indicaban su propósito específico.
+
+**Criterio WCAG:** 2.4.4 - Propósito de los enlaces en contexto (Nivel A)
+
+**Código DESPUÉS (HTML):**
+```html
+<app-button
+  text="Saber más"
+  ariaLabel="Saber más sobre el modo guía">
+</app-button>
+<app-button
+  text="Modo guía"
+  ariaLabel="Activar el modo guía de navegación">
+</app-button>
+```
+
+**Archivo modificado:** `src/app/components/home/guia-mode/guia-mode.html`
+
+---
+
+#### Error #19: Botón suscribir sin aria-label
+
+**Problema:** El botón "Suscribir" del formulario de newsletter no indicaba su función completa.
+
+**Criterio WCAG:** 2.4.4 - Propósito de los enlaces en contexto (Nivel A)
+
+**Código DESPUÉS (HTML):**
+```html
+<button type="submit" class="app-footer__newsletter-btn" aria-label="Suscribirse al boletín semanal">
+  Suscribir
+</button>
+```
+
+**Archivo modificado:** `src/app/components/layout/footer/footer.html`
+
+---
+
+#### Error #20: Enlaces footer sin contexto
+
+**Problema:** Los enlaces de "Accesibilidad" e "Idioma" en el footer no indicaban su propósito completo.
+
+**Criterio WCAG:** 2.4.4 - Propósito de los enlaces en contexto (Nivel A)
+
+**Código DESPUÉS (HTML):**
+```html
+<a href="/accesibilidad" aria-label="Ver declaración de accesibilidad">
+  Accesibilidad
+</a>
+<a href="#" aria-label="Cambiar idioma a Español (idioma actual)">
+  Español
+</a>
+```
+
+**Archivo modificado:** `src/app/components/layout/footer/footer.html`
 
 ---
 
