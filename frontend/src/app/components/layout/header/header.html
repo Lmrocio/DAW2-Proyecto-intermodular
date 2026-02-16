@@ -2,7 +2,7 @@
   <div class="app-header__container">
 
     <!-- Logo -->
-    <a href="/" class="app-header__logo" aria-label="Inicio - TecnoMayores">
+    <a routerLink="/home" class="app-header__logo" aria-label="Inicio - TecnoMayores">
       <span class="app-header__logo-text">TecnoMayores</span>
     </a>
 
@@ -10,13 +10,13 @@
     <nav class="app-header__nav app-header__nav--desktop" aria-label="Navegación principal">
       <ul class="app-header__nav-list">
         <li class="app-header__nav-item">
-          <a href="/lecciones" class="app-header__nav-link">Lecciones</a>
+          <a routerLink="/lecciones" class="app-header__nav-link">Lecciones</a>
         </li>
         <li class="app-header__nav-item">
-          <a href="/simuladores" class="app-header__nav-link">Simuladores</a>
+          <a routerLink="/simuladores" class="app-header__nav-link">Simuladores</a>
         </li>
         <li class="app-header__nav-item">
-          <a href="/ayuda" class="app-header__nav-link">Ayuda</a>
+          <a routerLink="/ayuda" class="app-header__nav-link">Ayuda</a>
         </li>
       </ul>
     </nav>
@@ -153,13 +153,13 @@
       <!-- Navegación -->
       <ul class="app-header__mobile-nav-list">
         <li class="app-header__mobile-nav-item">
-          <a href="/lecciones" class="app-header__mobile-nav-link" (click)="closeMenu()">Lecciones</a>
+          <a routerLink="/lecciones" class="app-header__mobile-nav-link" (click)="closeMenu()">Lecciones</a>
         </li>
         <li class="app-header__mobile-nav-item">
-          <a href="/simuladores" class="app-header__mobile-nav-link" (click)="closeMenu()">Simuladores</a>
+          <a routerLink="/simuladores" class="app-header__mobile-nav-link" (click)="closeMenu()">Simuladores</a>
         </li>
         <li class="app-header__mobile-nav-item">
-          <a href="/ayuda" class="app-header__mobile-nav-link" (click)="closeMenu()">Ayuda</a>
+          <a routerLink="/ayuda" class="app-header__mobile-nav-link" (click)="closeMenu()">Ayuda</a>
         </li>
       </ul>
 

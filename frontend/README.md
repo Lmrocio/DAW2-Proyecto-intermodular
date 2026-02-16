@@ -4,6 +4,72 @@ Aplicación Angular standalone para la plataforma de formación tecnológica Tec
 
 ---
 
+## Índice de Módulos
+
+Este documento contiene documentación de dos módulos diferentes:
+
+1. **[DIW - Proyecto 4: Accesibilidad y Multimedia](#diy---proyecto-4-accesibilidad-y-multimedia)** - Diseño de Interfaces Web
+2. **[DWEC - Documentación del Módulo de Cliente](#dwec---documentación-del-módulo-de-cliente)** - Desarrollo Web en Entorno Cliente
+
+---
+
+## DIW - Proyecto 4: Accesibilidad y Multimedia
+
+### Descripción del Proyecto
+
+TecnoMayores es una plataforma educativa diseñada para enseñar tecnología a personas mayores. El proyecto ha sido desarrollado con la accesibilidad como prioridad desde el inicio, aplicando las pautas WCAG 2.1 Nivel AA para garantizar que todos los usuarios puedan navegar y aprender sin barreras.
+
+### Componente Multimedia Añadido
+
+**Tipo:** Video tutorial con subtítulos y transcripción
+
+**Descripción:** Componente de video accesible que incluye subtítulos en formato WebVTT, transcripción desplegable, controles por teclado y compatibilidad con lectores de pantalla.
+
+### Resultados de Auditoría de Accesibilidad
+
+| Herramienta | Puntuación inicial | Puntuación final | Mejora |
+|-------------|-------------------|------------------|--------|
+| Lighthouse | 82/100 | 100/100 | +18 puntos |
+| WAVE | 12 errores, 15 alertas | 0 errores, 0 alertas | -12 errores, -15 alertas |
+| TAW | 20 errores | 0 errores, 37 advertencias | -20 errores |
+
+**Nivel de conformidad alcanzado:** WCAG 2.1 AA
+
+### Documentación Completa de Accesibilidad
+
+[Ver análisis completo de accesibilidad](./docs/accesibilidad/README.md)
+
+### Verificación Realizada
+
+- Auditoría con Lighthouse, WAVE y TAW
+- Test con lector de pantalla (NVDA)
+- Test de navegación por teclado
+- Verificación cross-browser (Chrome, Firefox, Edge)
+
+### Características de Accesibilidad Implementadas
+
+- HTML5 semántico con landmarks correctos (header, nav, main, footer)
+- Atributos ARIA para mejorar la experiencia con lectores de pantalla
+- Skip link para saltar al contenido principal
+- Indicadores de foco visibles (3px azul)
+- Contraste de colores WCAG AA en todos los elementos
+- Soporte de modo claro/oscuro con preferencia del sistema
+- Navegación completa por teclado sin trampas de foco
+- Textos alternativos descriptivos en todas las imágenes
+- Formularios con labels y validación accesible
+
+### Autor del Módulo DIW
+
+**Nombre:** Rocío Luque Montes
+
+**Curso:** 2º DAW - Desarrollo de Aplicaciones Web
+
+**Módulo:** Diseño de Interfaces Web (DIW)
+
+---
+
+## DWEC - Documentación del Módulo de Cliente
+
 ## Tabla de Contenidos
 
 1. [Arquitectura de Eventos](#arquitectura-de-eventos)
