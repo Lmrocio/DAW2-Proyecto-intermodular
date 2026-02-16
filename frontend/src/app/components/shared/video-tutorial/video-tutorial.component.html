@@ -33,11 +33,14 @@
     </video>
   </div>
 
-  <!-- Transcripción completa del video -->
-  <div class="transcription-section">
-    <h3 class="transcription-title">Transcripción completa</h3>
-    <div class="transcription-content" role="region" aria-label="Transcripción del video">
-      <p>{{ transcription }}</p>
+  <!-- Transcripción completa del video en desplegable -->
+  <details class="transcription-section">
+    <summary class="transcription-summary">
+      <span class="material-symbols-outlined transcription-icon">description</span>
+      <h3 class="transcription-title">Transcripción completa del video</h3>
+      <span class="material-symbols-outlined chevron-icon">expand_more</span>
+    </summary>
+    <div class="transcription-content" role="region" aria-label="Transcripción del video" [innerHTML]="formattedTranscription">
     </div>
-  </div>
+  </details>
 </div>

@@ -63,4 +63,24 @@ export class VideoTutorialComponent {
   get subtitlesEnPath(): string {
     return `assets/subtitles/${this.subtitlesEn}`;
   }
+
+  /**
+   * Formatea la transcripción dividiéndola en párrafos para mejor legibilidad
+   * Divide el texto por puntos seguidos de espacio y crea párrafos
+   */
+  get formattedTranscription(): string {
+    if (!this.transcription) return '';
+
+    // Dividir por oraciones y agrupar en párrafos de 3-4 oraciones
+    const sentences = this.transcription.split('. ');
+    const paragraphs: string[] = [];
+
+    for (let i = 0; i < sentences.length; i += 3) {
+      const paragraphSentences = sentences.slice(i, i + 3);
+      const paragraph = paragraphSentences.join('. ') + (i + 3 < sentences.length ? '.' : '');
+      paragraphs.push(`<p>${paragraph}</p>`);
+    }
+
+    return paragraphs.join('');
+  }
 }
