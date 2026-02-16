@@ -532,11 +532,15 @@ Los campos de entrada (`<input>`) detectados en la línea 15 no tienen asociada 
 
 **Técnicas WCAG relacionadas:** H44, H65
 
-**Error TAW-P1-2: Dos encabezados consecutivos sin contenido (1.3.1)**
+**Error TAW-P1-2: Dos encabezados consecutivos sin contenido (1.3.1) - CORREGIDO**
 
-Se detectó una estructura de encabezados incorrecta donde aparecen dos encabezados del mismo nivel seguidos sin contenido textual entre ellos. Esto viola la técnica H42 que establece que los encabezados deben seguir una jerarquía lógica con contenido significativo.
+Se detectó una estructura de encabezados incorrecta donde aparecían dos encabezados del mismo nivel seguidos sin contenido textual entre ellos. Esto violaba la técnica H42 que establece que los encabezados deben seguir una jerarquía lógica con contenido significativo.
 
-**Impacto:** Los usuarios de lectores de pantalla pueden confundirse al navegar por encabezados si estos están vacíos o no tienen contenido asociado.
+**Solución aplicada:** Se identificó que el componente `simulator-card` utilizaba elementos `<h3>` para los títulos de las tarjetas ("Seguro" e "Infinito"). Dado que estas tarjetas no representan secciones de contenido que deban ser navegadas por encabezados, se cambió `<h3>` a `<p>`, manteniendo los estilos visuales pero corrigiendo la semántica HTML.
+
+**Impacto resuelto:** Los usuarios de lectores de pantalla ahora pueden navegar correctamente por la jerarquía de encabezados sin encontrar elementos consecutivos confusos.
+
+**Archivo modificado:** `src/app/components/shared/simulator-card/simulator-card.component.html`
 
 ##### Principio 2: Operable
 
@@ -612,7 +616,7 @@ Los componentes de interfaz de usuario (campos de formulario) no exponen correct
 |---|-------|---------------|-----------|-------------|-----------|
 | 1 | Controles de formulario sin etiquetar | 1.1.1 | Perceptible | 2 | Alta |
 | 2 | Controles de formulario sin etiquetar | 1.3.1 | Perceptible | 2 | Alta |
-| 3 | Encabezados consecutivos sin contenido | 1.3.1 | Perceptible | 1 | Media |
+| 3 | Encabezados consecutivos sin contenido (H42) - **CORREGIDO** | 1.3.1 | Perceptible | 1 | Media |
 | 4 | Enlaces sin contenido | 2.4.4 | Operable | 2 | Alta |
 | 5 | Etiquetado de controles | 3.3.2 | Comprensible | 2 | Alta |
 | 6 | Controles sin nombre accesible | 4.1.2 | Robusto | 2 | Alta |
@@ -673,7 +677,7 @@ He corregido los 20 errores y advertencias más críticos detectados en las audi
 | 8 | Link redundante en botón de accesibilidad | 2.4.4 | WAVE | Eliminado enlace duplicado de la lista de navegación |
 | 9 | Título de página genérico | 2.4.2 | TAW | Cambiado de "Frontend" a título descriptivo |
 | 10 | Enlaces sociales sin contenido textual | 2.4.4 | TAW | Añadido `<span class="visually-hidden">` con texto descriptivo |
-| 11 | Encabezados consecutivos sin contenido | 1.3.1 | TAW | Falso positivo - estructura correcta verificada |
+| 11 | Encabezados consecutivos sin contenido (H42) | 1.3.1 | TAW | Cambiado `<h3>` a `<p>` en simulator-card |
 | 12 | Falta enlace "Saltar al contenido" | 2.4.1 | TAW | Añadido enlace skip-to-main con estilos accesibles |
 | 13 | Enlaces con mismo texto y destinos diferentes | 2.4.4 | TAW | Añadido `[ariaLabel]` descriptivo a botones de lección |
 | 14 | Botones "Guardar" sin contexto | 2.4.4 | TAW | Añadido `[ariaLabel]` con nombre de la lección |
@@ -1107,21 +1111,83 @@ He corregido los 20 errores y advertencias más críticos detectados en las audi
 
 ---
 
-#### Error #11: Encabezados consecutivos sin contenido (falso positivo)
+#### Error #11: Encabezados consecutivos sin contenido (H42)
 
-**Problema:** TAW reportó "dos encabezados del mismo nivel seguidos sin contenido entre ellos" en la línea 15. Al analizar el código fuente, verifiqué que todos los encabezados tienen contenido entre ellos (párrafos, listas, imágenes, etc.).
+**Problema:** TAW reportó "dos encabezados del mismo nivel seguidos sin contenido entre ellos" (técnica H42). Al analizar el código renderizado, identifiqué que el componente `simulator-card` utilizaba elementos `<h3>` para los títulos de las tarjetas ("Seguro" e "Infinito"), lo cual creaba encabezados consecutivos del mismo nivel sin contenido textual entre ellos.
 
-**Impacto:** Este es un falso positivo generado por cómo Angular renderiza los componentes. Los encabezados pertenecen a diferentes componentes y secciones, cada uno con su contenido correspondiente.
+**Impacto:** Los usuarios de lectores de pantalla que navegan por encabezados (tecla H en NVDA/JAWS) escuchan múltiples encabezados seguidos sin contexto claro, lo cual puede resultar confuso. Esto viola la técnica H42 de WCAG que establece que los encabezados deben seguir una jerarquía lógica con contenido significativo entre ellos.
 
-**Criterio WCAG:** 1.3.1 - Información y relaciones (Nivel A)
+**Criterio WCAG:** 1.3.1 - Información y relaciones (Nivel A), Técnica H42
 
-**Análisis realizado:**
-- Revisé la estructura de encabezados en el HTML compilado
-- Cada `<h2>` y `<h3>` tiene contenido descriptivo antes del siguiente encabezado
-- La estructura jerárquica es correcta: h1 → h2 → h3
-- El error se produce porque TAW analiza el código minificado donde los saltos de línea se eliminan
+**Código ANTES:**
+```html
+<div class="card-container">
+  <div class="card-content">
+    <div class="icon-container">
+      <svg><!-- icono --></svg>
+    </div>
+    <h3 class="card-title">{{ title }}</h3>
+  </div>
+</div>
+```
 
-**Conclusión:** No se requiere corrección de código. Se trata de una limitación de la herramienta TAW al analizar código Angular compilado y minificado. La estructura semántica del sitio es correcta.
+**Problema identificado:**
+Cuando se renderizaban dos tarjetas de simulador consecutivas (por ejemplo, "Seguro" e "Infinito"), se generaban dos `<h3>` seguidos:
+```html
+<h3 class="card-title">Seguro</h3>
+<!-- No hay contenido aquí -->
+<h3 class="card-title">Infinito</h3>
+```
+
+**Código DESPUÉS:**
+```html
+<div class="card-container">
+  <div class="card-content">
+    <div class="icon-container">
+      <svg><!-- icono --></svg>
+    </div>
+    <p class="card-title">{{ title }}</p>
+  </div>
+</div>
+```
+
+**Justificación de la solución:**
+Los títulos de las tarjetas de simulador no son encabezados de sección sino etiquetas descriptivas de características. Según la especificación WCAG, los encabezados (`<h1>`-`<h6>`) deben usarse únicamente para estructurar el documento y crear una jerarquía de contenido navegable. En este caso, `<p>` es el elemento semántico correcto porque:
+
+1. Las tarjetas no representan secciones de contenido independientes que necesiten ser navegadas por encabezados
+2. El texto es puramente descriptivo/etiquetador, no un título de sección
+3. Ya existe un `<h2>` superior ("Practica sin miedo") que estructura correctamente esta sección
+
+**Archivo modificado:** `src/app/components/shared/simulator-card/simulator-card.component.html`
+
+**CSS mantenido:** Los estilos `.card-title` se mantienen sin cambios, ya que funcionan correctamente tanto para `<h3>` como para `<p>`:
+```scss
+.card-title {
+  font-family: v.$font-primary;
+  font-size: v.$font-size-xl;
+  font-weight: v.$font-weight-bold;
+  color: var(--color-accent);
+  margin: 0;
+  position: relative;
+  z-index: 1;
+  letter-spacing: -0.5px;
+}
+```
+
+**Verificación:** Tras el cambio, la estructura de encabezados de la página home queda correctamente jerarquizada:
+```
+h1: "Aprende tecnología paso a paso" (hero)
+  h2: "¿Qué quieres aprender hoy?" (search-bar)
+  h3: "¿Te sientes perdido? Activa el Asistente" (guia-mode)
+  h2: "Lecciones Visuales" (feature-section)
+  h2: "Practica sin miedo" (feature-section)
+    p: "Seguro" (simulator-card) ✓
+    p: "Infinito" (simulator-card) ✓
+  h2: "Lecciones sugeridas" (lecciones-recomendadas)
+    h3: "Mi primer móvil" (leccion-card)
+    h3: "WhatsApp y fotos" (leccion-card)
+    h3: "Internet Seguro" (leccion-card)
+```
 
 ---
 
