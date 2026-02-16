@@ -1,7 +1,8 @@
 <nav class="breadcrumb-nav" aria-label="Migas de pan" *ngIf="breadcrumbs.length">
+  <!-- Prefijo "Estás en:" fuera de la lista para cumplir estructura semántica -->
+  <span class="breadcrumb-nav__prefix" aria-hidden="true">Estás en:</span>
+
   <ul class="breadcrumb-nav__list">
-    <!-- Prefijo "Estás en:" (oculto en móvil) -->
-    <span class="breadcrumb-nav__prefix">Estás en:</span>
 
     <!-- Caso: solo Inicio (mostrar enlace 'Inicio' sin estilo de enlace) -->
     <li class="breadcrumb-nav__item" *ngIf="isOnlyHome">

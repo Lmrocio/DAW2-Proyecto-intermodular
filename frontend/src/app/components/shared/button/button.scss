@@ -202,7 +202,7 @@
 
 .button--secondary {
   background-color: var(--color-secondary);
-  color: var(--text-on-dark);
+  color: var(--text-primary);  // Cambiado de --text-on-dark a --text-primary para mejor contraste
   border-color: var(--color-secondary);
 
   &:hover:not(:disabled):not([aria-disabled="true"]) {

@@ -12,6 +12,9 @@
   border-bottom: v.$border-thin solid var(--border-color);
   align-self: center;
   justify-self: center;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
 
   @media (max-width: v.$breakpoint-md) {
     padding: v.$spacing-3 v.$spacing-4;
