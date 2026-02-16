@@ -657,7 +657,7 @@ Después de analizar los resultados de las tres herramientas (Lighthouse, WAVE y
 
 ## Sección 4: Análisis y Corrección de Errores
 
-He corregido los 11 errores más críticos detectados en las auditorías. A continuación documento cada corrección con el código antes y después.
+He corregido los 14 errores y advertencias más críticos detectados en las auditorías. A continuación documento cada corrección con el código antes y después.
 
 ### 4.1 Tabla Resumen de Errores Corregidos
 
@@ -674,6 +674,9 @@ He corregido los 11 errores más críticos detectados en las auditorías. A cont
 | 9 | Título de página genérico | 2.4.2 | TAW | Cambiado de "Frontend" a título descriptivo |
 | 10 | Enlaces sociales sin contenido textual | 2.4.4 | TAW | Añadido `<span class="visually-hidden">` con texto descriptivo |
 | 11 | Encabezados consecutivos sin contenido | 1.3.1 | TAW | Falso positivo - estructura correcta verificada |
+| 12 | Falta enlace "Saltar al contenido" | 2.4.1 | TAW | Añadido enlace skip-to-main con estilos accesibles |
+| 13 | Enlaces con mismo texto y destinos diferentes | 2.4.4 | TAW | Añadido `aria-label` descriptivo a botones de lección |
+| 14 | Botones "Guardar" sin contexto | 2.4.4 | TAW | Añadido `aria-label` con nombre de la lección |
 
 ---
 
@@ -1113,6 +1116,150 @@ He corregido los 11 errores más críticos detectados en las auditorías. A cont
 - El error se produce porque TAW analiza el código minificado donde los saltos de línea se eliminan
 
 **Conclusión:** No se requiere corrección de código. Se trata de una limitación de la herramienta TAW al analizar código Angular compilado y minificado. La estructura semántica del sitio es correcta.
+
+---
+
+#### Error #12: Falta enlace "Saltar al contenido principal"
+
+**Problema:** La página no disponía de un mecanismo para saltar directamente al contenido principal, obligando a los usuarios de teclado y lectores de pantalla a navegar por todos los elementos del header (logo, menú, botones) antes de llegar al contenido.
+
+**Impacto:** Los usuarios que navegan solo con teclado o utilizan lectores de pantalla deben recorrer todos los enlaces de navegación en cada página antes de acceder al contenido principal, lo cual resulta tedioso y consume tiempo innecesario.
+
+**Criterio WCAG:** 2.4.1 - Evitar bloques (Nivel A)
+
+**Código ANTES (HTML):**
+```html
+<!-- No existía enlace de salto -->
+<app-header></app-header>
+<main>
+  <app-breadcrumb-nav></app-breadcrumb-nav>
+  <router-outlet></router-outlet>
+</main>
+```
+
+**Código DESPUÉS (HTML):**
+```html
+<!-- Enlace de salto para accesibilidad (WCAG 2.4.1) -->
+<a href="#main-content" class="skip-to-main">Saltar al contenido principal</a>
+
+<app-header></app-header>
+<main id="main-content">
+  <app-breadcrumb-nav></app-breadcrumb-nav>
+  <router-outlet></router-outlet>
+</main>
+```
+
+**Estilos añadidos (SCSS):**
+```scss
+// Enlace "Saltar al contenido principal" (WCAG 2.4.1)
+.skip-to-main {
+  position: absolute;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--color-accent);
+  color: var(--text-on-dark);
+  padding: 1rem 1.5rem;
+  font-weight: 700;
+  z-index: 9999;
+  transition: top 0.2s ease;
+
+  &:focus {
+    top: 1rem;
+    outline: 3px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+}
+```
+
+**Archivos modificados:** `src/app/app.html`, `src/styles/02-generic/_reset.scss`
+
+**Solución aplicada:**
+- Añadido enlace de salto como primer elemento del DOM
+- El enlace permanece oculto fuera de la pantalla hasta recibir foco
+- Al presionar Tab, aparece visualmente y permite saltar al contenido
+- El `main` tiene `id="main-content"` como destino del enlace
+
+---
+
+#### Error #13: Enlaces con mismo texto y destinos diferentes
+
+**Problema:** Los botones "Ver lección" de las tarjetas de lecciones recomendadas tenían el mismo texto visible pero enlazaban a diferentes URLs (lecciones/1, lecciones/2, lecciones/3). Esto confunde a los usuarios de lectores de pantalla que navegan por enlaces.
+
+**Impacto:** Cuando un usuario de lector de pantalla lista todos los enlaces de la página, escucha "Ver lección" repetido varias veces sin poder distinguir a qué lección corresponde cada uno.
+
+**Criterio WCAG:** 2.4.4 - Propósito de los enlaces en contexto (Nivel A)
+
+**Código ANTES (HTML):**
+```html
+<app-button
+  [text]="leccion.ctaText || 'Ver lección'"
+  [link]="['/lecciones', leccion.id]"
+  color="accent"
+  variant="brutal"
+  size="md"
+></app-button>
+```
+
+**Código DESPUÉS (HTML):**
+```html
+<app-button
+  [text]="leccion.ctaText || 'Ver lección'"
+  [link]="['/lecciones', leccion.id]"
+  color="accent"
+  variant="brutal"
+  size="md"
+  [attr.aria-label]="'Ver lección: ' + leccion.titulo"
+></app-button>
+```
+
+**Archivo modificado:** `src/app/components/home/lecciones-recomendadas/lecciones-recomendadas.html`
+
+**Solución aplicada:**
+- Añadido `aria-label` dinámico que incluye el título de la lección
+- Los lectores de pantalla ahora anuncian "Ver lección: Mi primer móvil", "Ver lección: WhatsApp y fotos", etc.
+- El texto visible sigue siendo "Ver lección" para mantener el diseño
+
+---
+
+#### Error #14: Botones "Guardar" sin contexto
+
+**Problema:** Similar al error anterior, los botones "Guardar" de cada tarjeta de lección no indicaban qué lección se iba a guardar.
+
+**Impacto:** Un usuario ciego escucharía "Guardar" repetido sin saber a qué elemento se refiere cada botón.
+
+**Criterio WCAG:** 2.4.4 - Propósito de los enlaces en contexto (Nivel A)
+
+**Código ANTES (HTML):**
+```html
+<app-button
+  text="Guardar"
+  color="primary"
+  variant="brutal"
+  size="md"
+  icon="bookmark"
+  (btnClick)="saveLesson()"
+></app-button>
+```
+
+**Código DESPUÉS (HTML):**
+```html
+<app-button
+  text="Guardar"
+  color="primary"
+  variant="brutal"
+  size="md"
+  icon="bookmark"
+  (btnClick)="saveLesson()"
+  [attr.aria-label]="'Guardar lección: ' + leccion.titulo"
+></app-button>
+```
+
+**Archivo modificado:** `src/app/components/home/lecciones-recomendadas/lecciones-recomendadas.html`
+
+**Solución aplicada:**
+- Añadido `aria-label` dinámico con el título de la lección
+- Ahora los lectores de pantalla anuncian "Guardar lección: Mi primer móvil", etc.
 
 ---
 

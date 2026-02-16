@@ -3,11 +3,14 @@
 <!-- ============================================================================ -->
 <!-- Layout semántico: Header > Main (con Breadcrumb) > Footer -->
 
+<!-- Enlace de salto para accesibilidad (WCAG 2.4.1) -->
+<a href="#main-content" class="skip-to-main">Saltar al contenido principal</a>
+
 <!-- Encabezado de la aplicación -->
 <app-header></app-header>
 
 <!-- Contenido principal -->
-<main>
+<main id="main-content">
   <!-- Breadcrumb global: primer elemento dentro de main, se genera desde BreadcrumbService -->
   <app-breadcrumb-nav></app-breadcrumb-nav>
 

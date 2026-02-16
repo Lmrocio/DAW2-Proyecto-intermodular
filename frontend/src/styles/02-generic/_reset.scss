@@ -401,6 +401,31 @@ textarea:valid:not(:placeholder-shown) {
 // 13. UTILIDADES DE ACCESIBILIDAD
 // ============================================================================
 
+// Enlace "Saltar al contenido principal" (WCAG 2.4.1)
+// Oculto por defecto, visible al recibir foco con tabulador
+.skip-to-main {
+  position: absolute;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--color-accent);
+  color: var(--text-on-dark);
+  padding: 1rem 1.5rem;
+  font-weight: 700;
+  font-size: 1rem;
+  text-decoration: none;
+  border: 2px solid var(--text-primary);
+  border-radius: 0;
+  z-index: 9999;
+  transition: top 0.2s ease;
+
+  &:focus {
+    top: 1rem;
+    outline: 3px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+}
+
 // Clase para ocultar contenido visualmente pero mantenerlo accesible
 // para lectores de pantalla (técnica recomendada por WCAG)
 .visually-hidden {
