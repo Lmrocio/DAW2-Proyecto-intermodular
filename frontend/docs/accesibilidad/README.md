@@ -1403,19 +1403,497 @@ Esta clase reduce el elemento a 1x1 píxel (invisible pero presente en el DOM), 
 
 ## Sección 5: Análisis de Estructura Semántica
 
-> **Pendiente de completar**
+En esta sección analizo la estructura semántica HTML de TecnoMayores, evaluando el uso correcto de landmarks, la jerarquía de encabezados y la implementación de elementos semánticos que permiten a los usuarios de tecnologías asistivas navegar eficientemente por el contenido.
+
+### 5.1 Landmarks y Regiones ARIA
+
+Los landmarks son regiones semánticas que permiten a los usuarios de lectores de pantalla saltar directamente a secciones específicas de la página. A continuación documento los landmarks implementados en TecnoMayores:
+
+#### Estructura de Landmarks en app.html
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  [skip-link] Saltar al contenido principal                  │
+├─────────────────────────────────────────────────────────────┤
+│  <header> - Banner principal                                │
+│    └── <nav aria-label="Navegación principal">              │
+│    └── <nav aria-label="Menú de navegación móvil">          │
+├─────────────────────────────────────────────────────────────┤
+│  <main id="main-content"> - Contenido principal             │
+│    └── <nav aria-label="Migas de pan"> (breadcrumb)         │
+│    └── [contenido de cada página]                           │
+├─────────────────────────────────────────────────────────────┤
+│  <footer> - Información del sitio                           │
+│    └── <section> Branding                                   │
+│    └── <section> Contenido                                  │
+│    └── <section> Nosotros                                   │
+│    └── <section> Boletín                                    │
+└─────────────────────────────────────────────────────────────┘
+```
+
+#### Código del Layout Principal (app.html)
+
+```html
+<!-- Enlace de salto para accesibilidad (WCAG 2.4.1) -->
+<a href="#main-content" class="skip-to-main">Saltar al contenido principal</a>
+
+<!-- Encabezado de la aplicación -->
+<app-header></app-header>
+
+<!-- Contenido principal -->
+<main id="main-content">
+  <app-breadcrumb-nav></app-breadcrumb-nav>
+  <router-outlet></router-outlet>
+</main>
+
+<!-- Pie de página -->
+<app-footer></app-footer>
+```
+
+#### Análisis de Cumplimiento
+
+| Landmark | Elemento HTML | aria-label | Criterio WCAG | Estado |
+|----------|---------------|------------|---------------|--------|
+| Banner | `<header>` | - | 1.3.1, 2.4.1 | Correcto |
+| Navegación principal | `<nav>` | "Navegación principal" | 1.3.1, 2.4.1 | Correcto |
+| Navegación móvil | `<nav>` | "Menú de navegación móvil" | 1.3.1, 2.4.1 | Correcto |
+| Breadcrumb | `<nav>` | "Migas de pan" | 1.3.1, 2.4.1 | Correcto |
+| Main | `<main id="main-content">` | - | 1.3.1, 2.4.1 | Correcto |
+| Contentinfo | `<footer>` | - | 1.3.1, 2.4.1 | Correcto |
+| Regiones del footer | `<section>` | - | 1.3.1 | Correcto |
+
+**Observación:** Utilicé `aria-label` en los elementos `<nav>` para diferenciarlos, ya que existen múltiples navegaciones en la página. Esto permite que los lectores de pantalla anuncien "navegación, Navegación principal" o "navegación, Migas de pan", facilitando la orientación del usuario.
+
+---
+
+### 5.2 Jerarquía de Encabezados
+
+La estructura de encabezados es fundamental para la navegación por teclado y lectores de pantalla. Los usuarios ciegos frecuentemente navegan saltando entre encabezados (tecla H en NVDA/JAWS), por lo que una jerarquía lógica es esencial.
+
+#### Estructura de Encabezados en la Página Home
+
+```
+h1: "Aprende tecnología paso a paso"
+│
+├── h2: "¿Qué quieres aprender hoy?"
+│
+├── h3: "¿Te sientes perdido? Activa el Asistente"
+│
+├── h2: "Lecciones Visuales"
+│
+├── h2: "Practica sin miedo"
+│
+├── h2: "Lecciones sugeridas"
+│   ├── h3: "Mi primer móvil"
+│   ├── h3: "WhatsApp y fotos"
+│   └── h3: "Internet Seguro"
+│
+└── h2: "TecnoMayores" (footer)
+    ├── h3: "Contenido"
+    ├── h3: "Nosotros"
+    └── h3: "Boletín Semanal"
+```
+
+#### Análisis de la Jerarquía
+
+| Nivel | Cantidad | Uso | Evaluación |
+|-------|----------|-----|------------|
+| h1 | 1 | Título principal de la página | Correcto - único por página |
+| h2 | 6 | Secciones principales | Correcto - dividen el contenido |
+| h3 | 7 | Subsecciones y tarjetas | Correcto - dentro de h2 |
+| h4-h6 | 0 | No utilizados | Correcto - no necesarios |
+
+**Criterios verificados:**
+- Existe un único `<h1>` por página (WCAG 1.3.1)
+- No hay saltos en la jerarquía (no existe h3 sin h2 previo)
+- Los encabezados describen el contenido que les sigue
+- La estructura es consistente en todas las páginas
+
+#### Código de Ejemplo: Sección Hero
+
+```html
+<section class="hero">
+  <div class="hero__container">
+    <div class="hero__content">
+      <h1 class="hero__title">{{ title }}</h1>
+      <p class="hero__description">{{ subtitle }}</p>
+      <!-- Botones de acción -->
+    </div>
+    <div class="hero__image">
+      <img [src]="imageUrl" [alt]="imageAlt" />
+    </div>
+  </div>
+</section>
+```
+
+---
+
+### 5.3 Elementos Semánticos HTML5
+
+Analizo el uso de elementos semánticos HTML5 que proporcionan significado estructural al contenido, más allá de los landmarks principales.
+
+#### Tabla de Elementos Semánticos Utilizados
+
+| Elemento | Ubicación | Propósito | Criterio WCAG |
+|----------|-----------|-----------|---------------|
+| `<header>` | Layout principal | Encabezado del sitio con logo y navegación | 1.3.1 |
+| `<nav>` | Header, Footer, Breadcrumb | Agrupación de enlaces de navegación | 1.3.1, 2.4.1 |
+| `<main>` | Layout principal | Contenido principal único de la página | 1.3.1, 2.4.1 |
+| `<footer>` | Layout principal | Información del sitio, enlaces legales | 1.3.1 |
+| `<section>` | Footer, Features | Agrupación temática de contenido | 1.3.1 |
+| `<article>` | Tarjetas de lección | Contenido independiente y reutilizable | 1.3.1 |
+| `<figure>` | Imágenes con caption | Contenido ilustrativo con descripción | 1.1.1 |
+| `<picture>` | Imágenes responsive | Múltiples fuentes de imagen | 1.1.1 |
+| `<form>` | Newsletter, búsqueda | Agrupación de controles de formulario | 1.3.1, 3.3.2 |
+| `<ul>/<li>` | Navegación, listas | Listas semánticas de elementos | 1.3.1 |
+
+#### Ejemplo: Tarjeta de Lección como Article
+
+```html
+<article class="leccion-card">
+  <div class="leccion-icon-wrapper">
+    <div class="leccion-icon-fondo">
+      <img [src]="leccion.imagen" [alt]="leccion.titulo" class="leccion-imagen" />
+    </div>
+    <span class="leccion-badge">{{ leccion.categoria }}</span>
+  </div>
+
+  <h3 class="leccion-card-title">{{ leccion.titulo }}</h3>
+
+  <div class="leccion-description-row">
+    <p class="leccion-card-description">{{ leccion.descripcion }}</p>
+    <app-button [ariaLabel]="'Escuchar lección ' + leccion.titulo">
+    </app-button>
+  </div>
+
+  <div class="leccion-card-actions">
+    <app-button [ariaLabel]="'Ver lección: ' + leccion.titulo"></app-button>
+    <app-button [ariaLabel]="'Guardar lección: ' + leccion.titulo"></app-button>
+  </div>
+</article>
+```
+
+Utilicé `<article>` para las tarjetas de lección porque representan contenido independiente que podría ser distribuido o reutilizado (por ejemplo, en un feed RSS o compartido en redes sociales).
+
+---
+
+### 5.4 Navegación por Teclado
+
+La estructura semántica debe permitir una navegación fluida mediante teclado. A continuación documento el orden de tabulación y los atajos disponibles:
+
+#### Orden de Tabulación (Tab Index)
+
+```
+1. Skip link ("Saltar al contenido principal")
+2. Logo (enlace a inicio)
+3. Enlaces de navegación principal (Lecciones, Simuladores, Ayuda)
+4. Botón Modo Guía
+5. Botón Tema (claro/oscuro)
+6. Botón Login/Usuario
+7. [Contenido principal - varía según página]
+8. Enlaces del footer
+9. Formulario de newsletter
+10. Enlaces de accesibilidad e idioma
+```
+
+#### Indicadores de Foco
+
+Todos los elementos interactivos tienen estilos de foco visibles definidos en el sistema de diseño:
+
+```scss
+// Mixin de foco visible (src/styles/01-tools/_mixins.scss)
+@mixin focus-visible {
+  &:focus-visible {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+}
+```
+
+Este mixin se aplica a:
+- Todos los enlaces (`<a>`)
+- Todos los botones (`<button>`)
+- Campos de formulario (`<input>`, `<textarea>`)
+- Elementos con `tabindex="0"`
+
+---
+
+### 5.5 Atributos ARIA Implementados
+
+Además de los landmarks, utilicé diversos atributos ARIA para mejorar la accesibilidad de componentes interactivos:
+
+#### Tabla de Atributos ARIA
+
+| Atributo | Componente | Propósito |
+|----------|------------|-----------|
+| `aria-label` | Navegaciones, botones | Proporcionar nombre accesible |
+| `aria-hidden="true"` | Iconos SVG decorativos | Ocultar de lectores de pantalla |
+| `aria-expanded` | Menú hamburguesa | Indicar estado expandido/colapsado |
+| `aria-controls` | Botón de menú | Identificar elemento controlado |
+| `aria-current="page"` | Breadcrumb | Indicar página actual |
+| `aria-describedby` | Campos de formulario | Vincular con descripción |
+| `aria-haspopup` | Botón de perfil | Indicar menú desplegable |
+| `focusable="false"` | SVGs decorativos | Evitar foco en navegadores antiguos |
+
+#### Ejemplo: Menú Hamburguesa con ARIA
+
+```html
+<button
+  class="app-header__hamburger"
+  [class.app-header__hamburger--active]="menuOpen"
+  (click)="toggleMenu()"
+  aria-label="Abrir menú de navegación"
+  [attr.aria-expanded]="menuOpen"
+  aria-controls="mobile-nav"
+>
+  <lucide-icon name="menu" aria-hidden="true"></lucide-icon>
+</button>
+
+<nav id="mobile-nav" aria-label="Menú de navegación móvil" class="app-header__mobile-menu">
+  <!-- Contenido del menú -->
+</nav>
+```
+
+---
+
+### 5.6 Validación de Estructura Semántica
+
+Para validar la estructura semántica, utilicé las siguientes herramientas y métodos:
+
+#### Herramientas Utilizadas
+
+1. **W3C Validator**: Validación de HTML semántico
+2. **WAVE**: Visualización de estructura y landmarks
+3. **axe DevTools**: Detección de problemas de estructura
+4. **HeadingsMap (extensión)**: Visualización de jerarquía de encabezados
+5. **Landmark Navigation (extensión NVDA)**: Navegación por landmarks
+
+#### Resultados de Validación
+
+| Aspecto | Herramienta | Resultado |
+|---------|-------------|-----------|
+| HTML válido | W3C Validator | Sin errores |
+| Landmarks correctos | WAVE | 6 landmarks detectados |
+| Jerarquía de encabezados | HeadingsMap | Estructura lógica |
+| Orden de lectura | axe DevTools | Coherente |
+| Navegación por landmarks | NVDA | Funcional |
+
+#### Captura de HeadingsMap
+
+La extensión HeadingsMap muestra la siguiente estructura para la página home:
+
+```
+Document Outline:
+├── h1: Aprende tecnología paso a paso
+├── h2: ¿Qué quieres aprender hoy?
+├── h3: ¿Te sientes perdido? Activa el Asistente
+├── h2: Lecciones Visuales
+├── h2: Practica sin miedo
+├── h2: Lecciones sugeridas
+│   ├── h3: Mi primer móvil
+│   ├── h3: WhatsApp y fotos
+│   └── h3: Internet Seguro
+└── h2: TecnoMayores (footer)
+    ├── h3: Contenido
+    ├── h3: Nosotros
+    └── h3: Boletín Semanal
+```
+
+---
+
+### 5.7 Conclusiones del Análisis Semántico
+
+El análisis de la estructura semántica de TecnoMayores revela los siguientes puntos:
+
+**Aspectos positivos:**
+- Uso correcto de landmarks HTML5 (`header`, `main`, `footer`, `nav`)
+- Jerarquía de encabezados lógica y sin saltos
+- Múltiples navegaciones diferenciadas con `aria-label`
+- Enlace de salto al contenido implementado
+- Atributos ARIA apropiados en componentes interactivos
+- Indicadores de foco visibles en todos los elementos interactivos
+
+**Consideraciones para mejora futura:**
+- Implementar `role="search"` en el formulario de búsqueda para identificarlo como landmark de búsqueda
+- Considerar añadir `<aside>` si se implementan widgets laterales en el futuro
+- Evaluar el uso de `aria-live` para anuncios dinámicos de contenido que cambia
+
+La estructura semántica actual permite que los usuarios de tecnologías asistivas naveguen eficientemente por el sitio utilizando landmarks, encabezados o elementos interactivos, cumpliendo con los criterios WCAG 1.3.1 (Información y relaciones), 2.4.1 (Evitar bloques) y 2.4.6 (Encabezados y etiquetas).
 
 ---
 
 ## Sección 6: Verificación Manual
 
-> **Pendiente de completar**
+### 6.1 Test de Navegación por Teclado
+
+Desconecté el ratón y navegué la web completa usando solo el teclado.
+
+**Checklist de verificación:**
+
+- [x] Puedo llegar a todos los enlaces y botones con Tab
+- [x] El orden de navegación con Tab es lógico (no salta caóticamente)
+- [x] Veo claramente qué elemento tiene el focus (borde azul de 3px)
+- [x] Puedo usar mi componente multimedia solo con teclado
+- [x] No hay "trampas" de teclado donde quedo bloqueado
+- [x] Los menús/modals se pueden cerrar con Esc
+
+**Problemas encontrados:** Ninguno
+
+**Soluciones aplicadas:** No fue necesario aplicar soluciones ya que la navegación por teclado funcionó correctamente desde el inicio. Todos los elementos interactivos son accesibles mediante Tab, el orden de tabulación sigue el flujo visual de la página, y los indicadores de foco son claramente visibles con un borde azul de 3px.
+
+---
+
+### 6.2 Test con Lector de Pantalla
+
+**Herramienta utilizada:** NVDA (Windows)
+
+**Pasos realizados:**
+1. Abrí el lector de pantalla NVDA
+2. Navegué la web completa usando Tab
+3. Escuché qué anuncia el lector en cada elemento
+4. Probé específicamente el componente de video tutorial
+
+**Resultados:**
+
+| Aspecto evaluado | Resultado | Observación |
+|------------------|-----------|-------------|
+| ¿Se entiende la estructura sin ver la pantalla? | Sí | La navegación por landmarks y encabezados permite orientarse fácilmente |
+| ¿Los landmarks se anuncian correctamente? | Sí | NVDA anuncia "banner", "navegación principal", "principal", "información de contenido" |
+| ¿Las imágenes tienen descripciones adecuadas? | Sí | Todas las imágenes informativas tienen alt descriptivo, las decorativas están ocultas con aria-hidden |
+| ¿Los enlaces tienen textos descriptivos? | Sí | Los enlaces genéricos tienen aria-label con contexto (ej: "Ver lección: Mi primer móvil") |
+| ¿El componente multimedia es accesible? | Sí | El video tiene subtítulos, transcripción y controles accesibles por teclado |
+
+**Principales problemas detectados:** Ninguno
+
+**Mejoras aplicadas:** No fue necesario aplicar mejoras adicionales. Los landmarks se identifican correctamente, los encabezados mantienen una jerarquía lógica, y todos los elementos interactivos tienen nombres accesibles.
+
+---
+
+### 6.3 Verificación Cross-Browser
+
+Abrí el proyecto en 3 navegadores diferentes y verifiqué que todo funciona correctamente.
+
+**Resultados:**
+
+| Navegador | Versión | Layout correcto | Multimedia funciona | Observaciones |
+|-----------|---------|-----------------|---------------------|---------------|
+| Chrome | 122 | Sí | Sí | Sin problemas |
+| Firefox | 123 | Sí | Sí | Sin problemas |
+| Edge | 122 | Sí | Sí | Sin problemas |
+
+**Capturas de pantalla:**
+
+| Navegador | Captura                           |
+|-----------|-----------------------------------|
+| Chrome | ![Chrome](capturas/chrome.jpeg)   |
+| Firefox | ![Firefox](capturas/firefox.jpeg) |
+| Edge | ![Edge](capturas/edge.jpeg)         |
+
+**Observaciones generales:** La aplicación se visualiza y funciona de forma idéntica en los tres navegadores probados. El componente de video reproduce correctamente, los subtítulos se muestran sin problemas, y la navegación por teclado funciona de manera consistente en todos ellos.
 
 ---
 
 ## Sección 7: Resultados Finales Después de Correcciones
 
-> **Pendiente de completar**
+Después de aplicar todas las correcciones documentadas en las secciones anteriores, volví a ejecutar las tres herramientas de auditoría para verificar las mejoras obtenidas.
+
+### 7.1 Comparativa de Resultados
+
+| Herramienta | Antes | Después | Mejora |
+|-------------|-------|---------|--------|
+| Lighthouse | 82/100 | 100/100 | +18 puntos |
+| WAVE | 12 errores, 15 alertas | 0 errores, 0 alertas | -12 errores, -15 alertas |
+| TAW | 20 errores | 0 errores, 37 advertencias | -20 errores |
+
+### 7.2 Capturas de Resultados Finales
+
+| Herramienta | Captura |
+|-------------|---------|
+| Lighthouse | ![Lighthouse después](capturas/lighthouse-despues.png) |
+| WAVE | ![WAVE después](capturas/wave-despues.png) |
+| TAW | ![TAW después](capturas/taw-despues.png) |
+
+### 7.3 Análisis de Resultados por Herramienta
+
+#### Lighthouse - 100/100
+
+La puntuación de accesibilidad en Lighthouse pasó de 82 a 100 puntos. Las principales mejoras que contribuyeron a este resultado fueron:
+
+- Corrección de todos los atributos `alt` en imágenes
+- Mejora de los ratios de contraste en textos y botones
+- Implementación correcta de `aria-label` en elementos interactivos
+- Estructura semántica HTML5 completa con landmarks
+
+#### WAVE - 0 errores, 0 alertas
+
+WAVE ya no detecta ningún error ni alerta en la página. Los 12 errores iniciales estaban relacionados con:
+
+- Imágenes sin texto alternativo (corregido)
+- Etiquetas de formulario ausentes (corregido)
+- Enlaces vacíos sin texto accesible (corregido)
+
+Las 15 alertas iniciales sobre contraste y estructura semántica también fueron resueltas.
+
+#### TAW - 0 errores, 37 advertencias
+
+TAW no reporta errores automáticos. Las 37 advertencias que aparecen son comprobaciones que requieren revisión manual y que la herramienta no puede verificar automáticamente. Estas advertencias corresponden a:
+
+- **Comprobaciones "Sin revisar"**: Son aspectos que TAW marca para que el desarrollador verifique manualmente, como "Movimiento automático del foco" o "Límite de tiempo de sesión", que no aplican a este proyecto.
+
+- **Comprobaciones "Desconocido"**: Son verificaciones que dependen del contexto y que ya he validado manualmente:
+  - Imágenes que pueden requerir descripción larga (H45): Las 4 imágenes principales tienen alt descriptivo adecuado
+  - Contenido adecuado de encabezados (G130, G131): La jerarquía de encabezados es correcta
+  - Enlaces con mismo texto y destinos diferentes (H30): Los enlaces "Ver lección" tienen `aria-label` específico para cada lección
+
+### 7.4 Checklist de Conformidad WCAG 2.1 Nivel AA
+
+**Perceptible:**
+- [x] 1.1.1 - Contenido no textual: Todas las imágenes tienen alt descriptivo
+- [x] 1.3.1 - Información y relaciones: HTML semántico con landmarks correctos
+- [x] 1.3.2 - Secuencia con significado: El orden del DOM coincide con el orden visual
+- [x] 1.4.3 - Contraste mínimo: Todos los textos superan 4.5:1
+- [x] 1.4.4 - Redimensionar texto: Funciona correctamente hasta 200% de zoom
+- [x] 1.4.11 - Contraste no textual: Indicadores de foco y controles con contraste adecuado
+
+**Operable:**
+- [x] 2.1.1 - Teclado: Toda la funcionalidad accesible mediante teclado
+- [x] 2.1.2 - Sin trampas de teclado: No existen trampas de foco
+- [x] 2.4.1 - Evitar bloques: Enlace "Saltar al contenido principal" implementado
+- [x] 2.4.2 - Página titulada: Título descriptivo en cada página
+- [x] 2.4.3 - Orden del foco: Secuencia lógica de tabulación
+- [x] 2.4.4 - Propósito de los enlaces: Enlaces con texto descriptivo o aria-label
+- [x] 2.4.6 - Encabezados y etiquetas: Jerarquía correcta sin saltos de nivel
+- [x] 2.4.7 - Foco visible: Indicador de foco de 3px en color accent
+
+**Comprensible:**
+- [x] 3.1.1 - Idioma de la página: `lang="es"` en el elemento html
+- [x] 3.2.1 - Al recibir el foco: No hay cambios de contexto inesperados
+- [x] 3.2.3 - Navegación consistente: Menú de navegación idéntico en todas las páginas
+- [x] 3.3.1 - Identificación de errores: Formularios con validación accesible
+- [x] 3.3.2 - Etiquetas o instrucciones: Todos los campos tienen label asociado
+
+**Robusto:**
+- [x] 4.1.1 - Procesamiento: HTML válido sin errores de sintaxis
+- [x] 4.1.2 - Nombre, función, valor: Atributos ARIA correctamente implementados
+
+### 7.5 Nivel de Conformidad Alcanzado
+
+**Nivel alcanzado: AA**
+
+TecnoMayores cumple con todos los criterios de conformidad WCAG 2.1 Nivel AA evaluados. Las auditorías automatizadas confirman 0 errores en WAVE y Lighthouse, y las verificaciones manuales de navegación por teclado y lector de pantalla no revelaron problemas de accesibilidad.
+
+Las 37 advertencias de TAW corresponden a comprobaciones que la herramienta no puede verificar automáticamente (marcadas como "Sin revisar" o "Desconocido"), pero que he validado manualmente durante el desarrollo. Por ejemplo, la navegación por teclado funciona correctamente, no hay límites de tiempo que afecten a los usuarios, y el contenido no presenta destellos ni movimiento problemático.
+
+### 7.6 Resumen de Mejoras Implementadas
+
+| Categoría | Correcciones aplicadas |
+|-----------|------------------------|
+| Imágenes | 7 atributos alt añadidos o mejorados |
+| Contraste | 4 combinaciones de color ajustadas |
+| Formularios | 3 labels y descripciones añadidas |
+| Navegación | Skip link implementado, orden de foco corregido |
+| ARIA | 8 atributos aria-label añadidos para contexto |
+| Estructura | Jerarquía de encabezados corregida, landmarks definidos |
 
 ---
 
