@@ -30,7 +30,6 @@
 
 .grid {
   @include grid(1, $gap-md);
-
   // Grid de 2 columnas en tablet
   @include respond-to(md) {
     grid-template-columns: repeat(2, 1fr);

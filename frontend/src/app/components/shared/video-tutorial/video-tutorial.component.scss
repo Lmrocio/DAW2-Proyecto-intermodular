@@ -1,0 +1,182 @@
+@import '../../../../styles/00-settings/variables';
+
+// ============================================================================
+// VIDEO TUTORIAL COMPONENT - Estilos accesibles y responsive
+// ============================================================================
+
+.video-tutorial-container {
+  width: 100%;
+  max-width: $max-width-container;
+  margin: 0 auto;
+  padding: $spacing-4;
+
+  @media (min-width: $breakpoint-md) {
+    padding: $spacing-6;
+  }
+
+  @media (min-width: $breakpoint-lg) {
+    padding: $spacing-8;
+  }
+}
+
+// --- Contenedor del reproductor de video ---
+.video-wrapper {
+  position: relative;
+  width: 100%;
+  margin-bottom: $spacing-8;
+  border-radius: $radius-lg;
+  overflow: hidden;
+  box-shadow: $shadow-lg;
+  background-color: $color-gray-900;
+
+  // Efecto hover para mejor UX
+  transition: box-shadow $transition-base $easing-in-out;
+
+  &:hover {
+    box-shadow: $shadow-xl;
+  }
+
+  &:focus-within {
+    outline: none;
+    box-shadow: $shadow-focus;
+  }
+}
+
+// --- Elemento de video ---
+.video-player {
+  width: 100%;
+  height: auto;
+  display: block;
+  background-color: $color-gray-900;
+
+  // Mejora el enfoque para accesibilidad
+  &:focus {
+    outline: $border-medium solid $color-accent;
+    outline-offset: 2px;
+  }
+
+
+  // Asegurar contraste en subtítulos
+  &::cue {
+    background-color: rgba(0, 0, 0, 0.8);
+    color: $color-text-light;
+    font-family: $font-body;
+    font-size: $font-size-base;
+    line-height: $line-height-normal;
+    padding: $spacing-1 $spacing-2;
+
+    @media (min-width: $breakpoint-md) {
+      font-size: $font-size-lg;
+    }
+  }
+}
+
+// --- Mensaje de respaldo ---
+.video-fallback {
+  color: $color-text-light;
+  font-family: $font-body;
+  font-size: $font-size-base;
+  text-align: center;
+  padding: $spacing-8;
+  background-color: $color-gray-800;
+}
+
+// --- Sección de transcripción ---
+.transcription-section {
+  background-color: $color-bg-light-secondary;
+  border: $border-thin solid $color-gray-200;
+  border-radius: $radius-lg;
+  padding: $spacing-6;
+  margin-top: $spacing-6;
+  box-shadow: $shadow-sm;
+
+  @media (min-width: $breakpoint-md) {
+    padding: $spacing-8;
+  }
+
+  // Modo oscuro (opcional - preparado para futuras mejoras)
+  @media (prefers-color-scheme: dark) {
+    background-color: $color-bg-dark-secondary;
+    border-color: $color-gray-700;
+    color: $color-text-light;
+  }
+}
+
+// --- Título de transcripción ---
+.transcription-title {
+  font-family: $font-primary;
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+  color: $color-accent;
+  margin: 0 0 $spacing-4 0;
+  padding-bottom: $spacing-3;
+  border-bottom: $border-medium solid $color-primary;
+
+  @media (min-width: $breakpoint-md) {
+    font-size: $font-size-2xl;
+  }
+
+  // Modo oscuro
+  @media (prefers-color-scheme: dark) {
+    color: $color-primary;
+  }
+}
+
+// --- Contenido de transcripción ---
+.transcription-content {
+  font-family: $font-body;
+  font-size: $font-size-base;
+  line-height: $line-height-relaxed;
+  color: $color-text-dark;
+
+  @media (min-width: $breakpoint-md) {
+    font-size: $font-size-lg;
+  }
+
+  p {
+    margin: 0;
+    text-align: justify;
+    hyphens: auto;
+    word-wrap: break-word;
+  }
+
+  // Modo oscuro
+  @media (prefers-color-scheme: dark) {
+    color: $color-text-light;
+  }
+}
+
+// ============================================================================
+// MEJORAS DE ACCESIBILIDAD
+// ============================================================================
+
+// Alta visibilidad para enfoque del teclado
+.video-player:focus-visible,
+.transcription-content:focus-visible {
+  outline: $border-large solid $color-accent;
+  outline-offset: 4px;
+}
+
+// Movimiento reducido para usuarios con preferencias de accesibilidad
+@media (prefers-reduced-motion: reduce) {
+  .video-wrapper {
+    transition: none;
+  }
+}
+
+// Modo de alto contraste
+@media (prefers-contrast: more) {
+  .video-wrapper {
+    border: $border-medium solid $color-gray-900;
+  }
+
+  .transcription-section {
+    border-width: $border-medium;
+    border-color: $color-gray-900;
+  }
+
+  .transcription-title {
+    color: $color-text-dark;
+    border-bottom-color: $color-gray-900;
+  }
+}
