@@ -5,6 +5,8 @@ import { Leccion } from '../../services/leccion.service';
 import { Hero } from '../../components/home/hero/hero';
 import { Button } from '../../components/shared/button/button';
 import { SpeechService } from '../../core/services/speech.service';
+import { VttParserService } from '../../core/services/vtt-parser.service';
+import { VideoTutorialComponent } from '../../components/shared/video-tutorial';
 
 interface LessonStep {
   number: number;
@@ -30,13 +32,14 @@ interface LessonStep {
 @Component({
   selector: 'app-leccion-detalle',
   standalone: true,
-  imports: [CommonModule, RouterLink, Hero, Button],
+  imports: [CommonModule, RouterLink, Hero, Button, VideoTutorialComponent],
   templateUrl: './leccion-detalle.html',
   styleUrl: './leccion-detalle.scss'
 })
 export class LeccionDetalle implements OnInit {
   private route = inject(ActivatedRoute);
   private speech = inject(SpeechService);
+  private vttParser = inject(VttParserService);
 
   // Datos precargados por resolver
   leccion = signal<Leccion | null>(null);
@@ -44,6 +47,9 @@ export class LeccionDetalle implements OnInit {
 
   // Pasos de la lección (mock data - en producción vendría del backend) - PÚBLICO para template
   steps: LessonStep[] = [];
+
+  // Transcripción del video tutorial (cargada dinámicamente desde archivo VTT)
+  videoTranscripcion = signal<string>('Cargando transcripción...');
 
   ngOnInit() {
     // Leer datos PRECARGADOS desde route.data (resolver)
@@ -63,11 +69,34 @@ export class LeccionDetalle implements OnInit {
       }
     });
 
+    // Cargar transcripción desde archivo VTT
+    this.loadVideoTranscription();
+
     // Ejemplo de lectura de query params (si se usan para filtros)
     this.route.queryParamMap.subscribe(queryParams => {
       const destacado = queryParams.get('destacado');
       if (destacado) {
         console.log('🌟 Lección destacada:', destacado);
+      }
+    });
+  }
+
+  /**
+   * Carga la transcripción del video desde el archivo VTT
+   * Extrae el texto plano de los subtítulos para mostrar la transcripción completa
+   */
+  private loadVideoTranscription(): void {
+    // Ruta al archivo de subtítulos en español
+    const vttPath = 'assets/subtitles/tutorial-bizum.vtt';
+
+    this.vttParser.parseVttToFormattedText(vttPath).subscribe({
+      next: (transcription) => {
+        console.log('✅ Transcripción cargada desde VTT:', transcription.substring(0, 100) + '...');
+        this.videoTranscripcion.set(transcription);
+      },
+      error: (error) => {
+        console.error('❌ Error al cargar transcripción:', error);
+        this.videoTranscripcion.set('No se pudo cargar la transcripción del video.');
       }
     });
   }

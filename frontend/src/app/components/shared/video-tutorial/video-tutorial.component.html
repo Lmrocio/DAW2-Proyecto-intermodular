@@ -1,0 +1,43 @@
+<div class="video-tutorial-container">
+  <!-- Contenedor del reproductor de video -->
+  <div class="video-wrapper">
+    <video
+      class="video-player"
+      controls
+      [attr.aria-label]="videoTitle"
+      preload="metadata"
+    >
+      <!-- Fuente de video -->
+      <source [src]="videoPath" type="video/webm">
+
+      <!-- Pistas de subtítulos -->
+      <track
+        kind="subtitles"
+        [src]="subtitlesEsPath"
+        srclang="es"
+        label="Español"
+        default
+      >
+      <track
+        kind="subtitles"
+        [src]="subtitlesEnPath"
+        srclang="en"
+        label="English"
+      >
+
+      <!-- Mensaje de respaldo para navegadores sin soporte de video -->
+      <p class="video-fallback">
+        Lo sentimos, tu navegador no soporta la reproducción de video.
+        Por favor, actualiza tu navegador o descarga el video para verlo.
+      </p>
+    </video>
+  </div>
+
+  <!-- Transcripción completa del video -->
+  <div class="transcription-section">
+    <h3 class="transcription-title">Transcripción completa</h3>
+    <div class="transcription-content" role="region" aria-label="Transcripción del video">
+      <p>{{ transcription }}</p>
+    </div>
+  </div>
+</div>
