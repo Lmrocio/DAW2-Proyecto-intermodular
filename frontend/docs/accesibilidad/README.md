@@ -1899,7 +1899,41 @@ Las 37 advertencias de TAW corresponden a comprobaciones que la herramienta no p
 
 ## Sección 8: Conclusiones y Reflexión
 
-> **Pendiente de completar**
+### 8.1 ¿Es accesible mi proyecto?
+
+Considero que TecnoMayores es un proyecto accesible. Desde el principio tuve en cuenta la accesibilidad porque la plataforma está dirigida a personas mayores, un colectivo que puede tener dificultades visuales, auditivas o motrices. Por eso, decisiones como el contraste alto, los botones grandes, la navegación sencilla y el soporte de lectura en voz alta no fueron correcciones posteriores, sino parte del diseño inicial.
+
+Las auditorías finales confirman esta accesibilidad: 100 en Lighthouse, 0 errores en WAVE y 0 errores automáticos en TAW. La navegación por teclado funciona correctamente, el lector de pantalla NVDA anuncia todos los elementos de forma comprensible, y la estructura semántica permite orientarse sin necesidad de ver la pantalla.
+
+No sabría decir qué fue lo más difícil de corregir porque la accesibilidad estuvo presente durante todo el desarrollo. Lo que sí me sorprendió fue descubrir la cantidad de criterios y técnicas que existen para hacer una web accesible. No imaginaba que hubiera tantas consideraciones: desde el ratio de contraste específico (4.5:1) hasta la forma correcta de ocultar elementos solo visualmente sin afectar a los lectores de pantalla. Me parece positivo que se le dé tanta importancia a este tema.
+
+Mi forma de pensar sobre el diseño web ha cambiado. Antes me centraba principalmente en la estética, pero ahora entiendo que la experiencia del usuario va mucho más allá de lo visual. Pensar en cómo navega alguien que no puede usar el ratón o que no ve la pantalla me ha hecho valorar mucho más el diseño inclusivo. Es algo que me gusta y que seguiré aplicando en futuros proyectos.
+
+### 8.2 Principales Mejoras Aplicadas
+
+1. **Textos alternativos descriptivos en todas las imágenes** - Permite que los usuarios de lectores de pantalla entiendan el contenido visual de la página.
+
+2. **Enlace "Saltar al contenido principal"** - Evita que los usuarios de teclado tengan que tabular por todo el header en cada página.
+
+3. **Indicadores de foco visibles (3px azul)** - Permite identificar claramente qué elemento está seleccionado al navegar con teclado.
+
+4. **Atributos aria-label en botones genéricos** - Proporciona contexto a elementos como "Ver lección" o "Guardar" que sin contexto visual no se entienden.
+
+5. **Subtítulos y transcripción en el componente de video** - Hace accesible el contenido multimedia para personas sordas o con dificultades auditivas.
+
+### 8.3 Mejoras Futuras
+
+Si tuviera más tiempo, implementaría las siguientes mejoras:
+
+1. **Modo para daltónicos** - Añadir una opción que ajuste la paleta de colores para personas con diferentes tipos de daltonismo (protanopia, deuteranopia, tritanopia), evitando depender únicamente del color para transmitir información.
+
+2. **Audiodescripción en videos** - Incluir una pista de audio adicional que describa los elementos visuales importantes que aparecen en los tutoriales.
+
+3. **Selector de tamaño de fuente** - Permitir a los usuarios aumentar o reducir el tamaño del texto desde la propia interfaz, sin depender del zoom del navegador.
+
+### 8.4 Aprendizaje Clave
+
+La accesibilidad no es un añadido opcional ni una lista de requisitos que cumplir al final del proyecto. Es una forma de pensar el diseño desde el principio, poniéndose en el lugar de usuarios con diferentes capacidades. Una web accesible es una web mejor para todos, no solo para las personas con discapacidad.
 
 ---
 
