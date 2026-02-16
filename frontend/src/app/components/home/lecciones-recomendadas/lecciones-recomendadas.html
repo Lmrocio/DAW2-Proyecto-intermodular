@@ -61,6 +61,7 @@
             color="accent"
             variant="brutal"
             size="md"
+            [attr.aria-label]="'Ver lección: ' + leccion.titulo"
           ></app-button>
 
           <app-button
@@ -70,6 +71,7 @@
             size="md"
             icon="bookmark"
             (btnClick)="saveLesson()"
+            [attr.aria-label]="'Guardar lección: ' + leccion.titulo"
           ></app-button>
         </div>
       </article>
