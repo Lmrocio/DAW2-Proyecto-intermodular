@@ -7,15 +7,15 @@
     <!-- Hero Section -->
     <section class="leccion-detalle__hero">
       <app-hero
-        [title]="'Cómo usar WhatsApp'"
-        [subtitle]="'Aprende a enviar mensajes a tus amigos y familiares paso a paso. Es más fácil de lo que parece.'"
+        [title]="getHeroTitle()"
+        [subtitle]="getHeroSubtitle()"
         [imageUrl]="leccion()!.imagen || 'assets/images/imagen-6.svg'"
         [imageAlt]="'Ilustración de ' + leccion()!.titulo"
         [showInlineListen]="true"
         [showSearch]="false"
         [showButton1]="false"
         [showButton2]="false"
-        [audioText]="'Aprende a enviar mensajes a tus amigos y familiares paso a paso. Es más fácil de lo que parece.'"
+        [audioText]="getHeroSubtitle()"
         [imageLarge]="false"
         [imageHasShadow]="false">
       </app-hero>
@@ -107,9 +107,9 @@
           <div class="leccion-detalle__cta-icon">
             <span class="material-symbols-outlined">joystick</span>
           </div>
-          <h2 class="leccion-detalle__cta-title">¡Practica con el simulador de esta lección!</h2>
+          <h2 class="leccion-detalle__cta-title">¡Practica con el simulador de Bizum!</h2>
           <p class="leccion-detalle__cta-description">
-            En este simulador podrás practicar los pasos que acabas de ver: enviar un mensaje, adjuntar una foto y administrar tus contactos.
+            En este simulador podrás practicar los pasos que acabas de ver: abrir tu app del banco, buscar Bizum, seleccionar un contacto y enviar dinero de forma segura.
           </p>
           <app-button
             [text]="'Ir al simulador'"

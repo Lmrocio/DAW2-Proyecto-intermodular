@@ -121,7 +121,11 @@
 
   // Steps Section
   &__step {
-    padding: v.$spacing-24 v.$spacing-6;
+    padding: v.$spacing-12 v.$spacing-6;
+
+    @media (min-width: v.$breakpoint-md) {
+      padding: v.$spacing-16 v.$spacing-6;
+    }
 
     &--odd {
       background: var(--bg-primary);
@@ -133,15 +137,16 @@
   }
 
   &__step-container {
-    max-width: 1200px;
+    max-width: 1000px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: v.$spacing-20;
+    gap: v.$spacing-12;
     align-items: center;
 
     @media (min-width: v.$breakpoint-lg) {
       flex-direction: row;
+      gap: v.$spacing-16;
     }
   }
 
@@ -164,33 +169,37 @@
 
   &__illustration-blob {
     position: absolute;
-    width: 16rem;
-    height: 16rem;
+    width: 10rem;
+    height: 10rem;
     border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
     filter: blur(2px);
     z-index: 0;
-    bottom: -2rem;
-    left: -2rem;
+    bottom: -1rem;
+    left: -1rem;
     opacity: 0.6;
   }
 
   &__illustration-box {
     position: relative;
     z-index: 1;
-    padding: v.$spacing-12;
-    border: v.$border-large solid var(--text-primary);
+    padding: v.$spacing-8;
+    border: v.$border-medium solid var(--text-primary);
     background: var(--text-on-dark);
-    border-radius: v.$spacing-12;
-    box-shadow: 6px 6px 0 var(--text-primary);
+    border-radius: v.$spacing-8;
+    box-shadow: 4px 4px 0 var(--text-primary);
 
     .material-symbols-outlined {
-      font-size: 12.5rem;
+      font-size: 6rem;
       color: var(--text-primary);
       font-variation-settings:
         'FILL' 0,
         'wght' 300,
         'GRAD' 0,
         'opsz' 48;
+
+      @media (min-width: v.$breakpoint-md) {
+        font-size: 8rem;
+      }
     }
   }
 
@@ -198,7 +207,7 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: v.$spacing-8;
+    gap: v.$spacing-4;
     order: 1;
 
     @media (min-width: v.$breakpoint-lg) {
@@ -211,51 +220,59 @@
   }
 
   &__step-number {
-    width: 5rem;
-    height: 5rem;
-    border: v.$border-large solid var(--text-primary);
+    width: 3.5rem;
+    height: 3.5rem;
+    border: v.$border-medium solid var(--text-primary);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: v.$font-size-4xl;
+    font-size: v.$font-size-2xl;
     font-weight: v.$font-weight-bold;
     background: var(--text-on-dark);
-    box-shadow: 4px 4px 0 var(--text-primary);
+    box-shadow: 3px 3px 0 var(--text-primary);
   }
 
   &__step-title {
-    font-size: v.$font-size-4xl;
+    font-size: v.$font-size-2xl;
     font-weight: v.$font-weight-bold;
     color: var(--text-primary);
     line-height: v.$line-height-tight;
+
+    @media (min-width: v.$breakpoint-md) {
+      font-size: v.$font-size-3xl;
+    }
   }
 
   &__step-description {
-    font-size: v.$font-size-xl;
+    font-size: v.$font-size-base;
     color: var(--text-tertiary);
     line-height: v.$line-height-relaxed;
     max-width: 40rem;
+
+    @media (min-width: v.$breakpoint-md) {
+      font-size: v.$font-size-lg;
+    }
   }
 
   // CTA Simulator Section
   &__cta {
-    max-width: 1200px;
+    max-width: 900px;
     margin: 0 auto;
-    padding: v.$spacing-20 v.$spacing-6;
+    padding: v.$spacing-12 v.$spacing-6;
   }
 
   &__cta-container {
     position: relative;
-    border: v.$border-large solid var(--text-primary);
+    border: v.$border-medium solid var(--text-primary);
     background: var(--text-on-dark);
-    padding: v.$spacing-12;
-    box-shadow: 6px 6px 0 var(--text-primary);
-    border-radius: v.$spacing-12;
+    padding: v.$spacing-8;
+    box-shadow: 4px 4px 0 var(--text-primary);
+    border-radius: v.$spacing-8;
     overflow: hidden;
 
     @media (min-width: v.$breakpoint-lg) {
-      padding: v.$spacing-20;
+      padding: v.$spacing-12;
     }
   }
 
@@ -274,7 +291,7 @@
     text-align: center;
     display: flex;
     flex-direction: column;
-    gap: v.$spacing-10;
+    gap: v.$spacing-6;
     align-items: center;
   }
 
@@ -282,14 +299,14 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 6rem;
-    height: 6rem;
+    width: 4rem;
+    height: 4rem;
     background: var(--color-primary);
-    border: v.$border-large solid var(--text-primary);
+    border: v.$border-medium solid var(--text-primary);
     border-radius: 50%;
 
     .material-symbols-outlined {
-      font-size: v.$font-size-5xl;
+      font-size: v.$font-size-3xl;
       font-variation-settings:
         'FILL' 1,
         'wght' 400,
@@ -299,25 +316,25 @@
   }
 
   &__cta-title {
-    font-size: v.$font-size-4xl;
+    font-size: v.$font-size-2xl;
     font-weight: v.$font-weight-bold;
     color: var(--text-primary);
     line-height: v.$line-height-tight;
 
     @media (min-width: v.$breakpoint-lg) {
-      font-size: v.$font-size-5xl;
+      font-size: v.$font-size-3xl;
     }
   }
 
   &__cta-description {
-    font-size: v.$font-size-xl;
+    font-size: v.$font-size-base;
     color: var(--text-tertiary);
     max-width: 48rem;
     margin: 0 auto;
     font-weight: v.$font-weight-medium;
 
     @media (min-width: v.$breakpoint-lg) {
-      font-size: v.$font-size-2xl;
+      font-size: v.$font-size-lg;
     }
   }
 
@@ -327,8 +344,8 @@
     margin: 0 auto;
     padding: 0 v.$spacing-6 v.$spacing-24;
     display: flex;
-    flex-direction: column;
-    gap: v.$spacing-6;
+    justify-content: center;
+    gap: v.$spacing-14;
 
     @media (min-width: v.$breakpoint-md) {
       flex-direction: row;
@@ -337,13 +354,13 @@
 
   // Navigation Section
   &__navigation {
-    max-width: 1200px;
+    max-width: 900px;
     margin: 0 auto;
-    padding: v.$spacing-12 v.$spacing-6 v.$spacing-20;
-    border-top: v.$border-large solid var(--text-primary);
+    padding: v.$spacing-8 v.$spacing-6 v.$spacing-12;
+    border-top: v.$border-medium solid var(--text-primary);
     display: flex;
     flex-direction: column;
-    gap: v.$spacing-6;
+    gap: v.$spacing-4;
 
     @media (min-width: v.$breakpoint-lg) {
       flex-direction: row;
@@ -353,19 +370,24 @@
   &__nav-card {
     flex: 1;
     background: var(--text-on-dark);
-    border: v.$border-large solid var(--text-primary);
-    padding: v.$spacing-8;
-    border-radius: v.$spacing-6;
+    border: v.$border-medium solid var(--text-primary);
+    padding: v.$spacing-4;
+    border-radius: v.$spacing-4;
     display: flex;
     align-items: center;
-    gap: v.$spacing-6;
+    gap: v.$spacing-3;
     text-decoration: none;
     color: var(--text-primary);
     transition: all v.$transition-base v.$easing-in-out;
 
+    @media (min-width: v.$breakpoint-md) {
+      padding: v.$spacing-6;
+      gap: v.$spacing-4;
+    }
+
     &:hover {
-      transform: translate(-4px, -4px);
-      box-shadow: 8px 8px 0 var(--text-primary);
+      transform: translate(-2px, -2px);
+      box-shadow: 4px 4px 0 var(--text-primary);
     }
 
     &--prev { justify-content: flex-start; }
@@ -374,32 +396,48 @@
   }
 
   &__nav-icon {
-    font-size: v.$font-size-5xl;
+    font-size: v.$font-size-2xl;
     font-variation-settings:
       'FILL' 0,
       'wght' 400,
       'GRAD' 0,
       'opsz' 48;
 
+    @media (min-width: v.$breakpoint-md) {
+      font-size: v.$font-size-3xl;
+    }
+
     .leccion-detalle__nav-card--next & { color: var(--color-accent); }
   }
 
-  &__nav-content { display: flex; flex-direction: column; gap: v.$spacing-2; }
+  &__nav-content {
+    display: flex;
+    flex-direction: column;
+    gap: v.$spacing-1;
+  }
 
   &__nav-label {
     display: block;
-    font-size: v.$font-size-sm;
+    font-size: v.$font-size-xs;
     font-weight: v.$font-weight-bold;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     color: var(--text-tertiary);
+
+    @media (min-width: v.$breakpoint-md) {
+      font-size: v.$font-size-sm;
+    }
   }
 
   &__nav-title {
     display: block;
-    font-size: v.$font-size-2xl;
+    font-size: v.$font-size-base;
     font-weight: v.$font-weight-bold;
     color: var(--text-primary);
+
+    @media (min-width: v.$breakpoint-md) {
+      font-size: v.$font-size-lg;
+    }
 
     .leccion-detalle__nav-card--next & { color: var(--color-accent); }
   }
