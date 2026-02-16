@@ -91,13 +91,16 @@ export class BreadcrumbService {
         accumulatedUrl = url ? `${url}/${constructedPart}` : `/${constructedPart}`;
       }
 
-      // Si rcPath contiene parámetros, podemos también añadir breadcrumb intermedio
+      // Si rcPath contiene parámetros (ej: 'lecciones/:id'), añadir breadcrumb intermedio
       if (rcPath && rcPath.includes(':')) {
+        // Extraer la parte estática antes del parámetro (ej: 'lecciones' de 'lecciones/:id')
         const staticPrefix = rcPath.split('/').filter(p => !p.startsWith(':')).join('/');
         if (staticPrefix) {
-          const prefixUrl = url ? `${url}/${staticPrefix}` : `/${staticPrefix}`;
+          const prefixUrl = `/${staticPrefix}`;
+          // Buscar la ruta que coincida exactamente con el prefijo estático
           const match = this.router.config.find(r => r.path === staticPrefix);
           const prefixLabel = match?.data?.['breadcrumb'] as string | undefined;
+          // Añadir el breadcrumb intermedio si existe y no está ya añadido
           if (prefixLabel && !breadcrumbs.some(b => b.url === prefixUrl)) {
             breadcrumbs.push({ label: prefixLabel, url: prefixUrl });
           }
