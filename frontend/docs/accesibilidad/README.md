@@ -532,11 +532,15 @@ Los campos de entrada (`<input>`) detectados en la línea 15 no tienen asociada 
 
 **Técnicas WCAG relacionadas:** H44, H65
 
-**Error TAW-P1-2: Dos encabezados consecutivos sin contenido (1.3.1)**
+**Error TAW-P1-2: Dos encabezados consecutivos sin contenido (1.3.1) - CORREGIDO**
 
-Se detectó una estructura de encabezados incorrecta donde aparecen dos encabezados del mismo nivel seguidos sin contenido textual entre ellos. Esto viola la técnica H42 que establece que los encabezados deben seguir una jerarquía lógica con contenido significativo.
+Se detectó una estructura de encabezados incorrecta donde aparecían dos encabezados del mismo nivel seguidos sin contenido textual entre ellos. Esto violaba la técnica H42 que establece que los encabezados deben seguir una jerarquía lógica con contenido significativo.
 
-**Impacto:** Los usuarios de lectores de pantalla pueden confundirse al navegar por encabezados si estos están vacíos o no tienen contenido asociado.
+**Solución aplicada:** Se identificó que el componente `simulator-card` utilizaba elementos `<h3>` para los títulos de las tarjetas ("Seguro" e "Infinito"). Dado que estas tarjetas no representan secciones de contenido que deban ser navegadas por encabezados, se cambió `<h3>` a `<p>`, manteniendo los estilos visuales pero corrigiendo la semántica HTML.
+
+**Impacto resuelto:** Los usuarios de lectores de pantalla ahora pueden navegar correctamente por la jerarquía de encabezados sin encontrar elementos consecutivos confusos.
+
+**Archivo modificado:** `src/app/components/shared/simulator-card/simulator-card.component.html`
 
 ##### Principio 2: Operable
 
@@ -612,7 +616,7 @@ Los componentes de interfaz de usuario (campos de formulario) no exponen correct
 |---|-------|---------------|-----------|-------------|-----------|
 | 1 | Controles de formulario sin etiquetar | 1.1.1 | Perceptible | 2 | Alta |
 | 2 | Controles de formulario sin etiquetar | 1.3.1 | Perceptible | 2 | Alta |
-| 3 | Encabezados consecutivos sin contenido | 1.3.1 | Perceptible | 1 | Media |
+| 3 | Encabezados consecutivos sin contenido (H42) - **CORREGIDO** | 1.3.1 | Perceptible | 1 | Media |
 | 4 | Enlaces sin contenido | 2.4.4 | Operable | 2 | Alta |
 | 5 | Etiquetado de controles | 3.3.2 | Comprensible | 2 | Alta |
 | 6 | Controles sin nombre accesible | 4.1.2 | Robusto | 2 | Alta |
@@ -657,7 +661,7 @@ Después de analizar los resultados de las tres herramientas (Lighthouse, WAVE y
 
 ## Sección 4: Análisis y Corrección de Errores
 
-He corregido los 14 errores y advertencias más críticos detectados en las auditorías. A continuación documento cada corrección con el código antes y después.
+He corregido los 20 errores y advertencias más críticos detectados en las auditorías. A continuación documento cada corrección con el código antes y después.
 
 ### 4.1 Tabla Resumen de Errores Corregidos
 
@@ -673,10 +677,16 @@ He corregido los 14 errores y advertencias más críticos detectados en las audi
 | 8 | Link redundante en botón de accesibilidad | 2.4.4 | WAVE | Eliminado enlace duplicado de la lista de navegación |
 | 9 | Título de página genérico | 2.4.2 | TAW | Cambiado de "Frontend" a título descriptivo |
 | 10 | Enlaces sociales sin contenido textual | 2.4.4 | TAW | Añadido `<span class="visually-hidden">` con texto descriptivo |
-| 11 | Encabezados consecutivos sin contenido | 1.3.1 | TAW | Falso positivo - estructura correcta verificada |
+| 11 | Encabezados consecutivos sin contenido (H42) | 1.3.1 | TAW | Cambiado `<h3>` a `<p>` en simulator-card |
 | 12 | Falta enlace "Saltar al contenido" | 2.4.1 | TAW | Añadido enlace skip-to-main con estilos accesibles |
-| 13 | Enlaces con mismo texto y destinos diferentes | 2.4.4 | TAW | Añadido `aria-label` descriptivo a botones de lección |
-| 14 | Botones "Guardar" sin contexto | 2.4.4 | TAW | Añadido `aria-label` con nombre de la lección |
+| 13 | Enlaces con mismo texto y destinos diferentes | 2.4.4 | TAW | Añadido `[ariaLabel]` descriptivo a botones de lección |
+| 14 | Botones "Guardar" sin contexto | 2.4.4 | TAW | Añadido `[ariaLabel]` con nombre de la lección |
+| 15 | Botones de reproducción sin contexto | 2.4.4 | TAW | Añadido `[ariaLabel]` dinámico con título de lección |
+| 16 | Enlace "Ver todo catálogo" sin contexto | 2.4.4 | TAW | Añadido `aria-label` descriptivo |
+| 17 | Botones del hero sin aria-label | 2.4.4 | TAW | Añadido `[ariaLabel]` a botones de acción |
+| 18 | Botones de guía sin contexto | 2.4.4 | TAW | Añadido `ariaLabel` descriptivo a botones |
+| 19 | Botón suscribir sin aria-label | 2.4.4 | TAW | Añadido `aria-label` al botón del newsletter |
+| 20 | Enlaces footer sin contexto | 2.4.4 | TAW | Añadido `aria-label` a accesibilidad e idioma |
 
 ---
 
@@ -1101,21 +1111,83 @@ He corregido los 14 errores y advertencias más críticos detectados en las audi
 
 ---
 
-#### Error #11: Encabezados consecutivos sin contenido (falso positivo)
+#### Error #11: Encabezados consecutivos sin contenido (H42)
 
-**Problema:** TAW reportó "dos encabezados del mismo nivel seguidos sin contenido entre ellos" en la línea 15. Al analizar el código fuente, verifiqué que todos los encabezados tienen contenido entre ellos (párrafos, listas, imágenes, etc.).
+**Problema:** TAW reportó "dos encabezados del mismo nivel seguidos sin contenido entre ellos" (técnica H42). Al analizar el código renderizado, identifiqué que el componente `simulator-card` utilizaba elementos `<h3>` para los títulos de las tarjetas ("Seguro" e "Infinito"), lo cual creaba encabezados consecutivos del mismo nivel sin contenido textual entre ellos.
 
-**Impacto:** Este es un falso positivo generado por cómo Angular renderiza los componentes. Los encabezados pertenecen a diferentes componentes y secciones, cada uno con su contenido correspondiente.
+**Impacto:** Los usuarios de lectores de pantalla que navegan por encabezados (tecla H en NVDA/JAWS) escuchan múltiples encabezados seguidos sin contexto claro, lo cual puede resultar confuso. Esto viola la técnica H42 de WCAG que establece que los encabezados deben seguir una jerarquía lógica con contenido significativo entre ellos.
 
-**Criterio WCAG:** 1.3.1 - Información y relaciones (Nivel A)
+**Criterio WCAG:** 1.3.1 - Información y relaciones (Nivel A), Técnica H42
 
-**Análisis realizado:**
-- Revisé la estructura de encabezados en el HTML compilado
-- Cada `<h2>` y `<h3>` tiene contenido descriptivo antes del siguiente encabezado
-- La estructura jerárquica es correcta: h1 → h2 → h3
-- El error se produce porque TAW analiza el código minificado donde los saltos de línea se eliminan
+**Código ANTES:**
+```html
+<div class="card-container">
+  <div class="card-content">
+    <div class="icon-container">
+      <svg><!-- icono --></svg>
+    </div>
+    <h3 class="card-title">{{ title }}</h3>
+  </div>
+</div>
+```
 
-**Conclusión:** No se requiere corrección de código. Se trata de una limitación de la herramienta TAW al analizar código Angular compilado y minificado. La estructura semántica del sitio es correcta.
+**Problema identificado:**
+Cuando se renderizaban dos tarjetas de simulador consecutivas (por ejemplo, "Seguro" e "Infinito"), se generaban dos `<h3>` seguidos:
+```html
+<h3 class="card-title">Seguro</h3>
+<!-- No hay contenido aquí -->
+<h3 class="card-title">Infinito</h3>
+```
+
+**Código DESPUÉS:**
+```html
+<div class="card-container">
+  <div class="card-content">
+    <div class="icon-container">
+      <svg><!-- icono --></svg>
+    </div>
+    <p class="card-title">{{ title }}</p>
+  </div>
+</div>
+```
+
+**Justificación de la solución:**
+Los títulos de las tarjetas de simulador no son encabezados de sección sino etiquetas descriptivas de características. Según la especificación WCAG, los encabezados (`<h1>`-`<h6>`) deben usarse únicamente para estructurar el documento y crear una jerarquía de contenido navegable. En este caso, `<p>` es el elemento semántico correcto porque:
+
+1. Las tarjetas no representan secciones de contenido independientes que necesiten ser navegadas por encabezados
+2. El texto es puramente descriptivo/etiquetador, no un título de sección
+3. Ya existe un `<h2>` superior ("Practica sin miedo") que estructura correctamente esta sección
+
+**Archivo modificado:** `src/app/components/shared/simulator-card/simulator-card.component.html`
+
+**CSS mantenido:** Los estilos `.card-title` se mantienen sin cambios, ya que funcionan correctamente tanto para `<h3>` como para `<p>`:
+```scss
+.card-title {
+  font-family: v.$font-primary;
+  font-size: v.$font-size-xl;
+  font-weight: v.$font-weight-bold;
+  color: var(--color-accent);
+  margin: 0;
+  position: relative;
+  z-index: 1;
+  letter-spacing: -0.5px;
+}
+```
+
+**Verificación:** Tras el cambio, la estructura de encabezados de la página home queda correctamente jerarquizada:
+```
+h1: "Aprende tecnología paso a paso" (hero)
+  h2: "¿Qué quieres aprender hoy?" (search-bar)
+  h3: "¿Te sientes perdido? Activa el Asistente" (guia-mode)
+  h2: "Lecciones Visuales" (feature-section)
+  h2: "Practica sin miedo" (feature-section)
+    p: "Seguro" (simulator-card) ✓
+    p: "Infinito" (simulator-card) ✓
+  h2: "Lecciones sugeridas" (lecciones-recomendadas)
+    h3: "Mi primer móvil" (leccion-card)
+    h3: "WhatsApp y fotos" (leccion-card)
+    h3: "Internet Seguro" (leccion-card)
+```
 
 ---
 
@@ -1209,7 +1281,7 @@ He corregido los 14 errores y advertencias más críticos detectados en las audi
   color="accent"
   variant="brutal"
   size="md"
-  [attr.aria-label]="'Ver lección: ' + leccion.titulo"
+  [ariaLabel]="'Ver lección: ' + leccion.titulo"
 ></app-button>
 ```
 
@@ -1251,7 +1323,7 @@ He corregido los 14 errores y advertencias más críticos detectados en las audi
   size="md"
   icon="bookmark"
   (btnClick)="saveLesson()"
-  [attr.aria-label]="'Guardar lección: ' + leccion.titulo"
+  [ariaLabel]="'Guardar lección: ' + leccion.titulo"
 ></app-button>
 ```
 
@@ -1260,6 +1332,117 @@ He corregido los 14 errores y advertencias más críticos detectados en las audi
 **Solución aplicada:**
 - Añadido `aria-label` dinámico con el título de la lección
 - Ahora los lectores de pantalla anuncian "Guardar lección: Mi primer móvil", etc.
+
+---
+
+#### Error #15: Botones de reproducción sin contexto
+
+**Problema:** Los botones de "play" para escuchar las lecciones solo tenían el icono visible, sin indicar qué lección se iba a reproducir.
+
+**Criterio WCAG:** 2.4.4 - Propósito de los enlaces en contexto (Nivel A)
+
+**Código DESPUÉS (HTML):**
+```html
+<app-button
+  [ariaLabel]="speakingId === leccion.id ? 'Detener lectura de ' + leccion.titulo : 'Escuchar lección ' + leccion.titulo">
+</app-button>
+```
+
+**Archivo modificado:** `src/app/components/home/lecciones-recomendadas/lecciones-recomendadas.html`
+
+---
+
+#### Error #16: Enlace "Ver todo catálogo" sin contexto
+
+**Problema:** El enlace "Ver todo el catálogo" no especificaba que se refería al catálogo de lecciones.
+
+**Criterio WCAG:** 2.4.4 - Propósito de los enlaces en contexto (Nivel A)
+
+**Código DESPUÉS (HTML):**
+```html
+<a routerLink="/lecciones" class="lecciones-link" aria-label="Ver todo el catálogo de lecciones">
+  Ver todo el catálogo
+  <svg aria-hidden="true">...</svg>
+</a>
+```
+
+**Archivo modificado:** `src/app/components/home/lecciones-recomendadas/lecciones-recomendadas.html`
+
+---
+
+#### Error #17: Botones del hero sin aria-label
+
+**Problema:** Los botones de acción del hero no tenían aria-labels descriptivos.
+
+**Criterio WCAG:** 2.4.4 - Propósito de los enlaces en contexto (Nivel A)
+
+**Código DESPUÉS (HTML):**
+```html
+<app-button
+  [ariaLabel]="isSpeaking ? 'Detener lectura del texto' : 'Escuchar texto de la página'">
+</app-button>
+```
+
+**Archivo modificado:** `src/app/components/home/hero/hero.html`
+
+---
+
+#### Error #18: Botones de guía sin contexto
+
+**Problema:** Los botones "Saber más" y "Modo guía" no indicaban su propósito específico.
+
+**Criterio WCAG:** 2.4.4 - Propósito de los enlaces en contexto (Nivel A)
+
+**Código DESPUÉS (HTML):**
+```html
+<app-button
+  text="Saber más"
+  ariaLabel="Saber más sobre el modo guía">
+</app-button>
+<app-button
+  text="Modo guía"
+  ariaLabel="Activar el modo guía de navegación">
+</app-button>
+```
+
+**Archivo modificado:** `src/app/components/home/guia-mode/guia-mode.html`
+
+---
+
+#### Error #19: Botón suscribir sin aria-label
+
+**Problema:** El botón "Suscribir" del formulario de newsletter no indicaba su función completa.
+
+**Criterio WCAG:** 2.4.4 - Propósito de los enlaces en contexto (Nivel A)
+
+**Código DESPUÉS (HTML):**
+```html
+<button type="submit" class="app-footer__newsletter-btn" aria-label="Suscribirse al boletín semanal">
+  Suscribir
+</button>
+```
+
+**Archivo modificado:** `src/app/components/layout/footer/footer.html`
+
+---
+
+#### Error #20: Enlaces footer sin contexto
+
+**Problema:** Los enlaces de "Accesibilidad" e "Idioma" en el footer no indicaban su propósito completo.
+
+**Criterio WCAG:** 2.4.4 - Propósito de los enlaces en contexto (Nivel A)
+
+**Código DESPUÉS (HTML):**
+```html
+<a href="/accesibilidad" aria-label="Ver declaración de accesibilidad">
+  Accesibilidad
+</a>
+<a href="#" aria-label="Cambiar idioma a Español (idioma actual)">
+  Español
+</a>
+```
+
+**Archivo modificado:** `src/app/components/layout/footer/footer.html`
 
 ---
 
