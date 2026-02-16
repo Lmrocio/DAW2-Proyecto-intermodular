@@ -306,24 +306,206 @@ get formattedTranscription(): string {
 
 ## Sección 3: Auditoría Automatizada Inicial
 
-> **Pendiente de completar**
-> 
-> Esta sección se completará con los resultados de las herramientas:
-> - Lighthouse (Chrome DevTools)
-> - WAVE (Extensión de navegador)
-> - TAW (Test de Accesibilidad Web)
+He ejecutado tres herramientas de análisis automático para evaluar la accesibilidad de TecnoMayores antes de aplicar correcciones.
+
+### 3.1 Herramientas Utilizadas
+
+#### Lighthouse (Chrome DevTools)
+
+He analizado la página principal de TecnoMayores usando Lighthouse integrado en Chrome DevTools:
+
+- **Puntuación obtenida:** 93/100
+- **Método:** F12 → Pestaña Lighthouse → Categoría "Accessibility" → "Analyze page load"
 
 | Herramienta | Puntuación/Errores | Captura |
 |-------------|-------------------|---------|
-| Lighthouse | [ ]/100 | ![Lighthouse inicial](./capturas/lighthouse-antes.png) |
-| WAVE | [ ] errores, [ ] alertas | ![WAVE inicial](./capturas/wave-antes.png) |
-| TAW | [ ] problemas | ![TAW](./capturas/taw.png) |
+| Lighthouse | 93/100 | ![Lighthouse inicial](./capturas/lighthouse-antes.png) |
+| WAVE | 8.2/10 - 5 errores de contraste, 1 alerta | ![WAVE inicial](./capturas/wave-antes.png) |
+| TAW | Pendiente de ejecutar | ![TAW](./capturas/taw.png) |
+
+### 3.2 Problemas Detectados por Lighthouse
+
+#### Problema 1: Contraste Insuficiente (Contrast)
+
+**Descripción:** Los colores de fondo y primer plano no tienen una relación de contraste suficiente.
+
+**Impacto:** El texto de bajo contraste es difícil o imposible de leer para muchos usuarios, especialmente personas mayores con problemas visuales o usuarios con daltonismo.
+
+**Elementos afectados:**
+- `span.button__text` (texto de botones)
+- `a.button.button--brutal.button--md.button--secondary` (botón secundario)
+- `button.button.button--brutal.button--md.button--secondary` (botón secundario)
+- `span.leccion-badge.badge-orange` (insignia naranja de lecciones)
+- `a.app-footer__action-link.app-footer__accessibility-btn` (botón de accesibilidad en footer)
+- `footer.app-footer` (pie de página)
+- `a.app-footer__action-link.app-footer__language-btn` (botón de idioma en footer)
+- `footer.app-footer` (pie de página)
+
+**Criterio WCAG afectado:** 1.4.3 - Contraste mínimo (Nivel AA)
+
+#### Problema 2: Estructura de Listas (Lists)
+
+**Descripción:** Las listas no contienen únicamente elementos `<li>` y elementos de soporte de script (`<script>` y `<template>`).
+
+**Impacto:** Los lectores de pantalla tienen una forma específica de anunciar listas. Una estructura de lista incorrecta dificulta la salida del lector de pantalla y confunde a usuarios ciegos o con baja visión.
+
+**Elementos afectados:**
+- `ul.breadcrumb-nav__list` - contiene `span.breadcrumb-nav__prefix` como hijo directo
+
+**Criterio WCAG afectado:** 1.3.1 - Información y relaciones (Nivel A)
+
+---
+
+### 3.3 Problemas Detectados por WAVE
+
+#### WAVE (Web Accessibility Evaluation Tool)
+
+He analizado la página principal de TecnoMayores usando la extensión WAVE para navegadores:
+
+- **Puntuación obtenida:** 8.2/10
+- **Total de errores:** 5 errores de contraste
+- **Total de alertas:** 1 alerta
+- **Método:** Extensión WAVE activada en la página principal
+
+#### Error 1: Contraste Muy Bajo en Botón "Saber sobre nosotros"
+
+**Elemento afectado:**
+```html
+<a class="button button--brutal button--md button--secondary" tabindex="0" href="/about">
+  <span class="button__text" style="opacity: 1; color: rgb(253, 253, 253); background-color: rgb(255, 184, 66);">
+    Saber sobre nosotros
+  </span>
+</a>
+```
+
+**Descripción:** Contraste muy bajo (Very low contrast) entre el texto blanco (rgb(253, 253, 253)) y el fondo amarillo-naranja (rgb(255, 184, 66)).
+
+**Ubicación:** Sección Hero de la página principal.
+
+**Impacto:** El texto es difícil de leer para personas mayores con problemas visuales o usuarios con daltonismo. El amarillo claro sobre blanco no proporciona suficiente diferenciación.
+
+#### Error 2: Contraste Muy Bajo en Botón "Ver Lecciones"
+
+**Elemento afectado:**
+```html
+<button class="button button--brutal button--md button--secondary" type="button">
+  <span class="button__text" style="opacity: 1; color: rgb(253, 253, 253); background-color: rgb(255, 184, 66);">
+    Ver Lecciones
+  </span>
+</button>
+```
+
+**Descripción:** Mismo problema de contraste que el Error 1. Texto blanco sobre fondo amarillo-naranja.
+
+**Ubicación:** Footer de la sección de características (feature-section).
+
+**Impacto:** Los usuarios con baja visión no pueden distinguir claramente el texto del botón, dificultando la navegación a las lecciones.
+
+#### Error 3: Contraste Muy Bajo en Badge de Categoría
+
+**Elemento afectado:**
+```html
+<span class="leccion-badge badge-orange">
+  Comunicación
+</span>
+```
+
+**Descripción:** La insignia naranja que categoriza las lecciones no tiene suficiente contraste.
+
+**Ubicación:** Tarjetas de lecciones en el catálogo.
+
+**Impacto:** Las etiquetas de categoría son importantes para la navegación y clasificación del contenido. Un contraste insuficiente impide que usuarios con discapacidad visual identifiquen rápidamente el tipo de lección.
+
+#### Error 4: Contraste Muy Bajo en Botón de Accesibilidad del Footer
+
+**Elemento afectado:**
+```html
+<a href="/accesibilidad" aria-label="Declaración de Accesibilidad" 
+   class="app-footer__action-link app-footer__accessibility-btn">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10..."></path>
+  </svg>
+  AAA
+</a>
+```
+
+**Descripción:** El enlace al documento de accesibilidad, irónicamente, tiene problemas de contraste.
+
+**Ubicación:** Pie de página (footer).
+
+**Impacto:** Un enlace que debería demostrar el compromiso con la accesibilidad no cumple con los estándares mínimos de contraste.
+
+**Alerta asociada:** Link redundante - el icono SVG y el texto "AAA" apuntan al mismo destino.
+
+#### Error 5: Contraste Muy Bajo en Botón de Idioma del Footer
+
+**Elemento afectado:**
+```html
+<a href="#" aria-label="Selector de idioma" 
+   class="app-footer__action-link app-footer__language-btn">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+    <circle cx="12" cy="12" r="10"></circle>
+    <line x1="2" y1="12" x2="22" y2="12"></line>
+    <path d="M12 2a15.3 15.3 0 0 1 4 10..."></path>
+  </svg>
+  Español
+</a>
+```
+
+**Descripción:** El selector de idioma presenta contraste insuficiente.
+
+**Ubicación:** Pie de página (footer).
+
+**Impacto:** Los usuarios que necesitan cambiar el idioma pueden tener dificultades para localizar esta opción.
+
+#### Alerta 1: Link Redundante
+
+**Elemento afectado:** Botón de accesibilidad del footer (Error 4).
+
+**Descripción:** El icono SVG y el texto "AAA" dentro del mismo enlace crean redundancia.
+
+**Recomendación:** Considerar usar `aria-hidden="true"` en el SVG para evitar que los lectores de pantalla anuncien el contenido dos veces.
+
+**Criterios WCAG afectados:**
+- **1.4.3 - Contraste mínimo (Nivel AA):** Todos los errores de contraste
+- **2.4.4 - Propósito de los enlaces (Nivel A):** Alerta de link redundante
+
+---
+
+### 3.4 Resumen de los 3 Problemas Más Graves
+
+Después de analizar los resultados de Lighthouse y WAVE, he identificado los tres problemas de accesibilidad más críticos que debo corregir:
+
+1. **Contraste insuficiente en botones secundarios (color: rgb(253, 253, 253) sobre rgb(255, 184, 66)):**
+   - Detectado por: Lighthouse y WAVE
+   - Elementos afectados: Botones "Saber sobre nosotros" y "Ver Lecciones"
+   - Ratio de contraste actual: Aproximadamente 1.5:1
+   - Ratio requerido: 4.5:1 (WCAG AA) o 7:1 (WCAG AAA)
+   - Gravedad: ALTA - Los botones son elementos de navegación primarios
+   - Impacto en usuarios: Personas mayores con presbicia, usuarios con daltonismo, usuarios en entornos con luz brillante
+
+2. **Contraste bajo en elementos del footer (botones de accesibilidad e idioma):**
+   - Detectado por: Lighthouse y WAVE
+   - Gravedad: ALTA - Es irónico que el botón de "Accesibilidad" no sea accesible
+   - Impacto: Dificulta que usuarios con discapacidad visual accedan a la declaración de accesibilidad o cambien el idioma
+   - Problema adicional: Link redundante en el botón de accesibilidad
+
+3. **Estructura incorrecta del breadcrumb (navegación de migas de pan):**
+   - Detectado por: Lighthouse
+   - Elemento: `ul.breadcrumb-nav__list` contiene `span.breadcrumb-nav__prefix` directamente
+   - Gravedad: MEDIA - Afecta la navegación con lectores de pantalla
+   - Impacto: Los usuarios de lectores de pantalla (JAWS, NVDA) pueden recibir información confusa sobre la estructura de navegación
+   - Solución: Envolver el `<span>` dentro de un `<li>` o eliminarlo de la lista
+
+**Patrón común identificado:** La mayoría de los errores se relacionan con la paleta de colores de mi diseño "brutal". El color secundario (rgb(255, 184, 66) - amarillo-naranja) no proporciona suficiente contraste con el texto blanco. Necesito revisar mi sistema de variables de color en `_variables.scss`.
 
 ---
 
 ## Sección 4: Análisis y Corrección de Errores
 
 > **Pendiente de completar**
+> 
+> Esta sección se completará después de corregir los errores detectados en la auditoría.
 
 ---
 
