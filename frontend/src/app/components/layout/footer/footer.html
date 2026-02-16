@@ -75,8 +75,10 @@
               [(ngModel)]="newsletterEmail"
               name="newsletter"
               required
+              aria-describedby="newsletter-desc"
             />
-            <button type="submit" class="app-footer__newsletter-btn">
+            <span id="newsletter-desc" class="visually-hidden">Introduce tu correo para recibir una lección cada lunes</span>
+            <button type="submit" class="app-footer__newsletter-btn" aria-label="Suscribirse al boletín semanal">
               Suscribir
             </button>
           </form>
@@ -91,13 +93,13 @@
         © 2024 TecnoMayores. Diseñado con calma para nuestros mayores.
       </p>
       <div class="app-footer__actions">
-        <a href="/accesibilidad" class="app-footer__action-link app-footer__accessibility-btn">
+        <a href="/accesibilidad" class="app-footer__action-link app-footer__accessibility-btn" aria-label="Ver declaración de accesibilidad">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
           </svg>
           <span>Accesibilidad</span>
         </a>
-        <a href="#" class="app-footer__action-link app-footer__language-btn">
+        <a href="#" class="app-footer__action-link app-footer__language-btn" aria-label="Cambiar idioma a Español (idioma actual)">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false">
             <circle cx="12" cy="12" r="10"/>
             <line x1="2" y1="12" x2="22" y2="12"/>
