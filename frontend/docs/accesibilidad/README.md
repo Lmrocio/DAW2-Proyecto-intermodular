@@ -657,9 +657,395 @@ Después de analizar los resultados de las tres herramientas (Lighthouse, WAVE y
 
 ## Sección 4: Análisis y Corrección de Errores
 
-> **Pendiente de completar**
-> 
-> Esta sección se completará después de corregir los errores detectados en la auditoría.
+He corregido los 8 errores más críticos detectados en la auditoría. A continuación documento cada corrección con el código antes y después.
+
+### 4.1 Tabla Resumen de Errores Corregidos
+
+| # | Error | Criterio WCAG | Herramienta | Solución aplicada |
+|---|-------|---------------|-------------|-------------------|
+| 1 | Estructura incorrecta del breadcrumb | 1.3.1 | Lighthouse | Movido `<span>` fuera del `<ul>` |
+| 2 | Campo de búsqueda sin etiqueta | 1.1.1, 3.3.2, 4.1.2 | TAW | Añadido `<label>` con clase `visually-hidden` |
+| 3 | Campo de newsletter sin etiqueta | 1.1.1, 3.3.2, 4.1.2 | TAW | Añadido `<label>` vinculado con `for` |
+| 4 | Enlaces sociales sin texto accesible | 2.4.4 | TAW | Mejorado `aria-label` y añadido `aria-hidden` a SVG |
+| 5 | Bajo contraste en botones del footer | 1.4.3 | Lighthouse, WAVE | Cambiado color a `var(--text-primary)` |
+| 6 | Bajo contraste en botones secundarios | 1.4.3 | Lighthouse, WAVE | Cambiado texto de blanco a negro |
+| 7 | Bajo contraste en badge naranja | 1.4.3 | WAVE | Cambiado texto de blanco a negro |
+| 8 | Link redundante en botón de accesibilidad | 2.4.4 | WAVE | Eliminado enlace duplicado de la lista de navegación |
+
+---
+
+### 4.2 Detalle de Cada Error Corregido
+
+#### Error #1: Estructura incorrecta del breadcrumb
+
+**Problema:** El componente de migas de pan (`breadcrumb-nav`) contenía un `<span>` como hijo directo de `<ul>`, lo cual viola la especificación HTML ya que `<ul>` solo puede contener elementos `<li>`.
+
+**Impacto:** Los lectores de pantalla anuncian las listas de forma específica. Una estructura incorrecta confunde a usuarios ciegos que dependen de la navegación por landmarks.
+
+**Criterio WCAG:** 1.3.1 - Información y relaciones (Nivel A)
+
+**Código ANTES:**
+```html
+<nav class="breadcrumb-nav" aria-label="Migas de pan">
+  <ul class="breadcrumb-nav__list">
+    <!-- ERROR: span como hijo directo de ul -->
+    <span class="breadcrumb-nav__prefix">Estás en:</span>
+    <li class="breadcrumb-nav__item">
+      <a routerLink="/home">Inicio</a>
+    </li>
+  </ul>
+</nav>
+```
+
+**Código DESPUÉS:**
+```html
+<nav class="breadcrumb-nav" aria-label="Migas de pan">
+  <!-- Prefijo movido fuera de la lista -->
+  <span class="breadcrumb-nav__prefix" aria-hidden="true">Estás en:</span>
+  
+  <ul class="breadcrumb-nav__list">
+    <li class="breadcrumb-nav__item">
+      <a routerLink="/home">Inicio</a>
+    </li>
+  </ul>
+</nav>
+```
+
+**Archivo modificado:** `src/app/components/shared/breadcrumb-nav/breadcrumb-nav.html`
+
+---
+
+#### Error #2: Campo de búsqueda sin etiqueta accesible
+
+**Problema:** El campo de búsqueda usaba solo `aria-label` sin un `<label>` asociado. Aunque `aria-label` es válido, la técnica preferida es usar `<label>` con `for` porque proporciona una zona de clic ampliada y mejor soporte en tecnologías asistivas antiguas.
+
+**Impacto:** Usuarios de lectores de pantalla no pueden identificar claramente la función del campo. Personas mayores con dificultades cognitivas no reciben instrucciones claras.
+
+**Criterio WCAG:** 1.1.1 - Contenido no textual, 3.3.2 - Etiquetas o instrucciones, 4.1.2 - Nombre, función, valor (todos Nivel A)
+
+**Código ANTES:**
+```html
+<div class="search-container">
+  <div class="search-icon">
+    <svg><!-- icono --></svg>
+  </div>
+  <input
+    type="text"
+    class="search-input"
+    placeholder="Escribe aquí..."
+    aria-label="Campo de búsqueda"
+  />
+</div>
+```
+
+**Código DESPUÉS:**
+```html
+<div class="search-container">
+  <div class="search-icon" aria-hidden="true">
+    <svg><!-- icono --></svg>
+  </div>
+  
+  <!-- Label oculto visualmente pero accesible -->
+  <label for="search-input" class="visually-hidden">Buscar en TecnoMayores</label>
+  
+  <input
+    type="text"
+    id="search-input"
+    class="search-input"
+    placeholder="Escribe aquí..."
+  />
+</div>
+```
+
+**Archivo modificado:** `src/app/components/home/search-bar/search-bar.html`
+
+---
+
+#### Error #3: Campo de newsletter sin etiqueta accesible
+
+**Problema:** Similar al error anterior, el campo de email del boletín usaba `aria-label` en lugar de un `<label>` correctamente vinculado mediante el atributo `for`.
+
+**Impacto:** Usuarios ciegos no saben qué información introducir. El formulario no cumple con las técnicas WCAG H44 y H65 para etiquetado de controles.
+
+**Criterio WCAG:** 1.1.1, 1.3.1, 3.3.2, 4.1.2 (todos Nivel A)
+
+**Código ANTES:**
+```html
+<form class="app-footer__newsletter-form">
+  <input
+    type="email"
+    class="app-footer__newsletter-input"
+    placeholder="Tu correo"
+    aria-label="Tu correo electrónico"
+  />
+  <button type="submit">Suscribir</button>
+</form>
+```
+
+**Código DESPUÉS:**
+```html
+<form class="app-footer__newsletter-form">
+  <label for="newsletter-email" class="visually-hidden">
+    Tu correo electrónico para el boletín
+  </label>
+  <input
+    type="email"
+    id="newsletter-email"
+    class="app-footer__newsletter-input"
+    placeholder="Tu correo"
+  />
+  <button type="submit">Suscribir</button>
+</form>
+```
+
+**Archivo modificado:** `src/app/components/layout/footer/footer.html`
+
+---
+
+#### Error #4: Enlaces sociales del footer sin texto accesible
+
+**Problema:** Los enlaces a WhatsApp y Email contenían solo iconos SVG. Aunque tenían `aria-label`, los SVG no estaban marcados con `aria-hidden="true"`, lo que podía causar anuncios duplicados en lectores de pantalla.
+
+**Impacto:** Los lectores de pantalla anuncian "enlace, gráfico" sin describir el destino real del enlace.
+
+**Criterio WCAG:** 2.4.4 - Propósito de los enlaces (Nivel A)
+
+**Código ANTES:**
+```html
+<a href="https://wa.me/+34" class="app-footer__social-link" aria-label="WhatsApp">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M17.472..."/>
+  </svg>
+</a>
+```
+
+**Código DESPUÉS:**
+```html
+<a href="https://wa.me/+34" class="app-footer__social-link" aria-label="Contactar por WhatsApp">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" 
+       aria-hidden="true" focusable="false">
+    <path d="M17.472..."/>
+  </svg>
+</a>
+```
+
+**Archivo modificado:** `src/app/components/layout/footer/footer.html`
+
+**Cambios adicionales:**
+- `aria-hidden="true"` en todos los SVG decorativos para que los lectores de pantalla los ignoren
+- `focusable="false"` para evitar que el SVG reciba foco en navegadores antiguos
+- Mejorado el texto de `aria-label` de "WhatsApp" a "Contactar por WhatsApp" y de "Email" a "Enviar correo electrónico" para ser más descriptivo
+
+---
+
+#### Error #5: Bajo contraste en botones del footer
+
+**Problema:** Los botones de "Accesibilidad" e "Idioma" usaban colores que no proporcionaban suficiente contraste con el fondo. El botón de accesibilidad usaba `var(--color-tertiary)` (naranja) y el de idioma `var(--color-primary)` (amarillo), ambos difíciles de leer.
+
+**Impacto:** Usuarios con baja visión, personas mayores con presbicia y usuarios con daltonismo no pueden leer estos enlaces.
+
+**Criterio WCAG:** 1.4.3 - Contraste mínimo (Nivel AA)
+
+**Código ANTES (SCSS):**
+```scss
+.app-footer__accessibility-btn {
+  color: var(--color-tertiary);  // Naranja - bajo contraste
+  
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.app-footer__language-btn {
+  color: var(--color-primary);  // Amarillo - bajo contraste
+  
+  &:hover {
+    opacity: 0.8;
+  }
+}
+```
+
+**Código DESPUÉS (SCSS):**
+```scss
+.app-footer__accessibility-btn {
+  color: var(--text-primary);  // Negro - alto contraste
+  
+  &:hover {
+    color: var(--color-tertiary);  // Naranja solo en hover
+  }
+}
+
+.app-footer__language-btn {
+  color: var(--text-primary);  // Negro - alto contraste
+  
+  &:hover {
+    color: var(--color-accent);  // Azul solo en hover
+  }
+}
+```
+
+**Archivo modificado:** `src/app/components/layout/footer/footer.scss`
+
+**Cambio adicional en HTML:**
+- Cambiado el texto "AAA" por "Accesibilidad" para mayor claridad
+- Envuelto el texto en `<span>` para mejor control de estilos
+- Añadido `aria-hidden="true"` a los iconos SVG
+
+---
+
+#### Error #6: Bajo contraste en botones secundarios
+
+**Problema:** Los botones con la clase `.button--secondary` (como "Saber sobre nosotros" y "Ver Lecciones") usaban texto blanco (`--text-on-dark`: #fdfdfd) sobre fondo amarillo-naranja (`--color-secondary`: #ffb842). El ratio de contraste era aproximadamente 1.5:1, muy por debajo del mínimo requerido.
+
+**Impacto:** Los botones de navegación principales son ilegibles para personas mayores con problemas visuales, usuarios con daltonismo o cualquier persona en entornos con mucha luz.
+
+**Criterio WCAG:** 1.4.3 - Contraste mínimo (Nivel AA) - Requiere ratio 4.5:1 para texto normal
+
+**Código ANTES (SCSS):**
+```scss
+.button--secondary {
+  background-color: var(--color-secondary);
+  color: var(--text-on-dark);  // Blanco #fdfdfd - bajo contraste
+  border-color: var(--color-secondary);
+}
+```
+
+**Código DESPUÉS (SCSS):**
+```scss
+.button--secondary {
+  background-color: var(--color-secondary);
+  color: var(--text-primary);  // Negro #030303 - alto contraste
+  border-color: var(--color-secondary);
+}
+```
+
+**Archivo modificado:** `src/app/components/shared/button/button.scss`
+
+**Ratio de contraste conseguido:** Aproximadamente 9.5:1 (supera WCAG AAA)
+
+---
+
+#### Error #7: Bajo contraste en badge de categoría naranja
+
+**Problema:** Las insignias de categoría con la clase `.badge-orange` (que muestran "Comunicación" en las tarjetas de lecciones) usaban texto blanco sobre fondo naranja (`--color-tertiary`: #f3742b), sin cumplir el contraste mínimo.
+
+**Impacto:** Los usuarios no pueden identificar rápidamente la categoría de las lecciones, lo cual dificulta la navegación y organización del contenido educativo.
+
+**Criterio WCAG:** 1.4.3 - Contraste mínimo (Nivel AA)
+
+**Código ANTES (SCSS):**
+```scss
+&.badge-orange {
+  background: var(--color-tertiary);
+  color: var(--text-on-dark);  // Blanco - bajo contraste
+}
+```
+
+**Código DESPUÉS (SCSS):**
+```scss
+&.badge-orange {
+  background: var(--color-tertiary);
+  color: var(--text-primary);  // Negro - alto contraste
+}
+```
+
+**Archivo modificado:** `src/app/components/home/lecciones-recomendadas/lecciones-recomendadas.scss`
+
+---
+
+#### Error #8: Link redundante en botón de accesibilidad del footer
+
+**Problema:** WAVE detectó un enlace redundante a `/accesibilidad`. El footer contenía **dos enlaces diferentes al mismo destino**: uno en la lista de navegación "Nosotros" y otro como botón decorativo en la parte inferior. Esto confunde a los usuarios de lectores de pantalla que escuchan el mismo enlace anunciado dos veces en el mismo componente.
+
+**Impacto:** Los usuarios de tecnologías asistivas navegan por enlaces duplicados innecesariamente. Esto genera frustración y pérdida de tiempo, especialmente para personas mayores que pueden pensar que están accediendo a contenido diferente.
+
+**Criterio WCAG:** 2.4.4 - Propósito de los enlaces (Nivel A)
+
+**Código ANTES (HTML):**
+```html
+<!-- Columna 3: Nosotros -->
+<section class="app-footer__section app-footer__section--lower">
+  <h3 class="app-footer__section-title">Nosotros</h3>
+  <nav class="app-footer__nav">
+    <ul class="app-footer__nav-list">
+      <li><a href="/quienes-somos" class="app-footer__link">¿Quiénes somos?</a></li>
+      <li><a href="/privacidad" class="app-footer__link">Privacidad</a></li>
+      <li><a href="/accesibilidad" class="app-footer__link">Accesibilidad</a></li>
+    </ul>
+  </nav>
+</section>
+
+<!-- Más abajo en el footer... -->
+<div class="app-footer__actions">
+  <a href="/accesibilidad" class="app-footer__action-link app-footer__accessibility-btn">
+    <svg aria-hidden="true" focusable="false">...</svg>
+    <span>Accesibilidad</span>
+  </a>
+</div>
+```
+
+**Código DESPUÉS (HTML):**
+```html
+<!-- Columna 3: Nosotros -->
+<section class="app-footer__section app-footer__section--lower">
+  <h3 class="app-footer__section-title">Nosotros</h3>
+  <nav class="app-footer__nav">
+    <ul class="app-footer__nav-list">
+      <li><a href="/quienes-somos" class="app-footer__link">¿Quiénes somos?</a></li>
+      <li><a href="/privacidad" class="app-footer__link">Privacidad</a></li>
+      <!-- Enlace a Accesibilidad eliminado - ya existe en el footer decorativo -->
+    </ul>
+  </nav>
+</section>
+
+<!-- El botón decorativo del footer se mantiene -->
+<div class="app-footer__actions">
+  <a href="/accesibilidad" class="app-footer__action-link app-footer__accessibility-btn">
+    <svg aria-hidden="true" focusable="false">...</svg>
+    <span>Accesibilidad</span>
+  </a>
+</div>
+```
+
+**Archivo modificado:** `src/app/components/layout/footer/footer.html`
+
+**Solución aplicada:**
+- Eliminado el enlace duplicado de la lista de navegación "Nosotros"
+- Mantenido el botón decorativo del footer que es más visible y tiene mejor diseño
+- Ahora solo existe un único enlace a `/accesibilidad` en todo el footer
+
+**Mejora adicional aplicada previamente:**
+- Cambiado texto "AAA" por "Accesibilidad" para mayor claridad
+- Añadido `aria-hidden="true"` al SVG decorativo
+- Añadido `focusable="false"` al SVG para prevenir problemas en navegadores antiguos
+
+---
+
+### 4.3 Clase de Utilidad Añadida
+
+Para implementar las correcciones de etiquetado, he añadido la clase `.visually-hidden` al archivo de estilos globales. Esta técnica es la recomendada por WCAG para ocultar contenido visualmente mientras se mantiene accesible para lectores de pantalla:
+
+```scss
+// Archivo: src/styles/02-generic/_reset.scss
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+```
+
+Esta clase:
+- Reduce el elemento a 1x1 píxel (invisible pero presente en el DOM)
+- Usa `clip` para ocultar cualquier overflow
+- Mantiene el elemento en el árbol de accesibilidad
+- Es preferible a `display: none` o `visibility: hidden` que ocultan el contenido también para lectores de pantalla
 
 ---
 

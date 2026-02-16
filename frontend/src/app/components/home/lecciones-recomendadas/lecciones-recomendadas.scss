@@ -214,7 +214,7 @@
 
   &.badge-orange {
     background: var(--color-tertiary);
-    color: var(--text-on-dark);
+    color: var(--text-primary);  // Cambiado de --text-on-dark a --text-primary para mejor contraste
   }
 
   &.badge-blue {

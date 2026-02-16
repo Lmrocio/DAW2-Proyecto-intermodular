@@ -17,23 +17,26 @@
 
   <div class="search-container">
     <!-- Icono de búsqueda -->
-    <div class="search-icon">
+    <div class="search-icon" aria-hidden="true">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="11" cy="11" r="8"/>
         <path d="M21 21l-4.35-4.35"/>
       </svg>
     </div>
 
+    <!-- Label accesible para el campo de búsqueda -->
+    <label for="search-input" class="visually-hidden">Buscar en TecnoMayores</label>
+
     <!-- Input de búsqueda -->
     <input
       type="text"
+      id="search-input"
       class="search-input"
       [placeholder]="placeholder"
       [(ngModel)]="searchValue"
       (ngModelChange)="onSearchChange($event)"
       (keyup.enter)="onSearchSubmit()"
       autocomplete="off"
-      aria-label="Campo de búsqueda"
     />
   </div>
 </div>

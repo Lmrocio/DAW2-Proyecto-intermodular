@@ -271,10 +271,10 @@
 }
 
 .app-footer__accessibility-btn {
-  color: var(--color-tertiary);
+  color: var(--text-primary);
 
   &:hover {
-    opacity: 0.8;
+    color: var(--color-tertiary);
   }
 
   &:focus-visible {
@@ -284,10 +284,10 @@
 }
 
 .app-footer__language-btn {
-  color: var(--color-primary);
+  color: var(--text-primary);
 
   &:hover {
-    opacity: 0.8;
+    color: var(--color-accent);
   }
 
   &:focus-visible {
