@@ -661,7 +661,7 @@ Después de analizar los resultados de las tres herramientas (Lighthouse, WAVE y
 
 ## Sección 4: Análisis y Corrección de Errores
 
-He corregido los 20 errores y advertencias más críticos detectados en las auditorías. A continuación documento cada corrección con el código antes y después.
+En esta sección documento las correcciones que realicé para los 20 errores y advertencias más críticos detectados en las auditorías, mostrando el código antes y después de cada cambio.
 
 ### 4.1 Tabla Resumen de Errores Corregidos
 
@@ -694,9 +694,9 @@ He corregido los 20 errores y advertencias más críticos detectados en las audi
 
 #### Error #1: Estructura incorrecta del breadcrumb
 
-**Problema:** El componente de migas de pan (`breadcrumb-nav`) contenía un `<span>` como hijo directo de `<ul>`, lo cual viola la especificación HTML ya que `<ul>` solo puede contener elementos `<li>`.
+**Problema:** El componente de migas de pan contenía un `<span>` como hijo directo de `<ul>`, violando la especificación HTML que solo permite elementos `<li>` dentro de listas.
 
-**Impacto:** Los lectores de pantalla anuncian las listas de forma específica. Una estructura incorrecta confunde a usuarios ciegos que dependen de la navegación por landmarks.
+**Impacto:** Los lectores de pantalla anuncian las listas de forma específica y una estructura incorrecta confunde a usuarios ciegos que dependen de la navegación por landmarks.
 
 **Criterio WCAG:** 1.3.1 - Información y relaciones (Nivel A)
 
@@ -735,9 +735,9 @@ He corregido los 20 errores y advertencias más críticos detectados en las audi
 
 **Problema:** El campo de búsqueda usaba solo `aria-label` sin un `<label>` asociado. Aunque `aria-label` es válido, la técnica preferida es usar `<label>` con `for` porque proporciona una zona de clic ampliada y mejor soporte en tecnologías asistivas antiguas.
 
-**Impacto:** Usuarios de lectores de pantalla no pueden identificar claramente la función del campo. Personas mayores con dificultades cognitivas no reciben instrucciones claras.
+**Impacto:** Usuarios de lectores de pantalla no identifican claramente la función del campo y personas mayores con dificultades cognitivas no reciben instrucciones claras.
 
-**Criterio WCAG:** 1.1.1 - Contenido no textual, 3.3.2 - Etiquetas o instrucciones, 4.1.2 - Nombre, función, valor (todos Nivel A)
+**Criterio WCAG:** 1.1.1, 3.3.2, 4.1.2 (Nivel A)
 
 **Código ANTES:**
 ```html
@@ -779,11 +779,11 @@ He corregido los 20 errores y advertencias más críticos detectados en las audi
 
 #### Error #3: Campo de newsletter sin etiqueta accesible
 
-**Problema:** Similar al error anterior, el campo de email del boletín usaba `aria-label` en lugar de un `<label>` correctamente vinculado mediante el atributo `for`.
+**Problema:** El campo de email del boletín usaba `aria-label` en lugar de un `<label>` correctamente vinculado mediante el atributo `for`.
 
-**Impacto:** Usuarios ciegos no saben qué información introducir. El formulario no cumple con las técnicas WCAG H44 y H65 para etiquetado de controles.
+**Impacto:** Usuarios ciegos no saben qué información introducir y el formulario no cumple con las técnicas WCAG H44 y H65 para etiquetado de controles.
 
-**Criterio WCAG:** 1.1.1, 1.3.1, 3.3.2, 4.1.2 (todos Nivel A)
+**Criterio WCAG:** 1.1.1, 1.3.1, 3.3.2, 4.1.2 (Nivel A)
 
 **Código ANTES:**
 ```html
@@ -820,7 +820,7 @@ He corregido los 20 errores y advertencias más críticos detectados en las audi
 
 #### Error #4: Enlaces sociales del footer sin texto accesible
 
-**Problema:** Los enlaces a WhatsApp y Email contenían solo iconos SVG. Aunque tenían `aria-label`, los SVG no estaban marcados con `aria-hidden="true"`, lo que podía causar anuncios duplicados en lectores de pantalla.
+**Problema:** Los enlaces a WhatsApp y Email contenían solo iconos SVG. Aunque tenían `aria-label`, los SVG no estaban marcados con `aria-hidden="true"`, lo que causaba anuncios duplicados en lectores de pantalla.
 
 **Impacto:** Los lectores de pantalla anuncian "enlace, gráfico" sin describir el destino real del enlace.
 
@@ -847,18 +847,15 @@ He corregido los 20 errores y advertencias más críticos detectados en las audi
 
 **Archivo modificado:** `src/app/components/layout/footer/footer.html`
 
-**Cambios adicionales:**
-- `aria-hidden="true"` en todos los SVG decorativos para que los lectores de pantalla los ignoren
-- `focusable="false"` para evitar que el SVG reciba foco en navegadores antiguos
-- Mejorado el texto de `aria-label` de "WhatsApp" a "Contactar por WhatsApp" y de "Email" a "Enviar correo electrónico" para ser más descriptivo
+Además de la corrección principal, añadí `aria-hidden="true"` en todos los SVG decorativos para que los lectores de pantalla los ignoren y `focusable="false"` para evitar que el SVG reciba foco en navegadores antiguos. También mejoré el texto del `aria-label` de "WhatsApp" a "Contactar por WhatsApp" y de "Email" a "Enviar correo electrónico".
 
 ---
 
 #### Error #5: Bajo contraste en botones del footer
 
-**Problema:** Los botones de "Accesibilidad" e "Idioma" usaban colores que no proporcionaban suficiente contraste con el fondo. El botón de accesibilidad usaba `var(--color-tertiary)` (naranja) y el de idioma `var(--color-primary)` (amarillo), ambos difíciles de leer.
+**Problema:** Los botones de "Accesibilidad" e "Idioma" usaban colores con contraste insuficiente: naranja (`--color-tertiary`) y amarillo (`--color-primary`) respectivamente.
 
-**Impacto:** Usuarios con baja visión, personas mayores con presbicia y usuarios con daltonismo no pueden leer estos enlaces.
+**Impacto:** Usuarios con baja visión, presbicia o daltonismo no pueden leer estos enlaces correctamente.
 
 **Criterio WCAG:** 1.4.3 - Contraste mínimo (Nivel AA)
 
@@ -902,18 +899,15 @@ He corregido los 20 errores y advertencias más críticos detectados en las audi
 
 **Archivo modificado:** `src/app/components/layout/footer/footer.scss`
 
-**Cambio adicional en HTML:**
-- Cambiado el texto "AAA" por "Accesibilidad" para mayor claridad
-- Envuelto el texto en `<span>` para mejor control de estilos
-- Añadido `aria-hidden="true"` a los iconos SVG
+Además de los cambios de color, también modifiqué el HTML: cambié el texto "AAA" por "Accesibilidad" para mayor claridad, envolví el texto en `<span>` para mejor control de estilos y añadí `aria-hidden="true"` a los iconos SVG.
 
 ---
 
 #### Error #6: Bajo contraste en botones secundarios
 
-**Problema:** Los botones con la clase `.button--secondary` (como "Saber sobre nosotros" y "Ver Lecciones") usaban texto blanco (`--text-on-dark`: #fdfdfd) sobre fondo amarillo-naranja (`--color-secondary`: #ffb842). El ratio de contraste era aproximadamente 1.5:1, muy por debajo del mínimo requerido.
+**Problema:** Los botones con clase `.button--secondary` usaban texto blanco sobre fondo amarillo-naranja, con un ratio de contraste de aproximadamente 1.5:1, muy por debajo del mínimo requerido.
 
-**Impacto:** Los botones de navegación principales son ilegibles para personas mayores con problemas visuales, usuarios con daltonismo o cualquier persona en entornos con mucha luz.
+**Impacto:** Los botones de navegación principales resultan ilegibles para personas con problemas visuales o en entornos con mucha luz.
 
 **Criterio WCAG:** 1.4.3 - Contraste mínimo (Nivel AA) - Requiere ratio 4.5:1 para texto normal
 
@@ -943,9 +937,9 @@ He corregido los 20 errores y advertencias más críticos detectados en las audi
 
 #### Error #7: Bajo contraste en badge de categoría naranja
 
-**Problema:** Las insignias de categoría con la clase `.badge-orange` (que muestran "Comunicación" en las tarjetas de lecciones) usaban texto blanco sobre fondo naranja (`--color-tertiary`: #f3742b), sin cumplir el contraste mínimo.
+**Problema:** Las insignias de categoría `.badge-orange` usaban texto blanco sobre fondo naranja, sin cumplir el contraste mínimo.
 
-**Impacto:** Los usuarios no pueden identificar rápidamente la categoría de las lecciones, lo cual dificulta la navegación y organización del contenido educativo.
+**Impacto:** Los usuarios no pueden identificar rápidamente la categoría de las lecciones, dificultando la navegación.
 
 **Criterio WCAG:** 1.4.3 - Contraste mínimo (Nivel AA)
 
@@ -971,9 +965,9 @@ He corregido los 20 errores y advertencias más críticos detectados en las audi
 
 #### Error #8: Link redundante en botón de accesibilidad del footer
 
-**Problema:** WAVE detectó un enlace redundante a `/accesibilidad`. El footer contenía **dos enlaces diferentes al mismo destino**: uno en la lista de navegación "Nosotros" y otro como botón decorativo en la parte inferior. Esto confunde a los usuarios de lectores de pantalla que escuchan el mismo enlace anunciado dos veces en el mismo componente.
+**Problema:** WAVE detectó un enlace redundante a `/accesibilidad`. El footer contenía dos enlaces al mismo destino: uno en la lista de navegación "Nosotros" y otro como botón decorativo en la parte inferior.
 
-**Impacto:** Los usuarios de tecnologías asistivas navegan por enlaces duplicados innecesariamente. Esto genera frustración y pérdida de tiempo, especialmente para personas mayores que pueden pensar que están accediendo a contenido diferente.
+**Impacto:** Los usuarios de tecnologías asistivas navegan por enlaces duplicados innecesariamente, generando confusión.
 
 **Criterio WCAG:** 2.4.4 - Propósito de los enlaces (Nivel A)
 
@@ -1025,23 +1019,15 @@ He corregido los 20 errores y advertencias más críticos detectados en las audi
 
 **Archivo modificado:** `src/app/components/layout/footer/footer.html`
 
-**Solución aplicada:**
-- Eliminado el enlace duplicado de la lista de navegación "Nosotros"
-- Mantenido el botón decorativo del footer que es más visible y tiene mejor diseño
-- Ahora solo existe un único enlace a `/accesibilidad` en todo el footer
-
-**Mejora adicional aplicada previamente:**
-- Cambiado texto "AAA" por "Accesibilidad" para mayor claridad
-- Añadido `aria-hidden="true"` al SVG decorativo
-- Añadido `focusable="false"` al SVG para prevenir problemas en navegadores antiguos
+Eliminé el enlace duplicado de la lista de navegación "Nosotros" y mantuve el botón decorativo del footer que es más visible. Ahora solo existe un único enlace a `/accesibilidad` en todo el footer. También cambié el texto "AAA" por "Accesibilidad" para mayor claridad y añadí `aria-hidden="true"` y `focusable="false"` al SVG decorativo.
 
 ---
 
 #### Error #9: Título de página genérico
 
-**Problema:** El elemento `<title>` de la página contenía el texto genérico "Frontend", que no describe el contenido ni propósito del sitio. Los usuarios de lectores de pantalla escuchan primero el título de la página al cargarla, por lo que un título descriptivo es fundamental para orientarse.
+**Problema:** El elemento `<title>` contenía el texto genérico "Frontend", que no describe el contenido ni propósito del sitio.
 
-**Impacto:** Los usuarios ciegos que navegan con múltiples pestañas abiertas no pueden distinguir esta página de otras. Además, el título aparece en marcadores, historial y resultados de búsqueda, afectando la usabilidad general.
+**Impacto:** Los usuarios ciegos con múltiples pestañas no pueden distinguir esta página de otras. El título también aparece en marcadores, historial y resultados de búsqueda.
 
 **Criterio WCAG:** 2.4.2 - Páginas tituladas (Nivel A)
 
@@ -1078,7 +1064,7 @@ He corregido los 20 errores y advertencias más críticos detectados en las audi
 
 #### Error #10: Enlaces sociales sin contenido textual (segunda corrección)
 
-**Problema:** Aunque los enlaces sociales tenían `aria-label`, TAW seguía reportándolos como "enlaces sin contenido" porque no detectaba texto visible ni oculto dentro del enlace. La técnica `aria-label` no siempre es reconocida por todas las herramientas de validación.
+**Problema:** Aunque los enlaces sociales tenían `aria-label`, TAW seguía reportándolos como "enlaces sin contenido" porque esta técnica no siempre es reconocida por todas las herramientas de validación.
 
 **Impacto:** Algunas tecnologías asistivas antiguas pueden no interpretar correctamente `aria-label`, dejando el enlace sin nombre accesible.
 
@@ -1113,89 +1099,43 @@ He corregido los 20 errores y advertencias más críticos detectados en las audi
 
 #### Error #11: Encabezados consecutivos sin contenido (H42)
 
-**Problema:** TAW reportó "dos encabezados del mismo nivel seguidos sin contenido entre ellos" (técnica H42). Al analizar el código renderizado, identifiqué que el componente `simulator-card` utilizaba elementos `<h3>` para los títulos de las tarjetas ("Seguro" e "Infinito"), lo cual creaba encabezados consecutivos del mismo nivel sin contenido textual entre ellos.
+**Problema:** El componente `simulator-card` utilizaba elementos `<h3>` para los títulos de las tarjetas ("Seguro" e "Infinito"), lo cual creaba encabezados consecutivos del mismo nivel sin contenido textual entre ellos, violando la técnica H42 de WCAG.
 
-**Impacto:** Los usuarios de lectores de pantalla que navegan por encabezados (tecla H en NVDA/JAWS) escuchan múltiples encabezados seguidos sin contexto claro, lo cual puede resultar confuso. Esto viola la técnica H42 de WCAG que establece que los encabezados deben seguir una jerarquía lógica con contenido significativo entre ellos.
+**Impacto:** Los usuarios de lectores de pantalla que navegan por encabezados escuchan varios encabezados seguidos sin contexto claro, lo cual resulta confuso.
 
-**Criterio WCAG:** 1.3.1 - Información y relaciones (Nivel A), Técnica H42
+**Criterio WCAG:** 1.3.1 - Información y relaciones (Nivel A)
 
 **Código ANTES:**
 ```html
-<div class="card-container">
-  <div class="card-content">
-    <div class="icon-container">
-      <svg><!-- icono --></svg>
-    </div>
-    <h3 class="card-title">{{ title }}</h3>
+<div class="card-content">
+  <div class="icon-container">
+    <svg><!-- icono --></svg>
   </div>
+  <h3 class="card-title">{{ title }}</h3>
 </div>
-```
-
-**Problema identificado:**
-Cuando se renderizaban dos tarjetas de simulador consecutivas (por ejemplo, "Seguro" e "Infinito"), se generaban dos `<h3>` seguidos:
-```html
-<h3 class="card-title">Seguro</h3>
-<!-- No hay contenido aquí -->
-<h3 class="card-title">Infinito</h3>
 ```
 
 **Código DESPUÉS:**
 ```html
-<div class="card-container">
-  <div class="card-content">
-    <div class="icon-container">
-      <svg><!-- icono --></svg>
-    </div>
-    <p class="card-title">{{ title }}</p>
+<div class="card-content">
+  <div class="icon-container">
+    <svg><!-- icono --></svg>
   </div>
+  <p class="card-title">{{ title }}</p>
 </div>
 ```
 
-**Justificación de la solución:**
-Los títulos de las tarjetas de simulador no son encabezados de sección sino etiquetas descriptivas de características. Según la especificación WCAG, los encabezados (`<h1>`-`<h6>`) deben usarse únicamente para estructurar el documento y crear una jerarquía de contenido navegable. En este caso, `<p>` es el elemento semántico correcto porque:
-
-1. Las tarjetas no representan secciones de contenido independientes que necesiten ser navegadas por encabezados
-2. El texto es puramente descriptivo/etiquetador, no un título de sección
-3. Ya existe un `<h2>` superior ("Practica sin miedo") que estructura correctamente esta sección
-
 **Archivo modificado:** `src/app/components/shared/simulator-card/simulator-card.component.html`
 
-**CSS mantenido:** Los estilos `.card-title` se mantienen sin cambios, ya que funcionan correctamente tanto para `<h3>` como para `<p>`:
-```scss
-.card-title {
-  font-family: v.$font-primary;
-  font-size: v.$font-size-xl;
-  font-weight: v.$font-weight-bold;
-  color: var(--color-accent);
-  margin: 0;
-  position: relative;
-  z-index: 1;
-  letter-spacing: -0.5px;
-}
-```
-
-**Verificación:** Tras el cambio, la estructura de encabezados de la página home queda correctamente jerarquizada:
-```
-h1: "Aprende tecnología paso a paso" (hero)
-  h2: "¿Qué quieres aprender hoy?" (search-bar)
-  h3: "¿Te sientes perdido? Activa el Asistente" (guia-mode)
-  h2: "Lecciones Visuales" (feature-section)
-  h2: "Practica sin miedo" (feature-section)
-    p: "Seguro" (simulator-card) ✓
-    p: "Infinito" (simulator-card) ✓
-  h2: "Lecciones sugeridas" (lecciones-recomendadas)
-    h3: "Mi primer móvil" (leccion-card)
-    h3: "WhatsApp y fotos" (leccion-card)
-    h3: "Internet Seguro" (leccion-card)
-```
+**Justificación:** Los títulos de las tarjetas de simulador son etiquetas descriptivas, no encabezados de sección. Usar `<p>` es semánticamente correcto porque estas tarjetas no representan secciones independientes que deban ser navegadas por encabezados. Ya existe un `<h2>` superior ("Practica sin miedo") que estructura correctamente esta sección.
 
 ---
 
 #### Error #12: Falta enlace "Saltar al contenido principal"
 
-**Problema:** La página no disponía de un mecanismo para saltar directamente al contenido principal, obligando a los usuarios de teclado y lectores de pantalla a navegar por todos los elementos del header (logo, menú, botones) antes de llegar al contenido.
+**Problema:** La página no disponía de un mecanismo para saltar directamente al contenido principal, obligando a los usuarios de teclado a navegar por todos los elementos del header antes de llegar al contenido.
 
-**Impacto:** Los usuarios que navegan solo con teclado o utilizan lectores de pantalla deben recorrer todos los enlaces de navegación en cada página antes de acceder al contenido principal, lo cual resulta tedioso y consume tiempo innecesario.
+**Impacto:** Los usuarios que navegan solo con teclado o lectores de pantalla deben recorrer todos los enlaces de navegación en cada página, lo cual resulta tedioso.
 
 **Criterio WCAG:** 2.4.1 - Evitar bloques (Nivel A)
 
@@ -1246,19 +1186,15 @@ h1: "Aprende tecnología paso a paso" (hero)
 
 **Archivos modificados:** `src/app/app.html`, `src/styles/02-generic/_reset.scss`
 
-**Solución aplicada:**
-- Añadido enlace de salto como primer elemento del DOM
-- El enlace permanece oculto fuera de la pantalla hasta recibir foco
-- Al presionar Tab, aparece visualmente y permite saltar al contenido
-- El `main` tiene `id="main-content"` como destino del enlace
+Añadí el enlace de salto como primer elemento del DOM. Este enlace permanece oculto fuera de la pantalla hasta recibir foco; al presionar Tab, aparece visualmente y permite saltar al contenido principal. El elemento `main` tiene `id="main-content"` como destino del enlace.
 
 ---
 
 #### Error #13: Enlaces con mismo texto y destinos diferentes
 
-**Problema:** Los botones "Ver lección" de las tarjetas de lecciones recomendadas tenían el mismo texto visible pero enlazaban a diferentes URLs (lecciones/1, lecciones/2, lecciones/3). Esto confunde a los usuarios de lectores de pantalla que navegan por enlaces.
+**Problema:** Los botones "Ver lección" de las tarjetas tenían el mismo texto visible pero enlazaban a diferentes URLs.
 
-**Impacto:** Cuando un usuario de lector de pantalla lista todos los enlaces de la página, escucha "Ver lección" repetido varias veces sin poder distinguir a qué lección corresponde cada uno.
+**Impacto:** Un usuario de lector de pantalla que lista todos los enlaces escucha "Ver lección" repetido sin poder distinguir a qué lección corresponde cada uno.
 
 **Criterio WCAG:** 2.4.4 - Propósito de los enlaces en contexto (Nivel A)
 
@@ -1287,10 +1223,7 @@ h1: "Aprende tecnología paso a paso" (hero)
 
 **Archivo modificado:** `src/app/components/home/lecciones-recomendadas/lecciones-recomendadas.html`
 
-**Solución aplicada:**
-- Añadido `aria-label` dinámico que incluye el título de la lección
-- Los lectores de pantalla ahora anuncian "Ver lección: Mi primer móvil", "Ver lección: WhatsApp y fotos", etc.
-- El texto visible sigue siendo "Ver lección" para mantener el diseño
+Añadí un `aria-label` dinámico que incluye el título de la lección, de modo que los lectores de pantalla anuncian "Ver lección: Mi primer móvil", "Ver lección: WhatsApp y fotos", etc. El texto visible sigue siendo "Ver lección" para mantener el diseño.
 
 ---
 
@@ -1329,9 +1262,7 @@ h1: "Aprende tecnología paso a paso" (hero)
 
 **Archivo modificado:** `src/app/components/home/lecciones-recomendadas/lecciones-recomendadas.html`
 
-**Solución aplicada:**
-- Añadido `aria-label` dinámico con el título de la lección
-- Ahora los lectores de pantalla anuncian "Guardar lección: Mi primer móvil", etc.
+Añadí un `aria-label` dinámico con el título de la lección, de modo que los lectores de pantalla anuncian "Guardar lección: Mi primer móvil", etc.
 
 ---
 
@@ -1448,7 +1379,7 @@ h1: "Aprende tecnología paso a paso" (hero)
 
 ### 4.3 Clase de Utilidad Añadida
 
-Para implementar las correcciones de etiquetado, he añadido la clase `.visually-hidden` al archivo de estilos globales. Esta técnica es la recomendada por WCAG para ocultar contenido visualmente mientras se mantiene accesible para lectores de pantalla:
+Para implementar las correcciones de etiquetado, añadí la clase `.visually-hidden` al archivo de estilos globales. Esta técnica es la recomendada por WCAG para ocultar contenido visualmente mientras se mantiene accesible para lectores de pantalla:
 
 ```scss
 // Archivo: src/styles/02-generic/_reset.scss
@@ -1466,11 +1397,7 @@ Para implementar las correcciones de etiquetado, he añadido la clase `.visually
 }
 ```
 
-Esta clase:
-- Reduce el elemento a 1x1 píxel (invisible pero presente en el DOM)
-- Usa `clip` para ocultar cualquier overflow
-- Mantiene el elemento en el árbol de accesibilidad
-- Es preferible a `display: none` o `visibility: hidden` que ocultan el contenido también para lectores de pantalla
+Esta clase reduce el elemento a 1x1 píxel (invisible pero presente en el DOM), usa `clip` para ocultar cualquier overflow y mantiene el elemento en el árbol de accesibilidad. Es preferible a `display: none` o `visibility: hidden` que ocultan el contenido también para lectores de pantalla.
 
 ---
 
